@@ -1,0 +1,11 @@
+# 인증 정보 — 절대 커밋 금지
+.env
+
+# QA 모니터 상태/로그 파일 (로컬 전용)
+.qa-state.json
+qa-monitor.log
+
+# API 응답 캐시 (로컬 전용)
+tmp_*.json
+all_tickets.json
+qa_tickets.json
