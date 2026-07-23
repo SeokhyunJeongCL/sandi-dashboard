@@ -1,0 +1,1531 @@
+{
+  "generated_at": "2026-07-23T12:20:58.430502+00:00",
+  "ga": {
+    "mau": [
+      {
+        "month": "2025-07",
+        "activeUsers": 18523,
+        "pageViews": 437637,
+        "sessions": 94690
+      },
+      {
+        "month": "2025-08",
+        "activeUsers": 28624,
+        "pageViews": 1269586,
+        "sessions": 274885
+      },
+      {
+        "month": "2025-09",
+        "activeUsers": 31990,
+        "pageViews": 1399141,
+        "sessions": 300526
+      },
+      {
+        "month": "2025-10",
+        "activeUsers": 27914,
+        "pageViews": 992943,
+        "sessions": 218871
+      },
+      {
+        "month": "2025-11",
+        "activeUsers": 24090,
+        "pageViews": 1025308,
+        "sessions": 226677
+      },
+      {
+        "month": "2025-12",
+        "activeUsers": 26743,
+        "pageViews": 1111656,
+        "sessions": 240535
+      },
+      {
+        "month": "2026-01",
+        "activeUsers": 25816,
+        "pageViews": 1291304,
+        "sessions": 248329
+      },
+      {
+        "month": "2026-02",
+        "activeUsers": 22871,
+        "pageViews": 937607,
+        "sessions": 195890
+      },
+      {
+        "month": "2026-03",
+        "activeUsers": 27199,
+        "pageViews": 1219322,
+        "sessions": 260734
+      },
+      {
+        "month": "2026-04",
+        "activeUsers": 28552,
+        "pageViews": 1203684,
+        "sessions": 262094
+      },
+      {
+        "month": "2026-05",
+        "activeUsers": 28819,
+        "pageViews": 1100189,
+        "sessions": 226539
+      },
+      {
+        "month": "2026-06",
+        "activeUsers": 26242,
+        "pageViews": 1405679,
+        "sessions": 248750
+      },
+      {
+        "month": "2026-07",
+        "activeUsers": 27646,
+        "pageViews": 1503600,
+        "sessions": 220533
+      }
+    ],
+    "aarrr": [
+      {
+        "event": "click",
+        "count": 377920,
+        "users": 17091
+      },
+      {
+        "event": "session_start",
+        "count": 292468,
+        "users": 31339
+      },
+      {
+        "event": "service_icon_click_event",
+        "count": 91233,
+        "users": 14140
+      },
+      {
+        "event": "user_engagement",
+        "count": 50184,
+        "users": 4401
+      },
+      {
+        "event": "first_visit",
+        "count": 4684,
+        "users": 4625
+      }
+    ],
+    "top_pages": [
+      {
+        "path": "/",
+        "pageViews": 472255,
+        "users": 28286,
+        "sessions": 230510
+      },
+      {
+        "path": "/talk",
+        "pageViews": 351623,
+        "users": 16318,
+        "sessions": 133516
+      },
+      {
+        "path": "/manager/voc-manager",
+        "pageViews": 197697,
+        "users": 1482,
+        "sessions": 43312
+      },
+      {
+        "path": "/view",
+        "pageViews": 81482,
+        "users": 13527,
+        "sessions": 34089
+      },
+      {
+        "path": "/service/rental",
+        "pageViews": 43431,
+        "users": 7349,
+        "sessions": 17460
+      },
+      {
+        "path": "/myinfo",
+        "pageViews": 33437,
+        "users": 8184,
+        "sessions": 12861
+      },
+      {
+        "path": "/service",
+        "pageViews": 27847,
+        "users": 8060,
+        "sessions": 12618
+      },
+      {
+        "path": "/report",
+        "pageViews": 24925,
+        "users": 6897,
+        "sessions": 14034
+      },
+      {
+        "path": "/auth/login",
+        "pageViews": 20223,
+        "users": 4817,
+        "sessions": 7179
+      },
+      {
+        "path": "/service/membership-card",
+        "pageViews": 15959,
+        "users": 3470,
+        "sessions": 7998
+      },
+      {
+        "path": "/alarm",
+        "pageViews": 13868,
+        "users": 1367,
+        "sessions": 4490
+      },
+      {
+        "path": "/manager/rental-manager",
+        "pageViews": 10553,
+        "users": 413,
+        "sessions": 2996
+      },
+      {
+        "path": "/service/rental-umbrella",
+        "pageViews": 10320,
+        "users": 3134,
+        "sessions": 6027
+      },
+      {
+        "path": "/service/rental/requested",
+        "pageViews": 10084,
+        "users": 5435,
+        "sessions": 9321
+      },
+      {
+        "path": "/service/rental/returned",
+        "pageViews": 9472,
+        "users": 4209,
+        "sessions": 7059
+      },
+      {
+        "path": "/history",
+        "pageViews": 9436,
+        "users": 2301,
+        "sessions": 4021
+      },
+      {
+        "path": "/talk/35055",
+        "pageViews": 8088,
+        "users": 1736,
+        "sessions": 5210
+      },
+      {
+        "path": "/talk/34957",
+        "pageViews": 8018,
+        "users": 1762,
+        "sessions": 5062
+      },
+      {
+        "path": "/service/rental/rented",
+        "pageViews": 7436,
+        "users": 4468,
+        "sessions": 7675
+      },
+      {
+        "path": "/talk/35057",
+        "pageViews": 7333,
+        "users": 1763,
+        "sessions": 4993
+      },
+      {
+        "path": "/myinfo/change/building",
+        "pageViews": 7061,
+        "users": 3169,
+        "sessions": 3767
+      },
+      {
+        "path": "/service/membership-card/usage",
+        "pageViews": 6806,
+        "users": 1735,
+        "sessions": 4159
+      },
+      {
+        "path": "/service/hot-cold-vote/detail",
+        "pageViews": 6758,
+        "users": 1550,
+        "sessions": 4306
+      },
+      {
+        "path": "/talk/34963",
+        "pageViews": 6700,
+        "users": 1665,
+        "sessions": 4349
+      },
+      {
+        "path": "/service/hot-cold-vote",
+        "pageViews": 6631,
+        "users": 1329,
+        "sessions": 2558
+      },
+      {
+        "path": "/talk/35153",
+        "pageViews": 6600,
+        "users": 1710,
+        "sessions": 4207
+      },
+      {
+        "path": "/service/space-reservation",
+        "pageViews": 6274,
+        "users": 727,
+        "sessions": 1846
+      },
+      {
+        "path": "/talk/35241",
+        "pageViews": 5721,
+        "users": 1516,
+        "sessions": 3609
+      },
+      {
+        "path": "/talk/35152",
+        "pageViews": 5635,
+        "users": 1585,
+        "sessions": 3664
+      },
+      {
+        "path": "/talk/34866",
+        "pageViews": 5594,
+        "users": 1458,
+        "sessions": 3407
+      },
+      {
+        "path": "/login",
+        "pageViews": 5552,
+        "users": 525,
+        "sessions": 5605
+      },
+      {
+        "path": "/talk/35243",
+        "pageViews": 5434,
+        "users": 1563,
+        "sessions": 3557
+      },
+      {
+        "path": "/talk/34861",
+        "pageViews": 4758,
+        "users": 1424,
+        "sessions": 2955
+      },
+      {
+        "path": "/talk/34959",
+        "pageViews": 4626,
+        "users": 1239,
+        "sessions": 3155
+      },
+      {
+        "path": "/talk/35051",
+        "pageViews": 4254,
+        "users": 1104,
+        "sessions": 2922
+      },
+      {
+        "path": "/talk/35150",
+        "pageViews": 4155,
+        "users": 1318,
+        "sessions": 2877
+      },
+      {
+        "path": "/auth/signUp",
+        "pageViews": 3770,
+        "users": 2037,
+        "sessions": 2299
+      },
+      {
+        "path": "/talk/35240",
+        "pageViews": 3731,
+        "users": 1139,
+        "sessions": 2629
+      },
+      {
+        "path": "/building/building-store",
+        "pageViews": 3152,
+        "users": 236,
+        "sessions": 2468
+      },
+      {
+        "path": "/service/toilet-empty",
+        "pageViews": 3117,
+        "users": 642,
+        "sessions": 1768
+      },
+      {
+        "path": "/talk/34859",
+        "pageViews": 3086,
+        "users": 869,
+        "sessions": 2015
+      },
+      {
+        "path": "/talk/34958",
+        "pageViews": 3083,
+        "users": 544,
+        "sessions": 1877
+      },
+      {
+        "path": "/talk/35075",
+        "pageViews": 2781,
+        "users": 664,
+        "sessions": 1884
+      },
+      {
+        "path": "/talk/35050",
+        "pageViews": 2722,
+        "users": 697,
+        "sessions": 1922
+      },
+      {
+        "path": "/talk/34969",
+        "pageViews": 2666,
+        "users": 646,
+        "sessions": 1824
+      },
+      {
+        "path": "/talk/34955",
+        "pageViews": 2582,
+        "users": 538,
+        "sessions": 1696
+      },
+      {
+        "path": "/talk/35230",
+        "pageViews": 2356,
+        "users": 547,
+        "sessions": 1625
+      },
+      {
+        "path": "/talk/35077",
+        "pageViews": 2280,
+        "users": 539,
+        "sessions": 1604
+      },
+      {
+        "path": "/talk/35148",
+        "pageViews": 2263,
+        "users": 551,
+        "sessions": 1576
+      },
+      {
+        "path": "/talk/35142",
+        "pageViews": 2247,
+        "users": 627,
+        "sessions": 1627
+      }
+    ],
+    "services": [
+      {
+        "path": "/service/rental",
+        "pageViews": 43431,
+        "users": 7349,
+        "sessions": 17460
+      },
+      {
+        "path": "/service",
+        "pageViews": 27847,
+        "users": 8060,
+        "sessions": 12618
+      },
+      {
+        "path": "/service/membership-card",
+        "pageViews": 15959,
+        "users": 3470,
+        "sessions": 7998
+      },
+      {
+        "path": "/service/rental-umbrella",
+        "pageViews": 10320,
+        "users": 3134,
+        "sessions": 6027
+      },
+      {
+        "path": "/service/rental/requested",
+        "pageViews": 10084,
+        "users": 5435,
+        "sessions": 9321
+      },
+      {
+        "path": "/service/rental/returned",
+        "pageViews": 9472,
+        "users": 4209,
+        "sessions": 7059
+      },
+      {
+        "path": "/service/rental/rented",
+        "pageViews": 7436,
+        "users": 4468,
+        "sessions": 7675
+      },
+      {
+        "path": "/service/membership-card/usage",
+        "pageViews": 6806,
+        "users": 1735,
+        "sessions": 4159
+      },
+      {
+        "path": "/service/hot-cold-vote/detail",
+        "pageViews": 6758,
+        "users": 1550,
+        "sessions": 4306
+      },
+      {
+        "path": "/service/hot-cold-vote",
+        "pageViews": 6631,
+        "users": 1329,
+        "sessions": 2558
+      },
+      {
+        "path": "/service/space-reservation",
+        "pageViews": 6274,
+        "users": 727,
+        "sessions": 1846
+      },
+      {
+        "path": "/service/toilet-empty",
+        "pageViews": 3117,
+        "users": 642,
+        "sessions": 1768
+      },
+      {
+        "path": "/service/rental/GS_0000696",
+        "pageViews": 2149,
+        "users": 469,
+        "sessions": 1327
+      },
+      {
+        "path": "/service/custom",
+        "pageViews": 2029,
+        "users": 1109,
+        "sessions": 1241
+      },
+      {
+        "path": "/service/rental/GS_0000672",
+        "pageViews": 1811,
+        "users": 213,
+        "sessions": 922
+      },
+      {
+        "path": "/service/rental/GS_0000937",
+        "pageViews": 1679,
+        "users": 434,
+        "sessions": 1079
+      },
+      {
+        "path": "/service/embedded/visitor-invitation",
+        "pageViews": 1581,
+        "users": 478,
+        "sessions": 1051
+      },
+      {
+        "path": "/service/rental/GS_0000803",
+        "pageViews": 1496,
+        "users": 368,
+        "sessions": 910
+      },
+      {
+        "path": "/service/rental/GS_0000717",
+        "pageViews": 1298,
+        "users": 207,
+        "sessions": 747
+      },
+      {
+        "path": "/service/voc-list",
+        "pageViews": 1135,
+        "users": 156,
+        "sessions": 942
+      },
+      {
+        "path": "/service/space-list",
+        "pageViews": 1079,
+        "users": 107,
+        "sessions": 774
+      },
+      {
+        "path": "/service/rental/GS_0000665",
+        "pageViews": 1013,
+        "users": 273,
+        "sessions": 613
+      },
+      {
+        "path": "/service/rental/GS_0000660",
+        "pageViews": 1011,
+        "users": 274,
+        "sessions": 699
+      },
+      {
+        "path": "/service/rental/GS_0000651",
+        "pageViews": 965,
+        "users": 261,
+        "sessions": 637
+      },
+      {
+        "path": "/service/goods-rental",
+        "pageViews": 949,
+        "users": 57,
+        "sessions": 718
+      },
+      {
+        "path": "/service/rental/GS_0000654",
+        "pageViews": 836,
+        "users": 201,
+        "sessions": 561
+      },
+      {
+        "path": "/service/rental/GS_0000766",
+        "pageViews": 796,
+        "users": 226,
+        "sessions": 530
+      },
+      {
+        "path": "/service/rental/GS_0000796",
+        "pageViews": 782,
+        "users": 235,
+        "sessions": 532
+      },
+      {
+        "path": "/service/rental/GS_0000722",
+        "pageViews": 681,
+        "users": 207,
+        "sessions": 480
+      },
+      {
+        "path": "/service/goods",
+        "pageViews": 564,
+        "users": 233,
+        "sessions": 330
+      }
+    ],
+    "summary": {
+      "current_mau": 27646,
+      "current_pv": 1503600,
+      "current_sessions": 220533,
+      "mau_mom_growth": 5.4,
+      "mau_peak": 31990,
+      "mau_trough": 18523,
+      "mau_peak_month": "2025-09",
+      "aarrr_acquisition": 31339,
+      "aarrr_activation_rate": 45.1,
+      "aarrr_retention_rate": 14.0,
+      "aarrr_new_user_rate": 14.8
+    }
+  },
+  "zendesk": {
+    "total": 118,
+    "categories": {
+      "단순문의": 89,
+      "버그": 24,
+      "UX혼란": 4,
+      "기능요청": 1
+    },
+    "category_ratios": {
+      "단순문의": 0.7542,
+      "버그": 0.2034,
+      "UX혼란": 0.0339,
+      "기능요청": 0.0085
+    },
+    "satisfaction_avg": 1.0,
+    "csat_rate": 0.0085,
+    "unresolved_rate": 0.9915,
+    "sentiment": {
+      "counts": {
+        "긍정": 2,
+        "중립": 111,
+        "부정": 5
+      },
+      "rate": {
+        "긍정": 0.0169,
+        "중립": 0.9407,
+        "부정": 0.0424
+      },
+      "by_category": {
+        "버그": {
+          "긍정": 1,
+          "중립": 19,
+          "부정": 4
+        },
+        "UX혼란": {
+          "긍정": 0,
+          "중립": 4,
+          "부정": 0
+        },
+        "기능요청": {
+          "긍정": 0,
+          "중립": 1,
+          "부정": 0
+        },
+        "단순문의": {
+          "긍정": 1,
+          "중립": 87,
+          "부정": 1
+        }
+      }
+    },
+    "trends": [
+      {
+        "category": "버그",
+        "this_month": 24,
+        "last_month": 0,
+        "change_rate": null,
+        "alert_level": "신규발생"
+      },
+      {
+        "category": "UX혼란",
+        "this_month": 4,
+        "last_month": 0,
+        "change_rate": null,
+        "alert_level": "신규발생"
+      },
+      {
+        "category": "기능요청",
+        "this_month": 1,
+        "last_month": 0,
+        "change_rate": null,
+        "alert_level": "신규발생"
+      },
+      {
+        "category": "단순문의",
+        "this_month": 89,
+        "last_month": 1,
+        "change_rate": 88.0,
+        "alert_level": "급증"
+      }
+    ],
+    "weekly": {
+      "14주차": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "15주차": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 2
+      },
+      "16주차": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "17주차": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "19주차": {
+        "버그": 1,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 0
+      },
+      "20주차": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "21주차": {
+        "버그": 1,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 3
+      },
+      "22주차": {
+        "버그": 1,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 3
+      },
+      "23주차": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 1,
+        "단순문의": 2
+      },
+      "24주차": {
+        "버그": 3,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 9
+      },
+      "25주차": {
+        "버그": 6,
+        "UX혼란": 1,
+        "기능요청": 0,
+        "단순문의": 10
+      },
+      "26주차": {
+        "버그": 3,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 5
+      },
+      "27주차": {
+        "버그": 1,
+        "UX혼란": 1,
+        "기능요청": 0,
+        "단순문의": 12
+      },
+      "28주차": {
+        "버그": 4,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 13
+      },
+      "29주차": {
+        "버그": 4,
+        "UX혼란": 2,
+        "기능요청": 0,
+        "단순문의": 11
+      },
+      "30주차": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 15
+      }
+    },
+    "top_keywords": [
+      {
+        "word": "상담사",
+        "count": 13,
+        "category": "단순문의"
+      },
+      {
+        "word": "회사",
+        "count": 11,
+        "category": "단순문의"
+      },
+      {
+        "word": "비밀번호",
+        "count": 10,
+        "category": "단순문의"
+      },
+      {
+        "word": "안됩니다",
+        "count": 10,
+        "category": "버그"
+      },
+      {
+        "word": "다시",
+        "count": 9,
+        "category": "버그"
+      },
+      {
+        "word": "가입된",
+        "count": 8,
+        "category": "단순문의"
+      },
+      {
+        "word": "로그인이",
+        "count": 8,
+        "category": "버그"
+      },
+      {
+        "word": "가입이",
+        "count": 7,
+        "category": "단순문의"
+      },
+      {
+        "word": "없다고",
+        "count": 6,
+        "category": "단순문의"
+      },
+      {
+        "word": "로그인",
+        "count": 6,
+        "category": "단순문의"
+      },
+      {
+        "word": "인증",
+        "count": 6,
+        "category": "단순문의"
+      },
+      {
+        "word": "가입한",
+        "count": 6,
+        "category": "단순문의"
+      },
+      {
+        "word": "이메일",
+        "count": 6,
+        "category": "버그"
+      },
+      {
+        "word": "샌디버스",
+        "count": 6,
+        "category": "단순문의"
+      },
+      {
+        "word": "샌디",
+        "count": 5,
+        "category": "단순문의"
+      },
+      {
+        "word": "건물",
+        "count": 5,
+        "category": "단순문의"
+      },
+      {
+        "word": "아이디",
+        "count": 5,
+        "category": "단순문의"
+      },
+      {
+        "word": "가입",
+        "count": 5,
+        "category": "단순문의"
+      },
+      {
+        "word": "나옵니다",
+        "count": 5,
+        "category": "단순문의"
+      },
+      {
+        "word": "회원가입",
+        "count": 5,
+        "category": "단순문의"
+      }
+    ],
+    "topic_stats": [
+      {
+        "topic": "기타",
+        "count": 52,
+        "resolved_count": 1,
+        "resolution_rate": 0.0192,
+        "neg_count": 0,
+        "neg_rate": 0.0,
+        "issue_detail_counts": {
+          "기타": 36,
+          "챗봇 에스컬레이션": 9,
+          "시설/외부 문의": 6,
+          "회사 등록 문의": 1
+        }
+      },
+      {
+        "topic": "로그인/인증",
+        "count": 37,
+        "resolved_count": 0,
+        "resolution_rate": 0.0,
+        "neg_count": 3,
+        "neg_rate": 0.0811,
+        "issue_detail_counts": {
+          "이메일·회사 인증": 11,
+          "로그인 오류": 8,
+          "비밀번호 재설정": 7,
+          "아이디 찾기": 4,
+          "회원가입 오류": 3,
+          "계정 잠금": 2,
+          "기타": 2
+        }
+      },
+      {
+        "topic": "계정/설정",
+        "count": 24,
+        "resolved_count": 0,
+        "resolution_rate": 0.0,
+        "neg_count": 1,
+        "neg_rate": 0.0417,
+        "issue_detail_counts": {
+          "회원가입 오류": 21,
+          "회원 탈퇴": 1,
+          "개인정보 수정": 1,
+          "기타": 1
+        }
+      },
+      {
+        "topic": "앱오류",
+        "count": 2,
+        "resolved_count": 0,
+        "resolution_rate": 0.0,
+        "neg_count": 1,
+        "neg_rate": 0.5,
+        "issue_detail_counts": {
+          "기능 동작 오류": 1,
+          "기타": 1
+        }
+      },
+      {
+        "topic": "결제/요금",
+        "count": 2,
+        "resolved_count": 0,
+        "resolution_rate": 0.0,
+        "neg_count": 0,
+        "neg_rate": 0.0,
+        "issue_detail_counts": {
+          "요금제 문의": 1,
+          "기타": 1
+        }
+      },
+      {
+        "topic": "기능사용법",
+        "count": 1,
+        "resolved_count": 0,
+        "resolution_rate": 0.0,
+        "neg_count": 0,
+        "neg_rate": 0.0,
+        "issue_detail_counts": {
+          "이용 방법": 1
+        }
+      }
+    ],
+    "ticket_samples": [
+      {
+        "category": "버그",
+        "created_at": "2026-07-17",
+        "status": "open",
+        "sentiment": "중립",
+        "description_short": "샌디(SANDI)는 건물 이용자를 위한 빌딩 OS 앱으로, 용달·화물·봉고 운송 서비스는 제공하지 않고 있어요. 찾고 계신 서비스의 앱 이름을 ……"
+      },
+      {
+        "category": "버그",
+        "created_at": "2026-07-15",
+        "status": "open",
+        "sentiment": "중립",
+        "description_short": "로그인이 안되어 메일로 보내주신 비밀번호 초기화 링크로 비밀번호를 재설정했지만 로그인이 안됩니다.…"
+      },
+      {
+        "category": "버그",
+        "created_at": "2026-07-15",
+        "status": "open",
+        "sentiment": "중립",
+        "description_short": "회사 입사하여,회원가입을 하려고 하니, 번호가 등록되어있다고 떠서 회원가입이 안됩니다 ㅜ…"
+      },
+      {
+        "category": "UX혼란",
+        "created_at": "2026-07-15",
+        "status": "open",
+        "sentiment": "중립",
+        "description_short": "샌디앱 로그인이 안되는데 본인인증을 어떻게 다시하나요.…"
+      },
+      {
+        "category": "UX혼란",
+        "created_at": "2026-07-13",
+        "status": "open",
+        "sentiment": "중립",
+        "description_short": "회원 가입이 되어있는데 아이디 찾기 해보면 alsudawa@hotmail.com@alsudawa@hotmail.com으로 연속 두 번으로 되어있……"
+      },
+      {
+        "category": "UX혼란",
+        "created_at": "2026-06-29",
+        "status": "open",
+        "sentiment": "중립",
+        "description_short": "안녕하세요! 상담사 파요 입니다 😊 &nbsp; 비밀번호를 바꾼 후, 다시 로그인을 시도할 때 어떤 상황이신지 조금더 상세히 말씀해주세요 &nb……"
+      },
+      {
+        "category": "기능요청",
+        "created_at": "2026-06-05",
+        "status": "open",
+        "sentiment": "중립",
+        "description_short": "안녕하세요 앱 로그인 하려고 하는데 제 아이디가 잘못 만들어진 것 같아요.…"
+      },
+      {
+        "category": "단순문의",
+        "created_at": "2026-07-23",
+        "status": "open",
+        "sentiment": "중립",
+        "description_short": "안녕하세요 비밀번호 5회 틀려서 샌디앱이 잠겼습니다..…"
+      },
+      {
+        "category": "단순문의",
+        "created_at": "2026-07-23",
+        "status": "open",
+        "sentiment": "중립",
+        "description_short": "안녕하세요! 상담사 파요 입니다 😊 &nbsp; 샌디(SANDI)는 건물 이용자를 위한 빌딩 OS 앱으로, 이사 서비스는 제공하지 않고 있어요.……"
+      },
+      {
+        "category": "단순문의",
+        "created_at": "2026-07-23",
+        "status": "open",
+        "sentiment": "중립",
+        "description_short": "전화번호가 바껴서 비밀번호찾기…"
+      }
+    ],
+    "action_items": [
+      {
+        "id": "a-neg",
+        "lv": "r",
+        "icon": "🔴",
+        "title": "즉시 대응: 버그 부정 감성 4건",
+        "body": "버그 카테고리에서 부정 감성이 가장 많이 발생. 원인 분석 및 우선 처리 필요.",
+        "action": "① 부정 감성 티켓 일괄 점검 및 1차 응답<br>② 공통 원인 도출 → FAQ 등록<br>③ 챗봇 시나리오에 핸들링 추가"
+      },
+      {
+        "id": "a-lowres",
+        "lv": "o",
+        "icon": "🟡",
+        "title": "단기 개선: 로그인/인증 해결률 0%",
+        "body": "로그인/인증 37건 중 해결 0건. 처리 프로세스/매크로 정비 필요.",
+        "action": "① 자동 태깅 및 담당자 배정 규칙<br>② 매크로 응답 등록<br>③ SLA 24시간 1차 응답 목표"
+      },
+      {
+        "id": "a-auto",
+        "lv": "o",
+        "icon": "🟡",
+        "title": "단기 개선: 단순문의 75% → 챗봇·FAQ 자동화",
+        "body": "단순문의 89건 — 개인정보 안내·계정 권한·로그인 안내 등 반복 패턴. 챗봇 시나리오·FAQ로 자동 응답 가능.",
+        "action": "① 개인정보 동의 안내 챗봇 시나리오 추가<br>② 계정 FAQ 페이지 신설 및 챗봇 연결<br>③ 월 1회 FAQ 갱신 루틴 수립"
+      },
+      {
+        "id": "a-ux",
+        "lv": "b",
+        "icon": "🔵",
+        "title": "중장기: UX혼란 4건 → 앱 온보딩 개선",
+        "body": "메뉴 이해 어려움. CS 응대만으로 해결 불가한 구조적 UX 문제.",
+        "action": "① UX혼란 티켓 UX/기획팀 전달<br>② 앱 주요 메뉴 툴팁/온보딩 가이드 추가<br>③ 첫 로그인 화면 개선 검토"
+      },
+      {
+        "id": "a-surge-단순문의",
+        "lv": "r",
+        "icon": "🔴",
+        "title": "급증 경보: 단순문의 +8800%",
+        "body": "전월 1건 → 당월 89건. 원인 파악 필요.",
+        "action": "① 급증 티켓 패턴 분석<br>② 공통 원인 진단 → 기술팀 공유<br>③ FAQ/매크로 보강"
+      }
+    ],
+    "low_reliability": true,
+    "daily": {
+      "2026-04-01": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-04-07": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-04-08": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-04-17": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-04-24": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-05-08": {
+        "버그": 1,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 0
+      },
+      "2026-05-11": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-05-19": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-05-20": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-05-21": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-05-22": {
+        "버그": 1,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 0
+      },
+      "2026-05-27": {
+        "버그": 1,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 2
+      },
+      "2026-05-28": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-06-05": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 1,
+        "단순문의": 2
+      },
+      "2026-06-08": {
+        "버그": 1,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 2
+      },
+      "2026-06-09": {
+        "버그": 1,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 0
+      },
+      "2026-06-10": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 2
+      },
+      "2026-06-11": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 2
+      },
+      "2026-06-12": {
+        "버그": 1,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 2
+      },
+      "2026-06-13": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-06-15": {
+        "버그": 2,
+        "UX혼란": 1,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-06-16": {
+        "버그": 4,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 5
+      },
+      "2026-06-18": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-06-19": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 2
+      },
+      "2026-06-21": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-06-22": {
+        "버그": 1,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 0
+      },
+      "2026-06-23": {
+        "버그": 1,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 2
+      },
+      "2026-06-24": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-06-25": {
+        "버그": 1,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 2
+      },
+      "2026-06-29": {
+        "버그": 0,
+        "UX혼란": 1,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-06-30": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 3
+      },
+      "2026-07-01": {
+        "버그": 1,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 6
+      },
+      "2026-07-02": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-07-03": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-07-06": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 2
+      },
+      "2026-07-07": {
+        "버그": 1,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 4
+      },
+      "2026-07-08": {
+        "버그": 1,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 4
+      },
+      "2026-07-09": {
+        "버그": 2,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-07-12": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 2
+      },
+      "2026-07-13": {
+        "버그": 0,
+        "UX혼란": 1,
+        "기능요청": 0,
+        "단순문의": 3
+      },
+      "2026-07-14": {
+        "버그": 1,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 5
+      },
+      "2026-07-15": {
+        "버그": 2,
+        "UX혼란": 1,
+        "기능요청": 0,
+        "단순문의": 2
+      },
+      "2026-07-16": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-07-17": {
+        "버그": 1,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 0
+      },
+      "2026-07-20": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 7
+      },
+      "2026-07-21": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 1
+      },
+      "2026-07-22": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 3
+      },
+      "2026-07-23": {
+        "버그": 0,
+        "UX혼란": 0,
+        "기능요청": 0,
+        "단순문의": 4
+      }
+    }
+  },
+  "jira": {
+    "total": 100,
+    "status_counts": {
+      "Selected": 20,
+      "진행 중": 12,
+      "QA": 37,
+      "완료됨": 13,
+      "Options": 17,
+      "Ready for deployment": 1
+    },
+    "assignees": {
+      "미배정": 20,
+      "김근우": 23,
+      "김혜수": 9,
+      "길선웅": 26,
+      "서원덕": 6,
+      "이한울": 16
+    },
+    "priority_counts": {
+      "Medium": 83,
+      "Low": 4,
+      "Highest": 8,
+      "High": 5
+    },
+    "completion_rate": 13.0,
+    "qa_count": 37,
+    "stale_count": 0,
+    "themes": {
+      "기타": 50,
+      "로그인/인증": 11,
+      "방문자관리": 3,
+      "공간예약": 23,
+      "건물정보": 4,
+      "결제/카드": 5,
+      "화장실": 2,
+      "대여/렌탈": 2
+    },
+    "recent_completed": []
+  },
+  "insights": {
+    "coherence_score": 60,
+    "coherence_details": [
+      {
+        "area": "MAU 성장성",
+        "score": 20,
+        "max": 20,
+        "note": "MoM +5.4%"
+      },
+      {
+        "area": "서비스 활성화율",
+        "score": 15,
+        "max": 20,
+        "note": "Activation 45.1%"
+      },
+      {
+        "area": "리텐션율",
+        "score": 10,
+        "max": 20,
+        "note": "Retention 14.0%"
+      },
+      {
+        "area": "CS 건강도",
+        "score": 10,
+        "max": 20,
+        "note": "버그 20%, 미해결 99%"
+      },
+      {
+        "area": "개발 실행력",
+        "score": 5,
+        "max": 20,
+        "note": "완료율 13.0%"
+      }
+    ],
+    "aarrr_summary": "Acquisition 31,339명 → Activation 45.1% → Retention 14.0% | 신규 사용자 비율 14.8%",
+    "cross_insights": [
+      {
+        "type": "correlation",
+        "severity": "high",
+        "title": "로그인 마찰 교차 검증",
+        "detail": "GA 로그인 PV 29,545회 + Zendesk 로그인 문의 37건 → 로그인 UX 개선 시급",
+        "sources": [
+          "GA",
+          "Zendesk"
+        ]
+      },
+      {
+        "type": "gap",
+        "severity": "medium",
+        "title": "개발-CS 간극",
+        "detail": "개발 완료율 13%이나 CS 버그 비율 20% → 출시 품질 검증 강화 필요",
+        "sources": [
+          "Jira",
+          "Zendesk"
+        ]
+      },
+      {
+        "type": "alignment",
+        "severity": "info",
+        "title": "사용자 수요 vs 개발 우선순위",
+        "detail": "Top 서비스: rental, service, membership-card — Jira 테마 매칭 검토 필요",
+        "sources": [
+          "GA",
+          "Jira"
+        ]
+      }
+    ],
+    "risks": [
+      {
+        "level": "high",
+        "msg": "리텐션율 14.0% — 심각한 이탈 문제"
+      },
+      {
+        "level": "medium",
+        "msg": "CS 미해결률 99% — SLA 위반 우려"
+      },
+      {
+        "level": "medium",
+        "msg": "QA 백로그 37건 — 품질 리스크"
+      },
+      {
+        "level": "medium",
+        "msg": "CS 부정 감성 5건 — 즉시 점검 필요"
+      }
+    ],
+    "recommendations": [
+      {
+        "priority": "P1",
+        "action": "로그인/인증 UX 개선 — 소셜 로그인 또는 패스키 도입 검토"
+      },
+      {
+        "priority": "P1",
+        "action": "Activation→Retention 전환율 개선 — 온보딩 리디자인 + 개인화 알림"
+      },
+      {
+        "priority": "P2",
+        "action": "QA 프로세스 강화 — 릴리즈 전 회귀 테스트 확대"
+      },
+      {
+        "priority": "P2",
+        "action": "단순문의 자동화 — FAQ 챗봇 확대, 셀프서비스 강화"
+      },
+      {
+        "priority": "P3",
+        "action": "GA 이벤트 체계 고도화 — Revenue/Referral 퍼널 이벤트 추가"
+      }
+    ],
+    "data_caveats": [
+      "Zendesk 데이터는 전체 고객 의견을 대표하지 않음 — CS 문의 고객만 반영 (selection bias)",
+      "CSAT 응답률 0.9% — 통계적 신뢰도 낮음 (최소 30% 필요)",
+      "GA AARRR 이벤트는 커스텀 이벤트 설정 수준에 따라 퍼널 정확도 차이 발생",
+      "Jira 데이터는 마지막 스냅샷 기준 — 실시간 반영 아님"
+    ]
+  }
+}
