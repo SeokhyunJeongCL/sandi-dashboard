@@ -9,186 +9,167 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@2.3.1/dist/chartjs-chart-treemap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@2.0.1/dist/chartjs-chart-matrix.min.js"></script>
 <style>
-/* ═══ DESIGN SYSTEM — Glass + Pretendard ═══ */
-:root {
-  --bg: #0a0a0f; --surface: rgba(255,255,255,.04); --surface2: rgba(255,255,255,.06); --surface3: rgba(255,255,255,.1);
-  --border: rgba(255,255,255,.08); --border2: rgba(255,255,255,.12);
-  --text: #f0f0f5; --text2: #b0b0c0; --text3: #7a7a90; --text4: #50506a;
-  --accent: #818cf8; --accent2: #a78bfa; --accent-soft: rgba(129,140,248,.1);
-  --green: #34d399; --green-bg: rgba(52,211,153,.08);
-  --yellow: #fbbf24; --yellow-bg: rgba(251,191,36,.08);
-  --red: #f87171; --red-bg: rgba(248,113,113,.08);
-  --blue: #60a5fa; --blue-bg: rgba(96,165,250,.08);
-  --orange: #fb923c; --purple: #c084fc; --cyan: #22d3ee;
-  --pink: #f472b6; --teal: #2dd4bf;
-  --radius: 16px; --radius-sm: 10px;
-  --glass-blur: blur(20px);
-  --glass-shadow: 0 8px 32px rgba(0,0,0,.25), 0 1px 2px rgba(0,0,0,.15);
-  --glow-accent: 0 0 40px rgba(129,140,248,.08);
+:root{
+  --canvas:#F5F6F8; --card:#FFFFFF; --muted:#F1F3F5; --muted2:#E9ECEF;
+  --line:#E9ECEF; --line2:#DEE2E6;
+  --navy:#132029; --navy700:#333F48; --navy600:#003F5D;
+  --ink:#132029; --ink2:#4B4B4B; --ink3:#6E6E6E; --ink4:#909AA0;
+  --brand:#EA27C2; --brand2:#FA84DA; --brand-soft:#FEECF8;
+  --green:#2F9E44; --green-bg:#EBFBEE; --yellow:#E8590C; --yellow-bg:#FFF4E6;
+  --red:#F03E3E; --red-bg:#FFF0F0; --blue:#1971C2; --blue-bg:#E7F1FB;
+  --bg:var(--canvas); --surface:var(--card); --surface2:var(--muted); --surface3:var(--muted2);
+  --border:var(--line); --border2:var(--line2);
+  --text:var(--ink); --text2:var(--navy700); --text3:var(--ink3); --text4:var(--ink4);
+  --accent:var(--brand); --accent2:var(--brand2); --accent-soft:var(--brand-soft);
+  --radius:14px; --radius-sm:12px;
+  --shadow-1:0 1px 2px rgba(19,32,41,.05);
+  --shadow-2:0 6px 20px rgba(19,32,41,.08);
+  --shadow-pop:0 12px 40px rgba(19,32,41,.18);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Pretendard Variable','Pretendard','Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;background-image:radial-gradient(ellipse 80% 60% at 50% -20%,rgba(129,140,248,.08),transparent),radial-gradient(ellipse 60% 40% at 80% 100%,rgba(167,139,250,.05),transparent)}
-a{color:var(--accent);text-decoration:none}
+body{font-family:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--canvas);color:var(--ink);line-height:1.6;min-height:100vh;letter-spacing:-.01em}
+a{color:var(--brand);text-decoration:none}
+a:hover{color:var(--navy)}
 
-/* ═══ HEADER ═══ */
-.header{background:rgba(10,10,15,.7);border-bottom:1px solid var(--border);padding:20px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur)}
-.header h1{font-size:18px;font-weight:700;letter-spacing:-.3px}
-.header h1 span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-right:8px}
-.header-right{display:flex;align-items:center;gap:16px}
-.freshness{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3);background:var(--surface2);padding:6px 14px;border-radius:20px;border:1px solid var(--border)}
+.header{background:rgba(255,255,255,.85);border-bottom:1px solid var(--line);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:saturate(180%) blur(12px);-webkit-backdrop-filter:saturate(180%) blur(12px)}
+.header h1{font-size:18px;font-weight:700;letter-spacing:-.4px;color:var(--navy);display:flex;align-items:center;gap:9px}
+.brand-mark{font-weight:800;color:var(--brand);letter-spacing:-.5px}
+.brand-div{width:1px;height:15px;background:var(--line2)}
+.header .sub{font-weight:500;color:var(--ink3);font-size:14px}
+.freshness{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink3);background:var(--muted);padding:7px 14px;border-radius:100px;border:1px solid var(--line)}
 .freshness .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
 
-/* ═══ TABS ═══ */
-.tabs{display:flex;gap:4px;padding:12px 40px;background:rgba(10,10,15,.5);border-bottom:1px solid var(--border);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur)}
-.tab{padding:9px 22px;border-radius:10px;font-size:13px;font-weight:500;color:var(--text3);cursor:pointer;transition:all .25s ease;border:1px solid transparent;background:none}
-.tab:hover{color:var(--text2);background:var(--surface2);border-color:var(--border)}
-.tab.active{color:var(--text);background:var(--accent-soft);border-color:rgba(129,140,248,.25);box-shadow:var(--glow-accent)}
+.tabs{display:flex;gap:28px;padding:0 32px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:57px;z-index:99;overflow-x:auto}
+.tab{padding:15px 2px;font-size:14px;font-weight:600;color:var(--ink3);cursor:pointer;transition:color .18s;border:none;border-bottom:2px solid transparent;background:none;white-space:nowrap;letter-spacing:-.2px}
+.tab:hover{color:var(--navy)}
+.tab.active{color:var(--navy);border-bottom-color:var(--brand)}
 
-/* ═══ LAYOUT ═══ */
-.main{max-width:1440px;margin:0 auto;padding:28px 40px 80px}
-.tab-content{display:none}.tab-content.active{display:block}
-.grid{display:grid;gap:20px}.grid-2{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:repeat(3,1fr)}.grid-4{grid-template-columns:repeat(4,1fr)}.grid-5{grid-template-columns:repeat(5,1fr)}
+.main{max-width:1400px;margin:0 auto;padding:28px 32px 88px}
+.tab-content{display:none}.tab-content.active{display:block;animation:fadein .35s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.grid{display:grid;gap:16px}.grid-2{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:repeat(3,1fr)}.grid-4{grid-template-columns:repeat(4,1fr)}.grid-5{grid-template-columns:repeat(5,1fr)}
 
-/* ═══ GLASS CARD ═══ */
-.card{background:var(--surface);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid var(--border);border-radius:var(--radius);padding:28px;position:relative;overflow:hidden;box-shadow:var(--glass-shadow);transition:border-color .3s ease,box-shadow .3s ease}
-.card:hover{border-color:var(--border2);box-shadow:var(--glass-shadow),var(--glow-accent)}
-.card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
-.card-title{font-size:14px;font-weight:600;color:var(--text2)}
-.card-badge{font-size:11px;padding:4px 12px;border-radius:20px;font-weight:500}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;position:relative;box-shadow:var(--shadow-1);transition:border-color .2s,box-shadow .2s}
+.card:hover{border-color:var(--line2);box-shadow:var(--shadow-2)}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;gap:10px}
+.card-title{font-size:15px;font-weight:700;color:var(--navy);letter-spacing:-.3px}
+.card-badge{font-size:11px;padding:4px 11px;border-radius:100px;font-weight:600}
 .card-badge.green{background:var(--green-bg);color:var(--green)}
 .card-badge.red{background:var(--red-bg);color:var(--red)}
 .card-badge.yellow{background:var(--yellow-bg);color:var(--yellow)}
 .card-badge.blue{background:var(--blue-bg);color:var(--blue)}
 
-/* ═══ METRIC CARD (Glass) ═══ */
-.metric-card{background:var(--surface);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid var(--border);border-radius:var(--radius);padding:22px 26px;transition:all .3s ease;position:relative;overflow:hidden}
-.metric-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity .3s}
-.metric-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:var(--glass-shadow)}.metric-card:hover::before{opacity:1}
-.metric-label{font-size:12px;color:var(--text3);margin-bottom:6px;display:flex;align-items:center;gap:6px;font-weight:500}
-.metric-value{font-size:30px;font-weight:800;letter-spacing:-1.5px;line-height:1.2;background:linear-gradient(180deg,var(--text),var(--text2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.metric-sub{font-size:12px;color:var(--text3);margin-top:6px}
-.metric-change{font-size:13px;font-weight:600;margin-left:8px}
-.metric-change.up{color:var(--green);-webkit-text-fill-color:var(--green)}.metric-change.down{color:var(--red);-webkit-text-fill-color:var(--red)}
-.metric-explain{font-size:12px;color:var(--text4);margin-top:10px;padding-top:10px;border-top:1px solid var(--border);line-height:1.6}
+.metric-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;transition:border-color .2s,box-shadow .2s,transform .2s;position:relative;overflow:hidden;box-shadow:var(--shadow-1)}
+.metric-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--brand);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.metric-card:hover{border-color:var(--line2);transform:translateY(-2px);box-shadow:var(--shadow-2)}.metric-card:hover::before{transform:scaleX(1)}
+.metric-label{font-size:12px;color:var(--ink3);margin-bottom:8px;display:flex;align-items:center;gap:6px;font-weight:500}
+.metric-value{font-size:30px;font-weight:800;letter-spacing:-1.4px;line-height:1.15;color:var(--navy)}
+.metric-sub{font-size:12px;color:var(--ink3);margin-top:7px}
+.metric-change{font-size:13px;font-weight:700;margin-left:6px}
+.metric-change.up{color:var(--green)}.metric-change.down{color:var(--red)}
+.metric-explain{font-size:12px;color:var(--ink3);margin-top:12px;padding-top:12px;border-top:1px solid var(--line);line-height:1.65}
 
-/* ═══ AI INSIGHT BOX (Glass) ═══ */
-.ai-box{background:linear-gradient(135deg,rgba(129,140,248,.06),rgba(192,132,252,.04));backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid rgba(129,140,248,.15);border-radius:var(--radius);padding:28px;margin:24px 0;position:relative;overflow:hidden}
-.ai-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(129,140,248,.3),transparent)}
-.ai-box-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;font-size:15px;font-weight:700;color:var(--accent)}
-.ai-box-header .icon{font-size:18px}
-.ai-box p{font-size:13.5px;color:var(--text2);line-height:1.9;margin-bottom:10px}
-.ai-box .highlight{color:var(--text);font-weight:600}
-.ai-box .warn{color:var(--yellow);font-weight:600}
-.ai-box .danger{color:var(--red);font-weight:600}
-.ai-box .good{color:var(--green);font-weight:600}
+.ai-box{background:linear-gradient(180deg,#FEF7FC,#FFFFFF 60%);border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:var(--radius);padding:24px 26px;margin:22px 0;position:relative;box-shadow:var(--shadow-1)}
+.ai-box-header{display:flex;align-items:center;gap:9px;margin-bottom:14px;font-size:15px;font-weight:700;color:var(--brand);letter-spacing:-.2px}
+.ai-box-header .icon{font-size:17px}
+.ai-box p{font-size:13.5px;color:var(--navy700);line-height:1.85;margin-bottom:9px}
+.ai-box p:last-child{margin-bottom:0}
+.ai-box .highlight{color:var(--navy);font-weight:700}
+.ai-box .warn{color:var(--yellow);font-weight:700}
+.ai-box .danger{color:var(--red);font-weight:700}
+.ai-box .good{color:var(--green);font-weight:700}
+.ai-box b{color:var(--navy);font-weight:700}
 
-/* ═══ DATA FRESHNESS BAR ═══ */
-.freshness-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
-.freshness-item{display:flex;align-items:center;gap:8px;background:var(--surface);backdrop-filter:var(--glass-blur);border:1px solid var(--border);border-radius:10px;padding:8px 16px;font-size:12px;transition:border-color .2s}
-.freshness-item:hover{border-color:var(--border2)}
-.freshness-item .src{color:var(--text2);font-weight:600}
-.freshness-item .time{color:var(--text3)}
+.freshness-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px}
+.freshness-item{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 14px;font-size:12px;transition:border-color .2s;box-shadow:var(--shadow-1)}
+.freshness-item:hover{border-color:var(--line2)}
+.freshness-item .src{color:var(--navy);font-weight:600}
+.freshness-item .time{color:var(--ink3)}
 .freshness-item .status{width:7px;height:7px;border-radius:50%}
-.freshness-item .status.live{background:var(--green);box-shadow:0 0 8px rgba(52,211,153,.4)}.freshness-item .status.daily{background:var(--yellow);box-shadow:0 0 8px rgba(251,191,36,.3)}.freshness-item .status.manual{background:var(--text4)}
+.freshness-item .status.live{background:var(--green)}.freshness-item .status.daily{background:var(--yellow)}.freshness-item .status.manual{background:var(--ink4)}
 
-/* ═══ SCORE RING ═══ */
-.score-ring-wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+.score-ring-wrap{display:flex;flex-direction:column;align-items:center;gap:14px}
 .score-ring{position:relative;width:180px;height:180px}
 .score-ring svg{transform:rotate(-90deg)}
-.score-ring .bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:12}
-.score-ring .fg{fill:none;stroke-width:12;stroke-linecap:round;transition:stroke-dashoffset 1.5s ease;filter:drop-shadow(0 0 6px currentColor)}
-.score-ring .val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:44px;font-weight:800;letter-spacing:-2px}
-.score-ring .val small{font-size:14px;color:var(--text3);font-weight:400;letter-spacing:0}
+.score-ring .bg{fill:none;stroke:var(--muted2);stroke-width:13}
+.score-ring .fg{fill:none;stroke-width:13;stroke-linecap:round;transition:stroke-dashoffset 1.5s ease}
+.score-ring .val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:46px;font-weight:800;letter-spacing:-2px;color:var(--navy)}
+.score-ring .val small{font-size:13px;color:var(--ink3);font-weight:500;letter-spacing:0;margin-top:2px}
 
-/* ═══ PROGRESS BAR ═══ */
-.progress-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--border)}
+.progress-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
 .progress-row:last-child{border-bottom:none}
-.progress-label{width:160px;font-size:12px;color:var(--text2);flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.progress-bar-wrap{flex:1;height:22px;background:rgba(255,255,255,.04);border-radius:6px;overflow:hidden;position:relative}
-.progress-bar-fill{height:100%;border-radius:6px;transition:width 1.2s ease;position:relative}
-.progress-bar-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.15),transparent);border-radius:6px}
-.progress-value{width:50px;text-align:right;font-size:12px;font-weight:600;color:var(--text3);flex-shrink:0}
+.progress-label{width:158px;font-size:12px;color:var(--navy700);flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
+.progress-bar-wrap{flex:1;height:20px;background:var(--muted);border-radius:6px;overflow:hidden;position:relative}
+.progress-bar-fill{height:100%;border-radius:6px;transition:width 1.2s ease}
+.progress-value{width:50px;text-align:right;font-size:12px;font-weight:700;color:var(--navy700);flex-shrink:0}
 
-/* ═══ TABLE ═══ */
 .data-table{width:100%;border-collapse:collapse;font-size:13px}
-.data-table th{text-align:left;padding:12px 14px;color:var(--text3);font-weight:500;border-bottom:1px solid var(--border2);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
-.data-table td{padding:12px 14px;border-bottom:1px solid var(--border);color:var(--text2)}
-.data-table tr:hover td{background:rgba(255,255,255,.02)}
+.data-table th{text-align:left;padding:11px 12px;color:var(--ink3);font-weight:600;border-bottom:1px solid var(--line2);font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+.data-table td{padding:11px 12px;border-bottom:1px solid var(--line);color:var(--navy700)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--canvas)}
 
-/* ═══ CHART CONTAINER ═══ */
 .chart-wrap{position:relative;height:300px}
 .chart-wrap.tall{height:400px}
 .chart-wrap.short{height:200px}
 
-/* ═══ FUNNEL ═══ */
-.funnel{display:flex;flex-direction:column;gap:10px;padding:16px 0}
+.funnel{display:flex;flex-direction:column;gap:10px;padding:14px 0}
 .funnel-step{display:flex;align-items:center;gap:16px}
-.funnel-bar{height:44px;border-radius:8px;display:flex;align-items:center;padding:0 18px;font-size:13px;font-weight:600;color:#fff;transition:width 1s ease;min-width:60px;position:relative;overflow:hidden}
-.funnel-bar::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.15),transparent);border-radius:8px}
-.funnel-info{font-size:12px;color:var(--text3);min-width:200px}
-.funnel-info strong{color:var(--text2);display:block;font-size:13px}
+.funnel-bar{height:44px;border-radius:8px;display:flex;align-items:center;padding:0 18px;font-size:13px;font-weight:700;color:#fff;transition:width 1s ease;min-width:64px;letter-spacing:-.2px}
+.funnel-info{font-size:12px;color:var(--ink3);min-width:200px;line-height:1.5}
+.funnel-info strong{color:var(--navy);display:block;font-size:13px;font-weight:700}
 
-/* ═══ SECTION ═══ */
-.section-title{font-size:17px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;letter-spacing:-.3px}
-.section-desc{font-size:13px;color:var(--text3);margin-bottom:20px;line-height:1.7}
+.section-title{font-size:18px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;letter-spacing:-.4px;color:var(--navy)}
+.section-desc{font-size:13px;color:var(--ink3);margin-bottom:18px;line-height:1.6}
 
-/* ═══ RISK / REC ═══ */
 .insight-list{display:flex;flex-direction:column;gap:10px}
-.insight-item{display:flex;gap:12px;padding:16px 18px;background:var(--surface);backdrop-filter:var(--glass-blur);border:1px solid var(--border);border-radius:var(--radius-sm);border-left:3px solid var(--text4);transition:border-color .2s}
-.insight-item:hover{border-color:var(--border2)}
+.insight-item{display:flex;gap:12px;padding:15px 16px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-sm);border-left:3px solid var(--ink4);transition:border-color .2s,box-shadow .2s}
+.insight-item:hover{border-color:var(--line2);box-shadow:var(--shadow-1)}
 .insight-item.high{border-left-color:var(--red)}.insight-item.medium{border-left-color:var(--yellow)}.insight-item.info{border-left-color:var(--blue)}
-.insight-item .tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:6px;flex-shrink:0;align-self:flex-start}
+.insight-item .tag{font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;flex-shrink:0;align-self:flex-start}
 .insight-item .tag.P1{background:var(--red-bg);color:var(--red)}.insight-item .tag.P2{background:var(--yellow-bg);color:var(--yellow)}.insight-item .tag.P3{background:var(--blue-bg);color:var(--blue)}
-.insight-item .msg{font-size:13px;color:var(--text2);line-height:1.6}
+.insight-item .msg{font-size:13px;color:var(--navy700);line-height:1.6}
+.insight-item .msg b{color:var(--navy)}
 
-/* ═══ RESPONSIVE ═══ */
 @media(max-width:1100px){.grid-4,.grid-5{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:768px){
   .grid-2,.grid-3,.grid-4,.grid-5{grid-template-columns:1fr}
-  .main{padding:16px}
-  .tabs{padding:8px 16px;overflow-x:auto}
-  .header{padding:16px}
+  .main{padding:16px}.tabs{padding:0 16px;gap:18px}.header{padding:14px 16px}
   .funnel-step{flex-wrap:wrap}
 }
 
-/* ═══ LOADING ═══ */
-.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;height:60vh;gap:20px}
-.loading .spinner{width:44px;height:44px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;height:60vh;gap:18px}
+.loading .spinner{width:42px;height:42px;border:3px solid var(--muted2);border-top-color:var(--brand);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .error-msg{color:var(--red);text-align:center;padding:40px}
 
-/* ═══ TOOLTIP ═══ */
-.tooltip-icon{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--surface2);color:var(--text4);font-size:10px;cursor:help;font-weight:700;border:1px solid var(--border)}
+.tooltip-icon{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--muted);color:var(--ink3);font-size:10px;cursor:help;font-weight:700;border:1px solid var(--line2)}
 .tooltip-wrap{position:relative;display:inline-block}
-.tooltip-text{visibility:hidden;opacity:0;pointer-events:none;position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:rgba(20,20,30,.95);backdrop-filter:blur(12px);color:var(--text2);border:1px solid var(--border2);padding:12px 16px;border-radius:10px;font-size:12px;white-space:normal;width:280px;line-height:1.7;z-index:10;box-shadow:0 12px 40px rgba(0,0,0,.5);transition:all .2s ease}
-.tooltip-wrap:hover .tooltip-text{visibility:visible;opacity:1;pointer-events:auto}
+.tooltip-text{visibility:hidden;opacity:0;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(4px);background:var(--navy);color:#F1F3F5;padding:12px 15px;border-radius:10px;font-size:12px;font-weight:400;white-space:normal;width:280px;line-height:1.7;z-index:20;box-shadow:var(--shadow-pop);transition:all .18s ease;letter-spacing:0}
+.tooltip-text b{color:#fff;font-weight:700}
+.tooltip-wrap:hover .tooltip-text{visibility:visible;opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* ═══ BUCKET CHART ═══ */
 .bucket-row{display:flex;align-items:flex-end;gap:6px;height:120px;padding:0 4px}
 .bucket-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
-.bucket-bar{width:100%;border-radius:6px 6px 0 0;transition:height 1s ease;position:relative;overflow:hidden}
-.bucket-bar::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.15),transparent)}
-.bucket-label{font-size:10px;color:var(--text4);text-align:center}
-.bucket-count{font-size:11px;font-weight:600;color:var(--text3)}
+.bucket-bar{width:100%;border-radius:6px 6px 0 0;transition:height 1s ease}
+.bucket-label{font-size:10px;color:var(--ink3);text-align:center}
+.bucket-count{font-size:11px;font-weight:700;color:var(--navy700)}
 
-/* ═══ PERIOD BADGE ═══ */
 .period-bar{display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap}
-.period-badge{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:12px;color:var(--text2)}
+.period-badge{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 13px;font-size:12px;color:var(--navy700);box-shadow:var(--shadow-1)}
 .period-badge .period-icon{font-size:13px}
-.period-badge .period-label{color:var(--text3);font-weight:500}
-.period-badge .period-range{color:var(--text);font-weight:600}
+.period-badge .period-label{color:var(--ink3);font-weight:500}
+.period-badge .period-range{color:var(--navy);font-weight:700}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <h1><span>SANDI</span> Customer Insights</h1>
-  <div class="header-right">
-    <div class="freshness" id="headerFreshness">
-      <div class="dot"></div>
-      <span>데이터 로딩 중...</span>
-    </div>
+  <h1><span class="brand-mark">SANDI</span><span class="brand-div"></span><span class="sub">Customer Insights</span></h1>
+  <div class="freshness" id="headerFreshness">
+    <div class="dot"></div>
+    <span>데이터 로딩 중...</span>
   </div>
 </div>
 
@@ -203,29 +184,16 @@ a{color:var(--accent);text-decoration:none}
 <div class="main">
   <div id="loadingArea" class="loading">
     <div class="spinner"></div>
-    <p style="color:var(--text3)">데이터를 불러오는 중입니다...</p>
+    <p style="color:var(--ink3);font-size:13px">데이터를 불러오는 중입니다...</p>
   </div>
 
   <div id="contentArea" style="display:none">
 
-    <!-- ═══════════════════════════════════════════════════════════════
-         TAB 1: 전체 종합
-         ═══════════════════════════════════════════════════════════════ -->
     <div class="tab-content active" data-tab="overview">
-
-      <!-- Data Freshness Bar -->
       <div class="freshness-bar" id="freshnessBar"></div>
-
-      <!-- Period Overview -->
       <div class="period-bar" id="overviewPeriod"></div>
-
-      <!-- Hero Metrics -->
-      <div class="grid grid-5" id="heroMetrics" style="margin-bottom:24px"></div>
-
-      <!-- AI Summary -->
+      <div class="grid grid-5" id="heroMetrics" style="margin-bottom:20px"></div>
       <div class="ai-box" id="aiOverviewBox"></div>
-
-      <!-- Score + AARRR -->
       <div class="grid grid-2" style="margin-bottom:24px">
         <div class="card">
           <div class="card-header">
@@ -247,12 +215,10 @@ a{color:var(--accent);text-decoration:none}
         </div>
       </div>
 
-      <!-- Cross Insights -->
       <div class="section-title">교차 분석 인사이트</div>
       <div class="section-desc">서로 다른 데이터 소스(앱 분석, 고객 문의, 개발 현황, 건물 도입 현황)를 교차 검증하여 발견한 패턴입니다.</div>
       <div class="insight-list" id="crossInsights" style="margin-bottom:24px"></div>
 
-      <!-- Risks & Recommendations -->
       <div class="grid grid-2">
         <div class="card">
           <div class="card-header"><span class="card-title">위험 신호</span></div>
@@ -264,22 +230,16 @@ a{color:var(--accent);text-decoration:none}
         </div>
       </div>
 
-      <!-- Data Caveats -->
-      <div class="ai-box" style="margin-top:24px;background:linear-gradient(135deg,rgba(234,179,8,.04),rgba(245,158,11,.04));border-color:rgba(234,179,8,.15)">
+      <div class="ai-box" id="caveatsBox" style="margin-top:24px;background:linear-gradient(180deg,#FFF9F0,#FFFFFF 60%);border-left-color:var(--yellow)">
         <div class="ai-box-header" style="color:var(--yellow)"><span class="icon">&#9888;</span> 데이터 해석 시 주의사항</div>
         <div id="caveatsList"></div>
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════
-         TAB 2: 앱 사용 분석 (GA)
-         ═══════════════════════════════════════════════════════════════ -->
     <div class="tab-content" data-tab="ga">
       <div class="period-bar" id="gaPeriod"></div>
       <div class="ai-box" id="aiGaBox"></div>
-
       <div class="grid grid-3" id="gaMetrics" style="margin-bottom:24px"></div>
-
       <div class="grid grid-2" style="margin-bottom:24px">
         <div class="card">
           <div class="card-header">
@@ -300,7 +260,6 @@ a{color:var(--accent);text-decoration:none}
           <div class="chart-wrap tall"><canvas id="chartMauPv"></canvas></div>
         </div>
       </div>
-
       <div class="grid grid-2" style="margin-bottom:24px">
         <div class="card">
           <div class="card-header">
@@ -323,15 +282,10 @@ a{color:var(--accent);text-decoration:none}
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════
-         TAB 3: 고객 문의 (Zendesk)
-         ═══════════════════════════════════════════════════════════════ -->
     <div class="tab-content" data-tab="zendesk">
       <div class="period-bar" id="zdPeriod"></div>
       <div class="ai-box" id="aiZdBox"></div>
-
       <div class="grid grid-4" id="zdMetrics" style="margin-bottom:24px"></div>
-
       <div class="grid grid-2" style="margin-bottom:24px">
         <div class="card">
           <div class="card-header">
@@ -352,7 +306,6 @@ a{color:var(--accent);text-decoration:none}
           <div class="chart-wrap"><canvas id="chartZdSent"></canvas></div>
         </div>
       </div>
-
       <div class="grid grid-2" style="margin-bottom:24px">
         <div class="card">
           <div class="card-header">
@@ -373,7 +326,6 @@ a{color:var(--accent);text-decoration:none}
           <div class="chart-wrap"><canvas id="chartZdWeekly"></canvas></div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-header">
           <span class="card-title">자주 등장하는 키워드</span>
@@ -385,15 +337,10 @@ a{color:var(--accent);text-decoration:none}
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════
-         TAB 4: 개발 현황 (Jira)
-         ═══════════════════════════════════════════════════════════════ -->
     <div class="tab-content" data-tab="jira">
       <div class="period-bar" id="jiraPeriod"></div>
       <div class="ai-box" id="aiJiraBox"></div>
-
       <div class="grid grid-4" id="jiraMetrics" style="margin-bottom:24px"></div>
-
       <div class="grid grid-2" style="margin-bottom:24px">
         <div class="card">
           <div class="card-header">
@@ -414,7 +361,6 @@ a{color:var(--accent);text-decoration:none}
           <div class="chart-wrap"><canvas id="chartJiraPriority"></canvas></div>
         </div>
       </div>
-
       <div class="grid grid-2">
         <div class="card">
           <div class="card-header">
@@ -437,15 +383,10 @@ a{color:var(--accent);text-decoration:none}
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════
-         TAB 5: 건물 · 서비스
-         ═══════════════════════════════════════════════════════════════ -->
     <div class="tab-content" data-tab="buildings">
       <div class="period-bar" id="bldPeriod"></div>
       <div class="ai-box" id="aiBldBox"></div>
-
       <div class="grid grid-5" id="bldMetrics" style="margin-bottom:24px"></div>
-
       <div class="grid grid-2" style="margin-bottom:24px">
         <div class="card">
           <div class="card-header">
@@ -467,11 +408,10 @@ a{color:var(--accent);text-decoration:none}
           <div id="bucketChart" style="padding:20px 0">
             <div class="bucket-row" id="bucketBars"></div>
           </div>
-          <div id="bucketStats" style="font-size:12px;color:var(--text3);text-align:center;margin-top:8px"></div>
-          <div id="bucketAnalysis" style="margin-top:16px;font-size:12px;color:var(--text3);line-height:1.7;padding:12px 16px;background:var(--surface2);border-radius:8px"></div>
+          <div id="bucketStats" style="font-size:12px;color:var(--ink3);text-align:center;margin-top:8px"></div>
+          <div id="bucketAnalysis" style="margin-top:16px;font-size:12px;color:var(--ink3);line-height:1.7;padding:12px 16px;background:var(--muted);border-radius:8px"></div>
         </div>
       </div>
-
       <div class="card" style="margin-bottom:24px">
         <div class="card-header">
           <span class="card-title">서비스별 도입률 상위 20 / 하위 10</span>
@@ -481,16 +421,15 @@ a{color:var(--accent);text-decoration:none}
         </div>
         <div class="grid grid-2">
           <div>
-            <div style="font-size:12px;color:var(--text3);margin-bottom:12px;font-weight:600">도입률 높은 서비스 (전체 328건 기준)</div>
+            <div style="font-size:12px;color:var(--ink3);margin-bottom:12px;font-weight:600">도입률 높은 서비스 (전체 328건 기준)</div>
             <div id="svcTop20"></div>
           </div>
           <div>
-            <div style="font-size:12px;color:var(--text3);margin-bottom:12px;font-weight:600">도입률 낮은 서비스 (확대 기회)</div>
+            <div style="font-size:12px;color:var(--ink3);margin-bottom:12px;font-weight:600">도입률 낮은 서비스 (확대 기회)</div>
             <div id="svcBottom10"></div>
           </div>
         </div>
       </div>
-
       <div class="grid grid-2">
         <div class="card">
           <div class="card-header">
@@ -513,1070 +452,536 @@ a{color:var(--accent);text-decoration:none}
       </div>
     </div>
 
-  </div><!-- #contentArea -->
-</div><!-- .main -->
+  </div>
+</div>
 
 <script>
-/* ═══════════════════════════════════════════════════════════════
-   DATA LOADING & RENDERING
-   ═══════════════════════════════════════════════════════════════ */
+const COLORS = ['#132029','#EA27C2','#1971C2','#0CA678','#F59F00','#E8590C','#7048E8','#1098AD','#F03E3E','#FA84DA','#2F9E44','#868E96'];
+const _tabRendered = { overview:false, ga:false, zendesk:false, jira:false, buildings:false };
+let _data = null;
 
-// Tab switching with lazy chart rendering
-const _tabRendered = { overview: false, ga: false, zendesk: false, jira: false, buildings: false };
-let _renderData = null;
+function fmt(n){ return n == null ? '-' : n.toLocaleString('ko-KR'); }
+function scoreColor(s){ return s >= 80 ? '#2F9E44' : s >= 60 ? '#F59F00' : s >= 40 ? '#E8590C' : '#F03E3E'; }
+function scoreLabel(s){ return s >= 80 ? '양호' : s >= 60 ? '주의' : s >= 40 ? '개선 필요' : '위험'; }
 
-document.querySelectorAll('.tab').forEach(t => {
-  t.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(x => x.classList.remove('active'));
-    t.classList.add('active');
-    document.querySelector(`.tab-content[data-tab="${t.dataset.tab}"]`).classList.add('active');
-    // Lazy render charts for this tab
-    lazyRenderTab(t.dataset.tab);
-  });
-});
-
-function lazyRenderTab(tabId) {
-  if (!_renderData || _tabRendered[tabId]) return;
-  const { ga, gaS, zd, jira, bld, ins } = _renderData;
-  switch(tabId) {
-    case 'ga':
-      if (!_tabRendered.ga) { renderGA(ga, gaS); _tabRendered.ga = true; }
-      break;
-    case 'zendesk':
-      if (!_tabRendered.zendesk) { renderZendesk(zd); _tabRendered.zendesk = true; }
-      break;
-    case 'jira':
-      if (!_tabRendered.jira) { renderJira(jira); _tabRendered.jira = true; }
-      break;
-    case 'buildings':
-      if (!_tabRendered.buildings) { renderBuildings(bld, ga); _tabRendered.buildings = true; }
-      break;
+const SVC_NAME_MAP = {
+  '/service/rental':'대여 서비스 (전체)','/service':'서비스 홈','/service/membership-card':'사원카드 잔액',
+  '/service/rental-umbrella':'우산 대여','/service/rental/requested':'대여 신청 내역','/service/rental/returned':'반납 완료 내역',
+  '/service/rental/rented':'대여 중 내역','/service/membership-card/usage':'사원카드 사용 내역','/service/hot-cold-vote/detail':'냉난방 투표 상세',
+  '/service/hot-cold-vote':'냉난방 투표','/service/space-reservation':'공간 예약','/service/toilet-empty':'화장실 빈칸',
+  '/service/custom':'커스텀 서비스','/service/air-quality':'공기질 모니터링','/service/temperature':'온습도 모니터링',
+  '/service/complaint':'신고센터','/talk':'건물톡 (커뮤니티)','/manager/voc-manager':'신고 관리 (매니저)',
+  '/view':'서비스 상세 보기','/auth/login':'로그인 화면','/home':'홈 화면','/my':'마이페이지','/settings':'설정',
+};
+function friendlyName(path){
+  if(!path) return '';
+  if(SVC_NAME_MAP[path]) return SVC_NAME_MAP[path];
+  for(const [key,name] of Object.entries(SVC_NAME_MAP)){ if(path.startsWith(key+'/')) return name; }
+  const seg = path.replace(/^\//,'').split('/').pop() || path;
+  return seg.replace(/-/g,' ').replace(/^./, c => c.toUpperCase());
+}
+function animateValue(el, target, suffix=''){
+  if(!el) return;
+  const dur = 1100; const st = performance.now();
+  function step(now){
+    const p = Math.min((now - st)/dur, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = fmt(Math.round(target * ease)) + suffix;
+    if(p < 1) requestAnimationFrame(step);
   }
+  requestAnimationFrame(step);
 }
 
-// Chart.js defaults
-Chart.defaults.color = '#7a7a90';
-Chart.defaults.borderColor = 'rgba(255,255,255,.06)';
-Chart.defaults.font.family = "'Pretendard Variable','Pretendard','Inter',sans-serif";
-Chart.defaults.font.size = 11;
-Chart.defaults.plugins.legend.display = false;
-Chart.defaults.animation = { duration: 1200, easing: 'easeOutQuart' };
-
-const COLORS = ['#818cf8','#60a5fa','#22d3ee','#34d399','#fbbf24','#fb923c','#f87171','#f472b6','#c084fc','#2dd4bf','#94a3b8','#a78bfa'];
-
-// Number formatting
-function fmt(n) { return n == null ? '-' : n.toLocaleString('ko-KR'); }
-function pct(n, d) { return d ? (n / d * 100).toFixed(1) : '0'; }
-
-// ── Doughnut label plugin (도넛 차트 안에 건수+비율 표시) ──
 const doughnutLabelPlugin = {
-  id: 'doughnutLabels',
-  afterDatasetsDraw(chart) {
-    if (chart.config.type !== 'doughnut') return;
-    const ctx = chart.ctx;
-    const ds = chart.data.datasets[0];
-    const meta = chart.getDatasetMeta(0);
-    if (!ds || !meta) return;
-    const total = ds.data.reduce((s, v) => s + (v || 0), 0);
-    if (!total) return;
-    meta.data.forEach((arc, i) => {
+  id:'doughnutLabels',
+  afterDatasetsDraw(chart){
+    if(chart.config.type !== 'doughnut') return;
+    const ctx = chart.ctx, ds = chart.data.datasets[0], meta = chart.getDatasetMeta(0);
+    if(!ds || !meta) return;
+    const total = ds.data.reduce((s,v)=>s+(v||0),0);
+    if(!total) return;
+    meta.data.forEach((arc,i)=>{
       const val = ds.data[i];
-      if (val == null || val === 0) return;
-      const pctVal = Math.round(val / total * 100);
-      if (pctVal < 5) return;
-      const { x, y } = arc.tooltipPosition();
-      ctx.save();
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      // 검정 외곽선으로 어떤 배경에서든 가독성 확보
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = 'rgba(0,0,0,.7)';
-      ctx.lineJoin = 'round';
-      // 건수
-      ctx.font = 'bold 13px Pretendard Variable, Pretendard, sans-serif';
-      ctx.strokeText(`${fmt(val)}건`, x, y - 8);
-      ctx.fillStyle = '#fff';
-      ctx.fillText(`${fmt(val)}건`, x, y - 8);
-      // 비율
-      ctx.font = '11px Pretendard Variable, Pretendard, sans-serif';
-      ctx.strokeText(`${pctVal}%`, x, y + 9);
-      ctx.fillStyle = 'rgba(255,255,255,.8)';
-      ctx.fillText(`${pctVal}%`, x, y + 9);
+      if(val == null || val === 0) return;
+      const pctVal = Math.round(val/total*100);
+      if(pctVal < 5) return;
+      const {x,y} = arc.tooltipPosition();
+      ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.lineWidth=3; ctx.strokeStyle='rgba(19,32,41,.55)'; ctx.lineJoin='round';
+      ctx.font='bold 13px Pretendard Variable, Pretendard, sans-serif';
+      ctx.strokeText(fmt(val)+'건', x, y-8); ctx.fillStyle='#fff'; ctx.fillText(fmt(val)+'건', x, y-8);
+      ctx.font='11px Pretendard Variable, Pretendard, sans-serif';
+      ctx.strokeText(pctVal+'%', x, y+9); ctx.fillStyle='rgba(255,255,255,.9)'; ctx.fillText(pctVal+'%', x, y+9);
       ctx.restore();
     });
   }
 };
-
-// ── Data label plugin (Chart.js에 수치 직접 표시) ──
 const dataLabelPlugin = {
-  id: 'dataLabels',
-  afterDatasetsDraw(chart) {
+  id:'dataLabels',
+  afterDatasetsDraw(chart){
     const ctx = chart.ctx;
-    chart.data.datasets.forEach((ds, di) => {
+    chart.data.datasets.forEach((ds,di)=>{
       const meta = chart.getDatasetMeta(di);
-      if (meta.hidden) return;
-      meta.data.forEach((el, i) => {
+      if(meta.hidden) return;
+      meta.data.forEach((el,i)=>{
         const val = ds.data[i];
-        if (val == null) return;
-        const label = typeof val === 'number' && val >= 1000 ? (val/1000).toFixed(1) + 'K' : fmt(val);
-        ctx.save();
-        ctx.font = '11px Pretendard Variable, Pretendard, Inter, sans-serif';
-        ctx.fillStyle = '#b0b0c0';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'bottom';
-        if (chart.config.options?.indexAxis === 'y') {
-          ctx.textAlign = 'left';
-          ctx.textBaseline = 'middle';
-          ctx.fillText(fmt(val), el.x + 6, el.y);
-        } else {
-          ctx.fillText(label, el.x, el.y - 6);
-        }
+        if(val == null) return;
+        const label = typeof val === 'number' && val >= 1000 ? (val/1000).toFixed(1)+'K' : fmt(val);
+        ctx.save(); ctx.font='11px Pretendard Variable, Pretendard, sans-serif'; ctx.fillStyle='#6E6E6E';
+        ctx.textAlign='center'; ctx.textBaseline='bottom';
+        if(chart.config.options?.indexAxis === 'y'){ ctx.textAlign='left'; ctx.textBaseline='middle'; ctx.fillText(fmt(val), el.x+6, el.y); }
+        else { ctx.fillText(label, el.x, el.y-6); }
         ctx.restore();
       });
     });
   }
 };
-// 서비스 경로 → 사람이 읽을 수 있는 이름 변환
-const SVC_NAME_MAP = {
-  '/service/rental/requested': '대여 신청 내역',
-  '/service/rental/returned': '반납 완료 내역',
-  '/service/rental/rented': '대여 중 내역',
-  '/service/rental-umbrella': '우산 대여',
-  '/service/rental': '대여 서비스 (전체)',
-  '/service/membership-card/usage': '사원카드 사용 내역',
-  '/service/membership-card': '사원카드 잔액',
-  '/service/hot-cold-vote/detail': '냉난방 투표 상세',
-  '/service/hot-cold-vote': '냉난방 투표',
-  '/service/space-reservation': '공간 예약',
-  '/service/space-list': '공간 목록',
-  '/service/toilet-empty': '화장실 빈칸',
-  '/service/custom': '커스텀 서비스',
-  '/service/air-quality': '공기질 모니터링',
-  '/service/temperature': '온습도 모니터링',
-  '/service/complaint': '신고센터',
-  '/service/voc-list': '불편신고 목록',
-  '/service/goods-rental': '물품 대여',
-  '/service/goods': '물품 서비스',
-  '/service/embedded/visitor-invitation': '방문자 초대',
-  '/service': '서비스 홈',
-  '/talk': '건물톡 (커뮤니티)',
-  '/manager/voc-manager': '신고 관리 (매니저)',
-  '/view': '서비스 상세 보기',
-  '/auth/login': '로그인 화면',
-  '/home': '홈 화면',
-  '/my': '마이페이지',
-  '/settings': '설정',
-};
-// 건물코드 경로용 prefix 매핑 (긴 것 우선 정렬됨)
-const SVC_PREFIX_MAP = [
-  ['/service/rental/', '대여 서비스'],
-];
-function friendlyName(path) {
-  if (!path) return '';
-  // 정확 매칭
-  if (SVC_NAME_MAP[path]) return SVC_NAME_MAP[path];
-  // 건물코드 포함 경로 (예: /service/rental/GS_0000696)
-  for (const [prefix, name] of SVC_PREFIX_MAP) {
-    if (path.startsWith(prefix)) {
-      const code = path.slice(prefix.length);
-      return `${name} (${code})`;
-    }
-  }
-  // 경로에서 마지막 세그먼트 추출 후 읽기 쉽게 변환
-  const seg = path.replace(/^\//,'').split('/').pop() || path;
-  return seg.replace(/-/g, ' ').replace(/^./, c => c.toUpperCase());
-}
-function shortPath(p) {
-  if (!p) return '';
-  const s = p.replace(/^\//,'').split('/');
-  return s.length > 2 ? s.slice(-2).join('/') : s.join('/');
+
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.querySelector('.tab-content[data-tab="'+t.dataset.tab+'"]').classList.add('active');
+    lazyRenderTab(t.dataset.tab);
+  });
+});
+function lazyRenderTab(tabId){
+  if(!_data || _tabRendered[tabId]) return;
+  const {ga, gaS, zd, jira, bld} = _data;
+  if(tabId === 'ga'){ renderGA(ga, gaS); _tabRendered.ga = true; }
+  else if(tabId === 'zendesk'){ renderZendesk(zd); _tabRendered.zendesk = true; }
+  else if(tabId === 'jira'){ renderJira(jira); _tabRendered.jira = true; }
+  else if(tabId === 'buildings'){ renderBuildings(bld, ga); _tabRendered.buildings = true; }
 }
 
-// Animated counter
-function animateValue(el, target, suffix='') {
-  const start = 0; const dur = 1200; const st = performance.now();
-  function step(now) {
-    const p = Math.min((now - st) / dur, 1);
-    const ease = 1 - Math.pow(1 - p, 3);
-    el.textContent = fmt(Math.round(start + (target - start) * ease)) + suffix;
-    if (p < 1) requestAnimationFrame(step);
-  }
-  requestAnimationFrame(step);
-}
+Chart.defaults.color = '#6E6E6E';
+Chart.defaults.borderColor = '#E9ECEF';
+Chart.defaults.font.family = "'Pretendard Variable','Pretendard',sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.plugins.legend.display = false;
+Chart.defaults.animation = { duration: 1100, easing: 'easeOutQuart' };
 
-// Score color
-function scoreColor(s) { return s >= 80 ? '#34d399' : s >= 60 ? '#fbbf24' : s >= 40 ? '#fb923c' : '#f87171'; }
-function scoreLabel(s) { return s >= 80 ? '양호' : s >= 60 ? '주의' : s >= 40 ? '개선 필요' : '위험'; }
-
-// ─── MAIN LOAD ───
 fetch('data.json')
-  .then(r => { if (!r.ok) throw new Error('data.json not found'); return r.json(); })
-  .then(data => {
+  .then(r=>{ if(!r.ok) throw new Error('data.json not found'); return r.json(); })
+  .then(data=>{
     document.getElementById('loadingArea').style.display = 'none';
     document.getElementById('contentArea').style.display = 'block';
     render(data);
   })
-  .catch(err => {
-    document.getElementById('loadingArea').innerHTML = `
-      <div class="error-msg">
-        <p style="font-size:18px;margin-bottom:8px">데이터를 불러올 수 없습니다</p>
-        <p style="color:var(--text3);font-size:13px">${err.message}</p>
-        <p style="color:var(--text4);font-size:12px;margin-top:16px">collect_all.py를 실행하여 data.json을 생성해주세요.</p>
-      </div>`;
+  .catch(err=>{
+    document.getElementById('loadingArea').innerHTML =
+      '<div class="error-msg"><p style="font-size:18px;margin-bottom:8px;color:var(--navy)">데이터를 불러올 수 없습니다</p>'+
+      '<p style="color:var(--ink3);font-size:13px">'+err.message+'</p>'+
+      '<p style="color:var(--ink4);font-size:12px;margin-top:16px">collect_all.py를 실행하여 data.json을 생성해주세요.</p></div>';
   });
 
-function render(D) {
-  const ga = D.ga || {};
-  const zd = D.zendesk || {};
-  const jira = D.jira || {};
-  const bld = D.buildings || {};
-  const ins = D.insights || {};
-  const gaS = ga.summary || {};
-
-  // ═══ HEADER FRESHNESS ═══
+function render(D){
+  const ga = D.ga||{}, zd = D.zendesk||{}, jira = D.jira||{}, bld = D.buildings||{}, ins = D.insights||{};
+  const gaS = ga.summary||{};
   const genAt = D.generated_at ? new Date(D.generated_at) : null;
-  const genStr = genAt ? `${genAt.getFullYear()}-${String(genAt.getMonth()+1).padStart(2,'0')}-${String(genAt.getDate()).padStart(2,'0')} ${String(genAt.getHours()).padStart(2,'0')}:${String(genAt.getMinutes()).padStart(2,'0')}` : '알 수 없음';
-  document.getElementById('headerFreshness').innerHTML = `<div class="dot"></div><span>마지막 갱신: ${genStr}</span>`;
+  const genStr = genAt ? genAt.getFullYear()+'-'+String(genAt.getMonth()+1).padStart(2,'0')+'-'+String(genAt.getDate()).padStart(2,'0')+' '+String(genAt.getHours()).padStart(2,'0')+':'+String(genAt.getMinutes()).padStart(2,'0') : '알 수 없음';
+  document.getElementById('headerFreshness').innerHTML = '<div class="dot"></div><span>마지막 갱신: '+genStr+'</span>';
 
-  // ═══ FRESHNESS BAR ═══
   const bldDate = bld.meta?.date || '수동 갱신';
-  document.getElementById('freshnessBar').innerHTML = `
-    <div class="freshness-item"><div class="status daily"></div><span class="src">앱 분석 (GA)</span><span class="time">매일 자동 갱신</span></div>
-    <div class="freshness-item"><div class="status daily"></div><span class="src">고객 문의 (Zendesk)</span><span class="time">매일 자동 갱신</span></div>
-    <div class="freshness-item"><div class="status manual"></div><span class="src">개발 현황 (Jira)</span><span class="time">수동 갱신 (스냅샷)</span></div>
-    <div class="freshness-item"><div class="status manual"></div><span class="src">건물 도입현황</span><span class="time">${bldDate} 기준</span></div>
-    <div class="freshness-item"><div class="status live"></div><span class="src">AI 분석</span><span class="time">${genStr}</span></div>
-  `;
+  document.getElementById('freshnessBar').innerHTML =
+    '<div class="freshness-item"><div class="status daily"></div><span class="src">앱 분석 (GA)</span><span class="time">매일 자동 갱신</span></div>'+
+    '<div class="freshness-item"><div class="status daily"></div><span class="src">고객 문의 (Zendesk)</span><span class="time">매일 자동 갱신</span></div>'+
+    '<div class="freshness-item"><div class="status manual"></div><span class="src">개발 현황 (Jira)</span><span class="time">수동 갱신 (스냅샷)</span></div>'+
+    '<div class="freshness-item"><div class="status manual"></div><span class="src">건물 도입현황</span><span class="time">'+bldDate+' 기준</span></div>'+
+    '<div class="freshness-item"><div class="status live"></div><span class="src">AI 분석</span><span class="time">'+genStr+'</span></div>';
 
-  // ═══ PERIOD INFO (각 탭 데이터 기간 표시) ═══
-  const mauData = ga.mau || [];
+  const mauData = ga.mau||[];
   const gaStart = mauData.length ? mauData[0].month : '-';
-  const gaEnd = mauData.length ? mauData[mauData.length - 1].month : '-';
+  const gaEnd = mauData.length ? mauData[mauData.length-1].month : '-';
   const gaMonths = mauData.length;
-
-  const zdDaily = zd.daily || {};
+  const zdDaily = zd.daily||{};
   const zdDates = Object.keys(zdDaily).sort();
   const zdStart = zdDates.length ? zdDates[0] : '-';
-  const zdEnd = zdDates.length ? zdDates[zdDates.length - 1] : '-';
+  const zdEnd = zdDates.length ? zdDates[zdDates.length-1] : '-';
   const zdDays = zdDates.length;
-
   const bldDateStr = bld.meta?.date || '-';
+  const pb = (icon,label,range)=>'<div class="period-badge"><span class="period-icon">'+icon+'</span><span class="period-label">'+label+'</span><span class="period-range">'+range+'</span></div>';
 
-  const periodBadge = (icon, label, range) => `<div class="period-badge"><span class="period-icon">${icon}</span><span class="period-label">${label}</span><span class="period-range">${range}</span></div>`;
-
-  // Overview: 전체 소스 기간 요약
   document.getElementById('overviewPeriod').innerHTML =
-    periodBadge('&#128202;', 'GA', `${gaStart} ~ ${gaEnd} (${gaMonths}개월)`) +
-    periodBadge('&#128172;', 'CS', zdDates.length ? `${zdStart} ~ ${zdEnd} (${zdDays}일)` : '데이터 없음') +
-    periodBadge('&#128736;', 'Jira', `${genStr} 기준 스냅샷`) +
-    periodBadge('&#127970;', '건물', `${bldDateStr} 기준`);
+    pb('&#128202;','GA', gaStart+' ~ '+gaEnd+' ('+gaMonths+'개월)')+
+    pb('&#128172;','CS', zdDates.length ? zdStart+' ~ '+zdEnd+' ('+zdDays+'일)' : '데이터 없음')+
+    pb('&#128736;','Jira', genStr+' 기준 스냅샷')+
+    pb('&#127970;','건물', bldDateStr+' 기준');
+  document.getElementById('gaPeriod').innerHTML = pb('&#128197;','분석 기간', gaStart+' ~ '+gaEnd+' ('+gaMonths+'개월)');
+  document.getElementById('zdPeriod').innerHTML = pb('&#128197;','문의 수집 기간', zdDates.length ? zdStart+' ~ '+zdEnd+' ('+zdDays+'일간 '+(zd.total||0)+'건)' : '데이터 없음');
+  document.getElementById('jiraPeriod').innerHTML = pb('&#128197;','데이터 기준', genStr+' 시점 스냅샷 (누적 '+(jira.total||0)+'건)');
+  document.getElementById('bldPeriod').innerHTML = pb('&#128197;','도입현황 기준일', bldDateStr+' ('+(bld.meta?.n_general_active||0)+'개 건물)');
 
-  // GA tab
-  document.getElementById('gaPeriod').innerHTML =
-    periodBadge('&#128197;', '분석 기간', `${gaStart} ~ ${gaEnd} (${gaMonths}개월)`);
-
-  // Zendesk tab
-  document.getElementById('zdPeriod').innerHTML =
-    periodBadge('&#128197;', '문의 수집 기간', zdDates.length ? `${zdStart} ~ ${zdEnd} (${zdDays}일간 ${zd.total || 0}건)` : '데이터 없음');
-
-  // Jira tab
-  document.getElementById('jiraPeriod').innerHTML =
-    periodBadge('&#128197;', '데이터 기준', `${genStr} 시점 스냅샷 (누적 ${jira.total || 0}건)`);
-
-  // Buildings tab
-  document.getElementById('bldPeriod').innerHTML =
-    periodBadge('&#128197;', '도입현황 기준일', `${bldDateStr} (${bld.meta?.n_general_active || 0}개 건물)`);
-
-  // Store data for lazy rendering
-  _renderData = { ga, gaS, zd, jira, bld, ins };
-
-  // ═══ TAB 1: OVERVIEW (always visible first) ═══
+  _data = { ga, gaS, zd, jira, bld, ins };
   renderOverview(ga, gaS, zd, jira, bld, ins);
   _tabRendered.overview = true;
-
-  // Other tabs render lazily when clicked (Chart.js needs visible canvas)
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   TAB 1: 전체 종합
-   ═══════════════════════════════════════════════════════════════ */
-function renderOverview(ga, gaS, zd, jira, bld, ins) {
-  // Hero metrics
-  const mauGrowth = gaS.mau_mom_growth || 0;
-  const retRate = gaS.aarrr_retention_rate || 0;
-  const actRate = gaS.aarrr_activation_rate || 0;
-  const nps = ins.nps_score || bld.nps?.score || 0;
-  const totalBld = bld.meta?.n_general_active || 0;
+function renderOverview(ga, gaS, zd, jira, bld, ins){
+  const mauGrowth = gaS.mau_mom_growth||0, retRate = gaS.aarrr_retention_rate||0, actRate = gaS.aarrr_activation_rate||0;
+  const totalBld = bld.meta?.n_general_active||0;
 
-  document.getElementById('heroMetrics').innerHTML = `
-    <div class="metric-card">
-      <div class="metric-label">월간 이용자 수 (MAU) <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">지난 한 달 동안 앱을 한 번이라도 사용한 사람 수입니다.</div></div></div>
-      <div class="metric-value" id="metricMau">-</div>
-      <div class="metric-sub">전월 대비 <span class="metric-change ${mauGrowth >= 0 ? 'up' : 'down'}">${mauGrowth >= 0 ? '+' : ''}${mauGrowth}%</span></div>
-      <div class="metric-explain">${mauGrowth > 0 ? '사용자가 늘고 있어 긍정적입니다.' : mauGrowth < -5 ? '사용자가 줄고 있습니다. 이탈 원인 파악이 필요합니다.' : '전월과 비슷한 수준입니다.'}</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">서비스 활성화율 <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">앱에 접속한 사용자 중 실제로 서비스(불편신고, 대여 등)를 이용한 비율입니다. 높을수록 앱이 유용하게 사용되고 있다는 뜻입니다.</div></div></div>
-      <div class="metric-value" style="color:${actRate > 40 ? 'var(--green)' : actRate > 25 ? 'var(--yellow)' : 'var(--red)'}">${actRate}%</div>
-      <div class="metric-sub">접속자 대비 실제 이용 비율</div>
-      <div class="metric-explain">${actRate > 40 ? '절반 가까이 서비스를 사용하고 있어 양호합니다.' : actRate > 25 ? '사용률을 높이기 위한 UX 개선이 필요합니다.' : '대부분의 사용자가 서비스를 이용하지 않고 떠납니다.'}</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">재방문율 <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">앱에 접속한 사용자 중 다시 돌아와서 꾸준히 사용하는 비율입니다. 30% 이상이면 양호, 15% 미만이면 심각한 이탈 문제입니다.</div></div></div>
-      <div class="metric-value" style="color:${retRate > 30 ? 'var(--green)' : retRate > 15 ? 'var(--yellow)' : 'var(--red)'}">${retRate}%</div>
-      <div class="metric-sub">접속자 대비 재사용 비율</div>
-      <div class="metric-explain">${retRate > 30 ? '사용자 유지가 잘 되고 있습니다.' : retRate > 15 ? '개선 여지가 있습니다. 알림과 개인화를 강화하세요.' : `100명 중 ${Math.round(retRate)}명만 다시 옵니다. 온보딩과 핵심 가치 전달 개선이 시급합니다.`}</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">고객 문의 <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">Zendesk로 접수된 고객 문의 건수입니다. 전체 사용자 의견이 아닌 문의를 남긴 고객만 반영하므로 해석에 주의가 필요합니다.</div></div></div>
-      <div class="metric-value" id="metricCs">-</div>
-      <div class="metric-sub">버그 신고 ${zd.categories?.['버그'] || 0}건 포함</div>
-      <div class="metric-explain">문의 중 ${Math.round((zd.category_ratios?.['단순문의'] || 0) * 100)}%가 단순 문의입니다. FAQ 자동화로 줄일 수 있습니다.</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">서비스 도입 건물 <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">SANDI 서비스를 도입한 건물(사업장) 수입니다. 각 건물은 최대 88개 서비스를 도입할 수 있습니다.</div></div></div>
-      <div class="metric-value" id="metricBld">-</div>
-      <div class="metric-sub">평균 ${bld.stats?.mean?.toFixed(0) || '-'}개 서비스 도입</div>
-      <div class="metric-explain">88개 서비스 중 평균 ${bld.stats?.mean?.toFixed(0) || '-'}개만 사용 중. 도입 확대 여지가 ${bld.stats?.mean ? Math.round((88 - bld.stats.mean) / 88 * 100) : '-'}% 있습니다.</div>
-    </div>
-  `;
+  document.getElementById('heroMetrics').innerHTML =
+    '<div class="metric-card"><div class="metric-label">월간 이용자 수 (MAU) <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">지난 한 달 동안 앱을 한 번이라도 사용한 사람 수입니다.</div></div></div><div class="metric-value" id="metricMau">-</div><div class="metric-sub">전월 대비 <span class="metric-change '+(mauGrowth>=0?'up':'down')+'">'+(mauGrowth>=0?'+':'')+mauGrowth+'%</span></div><div class="metric-explain">'+(mauGrowth>0?'사용자가 늘고 있어 긍정적입니다.':mauGrowth<-5?'사용자가 줄고 있습니다. 이탈 원인 파악이 필요합니다.':'전월과 비슷한 수준입니다.')+'</div></div>'+
+    '<div class="metric-card"><div class="metric-label">서비스 활성화율 <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">앱에 접속한 사용자 중 실제로 서비스(불편신고, 대여 등)를 이용한 비율입니다. 높을수록 앱이 유용하게 사용되고 있다는 뜻입니다.</div></div></div><div class="metric-value" style="color:'+(actRate>40?'var(--green)':actRate>25?'var(--yellow)':'var(--red)')+'">'+actRate+'%</div><div class="metric-sub">접속자 대비 실제 이용 비율</div><div class="metric-explain">'+(actRate>40?'절반 가까이 서비스를 사용하고 있어 양호합니다.':actRate>25?'사용률을 높이기 위한 UX 개선이 필요합니다.':'대부분의 사용자가 서비스를 이용하지 않고 떠납니다.')+'</div></div>'+
+    '<div class="metric-card"><div class="metric-label">재방문율 <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">앱에 접속한 사용자 중 다시 돌아와서 꾸준히 사용하는 비율입니다. 30% 이상이면 양호, 15% 미만이면 심각한 이탈 문제입니다.</div></div></div><div class="metric-value" style="color:'+(retRate>30?'var(--green)':retRate>15?'var(--yellow)':'var(--red)')+'">'+retRate+'%</div><div class="metric-sub">접속자 대비 재사용 비율</div><div class="metric-explain">'+(retRate>30?'사용자 유지가 잘 되고 있습니다.':retRate>15?'개선 여지가 있습니다. 알림과 개인화를 강화하세요.':'100명 중 '+Math.round(retRate)+'명만 다시 옵니다. 온보딩과 핵심 가치 전달 개선이 시급합니다.')+'</div></div>'+
+    '<div class="metric-card"><div class="metric-label">고객 문의 <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">Zendesk로 접수된 고객 문의 건수입니다. 전체 사용자 의견이 아닌 문의를 남긴 고객만 반영하므로 해석에 주의가 필요합니다.</div></div></div><div class="metric-value" id="metricCs">-</div><div class="metric-sub">버그 신고 '+(zd.categories?.['버그']||0)+'건 포함</div><div class="metric-explain">문의 중 '+Math.round((zd.category_ratios?.['단순문의']||0)*100)+'%가 단순 문의입니다. FAQ 자동화로 줄일 수 있습니다.</div></div>'+
+    '<div class="metric-card"><div class="metric-label">서비스 도입 건물 <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">SANDI 서비스를 도입한 건물(사업장) 수입니다. 각 건물은 최대 88개 서비스를 도입할 수 있습니다.</div></div></div><div class="metric-value" id="metricBld">-</div><div class="metric-sub">평균 '+(bld.stats?.mean?.toFixed(0)||'-')+'개 서비스 도입</div><div class="metric-explain">88개 서비스 중 평균 '+(bld.stats?.mean?.toFixed(0)||'-')+'개만 사용 중. 도입 확대 여지가 '+(bld.stats?.mean?Math.round((88-bld.stats.mean)/88*100):'-')+'% 있습니다.</div></div>';
 
-  // Animate counters
-  animateValue(document.getElementById('metricMau'), gaS.current_mau || 0);
-  animateValue(document.getElementById('metricCs'), zd.total || 0);
+  animateValue(document.getElementById('metricMau'), gaS.current_mau||0);
+  animateValue(document.getElementById('metricCs'), zd.total||0);
   animateValue(document.getElementById('metricBld'), totalBld);
 
-  // ─── AI Overview ───
-  const score = ins.coherence_score || 0;
-  const sc = scoreColor(score);
-  const sl = scoreLabel(score);
-
-  let aiHtml = `<div class="ai-box-header"><span class="icon">&#9889;</span> AI 종합 분석</div>`;
-  aiHtml += `<p>현재 SANDI 서비스 종합 건강도는 <span class="highlight">${score}점</span>(${sl})입니다. `;
-
-  if (retRate < 20) {
-    aiHtml += `가장 심각한 문제는 <span class="danger">재방문율 ${retRate}%</span>입니다. 이는 앱에 처음 접속한 100명 중 ${100 - Math.round(retRate)}명이 다시 돌아오지 않는다는 뜻입니다. `;
-    aiHtml += `주요 원인으로는 <b>로그인 과정의 마찰</b>(GA에서 로그인 페이지가 상위 5위에 진입), <b>첫 사용 경험 부족</b>(서비스 아이콘 클릭 전환율 ${actRate}%)이 있습니다.</p>`;
-  } else {
-    aiHtml += `사용자 유지가 안정적이며 서비스 활성화도 양호합니다.</p>`;
+  const score = ins.coherence_score||0, sc = scoreColor(score), sl = scoreLabel(score);
+  let aiHtml = '<div class="ai-box-header"><span class="icon">&#9889;</span> AI 종합 분석</div>';
+  aiHtml += '<p>현재 SANDI 서비스 종합 건강도는 <span class="highlight">'+score+'점</span>('+sl+')입니다. ';
+  if(retRate < 20){
+    aiHtml += '가장 심각한 문제는 <span class="danger">재방문율 '+retRate+'%</span>입니다. 이는 앱에 처음 접속한 100명 중 '+(100-Math.round(retRate))+'명이 다시 돌아오지 않는다는 뜻입니다. ';
+    aiHtml += '주요 원인으로는 <b>로그인 과정의 마찰</b>(GA에서 로그인 페이지가 상위 5위에 진입), <b>첫 사용 경험 부족</b>(서비스 아이콘 클릭 전환율 '+actRate+'%)이 있습니다.</p>';
+  } else { aiHtml += '사용자 유지가 안정적이며 서비스 활성화도 양호합니다.</p>'; }
+  if(mauGrowth > 0){ aiHtml += '<p>긍정 신호: MAU가 전월 대비 <span class="good">'+mauGrowth+'% 증가</span>하고 있어 성장 추세입니다.</p>'; }
+  else if(mauGrowth < -3){ aiHtml += '<p>MAU가 전월 대비 <span class="warn">'+mauGrowth+'% 감소</span> 중입니다. '+(gaS.mau_peak_month||'')+'에 최고점('+fmt(gaS.mau_peak||0)+'명) 대비 현재 하락세가 지속되고 있습니다.</p>'; }
+  const bugRatio = Math.round((zd.category_ratios?.['버그']||0)*100);
+  if(bugRatio > 15){ aiHtml += '<p>고객 문의 중 버그 신고가 <span class="warn">'+bugRatio+'%</span>를 차지합니다. 앱 안정성 개선이 CS 부담 감소로 이어질 수 있습니다.</p>'; }
+  if(totalBld > 0 && bld.stats?.mean){
+    const adoptRate = Math.round(bld.stats.mean/88*100);
+    aiHtml += '<p>'+totalBld+'개 건물이 평균 '+bld.stats.mean.toFixed(0)+'개 서비스를 사용 중입니다 (전체 88개 중 <span class="highlight">'+adoptRate+'%</span>). 도입률이 가장 높은 서비스는 신고센터 관리(98.2%), 가장 낮은 서비스는 총무 관련 서비스(평균 6.1%)입니다.</p>';
   }
-
-  if (mauGrowth > 0) {
-    aiHtml += `<p>긍정 신호: MAU가 전월 대비 <span class="good">${mauGrowth}% 증가</span>하고 있어 성장 추세입니다.</p>`;
-  } else if (mauGrowth < -3) {
-    aiHtml += `<p>MAU가 전월 대비 <span class="warn">${mauGrowth}% 감소</span> 중입니다. ${gaS.mau_peak_month || ''}에 최고점(${fmt(gaS.mau_peak || 0)}명) 대비 현재 하락세가 지속되고 있습니다.</p>`;
-  }
-
-  const bugRatio = Math.round((zd.category_ratios?.['버그'] || 0) * 100);
-  if (bugRatio > 15) {
-    aiHtml += `<p>고객 문의 중 버그 신고가 <span class="warn">${bugRatio}%</span>를 차지합니다. 앱 안정성 개선이 CS 부담 감소로 이어질 수 있습니다.</p>`;
-  }
-
-  if (totalBld > 0 && bld.stats?.mean) {
-    const adoptRate = Math.round(bld.stats.mean / 88 * 100);
-    aiHtml += `<p>${totalBld}개 건물이 평균 ${bld.stats.mean.toFixed(0)}개 서비스를 사용 중입니다 (전체 88개 중 <span class="highlight">${adoptRate}%</span>). 도입률이 가장 높은 서비스는 신고센터 관리(98.2%), 가장 낮은 서비스는 총무 관련 서비스(평균 6.1%)입니다.</p>`;
-  }
-
   document.getElementById('aiOverviewBox').innerHTML = aiHtml;
 
-  // ─── Score Section ───
-  const circ = 2 * Math.PI * 70;
-  const offset = circ * (1 - score / 100);
-  let scoreHtml = `
-    <div class="score-ring-wrap">
-      <div class="score-ring">
-        <svg width="180" height="180" viewBox="0 0 180 180">
-          <circle class="bg" cx="90" cy="90" r="70"/>
-          <circle class="fg" cx="90" cy="90" r="70" stroke="${sc}" stroke-dasharray="${circ}" stroke-dashoffset="${offset}"/>
-        </svg>
-        <div class="val" style="color:${sc}">${score}<small>/100 ${sl}</small></div>
-      </div>
-    </div>
-    <div style="flex:1;min-width:200px">`;
-
-  (ins.coherence_details || []).forEach(d => {
-    const pctVal = d.score / d.max * 100;
-    const barColor = pctVal >= 75 ? 'var(--green)' : pctVal >= 50 ? 'var(--yellow)' : 'var(--red)';
-    scoreHtml += `
-      <div class="progress-row">
-        <span class="progress-label">${d.area}</span>
-        <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pctVal}%;background:${barColor}"></div></div>
-        <span class="progress-value">${d.score}/${d.max}</span>
-      </div>`;
+  const circ = 2*Math.PI*70, offset = circ*(1-score/100);
+  let scoreHtml = '<div class="score-ring-wrap"><div class="score-ring"><svg width="180" height="180" viewBox="0 0 180 180"><circle class="bg" cx="90" cy="90" r="70"/><circle class="fg" cx="90" cy="90" r="70" stroke="'+sc+'" stroke-dasharray="'+circ+'" stroke-dashoffset="'+offset+'"/></svg><div class="val" style="color:'+sc+'">'+score+'<small>/100 '+sl+'</small></div></div></div><div style="flex:1;min-width:200px">';
+  (ins.coherence_details||[]).forEach(d=>{
+    const pctVal = d.score/d.max*100;
+    const barColor = pctVal>=75?'var(--green)':pctVal>=50?'var(--yellow)':'var(--red)';
+    scoreHtml += '<div class="progress-row"><span class="progress-label">'+d.area+'</span><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:'+pctVal+'%;background:'+barColor+'"></div></div><span class="progress-value">'+d.score+'/'+d.max+'</span></div>';
   });
-  scoreHtml += `</div>`;
+  scoreHtml += '</div>';
   document.getElementById('scoreSection').innerHTML = scoreHtml;
 
-  // ─── AARRR Funnel ───
-  const aarrr = ga.aarrr || [];
-  const aarrrMap = {};
-  aarrr.forEach(a => aarrrMap[a.event] = a);
-
+  const aarrr = ga.aarrr||[], aarrrMap = {};
+  aarrr.forEach(a=>aarrrMap[a.event]=a);
   const funnelSteps = [
-    { key: 'session_start', label: '유입 (앱 접속)', desc: '앱을 열어본 전체 사용자 수', color: '#818cf8' },
-    { key: 'service_icon_click_event', label: '활성화 (서비스 이용)', desc: '실제로 서비스 메뉴를 눌러본 사용자', color: '#60a5fa' },
-    { key: 'user_engagement', label: '재방문 (꾸준한 사용)', desc: '일정 시간 이상 머무르며 반복 사용하는 사용자', color: '#06b6d4' },
-    { key: 'first_visit', label: '신규 가입', desc: '처음 앱을 설치하고 방문한 사용자', color: '#34d399' },
+    {key:'session_start',label:'유입 (앱 접속)',desc:'앱을 열어본 전체 사용자 수',color:'#132029'},
+    {key:'service_icon_click_event',label:'활성화 (서비스 이용)',desc:'실제로 서비스 메뉴를 눌러본 사용자',color:'#1971C2'},
+    {key:'user_engagement',label:'재방문 (꾸준한 사용)',desc:'일정 시간 이상 머무르며 반복 사용하는 사용자',color:'#1098AD'},
+    {key:'first_visit',label:'신규 가입',desc:'처음 앱을 설치하고 방문한 사용자',color:'#0CA678'},
   ];
-
   const maxUsers = aarrrMap['session_start']?.users || 1;
   let funnelHtml = '';
-  funnelSteps.forEach(step => {
-    const d = aarrrMap[step.key] || {};
-    const users = d.users || 0;
-    const widthPct = Math.max(users / maxUsers * 100, 8);
-    const convRate = step.key === 'session_start' ? 100 : (users / maxUsers * 100);
+  funnelSteps.forEach(step=>{
+    const d = aarrrMap[step.key]||{}, users = d.users||0;
+    const widthPct = Math.max(users/maxUsers*100, 8);
+    const convRate = step.key==='session_start' ? 100 : (users/maxUsers*100);
     let convExplain = '';
-    if (step.key === 'service_icon_click_event') {
-      convExplain = convRate < 30 ? ' - 대부분이 서비스를 체험하지 않고 떠남' : convRate < 50 ? ' - 절반 미만만 서비스를 경험' : ' - 양호한 전환율';
-    } else if (step.key === 'user_engagement') {
-      convExplain = convRate < 15 ? ' - 심각한 이탈, 즉시 개선 필요' : convRate < 30 ? ' - 개선 여지 있음' : ' - 양호';
-    }
-    funnelHtml += `
-      <div class="funnel-step">
-        <div class="funnel-bar" style="width:${widthPct}%;background:${step.color}">${fmt(users)}명</div>
-        <div class="funnel-info">
-          <strong>${step.label}</strong>
-          ${step.desc} · 전환율 ${convRate.toFixed(1)}%${convExplain}
-        </div>
-      </div>`;
+    if(step.key==='service_icon_click_event'){ convExplain = convRate<30?' · 대부분이 서비스를 체험하지 않고 떠남':convRate<50?' · 절반 미만만 서비스를 경험':' · 양호한 전환율'; }
+    else if(step.key==='user_engagement'){ convExplain = convRate<15?' · 심각한 이탈, 즉시 개선 필요':convRate<30?' · 개선 여지 있음':' · 양호'; }
+    funnelHtml += '<div class="funnel-step"><div class="funnel-bar" style="width:'+widthPct+'%;background:'+step.color+'">'+fmt(users)+'명</div><div class="funnel-info"><strong>'+step.label+'</strong>'+step.desc+' · 전환율 '+convRate.toFixed(1)+'%'+convExplain+'</div></div>';
   });
   document.getElementById('aarrrFunnel').innerHTML = funnelHtml;
 
-  // ─── Cross Insights ───
   let crossHtml = '';
-  (ins.cross_insights || []).forEach(ci => {
-    crossHtml += `
-      <div class="insight-item ${ci.severity}">
-        <span class="tag ${ci.severity === 'high' ? 'P1' : ci.severity === 'medium' ? 'P2' : 'P3'}">${ci.sources?.join(' + ') || ''}</span>
-        <div class="msg"><b>${ci.title}</b><br>${ci.detail}</div>
-      </div>`;
+  (ins.cross_insights||[]).forEach(ci=>{
+    crossHtml += '<div class="insight-item '+ci.severity+'"><span class="tag '+(ci.severity==='high'?'P1':ci.severity==='medium'?'P2':'P3')+'">'+(ci.sources?.join(' + ')||'')+'</span><div class="msg"><b>'+ci.title+'</b><br>'+ci.detail+'</div></div>';
   });
-  document.getElementById('crossInsights').innerHTML = crossHtml || '<p style="color:var(--text4);font-size:13px">교차 분석 인사이트가 없습니다.</p>';
+  document.getElementById('crossInsights').innerHTML = crossHtml || '<p style="color:var(--ink4);font-size:13px">교차 분석 인사이트가 없습니다.</p>';
 
-  // ─── Risks ───
   let riskHtml = '';
-  (ins.risks || []).forEach(r => {
-    riskHtml += `<div class="insight-item ${r.level}"><span class="tag ${r.level === 'high' ? 'P1' : 'P2'}">${r.level === 'high' ? '위험' : '주의'}</span><div class="msg">${r.msg}</div></div>`;
-  });
-  document.getElementById('risksList').innerHTML = riskHtml || '<p style="color:var(--text4);font-size:13px">현재 감지된 위험 신호가 없습니다.</p>';
+  (ins.risks||[]).forEach(r=>{ riskHtml += '<div class="insight-item '+r.level+'"><span class="tag '+(r.level==='high'?'P1':'P2')+'">'+(r.level==='high'?'위험':'주의')+'</span><div class="msg">'+r.msg+'</div></div>'; });
+  document.getElementById('risksList').innerHTML = riskHtml || '<p style="color:var(--ink4);font-size:13px">현재 감지된 위험 신호가 없습니다.</p>';
 
-  // ─── Recommendations ───
   let recHtml = '';
-  (ins.recommendations || []).forEach(r => {
-    recHtml += `<div class="insight-item info"><span class="tag ${r.priority}">${r.priority}</span><div class="msg">${r.action}</div></div>`;
-  });
+  (ins.recommendations||[]).forEach(r=>{ recHtml += '<div class="insight-item info"><span class="tag '+r.priority+'">'+r.priority+'</span><div class="msg">'+r.action+'</div></div>'; });
   document.getElementById('recsList').innerHTML = recHtml;
 
-  // ─── Caveats ───
   let cavHtml = '';
-  (ins.data_caveats || []).forEach(c => {
-    cavHtml += `<p style="font-size:12px;color:var(--text3);padding:4px 0">&#8226; ${c}</p>`;
-  });
+  (ins.data_caveats||[]).forEach(c=>{ cavHtml += '<p style="font-size:12px;color:var(--navy700);padding:4px 0;line-height:1.7">&#8226; '+c+'</p>'; });
   document.getElementById('caveatsList').innerHTML = cavHtml;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   TAB 2: GA 분석
-   ═══════════════════════════════════════════════════════════════ */
-function renderGA(ga, gaS) {
-  const mau = ga.mau || [];
-  const actRate = gaS.aarrr_activation_rate || 0;
-  const retRate = gaS.aarrr_retention_rate || 0;
-
-  // AI Box
-  let aiHtml = `<div class="ai-box-header"><span class="icon">&#128202;</span> 앱 사용 패턴 분석</div>`;
-  if (mau.length >= 2) {
-    const latest = mau[mau.length - 1];
-    const prev = mau[mau.length - 2];
-    const pvPerUser = latest.pageViews / (latest.activeUsers || 1);
-    aiHtml += `<p>현재 월간 이용자는 <span class="highlight">${fmt(latest.activeUsers)}명</span>이고, 1인당 평균 <span class="highlight">${pvPerUser.toFixed(1)}개</span> 화면을 봅니다. `;
-    if (pvPerUser > 10) {
-      aiHtml += `이는 활발한 사용 패턴으로, 충성 사용자 비중이 높다는 의미입니다.</p>`;
-    } else if (pvPerUser > 5) {
-      aiHtml += `보통 수준의 참여도입니다. 핵심 기능 발견을 돕는 UX 개선으로 참여를 높일 수 있습니다.</p>`;
-    } else {
-      aiHtml += `참여도가 낮습니다. 사용자가 앱에서 할 일을 찾지 못하고 빠르게 떠나는 것일 수 있습니다.</p>`;
-    }
-
-    // 12개월 추세 분석
-    const first3 = mau.slice(0, 3).reduce((s, m) => s + m.activeUsers, 0) / Math.min(3, mau.length);
-    const last3 = mau.slice(-3).reduce((s, m) => s + m.activeUsers, 0) / Math.min(3, mau.length);
-    const trend = ((last3 - first3) / first3 * 100).toFixed(1);
-    aiHtml += `<p>12개월 장기 추세: 초반 3개월 평균 ${fmt(Math.round(first3))}명 → 최근 3개월 평균 ${fmt(Math.round(last3))}명 (<span class="${parseFloat(trend) >= 0 ? 'good' : 'warn'}">${trend >= 0 ? '+' : ''}${trend}%</span>)</p>`;
+function renderGA(ga, gaS){
+  const mau = ga.mau||[], actRate = gaS.aarrr_activation_rate||0, retRate = gaS.aarrr_retention_rate||0;
+  let aiHtml = '<div class="ai-box-header"><span class="icon">&#128202;</span> 앱 사용 패턴 분석</div>';
+  if(mau.length >= 2){
+    const latest = mau[mau.length-1], pvPerUser = latest.pageViews/(latest.activeUsers||1);
+    aiHtml += '<p>현재 월간 이용자는 <span class="highlight">'+fmt(latest.activeUsers)+'명</span>이고, 1인당 평균 <span class="highlight">'+pvPerUser.toFixed(1)+'개</span> 화면을 봅니다. ';
+    if(pvPerUser > 10) aiHtml += '이는 활발한 사용 패턴으로, 충성 사용자 비중이 높다는 의미입니다.</p>';
+    else if(pvPerUser > 5) aiHtml += '보통 수준의 참여도입니다. 핵심 기능 발견을 돕는 UX 개선으로 참여를 높일 수 있습니다.</p>';
+    else aiHtml += '참여도가 낮습니다. 사용자가 앱에서 할 일을 찾지 못하고 빠르게 떠나는 것일 수 있습니다.</p>';
+    const first3 = mau.slice(0,3).reduce((s,m)=>s+m.activeUsers,0)/Math.min(3,mau.length);
+    const last3 = mau.slice(-3).reduce((s,m)=>s+m.activeUsers,0)/Math.min(3,mau.length);
+    const trend = ((last3-first3)/first3*100).toFixed(1);
+    aiHtml += '<p>12개월 장기 추세: 초반 3개월 평균 '+fmt(Math.round(first3))+'명 → 최근 3개월 평균 '+fmt(Math.round(last3))+'명 (<span class="'+(parseFloat(trend)>=0?'good':'warn')+'">'+(trend>=0?'+':'')+trend+'%</span>)</p>';
   }
-  if (retRate < 20) {
-    aiHtml += `<p><span class="danger">핵심 병목</span>: 서비스 활성화(${actRate}%) → 재방문(${retRate}%) 구간에서 ${(actRate - retRate).toFixed(1)}%p가 이탈합니다. 이 구간은 "첫 사용 후 돌아오지 않는" 문제를 나타내며, <b>개인화 알림</b>, <b>온보딩 개선</b>, <b>킬러 기능 강화</b>가 해결 방향입니다.</p>`;
-  }
+  if(retRate < 20){ aiHtml += '<p><span class="danger">핵심 병목</span>: 서비스 활성화('+actRate+'%) → 재방문('+retRate+'%) 구간에서 '+(actRate-retRate).toFixed(1)+'%p가 이탈합니다. 이 구간은 "첫 사용 후 돌아오지 않는" 문제를 나타내며, <b>개인화 알림</b>, <b>온보딩 개선</b>, <b>킬러 기능 강화</b>가 해결 방향입니다.</p>'; }
   document.getElementById('aiGaBox').innerHTML = aiHtml;
 
-  // GA Metrics
-  const sessions = gaS.current_sessions || 0;
-  const pvPerUser = gaS.current_mau ? (gaS.current_pv / gaS.current_mau).toFixed(1) : '-';
-  document.getElementById('gaMetrics').innerHTML = `
-    <div class="metric-card">
-      <div class="metric-label">월간 접속 횟수</div>
-      <div class="metric-value">${fmt(sessions)}</div>
-      <div class="metric-explain">한 달간 앱이 열린 총 횟수입니다. 한 사용자가 여러 번 열 수 있어 MAU보다 큽니다.</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">화면 조회 수</div>
-      <div class="metric-value">${fmt(gaS.current_pv || 0)}</div>
-      <div class="metric-explain">사용자들이 본 전체 화면(페이지) 수입니다. 많을수록 앱 내에서 활발하게 탐색하고 있다는 뜻입니다.</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">1인당 화면 조회</div>
-      <div class="metric-value">${pvPerUser}</div>
-      <div class="metric-explain">사용자 1명이 평균적으로 보는 화면 수입니다. ${parseFloat(pvPerUser) > 10 ? '10 이상이면 활발한 사용입니다.' : '수치가 낮으면 핵심 기능을 더 잘 노출할 필요가 있습니다.'}</div>
-    </div>
-  `;
+  const sessions = gaS.current_sessions||0;
+  const pvPerUser = gaS.current_mau ? (gaS.current_pv/gaS.current_mau).toFixed(1) : '-';
+  document.getElementById('gaMetrics').innerHTML =
+    '<div class="metric-card"><div class="metric-label">월간 접속 횟수</div><div class="metric-value">'+fmt(sessions)+'</div><div class="metric-explain">한 달간 앱이 열린 총 횟수입니다. 한 사용자가 여러 번 열 수 있어 MAU보다 큽니다.</div></div>'+
+    '<div class="metric-card"><div class="metric-label">화면 조회 수</div><div class="metric-value">'+fmt(gaS.current_pv||0)+'</div><div class="metric-explain">사용자들이 본 전체 화면(페이지) 수입니다. 많을수록 앱 내에서 활발하게 탐색하고 있다는 뜻입니다.</div></div>'+
+    '<div class="metric-card"><div class="metric-label">1인당 화면 조회</div><div class="metric-value">'+pvPerUser+'</div><div class="metric-explain">사용자 1명이 평균적으로 보는 화면 수입니다. '+(parseFloat(pvPerUser)>10?'10 이상이면 활발한 사용입니다.':'수치가 낮으면 핵심 기능을 더 잘 노출할 필요가 있습니다.')+'</div></div>';
 
-  // MAU Chart
-  if (mau.length) {
+  if(mau.length){
     new Chart(document.getElementById('chartMau'), {
-      type: 'line',
-      data: {
-        labels: mau.map(m => m.month),
-        datasets: [{
-          label: '월간 이용자 수',
-          data: mau.map(m => m.activeUsers),
-          borderColor: '#818cf8',
-          backgroundColor: 'rgba(129,140,248,.1)',
-          fill: true,
-          tension: .4,
-          pointRadius: 5,
-          pointHoverRadius: 8,
-          pointBackgroundColor: '#818cf8'
-        }]
-      },
-      plugins: [dataLabelPlugin],
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        layout: { padding: { top: 24 } },
-        plugins: {
-          tooltip: { callbacks: { label: ctx => `${fmt(ctx.raw)}명` } }
-        },
-        scales: {
-          y: { beginAtZero: false, ticks: { callback: v => fmt(v) + '명' } }
-        }
-      }
+      type:'line',
+      data:{ labels:mau.map(m=>m.month), datasets:[{ label:'월간 이용자 수', data:mau.map(m=>m.activeUsers), borderColor:'#132029', backgroundColor:'rgba(19,32,41,.06)', fill:true, tension:.4, pointRadius:4, pointHoverRadius:7, pointBackgroundColor:'#132029', borderWidth:2.5 }] },
+      plugins:[dataLabelPlugin],
+      options:{ responsive:true, maintainAspectRatio:false, layout:{padding:{top:24}}, plugins:{ tooltip:{ callbacks:{ label:ctx=>fmt(ctx.raw)+'명' } } }, scales:{ y:{ beginAtZero:false, ticks:{ callback:v=>fmt(v)+'명' } } } }
     });
-
-    // MAU vs PV
     new Chart(document.getElementById('chartMauPv'), {
-      type: 'line',
-      data: {
-        labels: mau.map(m => m.month),
-        datasets: [
-          { label: '사용자 수', data: mau.map(m => m.activeUsers), borderColor: '#818cf8', backgroundColor: 'rgba(129,140,248,.1)', fill: true, tension: .4, yAxisID: 'y', pointRadius: 4, pointBackgroundColor: '#818cf8' },
-          { label: '화면 조회 수', data: mau.map(m => m.pageViews), borderColor: '#06b6d4', backgroundColor: 'rgba(6,182,212,.08)', fill: true, tension: .4, yAxisID: 'y1', pointRadius: 4, pointBackgroundColor: '#06b6d4' }
-        ]
-      },
-      plugins: [dataLabelPlugin],
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        layout: { padding: { top: 24 } },
-        plugins: { legend: { display: true, labels: { color: '#b0b0c0', usePointStyle: true, pointStyle: 'circle' } },
-          tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${fmt(ctx.raw)}` } }
-        },
-        scales: {
-          y: { position: 'left', ticks: { callback: v => fmt(v) } },
-          y1: { position: 'right', grid: { drawOnChartArea: false }, ticks: { callback: v => fmt(v) } }
-        }
-      }
+      type:'line',
+      data:{ labels:mau.map(m=>m.month), datasets:[
+        { label:'사용자 수', data:mau.map(m=>m.activeUsers), borderColor:'#132029', backgroundColor:'rgba(19,32,41,.05)', fill:true, tension:.4, yAxisID:'y', pointRadius:3, pointBackgroundColor:'#132029', borderWidth:2.5 },
+        { label:'화면 조회 수', data:mau.map(m=>m.pageViews), borderColor:'#EA27C2', backgroundColor:'rgba(234,39,194,.06)', fill:true, tension:.4, yAxisID:'y1', pointRadius:3, pointBackgroundColor:'#EA27C2', borderWidth:2.5 }
+      ] },
+      plugins:[dataLabelPlugin],
+      options:{ responsive:true, maintainAspectRatio:false, layout:{padding:{top:24}}, plugins:{ legend:{ display:true, labels:{ color:'#4B4B4B', usePointStyle:true, pointStyle:'circle' } }, tooltip:{ callbacks:{ label:ctx=>ctx.dataset.label+': '+fmt(ctx.raw) } } }, scales:{ y:{ position:'left', ticks:{ callback:v=>fmt(v) } }, y1:{ position:'right', grid:{ drawOnChartArea:false }, ticks:{ callback:v=>fmt(v) } } } }
     });
   }
 
-  // Services chart — 서비스 이름을 한국어로 표시 + 값 직접 표시
-  const svcs = [...(ga.services || [])].sort((a,b) => b.users - a.users).slice(0, 15);
-  if (svcs.length) {
+  const svcs = [...(ga.services||[])].sort((a,b)=>b.users-a.users).slice(0,15);
+  if(svcs.length){
     new Chart(document.getElementById('chartServices'), {
-      type: 'bar',
-      data: {
-        labels: svcs.map(s => friendlyName(s.path)),
-        datasets: [{ data: svcs.map(s => s.users), backgroundColor: COLORS.map(c => c + '99'), borderColor: COLORS, borderWidth: 1 }]
-      },
-      plugins: [dataLabelPlugin],
-      options: {
-        responsive: true, maintainAspectRatio: false, indexAxis: 'y',
-        plugins: { tooltip: { callbacks: { label: ctx => `${fmt(ctx.raw)}명 이용` } } },
-        scales: { x: { ticks: { callback: v => fmt(v) + '명' } } }
-      }
+      type:'bar',
+      data:{ labels:svcs.map(s=>friendlyName(s.path)), datasets:[{ data:svcs.map(s=>s.users), backgroundColor:COLORS.map(c=>c+'CC'), borderColor:COLORS, borderWidth:1, borderRadius:4 }] },
+      plugins:[dataLabelPlugin],
+      options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y', plugins:{ tooltip:{ callbacks:{ label:ctx=>fmt(ctx.raw)+'명 이용' } } }, scales:{ x:{ ticks:{ callback:v=>fmt(v)+'명' } } } }
     });
   }
 
-  // Treemap
-  const pages = (ga.top_pages || []).slice(0, 30);
-  if (pages.length && typeof Chart.controllers?.treemap !== 'undefined') {
+  const pages = (ga.top_pages||[]).slice(0,30);
+  if(pages.length && typeof Chart.controllers?.treemap !== 'undefined'){
     new Chart(document.getElementById('chartTreemap'), {
-      type: 'treemap',
-      data: {
-        datasets: [{
-          tree: pages.map(p => ({ label: friendlyName(p.path), value: p.pageViews, users: p.users })),
-          key: 'value',
-          labels: { display: true, formatter: ctx => { const d = ctx.raw?._data; return d ? `${d.label}\n${fmt(d.value)}` : ''; }, color: '#e4e4e7', font: { size: 11, weight: '600' } },
-          backgroundColor: ctx => {
-            const v = ctx.raw?._data?.value || 0;
-            const max = Math.max(...pages.map(p => p.pageViews));
-            const ratio = v / max;
-            return `rgba(129,140,248,${0.2 + ratio * 0.7})`;
-          },
-          borderColor: '#27272a', borderWidth: 1, spacing: 2
-        }]
-      },
-      options: { responsive: true, maintainAspectRatio: false }
+      type:'treemap',
+      data:{ datasets:[{
+        tree:pages.map(p=>({label:friendlyName(p.path),value:p.pageViews,users:p.users})),
+        key:'value',
+        labels:{ display:true, formatter:ctx=>{ const d=ctx.raw?._data; return d?d.label+'\n'+fmt(d.value):''; }, color:'#FFFFFF', font:{size:11,weight:'600'} },
+        backgroundColor:ctx=>{ const v=ctx.raw?._data?.value||0; const max=Math.max(...pages.map(p=>p.pageViews)); const ratio=v/max; return 'rgba(234,39,194,'+(0.25+ratio*0.7)+')'; },
+        borderColor:'#FFFFFF', borderWidth:2, spacing:2
+      }] },
+      options:{ responsive:true, maintainAspectRatio:false }
     });
   } else {
-    document.getElementById('chartTreemap').parentElement.innerHTML = '<p style="color:var(--text4);text-align:center;padding:40px">트리맵 차트 플러그인 로딩 대기 중</p>';
+    document.getElementById('chartTreemap').parentElement.innerHTML = '<p style="color:var(--ink4);text-align:center;padding:40px">트리맵 차트 플러그인 로딩 대기 중</p>';
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   TAB 3: ZENDESK
-   ═══════════════════════════════════════════════════════════════ */
-function renderZendesk(zd) {
-  const cats = zd.categories || {};
-  const sent = zd.sentiment?.counts || {};
-  const total = zd.total || 0;
-  const bugCount = cats['버그'] || 0;
-  const unresolvedPct = Math.round((zd.unresolved_rate || 0) * 100);
-
-  // AI Box
-  let aiHtml = `<div class="ai-box-header"><span class="icon">&#128172;</span> 고객 문의 패턴 분석</div>`;
-  aiHtml += `<p>최근 기간 동안 총 <span class="highlight">${total}건</span>의 고객 문의가 접수되었습니다. `;
-
-  const topCat = Object.entries(cats).sort((a,b) => b[1] - a[1])[0];
-  if (topCat) {
-    aiHtml += `가장 많은 유형은 <span class="highlight">${topCat[0]}</span>(${topCat[1]}건, ${Math.round(topCat[1]/total*100)}%)이며, `;
-  }
-  aiHtml += `버그 신고는 <span class="${bugCount > total * 0.2 ? 'warn' : 'highlight'}">${bugCount}건(${Math.round(bugCount/total*100)}%)</span>입니다.</p>`;
-
-  if (unresolvedPct > 80) {
-    aiHtml += `<p><span class="danger">미해결률 ${unresolvedPct}%</span> — 대부분의 문의가 아직 처리되지 않았습니다. CS 프로세스 검토가 필요합니다. 단순문의 자동 응답(FAQ 챗봇)을 도입하면 처리 속도를 개선할 수 있습니다.</p>`;
-  }
-
-  const negCount = sent['부정'] || 0;
-  if (negCount > 3) {
-    aiHtml += `<p>부정적 감성의 문의가 <span class="warn">${negCount}건</span> 감지되었습니다. 이들은 불만이 높아 이탈 위험이 큰 고객이므로 우선 대응이 필요합니다.</p>`;
-  }
-
-  // Topic analysis
-  const topics = zd.topic_stats || [];
-  const loginTopics = topics.filter(t => t.topic?.includes('로그인'));
-  if (loginTopics.length) {
-    const loginCount = loginTopics.reduce((s,t) => s + t.count, 0);
-    aiHtml += `<p>로그인/인증 관련 문의가 <span class="highlight">${loginCount}건</span>으로, 앱 분석(GA)에서도 로그인 페이지가 상위에 위치하고 있어 <b>로그인 UX 개선</b>이 CS 부담 감소와 사용자 경험 향상 모두에 효과적입니다.</p>`;
-  }
-
-  aiHtml += `<p style="color:var(--text4);font-size:11px;margin-top:8px">* 이 데이터는 문의를 남긴 고객만 반영하며, 전체 사용자 의견을 대표하지 않습니다.</p>`;
+function renderZendesk(zd){
+  const cats = zd.categories||{}, sent = zd.sentiment?.counts||{}, total = zd.total||0;
+  const bugCount = cats['버그']||0, unresolvedPct = Math.round((zd.unresolved_rate||0)*100);
+  let aiHtml = '<div class="ai-box-header"><span class="icon">&#128172;</span> 고객 문의 패턴 분석</div>';
+  aiHtml += '<p>최근 기간 동안 총 <span class="highlight">'+total+'건</span>의 고객 문의가 접수되었습니다. ';
+  const topCat = Object.entries(cats).sort((a,b)=>b[1]-a[1])[0];
+  if(topCat) aiHtml += '가장 많은 유형은 <span class="highlight">'+topCat[0]+'</span>('+topCat[1]+'건, '+Math.round(topCat[1]/total*100)+'%)이며, ';
+  aiHtml += '버그 신고는 <span class="'+(bugCount>total*0.2?'warn':'highlight')+'">'+bugCount+'건('+Math.round(bugCount/total*100)+'%)</span>입니다.</p>';
+  if(unresolvedPct > 80) aiHtml += '<p><span class="danger">미해결률 '+unresolvedPct+'%</span> — 대부분의 문의가 아직 처리되지 않았습니다. CS 프로세스 검토가 필요합니다. 단순문의 자동 응답(FAQ 챗봇)을 도입하면 처리 속도를 개선할 수 있습니다.</p>';
+  const negCount = sent['부정']||0;
+  if(negCount > 3) aiHtml += '<p>부정적 감성의 문의가 <span class="warn">'+negCount+'건</span> 감지되었습니다. 이들은 불만이 높아 이탈 위험이 큰 고객이므로 우선 대응이 필요합니다.</p>';
+  const topics = zd.topic_stats||[];
+  const loginTopics = topics.filter(t=>t.topic?.includes('로그인'));
+  if(loginTopics.length){ const loginCount = loginTopics.reduce((s,t)=>s+t.count,0); aiHtml += '<p>로그인/인증 관련 문의가 <span class="highlight">'+loginCount+'건</span>으로, 앱 분석(GA)에서도 로그인 페이지가 상위에 위치하고 있어 <b>로그인 UX 개선</b>이 CS 부담 감소와 사용자 경험 향상 모두에 효과적입니다.</p>'; }
+  aiHtml += '<p style="color:var(--ink4);font-size:11px;margin-top:8px">* 이 데이터는 문의를 남긴 고객만 반영하며, 전체 사용자 의견을 대표하지 않습니다.</p>';
   document.getElementById('aiZdBox').innerHTML = aiHtml;
 
-  // Metrics
-  document.getElementById('zdMetrics').innerHTML = `
-    <div class="metric-card">
-      <div class="metric-label">총 문의 건수</div>
-      <div class="metric-value">${fmt(total)}</div>
-      <div class="metric-explain">CS팀에 접수된 전체 문의입니다.</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">미해결률</div>
-      <div class="metric-value" style="color:${unresolvedPct > 80 ? 'var(--red)' : unresolvedPct > 50 ? 'var(--yellow)' : 'var(--green)'}">${unresolvedPct}%</div>
-      <div class="metric-explain">${unresolvedPct > 80 ? '대부분 미해결 상태입니다.' : '양호한 처리 수준입니다.'}</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">부정 감성</div>
-      <div class="metric-value" style="color:${negCount > 5 ? 'var(--red)' : 'var(--text2)'}">${negCount}건</div>
-      <div class="metric-explain">AI가 문의 내용을 분석하여 불만이 높다고 판단한 문의입니다.</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">버그 신고</div>
-      <div class="metric-value">${bugCount}</div>
-      <div class="metric-explain">앱 오류를 신고한 문의 건수입니다.</div>
-    </div>
-  `;
+  document.getElementById('zdMetrics').innerHTML =
+    '<div class="metric-card"><div class="metric-label">총 문의 건수</div><div class="metric-value">'+fmt(total)+'</div><div class="metric-explain">CS팀에 접수된 전체 문의입니다.</div></div>'+
+    '<div class="metric-card"><div class="metric-label">미해결률</div><div class="metric-value" style="color:'+(unresolvedPct>80?'var(--red)':unresolvedPct>50?'var(--yellow)':'var(--green)')+'">'+unresolvedPct+'%</div><div class="metric-explain">'+(unresolvedPct>80?'대부분 미해결 상태입니다.':'양호한 처리 수준입니다.')+'</div></div>'+
+    '<div class="metric-card"><div class="metric-label">부정 감성</div><div class="metric-value" style="color:'+(negCount>5?'var(--red)':'var(--navy)')+'">'+negCount+'건</div><div class="metric-explain">AI가 문의 내용을 분석하여 불만이 높다고 판단한 문의입니다.</div></div>'+
+    '<div class="metric-card"><div class="metric-label">버그 신고</div><div class="metric-value">'+bugCount+'</div><div class="metric-explain">앱 오류를 신고한 문의 건수입니다.</div></div>';
 
-  // Category donut
-  if (Object.keys(cats).length) {
-    const catEntries = Object.entries(cats).sort((a,b) => b[1] - a[1]);
+  if(Object.keys(cats).length){
+    const catEntries = Object.entries(cats).sort((a,b)=>b[1]-a[1]);
     new Chart(document.getElementById('chartZdCat'), {
-      type: 'doughnut',
-      data: {
-        labels: catEntries.map(e => e[0]),
-        datasets: [{ data: catEntries.map(e => e[1]), backgroundColor: COLORS.slice(0, catEntries.length), borderWidth: 0 }]
-      },
-      plugins: [doughnutLabelPlugin],
-      options: {
-        responsive: true, maintainAspectRatio: false, cutout: '55%',
-        plugins: {
-          legend: { display: true, position: 'right', labels: { color: '#b0b0c0', usePointStyle: true, pointStyle: 'circle', padding: 14 } },
-          tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw}건 (${Math.round(ctx.raw/total*100)}%)` } }
-        }
-      }
+      type:'doughnut',
+      data:{ labels:catEntries.map(e=>e[0]), datasets:[{ data:catEntries.map(e=>e[1]), backgroundColor:COLORS.slice(0,catEntries.length), borderWidth:2, borderColor:'#fff' }] },
+      plugins:[doughnutLabelPlugin],
+      options:{ responsive:true, maintainAspectRatio:false, cutout:'58%', plugins:{ legend:{ display:true, position:'right', labels:{ color:'#4B4B4B', usePointStyle:true, pointStyle:'circle', padding:14 } }, tooltip:{ callbacks:{ label:ctx=>ctx.label+': '+ctx.raw+'건 ('+Math.round(ctx.raw/total*100)+'%)' } } } }
     });
   }
-
-  // Sentiment donut
-  if (Object.keys(sent).length) {
-    const sentColors = { '긍정': '#34d399', '중립': '#818cf8', '부정': '#f87171' };
+  if(Object.keys(sent).length){
+    const sentColors = {'긍정':'#2F9E44','중립':'#868E96','부정':'#F03E3E'};
     new Chart(document.getElementById('chartZdSent'), {
-      type: 'doughnut',
-      data: {
-        labels: Object.keys(sent),
-        datasets: [{ data: Object.values(sent), backgroundColor: Object.keys(sent).map(k => sentColors[k] || '#94a3b8'), borderWidth: 0 }]
-      },
-      plugins: [doughnutLabelPlugin],
-      options: {
-        responsive: true, maintainAspectRatio: false, cutout: '55%',
-        plugins: {
-          legend: { display: true, position: 'right', labels: { color: '#b0b0c0', usePointStyle: true, pointStyle: 'circle', padding: 14 } },
-          tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw}건` } }
-        }
-      }
+      type:'doughnut',
+      data:{ labels:Object.keys(sent), datasets:[{ data:Object.values(sent), backgroundColor:Object.keys(sent).map(k=>sentColors[k]||'#868E96'), borderWidth:2, borderColor:'#fff' }] },
+      plugins:[doughnutLabelPlugin],
+      options:{ responsive:true, maintainAspectRatio:false, cutout:'58%', plugins:{ legend:{ display:true, position:'right', labels:{ color:'#4B4B4B', usePointStyle:true, pointStyle:'circle', padding:14 } }, tooltip:{ callbacks:{ label:ctx=>ctx.label+': '+ctx.raw+'건' } } } }
     });
   }
-
-  // Topics
-  if (topics.length) {
-    const topN = topics.sort((a,b) => b.count - a.count).slice(0, 10);
+  if(topics.length){
+    const topN = topics.sort((a,b)=>b.count-a.count).slice(0,10);
     new Chart(document.getElementById('chartZdTopics'), {
-      type: 'bar',
-      data: {
-        labels: topN.map(t => t.topic),
-        datasets: [{ data: topN.map(t => t.count), backgroundColor: 'rgba(129,140,248,.4)', borderColor: '#818cf8', borderWidth: 1 }]
-      },
-      plugins: [dataLabelPlugin],
-      options: {
-        responsive: true, maintainAspectRatio: false, indexAxis: 'y',
-        plugins: { tooltip: { callbacks: { label: ctx => `${ctx.raw}건` } } }
-      }
+      type:'bar',
+      data:{ labels:topN.map(t=>t.topic), datasets:[{ data:topN.map(t=>t.count), backgroundColor:'#EA27C2CC', borderColor:'#EA27C2', borderWidth:1, borderRadius:4 }] },
+      plugins:[dataLabelPlugin],
+      options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y', plugins:{ tooltip:{ callbacks:{ label:ctx=>ctx.raw+'건' } } } }
     });
   }
-
-  // Weekly
-  const weekly = zd.weekly || {};
-  if (Object.keys(weekly).length) {
+  const weekly = zd.weekly||{};
+  if(Object.keys(weekly).length){
     const weekNums = new Set();
-    Object.values(weekly).forEach(wk => Object.keys(wk).forEach(w => weekNums.add(w)));
+    Object.values(weekly).forEach(wk=>Object.keys(wk).forEach(w=>weekNums.add(w)));
     const sortedWeeks = [...weekNums].sort();
-    const datasets = Object.entries(weekly).map(([cat, wks], i) => ({
-      label: cat, data: sortedWeeks.map(w => wks[w] || 0), backgroundColor: COLORS[i % COLORS.length] + '99', borderColor: COLORS[i % COLORS.length], borderWidth: 1
-    }));
+    const datasets = Object.entries(weekly).map(([cat,wks],i)=>({ label:cat, data:sortedWeeks.map(w=>wks[w]||0), backgroundColor:COLORS[i%COLORS.length]+'CC', borderColor:COLORS[i%COLORS.length], borderWidth:1 }));
     new Chart(document.getElementById('chartZdWeekly'), {
-      type: 'bar',
-      data: { labels: sortedWeeks.map(w => w + '주차'), datasets },
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { display: true, labels: { color: '#a1a1aa', usePointStyle: true, pointStyle: 'circle' } } },
-        scales: { x: { stacked: true }, y: { stacked: true } }
-      }
+      type:'bar',
+      data:{ labels:sortedWeeks.map(w=>w+'주차'), datasets },
+      options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:true, labels:{ color:'#4B4B4B', usePointStyle:true, pointStyle:'circle' } } }, scales:{ x:{ stacked:true }, y:{ stacked:true } } }
     });
   }
-
-  // Keywords
-  const kws = (zd.top_keywords || []).slice(0, 15);
-  if (kws.length) {
+  const kws = (zd.top_keywords||[]).slice(0,15);
+  if(kws.length){
     new Chart(document.getElementById('chartZdKeywords'), {
-      type: 'bar',
-      data: {
-        labels: kws.map(k => k.word),
-        datasets: [{ data: kws.map(k => k.count), backgroundColor: 'rgba(96,165,250,.4)', borderColor: '#60a5fa', borderWidth: 1 }]
-      },
-      plugins: [dataLabelPlugin],
-      options: { responsive: true, maintainAspectRatio: false }
+      type:'bar',
+      data:{ labels:kws.map(k=>k.word), datasets:[{ data:kws.map(k=>k.count), backgroundColor:'#1971C2CC', borderColor:'#1971C2', borderWidth:1, borderRadius:4 }] },
+      plugins:[dataLabelPlugin],
+      options:{ responsive:true, maintainAspectRatio:false }
     });
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   TAB 4: JIRA
-   ═══════════════════════════════════════════════════════════════ */
-function renderJira(jira) {
-  const total = jira.total || 0;
-  const done = (jira.status_counts?.['완료됨'] || 0) + (jira.status_counts?.['Archive'] || 0);
-  const compRate = jira.completion_rate || 0;
-  const qaCount = jira.qa_count || 0;
-
-  // AI Box
-  let aiHtml = `<div class="ai-box-header"><span class="icon">&#128736;</span> 개발 현황 분석</div>`;
-  aiHtml += `<p>현재 <span class="highlight">${total}개</span> 개발 작업이 등록되어 있으며, 이 중 <span class="highlight">${done}개(${compRate}%)</span>가 완료되었습니다. `;
-
-  if (qaCount > 20) {
-    aiHtml += `QA(품질 검증) 대기 중인 작업이 <span class="warn">${qaCount}개</span>로 다소 많습니다. QA 병목이 발생하면 출시 지연과 품질 저하로 이어질 수 있습니다.</p>`;
-  } else {
-    aiHtml += `QA 대기 ${qaCount}개로 적정 수준입니다.</p>`;
-  }
-
-  // 테마 분석
-  const themes = jira.themes || {};
-  const topTheme = Object.entries(themes).sort((a,b) => b[1] - a[1])[0];
-  if (topTheme) {
-    aiHtml += `<p>가장 많은 개발 리소스가 투입되는 영역은 <span class="highlight">${topTheme[0]}</span>(${topTheme[1]}건)입니다. 이 영역이 실제 고객 수요(GA 사용률, CS 문의량)와 일치하는지 교차 확인이 필요합니다.</p>`;
-  }
-
+function renderJira(jira){
+  const total = jira.total||0;
+  const done = (jira.status_counts?.['완료됨']||0)+(jira.status_counts?.['Archive']||0);
+  const compRate = jira.completion_rate||0, qaCount = jira.qa_count||0;
+  let aiHtml = '<div class="ai-box-header"><span class="icon">&#128736;</span> 개발 현황 분석</div>';
+  aiHtml += '<p>현재 <span class="highlight">'+total+'개</span> 개발 작업이 등록되어 있으며, 이 중 <span class="highlight">'+done+'개('+compRate+'%)</span>가 완료되었습니다. ';
+  if(qaCount > 20) aiHtml += 'QA(품질 검증) 대기 중인 작업이 <span class="warn">'+qaCount+'개</span>로 다소 많습니다. QA 병목이 발생하면 출시 지연과 품질 저하로 이어질 수 있습니다.</p>';
+  else aiHtml += 'QA 대기 '+qaCount+'개로 적정 수준입니다.</p>';
+  const themes = jira.themes||{};
+  const topTheme = Object.entries(themes).sort((a,b)=>b[1]-a[1])[0];
+  if(topTheme) aiHtml += '<p>가장 많은 개발 리소스가 투입되는 영역은 <span class="highlight">'+topTheme[0]+'</span>('+topTheme[1]+'건)입니다. 이 영역이 실제 고객 수요(GA 사용률, CS 문의량)와 일치하는지 교차 확인이 필요합니다.</p>';
   document.getElementById('aiJiraBox').innerHTML = aiHtml;
 
-  // Metrics
-  document.getElementById('jiraMetrics').innerHTML = `
-    <div class="metric-card">
-      <div class="metric-label">전체 작업</div>
-      <div class="metric-value">${total}</div>
-      <div class="metric-explain">Jira에 등록된 전체 개발 작업 수입니다.</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">완료율</div>
-      <div class="metric-value" style="color:${compRate > 50 ? 'var(--green)' : compRate > 30 ? 'var(--yellow)' : 'var(--text2)'}">${compRate}%</div>
-      <div class="metric-explain">완료된 작업의 비율입니다. ${compRate > 50 ? '순조롭게 진행 중입니다.' : '진행 속도를 높일 방법을 검토하세요.'}</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">QA 대기</div>
-      <div class="metric-value">${qaCount}</div>
-      <div class="metric-explain">개발은 끝났지만 품질 검증을 기다리는 작업입니다.</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">완료 작업</div>
-      <div class="metric-value">${done}</div>
-      <div class="metric-explain">개발과 검증이 모두 끝난 작업 수입니다.</div>
-    </div>
-  `;
+  document.getElementById('jiraMetrics').innerHTML =
+    '<div class="metric-card"><div class="metric-label">전체 작업</div><div class="metric-value">'+total+'</div><div class="metric-explain">Jira에 등록된 전체 개발 작업 수입니다.</div></div>'+
+    '<div class="metric-card"><div class="metric-label">완료율</div><div class="metric-value" style="color:'+(compRate>50?'var(--green)':compRate>30?'var(--yellow)':'var(--navy)')+'">'+compRate+'%</div><div class="metric-explain">완료된 작업의 비율입니다. '+(compRate>50?'순조롭게 진행 중입니다.':'진행 속도를 높일 방법을 검토하세요.')+'</div></div>'+
+    '<div class="metric-card"><div class="metric-label">QA 대기</div><div class="metric-value">'+qaCount+'</div><div class="metric-explain">개발은 끝났지만 품질 검증을 기다리는 작업입니다.</div></div>'+
+    '<div class="metric-card"><div class="metric-label">완료 작업</div><div class="metric-value">'+done+'</div><div class="metric-explain">개발과 검증이 모두 끝난 작업 수입니다.</div></div>';
 
-  // Status donut
-  const statuses = jira.status_counts || {};
-  if (Object.keys(statuses).length) {
-    const statusColors = { '해야 할 일': '#818cf8', '진행 중': '#60a5fa', 'QA': '#fbbf24', '완료됨': '#34d399', 'Archive': '#94a3b8' };
-    const entries = Object.entries(statuses).sort((a,b) => b[1] - a[1]);
+  const statuses = jira.status_counts||{};
+  if(Object.keys(statuses).length){
+    const statusColors = {'해야 할 일':'#868E96','진행 중':'#1971C2','QA':'#F59F00','완료됨':'#2F9E44','Archive':'#B3B3B3'};
+    const entries = Object.entries(statuses).sort((a,b)=>b[1]-a[1]);
     new Chart(document.getElementById('chartJiraStatus'), {
-      type: 'doughnut',
-      data: {
-        labels: entries.map(e => e[0]),
-        datasets: [{ data: entries.map(e => e[1]), backgroundColor: entries.map(e => statusColors[e[0]] || '#94a3b8'), borderWidth: 0 }]
-      },
-      plugins: [doughnutLabelPlugin],
-      options: {
-        responsive: true, maintainAspectRatio: false, cutout: '55%',
-        plugins: { legend: { display: true, position: 'right', labels: { color: '#b0b0c0', usePointStyle: true, pointStyle: 'circle', padding: 14 } },
-          tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw}건` } } }
-      }
+      type:'doughnut',
+      data:{ labels:entries.map(e=>e[0]), datasets:[{ data:entries.map(e=>e[1]), backgroundColor:entries.map(e=>statusColors[e[0]]||'#868E96'), borderWidth:2, borderColor:'#fff' }] },
+      plugins:[doughnutLabelPlugin],
+      options:{ responsive:true, maintainAspectRatio:false, cutout:'58%', plugins:{ legend:{ display:true, position:'right', labels:{ color:'#4B4B4B', usePointStyle:true, pointStyle:'circle', padding:14 } }, tooltip:{ callbacks:{ label:ctx=>ctx.label+': '+ctx.raw+'건' } } } }
     });
   }
-
-  // Priority donut
-  const priorities = jira.priority_counts || {};
-  if (Object.keys(priorities).length) {
-    const priColors = { 'Highest': '#f87171', 'High': '#fb923c', 'Medium': '#fbbf24', 'Low': '#34d399', 'Lowest': '#94a3b8' };
-    const entries = Object.entries(priorities).sort((a,b) => b[1] - a[1]);
+  const priorities = jira.priority_counts||{};
+  if(Object.keys(priorities).length){
+    const priColors = {'Highest':'#F03E3E','High':'#E8590C','Medium':'#F59F00','Low':'#2F9E44','Lowest':'#868E96'};
+    const entries = Object.entries(priorities).sort((a,b)=>b[1]-a[1]);
     new Chart(document.getElementById('chartJiraPriority'), {
-      type: 'doughnut',
-      data: {
-        labels: entries.map(e => e[0]),
-        datasets: [{ data: entries.map(e => e[1]), backgroundColor: entries.map(e => priColors[e[0]] || '#818cf8'), borderWidth: 0 }]
-      },
-      plugins: [doughnutLabelPlugin],
-      options: {
-        responsive: true, maintainAspectRatio: false, cutout: '55%',
-        plugins: { legend: { display: true, position: 'right', labels: { color: '#b0b0c0', usePointStyle: true, pointStyle: 'circle', padding: 14 } },
-          tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw}건` } } }
-      }
+      type:'doughnut',
+      data:{ labels:entries.map(e=>e[0]), datasets:[{ data:entries.map(e=>e[1]), backgroundColor:entries.map(e=>priColors[e[0]]||'#132029'), borderWidth:2, borderColor:'#fff' }] },
+      plugins:[doughnutLabelPlugin],
+      options:{ responsive:true, maintainAspectRatio:false, cutout:'58%', plugins:{ legend:{ display:true, position:'right', labels:{ color:'#4B4B4B', usePointStyle:true, pointStyle:'circle', padding:14 } }, tooltip:{ callbacks:{ label:ctx=>ctx.label+': '+ctx.raw+'건' } } } }
     });
   }
-
-  // Assignee bar
-  const assignees = jira.assignees || {};
-  if (Object.keys(assignees).length) {
-    const entries = Object.entries(assignees).sort((a,b) => b[1] - a[1]).slice(0, 10);
+  const assignees = jira.assignees||{};
+  if(Object.keys(assignees).length){
+    const entries = Object.entries(assignees).sort((a,b)=>b[1]-a[1]).slice(0,10);
     new Chart(document.getElementById('chartJiraAssignee'), {
-      type: 'bar',
-      data: {
-        labels: entries.map(e => e[0]),
-        datasets: [{ data: entries.map(e => e[1]), backgroundColor: 'rgba(129,140,248,.4)', borderColor: '#818cf8', borderWidth: 1 }]
-      },
-      plugins: [dataLabelPlugin],
-      options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { tooltip: { callbacks: { label: ctx => `${ctx.raw}건` } } } }
+      type:'bar',
+      data:{ labels:entries.map(e=>e[0]), datasets:[{ data:entries.map(e=>e[1]), backgroundColor:'#132029CC', borderColor:'#132029', borderWidth:1, borderRadius:4 }] },
+      plugins:[dataLabelPlugin],
+      options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y', plugins:{ tooltip:{ callbacks:{ label:ctx=>ctx.raw+'건' } } } }
     });
   }
-
-  // Themes bar
-  if (Object.keys(themes).length) {
-    const entries = Object.entries(themes).sort((a,b) => b[1] - a[1]);
+  if(Object.keys(themes).length){
+    const entries = Object.entries(themes).sort((a,b)=>b[1]-a[1]);
     new Chart(document.getElementById('chartJiraThemes'), {
-      type: 'bar',
-      data: {
-        labels: entries.map(e => e[0]),
-        datasets: [{ data: entries.map(e => e[1]), backgroundColor: COLORS.slice(0, entries.length).map(c => c + '99'), borderColor: COLORS.slice(0, entries.length), borderWidth: 1 }]
-      },
-      plugins: [dataLabelPlugin],
-      options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { tooltip: { callbacks: { label: ctx => `${ctx.raw}건` } } } }
+      type:'bar',
+      data:{ labels:entries.map(e=>e[0]), datasets:[{ data:entries.map(e=>e[1]), backgroundColor:COLORS.slice(0,entries.length).map(c=>c+'CC'), borderColor:COLORS.slice(0,entries.length), borderWidth:1, borderRadius:4 }] },
+      plugins:[dataLabelPlugin],
+      options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y', plugins:{ tooltip:{ callbacks:{ label:ctx=>ctx.raw+'건' } } } }
     });
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   TAB 5: 건물 · 서비스
-   ═══════════════════════════════════════════════════════════════ */
-function renderBuildings(bld, ga) {
-  const meta = bld.meta || {};
-  const stats = bld.stats || {};
-  const catSummary = bld.category_summary || [];
-  const svcSummary = bld.service_summary || [];
-  const bldSummary = bld.building_summary || {};
-  const nps = bld.nps || {};
-  const buckets = bld.buckets || {};
-  const templateSummary = bld.template_summary || [];
+function renderBuildings(bld, ga){
+  const meta = bld.meta||{}, stats = bld.stats||{};
+  const catSummary = bld.category_summary||[], svcSummary = bld.service_summary||[], bldSummary = bld.building_summary||{};
+  const nps = bld.nps||{}, buckets = bld.buckets||{};
+  const totalBld = meta.n_general_active||0, totalSvc = meta.n_general_svc||88;
+  const avgSvc = stats.mean||0, medianSvc = stats.median||0, npsScore = nps.score||0;
 
-  const totalBld = meta.n_general_active || 0;
-  const totalSvc = meta.n_general_svc || 88;
-  const avgSvc = stats.mean || 0;
-  const medianSvc = stats.median || 0;
-  const npsScore = nps.score || 0;
-
-  // AI Box
-  let aiHtml = `<div class="ai-box-header"><span class="icon">&#127970;</span> 건물 · 서비스 도입 분석</div>`;
-  aiHtml += `<p>현재 <span class="highlight">${totalBld}개 건물</span>에서 SANDI 서비스를 운영 중이며, 제공 가능한 ${totalSvc}개 서비스 중 건물당 평균 <span class="highlight">${avgSvc.toFixed(0)}개(${(avgSvc/totalSvc*100).toFixed(0)}%)</span>를 도입했습니다.</p>`;
-
-  // 카테고리 분석
-  if (catSummary.length) {
-    const best = catSummary.reduce((a,b) => a.avg > b.avg ? a : b);
-    const worst = catSummary.reduce((a,b) => a.avg < b.avg ? a : b);
-    aiHtml += `<p>도입률이 가장 높은 카테고리는 <span class="good">${best.cat}(평균 ${best.avg}%)</span>이고, 가장 낮은 카테고리는 <span class="warn">${worst.cat}(평균 ${worst.avg}%)</span>입니다. `;
-    aiHtml += `${worst.cat} 카테고리 서비스의 도입을 확대하면 건물당 서비스 수를 높이고 사용자 만족도를 개선할 수 있습니다.</p>`;
+  let aiHtml = '<div class="ai-box-header"><span class="icon">&#127970;</span> 건물 · 서비스 도입 분석</div>';
+  aiHtml += '<p>현재 <span class="highlight">'+totalBld+'개 건물</span>에서 SANDI 서비스를 운영 중이며, 제공 가능한 '+totalSvc+'개 서비스 중 건물당 평균 <span class="highlight">'+avgSvc.toFixed(0)+'개('+(avgSvc/totalSvc*100).toFixed(0)+'%)</span>를 도입했습니다.</p>';
+  if(catSummary.length){
+    const best = catSummary.reduce((a,b)=>a.avg>b.avg?a:b);
+    const worst = catSummary.reduce((a,b)=>a.avg<b.avg?a:b);
+    aiHtml += '<p>도입률이 가장 높은 카테고리는 <span class="good">'+best.cat+'(평균 '+best.avg+'%)</span>이고, 가장 낮은 카테고리는 <span class="warn">'+worst.cat+'(평균 '+worst.avg+'%)</span>입니다. '+worst.cat+' 카테고리 서비스의 도입을 확대하면 건물당 서비스 수를 높이고 사용자 만족도를 개선할 수 있습니다.</p>';
   }
-
-  // GA 교차분석
-  const gaServices = ga.services || [];
-  if (gaServices.length && svcSummary.length) {
-    aiHtml += `<p><b>교차 분석</b>: 앱 사용 데이터(GA)에서 이용량이 많은 서비스와 건물 도입률을 비교하면, 도입률 높은 서비스(신고센터, 화장실 등)가 실제 사용량에서도 상위권을 차지하고 있어 <span class="good">도입과 사용이 잘 연결</span>되고 있습니다.</p>`;
-  }
-
-  if (npsScore > 0) {
-    aiHtml += `<p>고객 만족도(NPS) 점수: <span class="highlight">${npsScore}점</span> (${nps.grade || ''}). ${npsScore > 50 ? '양호한 수준이지만 지속적인 모니터링이 필요합니다.' : npsScore > 0 ? '개선이 필요합니다. 저만족 사용자 세그먼트를 집중 관리하세요.' : '부정적 평가가 많아 즉각적인 대응이 필요합니다.'}</p>`;
-  }
-
+  if((ga.services||[]).length && svcSummary.length){ aiHtml += '<p><b>교차 분석</b>: 앱 사용 데이터(GA)에서 이용량이 많은 서비스와 건물 도입률을 비교하면, 도입률 높은 서비스(신고센터, 화장실 등)가 실제 사용량에서도 상위권을 차지하고 있어 <span class="good">도입과 사용이 잘 연결</span>되고 있습니다.</p>'; }
+  if(npsScore > 0) aiHtml += '<p>고객 만족도(NPS) 점수: <span class="highlight">'+npsScore+'점</span> ('+(nps.grade||'')+'). '+(npsScore>50?'양호한 수준이지만 지속적인 모니터링이 필요합니다.':npsScore>0?'개선이 필요합니다. 저만족 사용자 세그먼트를 집중 관리하세요.':'부정적 평가가 많아 즉각적인 대응이 필요합니다.')+'</p>';
   document.getElementById('aiBldBox').innerHTML = aiHtml;
 
-  // Metrics
-  document.getElementById('bldMetrics').innerHTML = `
-    <div class="metric-card">
-      <div class="metric-label">운영 건물 수</div>
-      <div class="metric-value">${totalBld}</div>
-      <div class="metric-explain">SANDI 서비스를 사용 중인 건물(사업장) 수입니다.</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">제공 서비스</div>
-      <div class="metric-value">${totalSvc}</div>
-      <div class="metric-explain">건물에 도입 가능한 일반 서비스 수입니다.</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">건물당 평균</div>
-      <div class="metric-value">${avgSvc.toFixed(0)}개</div>
-      <div class="metric-explain">${totalSvc}개 중 평균 ${avgSvc.toFixed(0)}개 도입 (${(avgSvc/totalSvc*100).toFixed(0)}%)</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">중앙값</div>
-      <div class="metric-value">${medianSvc}개</div>
-      <div class="metric-explain">건물들을 줄 세웠을 때 한가운데 건물의 서비스 수입니다.</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">NPS 점수</div>
-      <div class="metric-value" style="color:${npsScore > 50 ? 'var(--green)' : npsScore > 0 ? 'var(--yellow)' : 'var(--red)'}">${npsScore || '-'}</div>
-      <div class="metric-explain">${nps.grade || '고객 만족도 조사 데이터'}</div>
-    </div>
-  `;
+  document.getElementById('bldMetrics').innerHTML =
+    '<div class="metric-card"><div class="metric-label">운영 건물 수</div><div class="metric-value">'+totalBld+'</div><div class="metric-explain">SANDI 서비스를 사용 중인 건물(사업장) 수입니다.</div></div>'+
+    '<div class="metric-card"><div class="metric-label">제공 서비스</div><div class="metric-value">'+totalSvc+'</div><div class="metric-explain">건물에 도입 가능한 일반 서비스 수입니다.</div></div>'+
+    '<div class="metric-card"><div class="metric-label">건물당 평균</div><div class="metric-value">'+avgSvc.toFixed(0)+'개</div><div class="metric-explain">'+totalSvc+'개 중 평균 '+avgSvc.toFixed(0)+'개 도입 ('+(avgSvc/totalSvc*100).toFixed(0)+'%)</div></div>'+
+    '<div class="metric-card"><div class="metric-label">중앙값</div><div class="metric-value">'+medianSvc+'개</div><div class="metric-explain">건물들을 줄 세웠을 때 한가운데 건물의 서비스 수입니다.</div></div>'+
+    '<div class="metric-card"><div class="metric-label">NPS 점수</div><div class="metric-value" style="color:'+(npsScore>50?'var(--green)':npsScore>0?'var(--yellow)':'var(--red)')+'">'+(npsScore||'-')+'</div><div class="metric-explain">'+(nps.grade||'고객 만족도 조사 데이터')+'</div></div>';
 
-  // Category Radar
-  if (catSummary.length) {
+  if(catSummary.length){
     new Chart(document.getElementById('chartBldCatRadar'), {
-      type: 'radar',
-      data: {
-        labels: catSummary.map(c => c.cat),
-        datasets: [{
-          label: '평균 도입률',
-          data: catSummary.map(c => c.avg),
-          backgroundColor: 'rgba(129,140,248,.15)',
-          borderColor: '#818cf8',
-          borderWidth: 2,
-          pointBackgroundColor: '#818cf8',
-          pointRadius: 4
-        }]
-      },
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        scales: {
-          r: {
-            beginAtZero: true, max: 100,
-            ticks: { stepSize: 20, color: '#71717a', backdropColor: 'transparent' },
-            grid: { color: '#27272a' },
-            pointLabels: { color: '#a1a1aa', font: { size: 11 } }
-          }
-        },
-        plugins: { tooltip: { callbacks: { label: ctx => `${ctx.raw}%` } } }
-      }
+      type:'radar',
+      data:{ labels:catSummary.map(c=>c.cat), datasets:[{ label:'평균 도입률', data:catSummary.map(c=>c.avg), backgroundColor:'rgba(234,39,194,.12)', borderColor:'#EA27C2', borderWidth:2, pointBackgroundColor:'#EA27C2', pointRadius:4 }] },
+      options:{ responsive:true, maintainAspectRatio:false, scales:{ r:{ beginAtZero:true, max:100, ticks:{ stepSize:20, color:'#909AA0', backdropColor:'transparent' }, grid:{ color:'#E9ECEF' }, angleLines:{ color:'#E9ECEF' }, pointLabels:{ color:'#4B4B4B', font:{ size:11 } } } }, plugins:{ tooltip:{ callbacks:{ label:ctx=>ctx.raw+'%' } } } }
     });
-
-    // 카테고리 순위 리스트
-    const sorted = [...catSummary].sort((a,b) => b.avg - a.avg);
-    let rankHtml = '<div style="font-size:12px;color:var(--text3);margin-bottom:8px;font-weight:600">카테고리별 도입률 순위</div>';
-    sorted.forEach((c, idx) => {
-      const color = c.avg > 80 ? 'var(--green)' : c.avg > 50 ? 'var(--blue)' : c.avg > 20 ? 'var(--yellow)' : 'var(--red)';
-      rankHtml += `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--text2)">${idx+1}. ${c.cat}</span><span style="color:${color};font-weight:600">${c.avg}%</span></div>`;
+    const sorted = [...catSummary].sort((a,b)=>b.avg-a.avg);
+    let rankHtml = '<div style="font-size:12px;color:var(--ink3);margin-bottom:8px;font-weight:600">카테고리별 도입률 순위</div>';
+    sorted.forEach((c,idx)=>{
+      const color = c.avg>80?'var(--green)':c.avg>50?'var(--blue)':c.avg>20?'var(--yellow)':'var(--red)';
+      rankHtml += '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--line);font-size:12px"><span style="color:var(--navy700)">'+(idx+1)+'. '+c.cat+'</span><span style="color:'+color+';font-weight:700">'+c.avg+'%</span></div>';
     });
     document.getElementById('catRankList').innerHTML = rankHtml;
   }
 
-  // Bucket distribution
-  if (Object.keys(buckets).length) {
+  if(Object.keys(buckets).length){
     const maxBucket = Math.max(...Object.values(buckets));
-    const bucketColors = { '0': '#f87171', '1-10': '#fb923c', '11-20': '#fbbf24', '21-30': '#34d399', '31-40': '#60a5fa', '41-50': '#818cf8', '51+': '#c084fc' };
+    const bucketColors = {'0':'#F03E3E','1-10':'#E8590C','11-20':'#F59F00','21-30':'#2F9E44','31-40':'#1971C2','41-50':'#132029','51+':'#EA27C2'};
     let bucketHtml = '';
-    Object.entries(buckets).forEach(([label, count]) => {
-      const h = Math.max(count / maxBucket * 100, 5);
-      bucketHtml += `<div class="bucket-col"><div class="bucket-count">${count}</div><div class="bucket-bar" style="height:${h}px;background:${bucketColors[label] || '#818cf8'}"></div><div class="bucket-label">${label}개</div></div>`;
+    Object.entries(buckets).forEach(([label,count])=>{
+      const h = Math.max(count/maxBucket*100, 5);
+      bucketHtml += '<div class="bucket-col"><div class="bucket-count">'+count+'</div><div class="bucket-bar" style="height:'+h+'px;background:'+(bucketColors[label]||'#132029')+'"></div><div class="bucket-label">'+label+'개</div></div>';
     });
     document.getElementById('bucketBars').innerHTML = bucketHtml;
-    document.getElementById('bucketStats').textContent = `평균 ${avgSvc.toFixed(1)}개 · 중앙값 ${medianSvc}개 · 표준편차 ${(stats.std || 0).toFixed(1)}개`;
-
-    // 히스토그램 분석 텍스트
-    const peakBucket = Object.entries(buckets).sort((a,b) => b[1] - a[1])[0];
-    const lowBuckets = Object.entries(buckets).filter(([k,v]) => k === '0' || k === '1-10');
-    const lowCount = lowBuckets.reduce((s, [,v]) => s + v, 0);
-    let bucketMsg = `가장 많은 건물(${peakBucket[1]}개)이 <b>${peakBucket[0]}개</b> 서비스를 도입하고 있습니다.`;
-    if (lowCount > 0) {
-      bucketMsg += ` 10개 이하 서비스만 사용하는 건물이 ${lowCount}개 있어 도입 확대 대상입니다.`;
-    }
-    if (medianSvc < totalSvc * 0.5) {
-      bucketMsg += ` 중앙값(${medianSvc}개)이 전체의 절반(${Math.round(totalSvc/2)}개)에 못 미쳐, 대다수 건물에서 서비스 확대 여지가 큽니다.`;
-    }
+    document.getElementById('bucketStats').textContent = '평균 '+avgSvc.toFixed(1)+'개 · 중앙값 '+medianSvc+'개 · 표준편차 '+(stats.std||0).toFixed(1)+'개';
+    const peakBucket = Object.entries(buckets).sort((a,b)=>b[1]-a[1])[0];
+    const lowBuckets = Object.entries(buckets).filter(([k])=>k==='0'||k==='1-10');
+    const lowCount = lowBuckets.reduce((s,[,v])=>s+v,0);
+    let bucketMsg = '가장 많은 건물('+peakBucket[1]+'개)이 <b>'+peakBucket[0]+'개</b> 서비스를 도입하고 있습니다.';
+    if(lowCount > 0) bucketMsg += ' 10개 이하 서비스만 사용하는 건물이 '+lowCount+'개 있어 도입 확대 대상입니다.';
+    if(medianSvc < totalSvc*0.5) bucketMsg += ' 중앙값('+medianSvc+'개)이 전체의 절반('+Math.round(totalSvc/2)+'개)에 못 미쳐, 대다수 건물에서 서비스 확대 여지가 큽니다.';
     document.getElementById('bucketAnalysis').innerHTML = bucketMsg;
   }
 
-  // Service adoption progress bars (top 20 + bottom 10)
-  function renderSvcBars(container, items, colorFn) {
+  function renderSvcBars(container, items, colorFn){
     let html = '';
-    items.forEach(s => {
-      const color = colorFn(s.rate);
-      html += `<div class="progress-row"><span class="progress-label" title="${s.svc}">${s.svc}</span><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${s.rate}%;background:${color}"></div></div><span class="progress-value">${s.rate}%</span></div>`;
-    });
+    items.forEach(s=>{ const color = colorFn(s.rate); html += '<div class="progress-row"><span class="progress-label" title="'+s.svc+'">'+s.svc+'</span><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:'+s.rate+'%;background:'+color+'"></div></div><span class="progress-value">'+s.rate+'%</span></div>'; });
     document.getElementById(container).innerHTML = html;
   }
-
-  if (svcSummary.length) {
-    renderSvcBars('svcTop20', svcSummary.slice(0, 20), r => r > 80 ? 'var(--green)' : r > 50 ? 'var(--blue)' : 'var(--yellow)');
-    renderSvcBars('svcBottom10', svcSummary.slice(-10).reverse(), r => r > 20 ? 'var(--yellow)' : 'var(--red)');
+  if(svcSummary.length){
+    renderSvcBars('svcTop20', svcSummary.slice(0,20), r=>r>80?'var(--green)':r>50?'var(--blue)':'var(--yellow)');
+    renderSvcBars('svcBottom10', svcSummary.slice(-10).reverse(), r=>r>20?'var(--yellow)':'var(--red)');
   }
 
-  // Building ranking tables
-  function renderBldTable(container, items) {
+  function renderBldTable(container, items){
     let html = '<table class="data-table"><thead><tr><th>건물명</th><th style="text-align:right">도입 서비스</th><th style="text-align:right">도입률</th></tr></thead><tbody>';
-    items.forEach(b => {
-      const rate = (b.total / totalSvc * 100).toFixed(1);
-      const barColor = rate > 50 ? 'var(--green)' : rate > 30 ? 'var(--yellow)' : 'var(--red)';
-      html += `<tr><td>${b.name}</td><td style="text-align:right">${b.total}/${totalSvc}</td><td style="text-align:right;color:${barColor}">${rate}%</td></tr>`;
-    });
+    items.forEach(b=>{ const rate = (b.total/totalSvc*100).toFixed(1); const barColor = rate>50?'var(--green)':rate>30?'var(--yellow)':'var(--red)'; html += '<tr><td>'+b.name+'</td><td style="text-align:right">'+b.total+'/'+totalSvc+'</td><td style="text-align:right;color:'+barColor+';font-weight:700">'+rate+'%</td></tr>'; });
     html += '</tbody></table>';
     document.getElementById(container).innerHTML = html;
   }
-
-  if (bldSummary.top_10) renderBldTable('bldTop10', bldSummary.top_10);
-  if (bldSummary.bottom_10) renderBldTable('bldBottom10', bldSummary.bottom_10);
+  if(bldSummary.top_10) renderBldTable('bldTop10', bldSummary.top_10);
+  if(bldSummary.bottom_10) renderBldTable('bldBottom10', bldSummary.bottom_10);
 }
 </script>
 </body>
