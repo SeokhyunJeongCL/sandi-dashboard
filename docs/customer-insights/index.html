@@ -454,7 +454,8 @@ a{color:var(--accent);text-decoration:none}
               <div class="tooltip-text">서비스 카테고리별 평균 도입률입니다. 328개 건물 중 해당 카테고리 서비스를 도입한 건물 비율의 평균입니다. 높을수록 보편적으로 사용되는 카테고리입니다.</div>
             </div>
           </div>
-          <div class="chart-wrap tall"><canvas id="chartBldCatRadar"></canvas></div>
+          <div class="chart-wrap"><canvas id="chartBldCatRadar"></canvas></div>
+          <div id="catRankList" style="margin-top:16px"></div>
         </div>
         <div class="card">
           <div class="card-header">
@@ -467,6 +468,7 @@ a{color:var(--accent);text-decoration:none}
             <div class="bucket-row" id="bucketBars"></div>
           </div>
           <div id="bucketStats" style="font-size:12px;color:var(--text3);text-align:center;margin-top:8px"></div>
+          <div id="bucketAnalysis" style="margin-top:16px;font-size:12px;color:var(--text3);line-height:1.7;padding:12px 16px;background:var(--surface2);border-radius:8px"></div>
         </div>
       </div>
 
@@ -582,17 +584,24 @@ const doughnutLabelPlugin = {
       const val = ds.data[i];
       if (val == null || val === 0) return;
       const pctVal = Math.round(val / total * 100);
-      // 너무 작은 영역은 스킵 (5% 미만)
       if (pctVal < 5) return;
       const { x, y } = arc.tooltipPosition();
       ctx.save();
-      ctx.font = 'bold 12px Pretendard Variable, Pretendard, Inter, sans-serif';
-      ctx.fillStyle = '#f0f0f5';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(`${fmt(val)}건`, x, y - 7);
-      ctx.font = '11px Pretendard Variable, Pretendard, Inter, sans-serif';
-      ctx.fillStyle = '#b0b0c0';
+      // 검정 외곽선으로 어떤 배경에서든 가독성 확보
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = 'rgba(0,0,0,.7)';
+      ctx.lineJoin = 'round';
+      // 건수
+      ctx.font = 'bold 13px Pretendard Variable, Pretendard, sans-serif';
+      ctx.strokeText(`${fmt(val)}건`, x, y - 8);
+      ctx.fillStyle = '#fff';
+      ctx.fillText(`${fmt(val)}건`, x, y - 8);
+      // 비율
+      ctx.font = '11px Pretendard Variable, Pretendard, sans-serif';
+      ctx.strokeText(`${pctVal}%`, x, y + 9);
+      ctx.fillStyle = 'rgba(255,255,255,.8)';
       ctx.fillText(`${pctVal}%`, x, y + 9);
       ctx.restore();
     });
@@ -1490,6 +1499,15 @@ function renderBuildings(bld, ga) {
         plugins: { tooltip: { callbacks: { label: ctx => `${ctx.raw}%` } } }
       }
     });
+
+    // 카테고리 순위 리스트
+    const sorted = [...catSummary].sort((a,b) => b.avg - a.avg);
+    let rankHtml = '<div style="font-size:12px;color:var(--text3);margin-bottom:8px;font-weight:600">카테고리별 도입률 순위</div>';
+    sorted.forEach((c, idx) => {
+      const color = c.avg > 80 ? 'var(--green)' : c.avg > 50 ? 'var(--blue)' : c.avg > 20 ? 'var(--yellow)' : 'var(--red)';
+      rankHtml += `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--text2)">${idx+1}. ${c.cat}</span><span style="color:${color};font-weight:600">${c.avg}%</span></div>`;
+    });
+    document.getElementById('catRankList').innerHTML = rankHtml;
   }
 
   // Bucket distribution
@@ -1503,6 +1521,19 @@ function renderBuildings(bld, ga) {
     });
     document.getElementById('bucketBars').innerHTML = bucketHtml;
     document.getElementById('bucketStats').textContent = `평균 ${avgSvc.toFixed(1)}개 · 중앙값 ${medianSvc}개 · 표준편차 ${(stats.std || 0).toFixed(1)}개`;
+
+    // 히스토그램 분석 텍스트
+    const peakBucket = Object.entries(buckets).sort((a,b) => b[1] - a[1])[0];
+    const lowBuckets = Object.entries(buckets).filter(([k,v]) => k === '0' || k === '1-10');
+    const lowCount = lowBuckets.reduce((s, [,v]) => s + v, 0);
+    let bucketMsg = `가장 많은 건물(${peakBucket[1]}개)이 <b>${peakBucket[0]}개</b> 서비스를 도입하고 있습니다.`;
+    if (lowCount > 0) {
+      bucketMsg += ` 10개 이하 서비스만 사용하는 건물이 ${lowCount}개 있어 도입 확대 대상입니다.`;
+    }
+    if (medianSvc < totalSvc * 0.5) {
+      bucketMsg += ` 중앙값(${medianSvc}개)이 전체의 절반(${Math.round(totalSvc/2)}개)에 못 미쳐, 대다수 건물에서 서비스 확대 여지가 큽니다.`;
+    }
+    document.getElementById('bucketAnalysis').innerHTML = bucketMsg;
   }
 
   // Service adoption progress bars (top 20 + bottom 10)
