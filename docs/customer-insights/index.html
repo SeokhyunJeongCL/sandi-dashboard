@@ -159,10 +159,10 @@ a{color:var(--accent);text-decoration:none}
 .error-msg{color:var(--red);text-align:center;padding:40px}
 
 /* ═══ TOOLTIP ═══ */
-.tooltip-icon{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--surface2);color:var(--text4);font-size:10px;cursor:help;font-weight:700;border:1px solid var(--border)}
+.tooltip-icon{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--surface2);color:var(--text4);font-size:10px;cursor:help;font-weight:700;border:1px solid var(--border)}
 .tooltip-wrap{position:relative;display:inline-block}
-.tooltip-text{visibility:hidden;opacity:0;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(4px);background:rgba(20,20,30,.95);backdrop-filter:blur(12px);color:var(--text2);border:1px solid var(--border2);padding:12px 16px;border-radius:10px;font-size:12px;white-space:normal;width:280px;line-height:1.7;z-index:10;box-shadow:0 12px 40px rgba(0,0,0,.5);transition:all .2s ease}
-.tooltip-wrap:hover .tooltip-text{visibility:visible;opacity:1;transform:translateX(-50%) translateY(0)}
+.tooltip-text{visibility:hidden;opacity:0;pointer-events:none;position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:rgba(20,20,30,.95);backdrop-filter:blur(12px);color:var(--text2);border:1px solid var(--border2);padding:12px 16px;border-radius:10px;font-size:12px;white-space:normal;width:280px;line-height:1.7;z-index:10;box-shadow:0 12px 40px rgba(0,0,0,.5);transition:all .2s ease}
+.tooltip-wrap:hover .tooltip-text{visibility:visible;opacity:1;pointer-events:auto}
 
 /* ═══ BUCKET CHART ═══ */
 .bucket-row{display:flex;align-items:flex-end;gap:6px;height:120px;padding:0 4px}
@@ -639,22 +639,27 @@ const dataLabelPlugin = {
 };
 // 서비스 경로 → 사람이 읽을 수 있는 이름 변환
 const SVC_NAME_MAP = {
-  '/service/rental': '대여 서비스 (전체)',
-  '/service': '서비스 홈',
-  '/service/membership-card': '사원카드 잔액',
-  '/service/rental-umbrella': '우산 대여',
   '/service/rental/requested': '대여 신청 내역',
   '/service/rental/returned': '반납 완료 내역',
   '/service/rental/rented': '대여 중 내역',
+  '/service/rental-umbrella': '우산 대여',
+  '/service/rental': '대여 서비스 (전체)',
   '/service/membership-card/usage': '사원카드 사용 내역',
+  '/service/membership-card': '사원카드 잔액',
   '/service/hot-cold-vote/detail': '냉난방 투표 상세',
   '/service/hot-cold-vote': '냉난방 투표',
   '/service/space-reservation': '공간 예약',
+  '/service/space-list': '공간 목록',
   '/service/toilet-empty': '화장실 빈칸',
   '/service/custom': '커스텀 서비스',
   '/service/air-quality': '공기질 모니터링',
   '/service/temperature': '온습도 모니터링',
   '/service/complaint': '신고센터',
+  '/service/voc-list': '불편신고 목록',
+  '/service/goods-rental': '물품 대여',
+  '/service/goods': '물품 서비스',
+  '/service/embedded/visitor-invitation': '방문자 초대',
+  '/service': '서비스 홈',
   '/talk': '건물톡 (커뮤니티)',
   '/manager/voc-manager': '신고 관리 (매니저)',
   '/view': '서비스 상세 보기',
@@ -663,13 +668,20 @@ const SVC_NAME_MAP = {
   '/my': '마이페이지',
   '/settings': '설정',
 };
+// 건물코드 경로용 prefix 매핑 (긴 것 우선 정렬됨)
+const SVC_PREFIX_MAP = [
+  ['/service/rental/', '대여 서비스'],
+];
 function friendlyName(path) {
   if (!path) return '';
   // 정확 매칭
   if (SVC_NAME_MAP[path]) return SVC_NAME_MAP[path];
-  // 부분 매칭 (건물 코드 포함 경로)
-  for (const [key, name] of Object.entries(SVC_NAME_MAP)) {
-    if (path.startsWith(key + '/')) return name;
+  // 건물코드 포함 경로 (예: /service/rental/GS_0000696)
+  for (const [prefix, name] of SVC_PREFIX_MAP) {
+    if (path.startsWith(prefix)) {
+      const code = path.slice(prefix.length);
+      return `${name} (${code})`;
+    }
   }
   // 경로에서 마지막 세그먼트 추출 후 읽기 쉽게 변환
   const seg = path.replace(/^\//,'').split('/').pop() || path;
