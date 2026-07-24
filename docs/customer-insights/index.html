@@ -1077,7 +1077,7 @@ function renderGA(ga, gaS) {
   }
 
   // Services chart — 서비스 이름을 한국어로 표시 + 값 직접 표시
-  const svcs = (ga.services || []).slice(0, 15);
+  const svcs = [...(ga.services || [])].sort((a,b) => b.users - a.users).slice(0, 15);
   if (svcs.length) {
     new Chart(document.getElementById('chartServices'), {
       type: 'bar',
