@@ -171,6 +171,13 @@ a{color:var(--accent);text-decoration:none}
 .bucket-bar::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.15),transparent)}
 .bucket-label{font-size:10px;color:var(--text4);text-align:center}
 .bucket-count{font-size:11px;font-weight:600;color:var(--text3)}
+
+/* ═══ PERIOD BADGE ═══ */
+.period-bar{display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.period-badge{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:12px;color:var(--text2)}
+.period-badge .period-icon{font-size:13px}
+.period-badge .period-label{color:var(--text3);font-weight:500}
+.period-badge .period-range{color:var(--text);font-weight:600}
 </style>
 </head>
 <body>
@@ -208,6 +215,9 @@ a{color:var(--accent);text-decoration:none}
 
       <!-- Data Freshness Bar -->
       <div class="freshness-bar" id="freshnessBar"></div>
+
+      <!-- Period Overview -->
+      <div class="period-bar" id="overviewPeriod"></div>
 
       <!-- Hero Metrics -->
       <div class="grid grid-5" id="heroMetrics" style="margin-bottom:24px"></div>
@@ -265,6 +275,7 @@ a{color:var(--accent);text-decoration:none}
          TAB 2: 앱 사용 분석 (GA)
          ═══════════════════════════════════════════════════════════════ -->
     <div class="tab-content" data-tab="ga">
+      <div class="period-bar" id="gaPeriod"></div>
       <div class="ai-box" id="aiGaBox"></div>
 
       <div class="grid grid-3" id="gaMetrics" style="margin-bottom:24px"></div>
@@ -316,6 +327,7 @@ a{color:var(--accent);text-decoration:none}
          TAB 3: 고객 문의 (Zendesk)
          ═══════════════════════════════════════════════════════════════ -->
     <div class="tab-content" data-tab="zendesk">
+      <div class="period-bar" id="zdPeriod"></div>
       <div class="ai-box" id="aiZdBox"></div>
 
       <div class="grid grid-4" id="zdMetrics" style="margin-bottom:24px"></div>
@@ -377,6 +389,7 @@ a{color:var(--accent);text-decoration:none}
          TAB 4: 개발 현황 (Jira)
          ═══════════════════════════════════════════════════════════════ -->
     <div class="tab-content" data-tab="jira">
+      <div class="period-bar" id="jiraPeriod"></div>
       <div class="ai-box" id="aiJiraBox"></div>
 
       <div class="grid grid-4" id="jiraMetrics" style="margin-bottom:24px"></div>
@@ -428,6 +441,7 @@ a{color:var(--accent);text-decoration:none}
          TAB 5: 건물 · 서비스
          ═══════════════════════════════════════════════════════════════ -->
     <div class="tab-content" data-tab="buildings">
+      <div class="period-bar" id="bldPeriod"></div>
       <div class="ai-box" id="aiBldBox"></div>
 
       <div class="grid grid-5" id="bldMetrics" style="margin-bottom:24px"></div>
@@ -713,6 +727,45 @@ function render(D) {
     <div class="freshness-item"><div class="status manual"></div><span class="src">건물 도입현황</span><span class="time">${bldDate} 기준</span></div>
     <div class="freshness-item"><div class="status live"></div><span class="src">AI 분석</span><span class="time">${genStr}</span></div>
   `;
+
+  // ═══ PERIOD INFO (각 탭 데이터 기간 표시) ═══
+  const mauData = ga.mau || [];
+  const gaStart = mauData.length ? mauData[0].month : '-';
+  const gaEnd = mauData.length ? mauData[mauData.length - 1].month : '-';
+  const gaMonths = mauData.length;
+
+  const zdDaily = zd.daily || {};
+  const zdDates = Object.keys(zdDaily).sort();
+  const zdStart = zdDates.length ? zdDates[0] : '-';
+  const zdEnd = zdDates.length ? zdDates[zdDates.length - 1] : '-';
+  const zdDays = zdDates.length;
+
+  const bldDateStr = bld.meta?.date || '-';
+
+  const periodBadge = (icon, label, range) => `<div class="period-badge"><span class="period-icon">${icon}</span><span class="period-label">${label}</span><span class="period-range">${range}</span></div>`;
+
+  // Overview: 전체 소스 기간 요약
+  document.getElementById('overviewPeriod').innerHTML =
+    periodBadge('&#128202;', 'GA', `${gaStart} ~ ${gaEnd} (${gaMonths}개월)`) +
+    periodBadge('&#128172;', 'CS', zdDates.length ? `${zdStart} ~ ${zdEnd} (${zdDays}일)` : '데이터 없음') +
+    periodBadge('&#128736;', 'Jira', `${genStr} 기준 스냅샷`) +
+    periodBadge('&#127970;', '건물', `${bldDateStr} 기준`);
+
+  // GA tab
+  document.getElementById('gaPeriod').innerHTML =
+    periodBadge('&#128197;', '분석 기간', `${gaStart} ~ ${gaEnd} (${gaMonths}개월)`);
+
+  // Zendesk tab
+  document.getElementById('zdPeriod').innerHTML =
+    periodBadge('&#128197;', '문의 수집 기간', zdDates.length ? `${zdStart} ~ ${zdEnd} (${zdDays}일간 ${zd.total || 0}건)` : '데이터 없음');
+
+  // Jira tab
+  document.getElementById('jiraPeriod').innerHTML =
+    periodBadge('&#128197;', '데이터 기준', `${genStr} 시점 스냅샷 (누적 ${jira.total || 0}건)`);
+
+  // Buildings tab
+  document.getElementById('bldPeriod').innerHTML =
+    periodBadge('&#128197;', '도입현황 기준일', `${bldDateStr} (${bld.meta?.n_general_active || 0}개 건물)`);
 
   // Store data for lazy rendering
   _renderData = { ga, gaS, zd, jira, bld, ins };
