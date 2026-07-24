@@ -493,15 +493,39 @@ a{color:var(--accent);text-decoration:none}
    DATA LOADING & RENDERING
    ═══════════════════════════════════════════════════════════════ */
 
-// Tab switching
+// Tab switching with lazy chart rendering
+const _tabRendered = { overview: false, ga: false, zendesk: false, jira: false, buildings: false };
+let _renderData = null;
+
 document.querySelectorAll('.tab').forEach(t => {
   t.addEventListener('click', () => {
     document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(x => x.classList.remove('active'));
     t.classList.add('active');
     document.querySelector(`.tab-content[data-tab="${t.dataset.tab}"]`).classList.add('active');
+    // Lazy render charts for this tab
+    lazyRenderTab(t.dataset.tab);
   });
 });
+
+function lazyRenderTab(tabId) {
+  if (!_renderData || _tabRendered[tabId]) return;
+  const { ga, gaS, zd, jira, bld, ins } = _renderData;
+  switch(tabId) {
+    case 'ga':
+      if (!_tabRendered.ga) { renderGA(ga, gaS); _tabRendered.ga = true; }
+      break;
+    case 'zendesk':
+      if (!_tabRendered.zendesk) { renderZendesk(zd); _tabRendered.zendesk = true; }
+      break;
+    case 'jira':
+      if (!_tabRendered.jira) { renderJira(jira); _tabRendered.jira = true; }
+      break;
+    case 'buildings':
+      if (!_tabRendered.buildings) { renderBuildings(bld, ga); _tabRendered.buildings = true; }
+      break;
+  }
+}
 
 // Chart.js defaults
 Chart.defaults.color = '#71717a';
@@ -516,6 +540,74 @@ const COLORS = ['#6366f1','#3b82f6','#06b6d4','#22c55e','#eab308','#f97316','#ef
 // Number formatting
 function fmt(n) { return n == null ? '-' : n.toLocaleString('ko-KR'); }
 function pct(n, d) { return d ? (n / d * 100).toFixed(1) : '0'; }
+
+// ── Data label plugin (Chart.js에 수치 직접 표시) ──
+const dataLabelPlugin = {
+  id: 'dataLabels',
+  afterDatasetsDraw(chart) {
+    const ctx = chart.ctx;
+    chart.data.datasets.forEach((ds, di) => {
+      const meta = chart.getDatasetMeta(di);
+      if (meta.hidden) return;
+      meta.data.forEach((el, i) => {
+        const val = ds.data[i];
+        if (val == null) return;
+        const label = typeof val === 'number' && val >= 1000 ? (val/1000).toFixed(1) + 'K' : fmt(val);
+        ctx.save();
+        ctx.font = '11px Pretendard, Inter, sans-serif';
+        ctx.fillStyle = '#a1a1aa';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        if (chart.config.options?.indexAxis === 'y') {
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(fmt(val), el.x + 6, el.y);
+        } else {
+          ctx.fillText(label, el.x, el.y - 6);
+        }
+        ctx.restore();
+      });
+    });
+  }
+};
+// 서비스 경로 → 사람이 읽을 수 있는 이름 변환
+const SVC_NAME_MAP = {
+  '/service/rental': '대여 서비스 (전체)',
+  '/service': '서비스 홈',
+  '/service/membership-card': '사원카드 잔액',
+  '/service/rental-umbrella': '우산 대여',
+  '/service/rental/requested': '대여 신청 내역',
+  '/service/rental/returned': '반납 완료 내역',
+  '/service/rental/rented': '대여 중 내역',
+  '/service/membership-card/usage': '사원카드 사용 내역',
+  '/service/hot-cold-vote/detail': '냉난방 투표 상세',
+  '/service/hot-cold-vote': '냉난방 투표',
+  '/service/space-reservation': '공간 예약',
+  '/service/toilet-empty': '화장실 빈칸',
+  '/service/custom': '커스텀 서비스',
+  '/service/air-quality': '공기질 모니터링',
+  '/service/temperature': '온습도 모니터링',
+  '/service/complaint': '신고센터',
+  '/talk': '건물톡 (커뮤니티)',
+  '/manager/voc-manager': '신고 관리 (매니저)',
+  '/view': '서비스 상세 보기',
+  '/auth/login': '로그인 화면',
+  '/home': '홈 화면',
+  '/my': '마이페이지',
+  '/settings': '설정',
+};
+function friendlyName(path) {
+  if (!path) return '';
+  // 정확 매칭
+  if (SVC_NAME_MAP[path]) return SVC_NAME_MAP[path];
+  // 부분 매칭 (건물 코드 포함 경로)
+  for (const [key, name] of Object.entries(SVC_NAME_MAP)) {
+    if (path.startsWith(key + '/')) return name;
+  }
+  // 경로에서 마지막 세그먼트 추출 후 읽기 쉽게 변환
+  const seg = path.replace(/^\//,'').split('/').pop() || path;
+  return seg.replace(/-/g, ' ').replace(/^./, c => c.toUpperCase());
+}
 function shortPath(p) {
   if (!p) return '';
   const s = p.replace(/^\//,'').split('/');
@@ -578,20 +670,14 @@ function render(D) {
     <div class="freshness-item"><div class="status live"></div><span class="src">AI 분석</span><span class="time">${genStr}</span></div>
   `;
 
-  // ═══ TAB 1: OVERVIEW ═══
+  // Store data for lazy rendering
+  _renderData = { ga, gaS, zd, jira, bld, ins };
+
+  // ═══ TAB 1: OVERVIEW (always visible first) ═══
   renderOverview(ga, gaS, zd, jira, bld, ins);
+  _tabRendered.overview = true;
 
-  // ═══ TAB 2: GA ═══
-  renderGA(ga, gaS);
-
-  // ═══ TAB 3: ZENDESK ═══
-  renderZendesk(zd);
-
-  // ═══ TAB 4: JIRA ═══
-  renderJira(jira);
-
-  // ═══ TAB 5: BUILDINGS ═══
-  renderBuildings(bld, ga);
+  // Other tabs render lazily when clicked (Chart.js needs visible canvas)
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -841,17 +927,19 @@ function renderGA(ga, gaS) {
           backgroundColor: 'rgba(99,102,241,.1)',
           fill: true,
           tension: .4,
-          pointRadius: 4,
-          pointHoverRadius: 7
+          pointRadius: 5,
+          pointHoverRadius: 8,
+          pointBackgroundColor: '#6366f1'
         }]
       },
+      plugins: [dataLabelPlugin],
       options: {
         responsive: true, maintainAspectRatio: false,
         plugins: {
           tooltip: { callbacks: { label: ctx => `${fmt(ctx.raw)}명` } }
         },
         scales: {
-          y: { beginAtZero: false, ticks: { callback: v => (v/1000).toFixed(0) + 'K' } }
+          y: { beginAtZero: false, ticks: { callback: v => fmt(v) + '명' } }
         }
       }
     });
@@ -862,36 +950,38 @@ function renderGA(ga, gaS) {
       data: {
         labels: mau.map(m => m.month),
         datasets: [
-          { label: '사용자 수', data: mau.map(m => m.activeUsers), borderColor: '#6366f1', backgroundColor: 'rgba(99,102,241,.08)', fill: true, tension: .4, yAxisID: 'y' },
-          { label: '화면 조회 수', data: mau.map(m => m.pageViews), borderColor: '#06b6d4', backgroundColor: 'rgba(6,182,212,.08)', fill: true, tension: .4, yAxisID: 'y1' }
+          { label: '사용자 수', data: mau.map(m => m.activeUsers), borderColor: '#6366f1', backgroundColor: 'rgba(99,102,241,.08)', fill: true, tension: .4, yAxisID: 'y', pointRadius: 4, pointBackgroundColor: '#6366f1' },
+          { label: '화면 조회 수', data: mau.map(m => m.pageViews), borderColor: '#06b6d4', backgroundColor: 'rgba(6,182,212,.08)', fill: true, tension: .4, yAxisID: 'y1', pointRadius: 4, pointBackgroundColor: '#06b6d4' }
         ]
       },
+      plugins: [dataLabelPlugin],
       options: {
         responsive: true, maintainAspectRatio: false,
         plugins: { legend: { display: true, labels: { color: '#a1a1aa', usePointStyle: true, pointStyle: 'circle' } },
           tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${fmt(ctx.raw)}` } }
         },
         scales: {
-          y: { position: 'left', ticks: { callback: v => (v/1000).toFixed(0) + 'K' } },
-          y1: { position: 'right', grid: { drawOnChartArea: false }, ticks: { callback: v => (v/1000).toFixed(0) + 'K' } }
+          y: { position: 'left', ticks: { callback: v => fmt(v) } },
+          y1: { position: 'right', grid: { drawOnChartArea: false }, ticks: { callback: v => fmt(v) } }
         }
       }
     });
   }
 
-  // Services chart
+  // Services chart — 서비스 이름을 한국어로 표시 + 값 직접 표시
   const svcs = (ga.services || []).slice(0, 15);
   if (svcs.length) {
     new Chart(document.getElementById('chartServices'), {
       type: 'bar',
       data: {
-        labels: svcs.map(s => shortPath(s.path)),
+        labels: svcs.map(s => friendlyName(s.path)),
         datasets: [{ data: svcs.map(s => s.users), backgroundColor: COLORS.map(c => c + '99'), borderColor: COLORS, borderWidth: 1 }]
       },
+      plugins: [dataLabelPlugin],
       options: {
         responsive: true, maintainAspectRatio: false, indexAxis: 'y',
         plugins: { tooltip: { callbacks: { label: ctx => `${fmt(ctx.raw)}명 이용` } } },
-        scales: { x: { ticks: { callback: v => fmt(v) } } }
+        scales: { x: { ticks: { callback: v => fmt(v) + '명' } } }
       }
     });
   }
@@ -903,9 +993,9 @@ function renderGA(ga, gaS) {
       type: 'treemap',
       data: {
         datasets: [{
-          tree: pages.map(p => ({ label: shortPath(p.path), value: p.pageViews, users: p.users })),
+          tree: pages.map(p => ({ label: friendlyName(p.path), value: p.pageViews, users: p.users })),
           key: 'value',
-          labels: { display: true, formatter: ctx => ctx.raw?._data?.label || '' },
+          labels: { display: true, formatter: ctx => { const d = ctx.raw?._data; return d ? `${d.label}\n${fmt(d.value)}` : ''; }, color: '#e4e4e7', font: { size: 11, weight: '600' } },
           backgroundColor: ctx => {
             const v = ctx.raw?._data?.value || 0;
             const max = Math.max(...pages.map(p => p.pageViews));
@@ -1033,6 +1123,7 @@ function renderZendesk(zd) {
         labels: topN.map(t => t.topic),
         datasets: [{ data: topN.map(t => t.count), backgroundColor: '#6366f199', borderColor: '#6366f1', borderWidth: 1 }]
       },
+      plugins: [dataLabelPlugin],
       options: {
         responsive: true, maintainAspectRatio: false, indexAxis: 'y',
         plugins: { tooltip: { callbacks: { label: ctx => `${ctx.raw}건` } } }
@@ -1069,6 +1160,7 @@ function renderZendesk(zd) {
         labels: kws.map(k => k.word),
         datasets: [{ data: kws.map(k => k.count), backgroundColor: '#3b82f699', borderColor: '#3b82f6', borderWidth: 1 }]
       },
+      plugins: [dataLabelPlugin],
       options: { responsive: true, maintainAspectRatio: false }
     });
   }
@@ -1174,6 +1266,7 @@ function renderJira(jira) {
         labels: entries.map(e => e[0]),
         datasets: [{ data: entries.map(e => e[1]), backgroundColor: '#6366f199', borderColor: '#6366f1', borderWidth: 1 }]
       },
+      plugins: [dataLabelPlugin],
       options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { tooltip: { callbacks: { label: ctx => `${ctx.raw}건` } } } }
     });
   }
@@ -1187,6 +1280,7 @@ function renderJira(jira) {
         labels: entries.map(e => e[0]),
         datasets: [{ data: entries.map(e => e[1]), backgroundColor: COLORS.slice(0, entries.length).map(c => c + '99'), borderColor: COLORS.slice(0, entries.length), borderWidth: 1 }]
       },
+      plugins: [dataLabelPlugin],
       options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { tooltip: { callbacks: { label: ctx => `${ctx.raw}건` } } } }
     });
   }
