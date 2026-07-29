@@ -462,6 +462,7 @@ a:hover{color:var(--navy)}
 const COLORS = ['#132029','#EA27C2','#1971C2','#0CA678','#F59F00','#E8590C','#7048E8','#1098AD','#F03E3E','#FA84DA','#2F9E44','#868E96'];
 let _tabRendered = { overview:false, ga:false, zendesk:false, jira:false, buildings:false };
 let _data = null;
+let _pendingTab = null;   // 데이터 도착 전에 사용자가 누른 탭
 
 function fmt(n){ return n == null ? '-' : n.toLocaleString('ko-KR'); }
 function scoreColor(s){ return s >= 80 ? '#2F9E44' : s >= 60 ? '#F59F00' : s >= 40 ? '#E8590C' : '#F03E3E'; }
@@ -549,39 +550,93 @@ document.querySelectorAll('.tab').forEach(t=>{
     lazyRenderTab(t.dataset.tab);
   });
 });
-function lazyRenderTab(tabId){
-  if(!_data || _tabRendered[tabId]) return;
-  const {ga, gaS, zd, jira, bld} = _data;
-  if(tabId === 'ga'){ renderGA(ga, gaS); _tabRendered.ga = true; }
-  else if(tabId === 'zendesk'){ renderZendesk(zd); _tabRendered.zendesk = true; }
-  else if(tabId === 'jira'){ renderJira(jira); _tabRendered.jira = true; }
-  else if(tabId === 'buildings'){ renderBuildings(bld, ga); _tabRendered.buildings = true; }
+function activeTabId(){
+  const t = document.querySelector('.tab.active');
+  return t ? t.dataset.tab : 'overview';
 }
 
-Chart.defaults.color = '#6E6E6E';
-Chart.defaults.borderColor = '#E9ECEF';
-Chart.defaults.font.family = "'Pretendard Variable','Pretendard',sans-serif";
-Chart.defaults.font.size = 11;
-Chart.defaults.plugins.legend.display = false;
-Chart.defaults.animation = { duration: 1100, easing: 'easeOutQuart' };
+function lazyRenderTab(tabId){
+  // 데이터 도착 전 클릭은 버리지 않고 보류 → render()에서 flush
+  if(!_data){ _pendingTab = tabId; return; }
+  if(_tabRendered[tabId]) return;
+  const {ga, gaS, zd, jira, bld, ins} = _data;
+  try {
+    if(tabId === 'overview'){ renderOverview(ga, gaS, zd, jira, bld, ins); }
+    else if(tabId === 'ga'){ renderGA(ga, gaS); }
+    else if(tabId === 'zendesk'){ renderZendesk(zd); }
+    else if(tabId === 'jira'){ renderJira(jira); }
+    else if(tabId === 'buildings'){ renderBuildings(bld, ga); }
+    else return;
+    _tabRendered[tabId] = true;
+  } catch(e){
+    // 한 탭의 렌더 실패가 다른 탭 전환을 막지 않도록 격리
+    console.error('[render:'+tabId+']', e);
+    _tabRendered[tabId] = false;
+    const pane = document.querySelector('.tab-content[data-tab="'+tabId+'"]');
+    if(pane && !pane.querySelector('.render-err')){
+      const w = document.createElement('div');
+      w.className = 'render-err';
+      w.style.cssText = 'margin:16px 0;padding:14px 16px;border:1px solid var(--red);background:var(--red-bg);border-radius:8px;font-size:13px;color:var(--red)';
+      w.textContent = '이 탭을 그리는 중 오류가 발생했습니다: ' + e.message;
+      pane.prepend(w);
+    }
+  }
+}
+
+// Chart.js CDN 로딩 실패 시 스크립트 전체가 중단되지 않도록 가드
+const CHART_OK = typeof Chart !== 'undefined';
+if(CHART_OK){
+  Chart.defaults.color = '#6E6E6E';
+  Chart.defaults.borderColor = '#E9ECEF';
+  Chart.defaults.font.family = "'Pretendard Variable','Pretendard',sans-serif";
+  Chart.defaults.font.size = 11;
+  Chart.defaults.plugins.legend.display = false;
+  Chart.defaults.animation = { duration: 1100, easing: 'easeOutQuart' };
+}
+
+// 캔버스 재사용 시 'Canvas is already in use' 방지 + 캔버스 부재/라이브러리 부재 안전 처리
+function mkChart(canvasId, cfg){
+  if(!CHART_OK) return null;
+  const el = document.getElementById(canvasId);
+  if(!el) return null;
+  const prev = Chart.getChart(el);
+  if(prev) prev.destroy();
+  try { return new Chart(el, cfg); }
+  catch(e){ console.error('[chart] '+canvasId, e); return null; }
+}
+
+// treemap/matrix 등 플러그인 컨트롤러 등록 여부 확인 (Chart.js v4 registry API)
+function hasController(type){
+  if(!CHART_OK) return false;
+  try { return !!Chart.registry.controllers.get(type); }
+  catch(e){ return false; }
+}
+
+function showFatal(msg, detail){
+  const la = document.getElementById('loadingArea');
+  la.style.display = 'flex';
+  document.getElementById('contentArea').style.display = 'none';
+  la.innerHTML =
+    '<div class="error-msg"><p style="font-size:18px;margin-bottom:8px;color:var(--navy)">'+msg+'</p>'+
+    '<p style="color:var(--ink3);font-size:13px">'+(detail||'')+'</p>'+
+    '<p style="color:var(--ink4);font-size:12px;margin-top:16px">collect_all.py를 실행하여 data.json을 생성해주세요.</p></div>';
+}
 
 function loadData(){
   document.getElementById('loadingArea').style.display = 'flex';
   document.getElementById('contentArea').style.display = 'none';
   _tabRendered = {overview:false, ga:false, zendesk:false, jira:false, buildings:false};
   _data = null;
-  fetch('data.json?t='+Date.now())
-    .then(r=>{ if(!r.ok) throw new Error('data.json not found'); return r.json(); })
+  fetch('data.json', {cache:'no-store'})
+    .then(r=>{ if(!r.ok) throw new Error('data.json not found ('+r.status+')'); return r.json(); })
     .then(data=>{
       document.getElementById('loadingArea').style.display = 'none';
       document.getElementById('contentArea').style.display = 'block';
       render(data);
     })
     .catch(err=>{
-      document.getElementById('loadingArea').innerHTML =
-        '<div class="error-msg"><p style="font-size:18px;margin-bottom:8px;color:var(--navy)">데이터를 불러올 수 없습니다</p>'+
-        '<p style="color:var(--ink3);font-size:13px">'+err.message+'</p>'+
-        '<p style="color:var(--ink4);font-size:12px;margin-top:16px">collect_all.py를 실행하여 data.json을 생성해주세요.</p></div>';
+      console.error('[loadData]', err);
+      showFatal('데이터를 불러올 수 없습니다', err.message);
     });
 }
 loadData();
@@ -589,6 +644,20 @@ loadData();
 function render(D){
   const ga = D.ga||{}, zd = D.zendesk||{}, jira = D.jira||{}, bld = D.buildings||{}, ins = D.insights||{};
   const gaS = ga.summary||{};
+
+  // _data를 DOM 조작보다 먼저 확정 — 헤더 렌더가 실패해도 탭 전환은 계속 동작해야 함
+  _data = { ga, gaS, zd, jira, bld, ins };
+
+  try { renderChrome(D, ga, zd, jira, bld); }
+  catch(e){ console.error('[renderChrome]', e); }
+
+  // 활성 탭을 렌더 (overview 하드코딩 금지). 로딩 중 눌린 탭이 있으면 그것을 우선.
+  const target = _pendingTab || activeTabId();
+  _pendingTab = null;
+  lazyRenderTab(target);
+}
+
+function renderChrome(D, ga, zd, jira, bld){
   const genAt = D.generated_at ? new Date(D.generated_at) : null;
   const genStr = genAt ? genAt.getFullYear()+'-'+String(genAt.getMonth()+1).padStart(2,'0')+'-'+String(genAt.getDate()).padStart(2,'0')+' '+String(genAt.getHours()).padStart(2,'0')+':'+String(genAt.getMinutes()).padStart(2,'0') : '알 수 없음';
   document.getElementById('headerFreshness').innerHTML = '<div class="dot"></div><span>마지막 갱신: '+genStr+'</span>';
@@ -623,10 +692,6 @@ function render(D){
   document.getElementById('zdPeriod').innerHTML = pb('&#128197;','문의 수집 기간', zdDates.length ? zdStart+' ~ '+zdEnd+' ('+zdDays+'일간 '+(zd.total||0)+'건)' : '데이터 없음');
   document.getElementById('jiraPeriod').innerHTML = pb('&#128197;','데이터 기준', genStr+' 시점 스냅샷 (누적 '+(jira.total||0)+'건)');
   document.getElementById('bldPeriod').innerHTML = pb('&#128197;','도입현황 기준일', bldDateStr+' ('+(bld.meta?.n_general_active||0)+'개 건물)');
-
-  _data = { ga, gaS, zd, jira, bld, ins };
-  renderOverview(ga, gaS, zd, jira, bld, ins);
-  _tabRendered.overview = true;
 }
 
 function renderOverview(ga, gaS, zd, jira, bld, ins){
@@ -741,13 +806,13 @@ function renderGA(ga, gaS){
     const mauBorderDash = mau.map(m => m.partial ? [5,5] : []);
     const mauPointStyle = mau.map(m => m.partial ? 'rectRot' : 'circle');
     const mauPointBg = mau.map(m => m.partial ? '#909AA0' : '#132029');
-    new Chart(document.getElementById('chartMau'), {
+    mkChart('chartMau', {
       type:'line',
       data:{ labels:mauLabels, datasets:[{ label:'월간 이용자 수', data:mau.map(m=>m.activeUsers), borderColor:'#132029', backgroundColor:'rgba(19,32,41,.06)', fill:true, tension:.4, pointRadius:4, pointHoverRadius:7, pointBackgroundColor:mauPointBg, borderWidth:2.5, segment:{ borderDash:ctx=>mau[ctx.p1DataIndex]?.partial?[5,5]:[] } }] },
       plugins:[dataLabelPlugin],
       options:{ responsive:true, maintainAspectRatio:false, layout:{padding:{top:24}}, plugins:{ tooltip:{ callbacks:{ label:ctx=>{ const m=mau[ctx.dataIndex]; return fmt(ctx.raw)+'명'+(m?.partial?' ('+m.partialDate+'까지 집계)':''); } } } }, scales:{ y:{ beginAtZero:false, ticks:{ callback:v=>fmt(v)+'명' } } } }
     });
-    new Chart(document.getElementById('chartMauPv'), {
+    mkChart('chartMauPv', {
       type:'line',
       data:{ labels:mauLabels, datasets:[
         { label:'사용자 수', data:mau.map(m=>m.activeUsers), borderColor:'#132029', backgroundColor:'rgba(19,32,41,.05)', fill:true, tension:.4, yAxisID:'y', pointRadius:3, pointBackgroundColor:mauPointBg, borderWidth:2.5, segment:{ borderDash:ctx=>mau[ctx.p1DataIndex]?.partial?[5,5]:[] } },
@@ -760,7 +825,7 @@ function renderGA(ga, gaS){
 
   const svcs = [...(ga.services||[])].sort((a,b)=>b.users-a.users).slice(0,15);
   if(svcs.length){
-    new Chart(document.getElementById('chartServices'), {
+    mkChart('chartServices', {
       type:'bar',
       data:{ labels:svcs.map(s=>friendlyName(s.path)), datasets:[{ data:svcs.map(s=>s.users), backgroundColor:COLORS.map(c=>c+'CC'), borderColor:COLORS, borderWidth:1, borderRadius:4 }] },
       plugins:[dataLabelPlugin],
@@ -769,8 +834,8 @@ function renderGA(ga, gaS){
   }
 
   const pages = (ga.top_pages||[]).slice(0,30);
-  if(pages.length && typeof Chart.controllers?.treemap !== 'undefined'){
-    new Chart(document.getElementById('chartTreemap'), {
+  if(pages.length && hasController('treemap')){
+    mkChart('chartTreemap', {
       type:'treemap',
       data:{ datasets:[{
         tree:pages.map(p=>({label:friendlyName(p.path),value:p.pageViews,users:p.users})),
@@ -782,7 +847,19 @@ function renderGA(ga, gaS){
       options:{ responsive:true, maintainAspectRatio:false }
     });
   } else {
-    document.getElementById('chartTreemap').parentElement.innerHTML = '<p style="color:var(--ink4);text-align:center;padding:40px">트리맵 차트 플러그인 로딩 대기 중</p>';
+    // 캔버스를 파괴하지 않고 오버레이만 표시 — 파괴하면 이후 재렌더가 영구 불가
+    const cv = document.getElementById('chartTreemap');
+    if(cv){
+      cv.style.display = 'none';
+      let ph = cv.parentElement.querySelector('.tm-placeholder');
+      if(!ph){
+        ph = document.createElement('p');
+        ph.className = 'tm-placeholder';
+        ph.style.cssText = 'color:var(--ink4);text-align:center;padding:40px';
+        cv.parentElement.appendChild(ph);
+      }
+      ph.textContent = pages.length ? '트리맵 플러그인을 불러오지 못했습니다' : '표시할 페이지 데이터가 없습니다';
+    }
   }
 }
 
@@ -811,7 +888,7 @@ function renderZendesk(zd){
 
   if(Object.keys(cats).length){
     const catEntries = Object.entries(cats).sort((a,b)=>b[1]-a[1]);
-    new Chart(document.getElementById('chartZdCat'), {
+    mkChart('chartZdCat', {
       type:'doughnut',
       data:{ labels:catEntries.map(e=>e[0]), datasets:[{ data:catEntries.map(e=>e[1]), backgroundColor:COLORS.slice(0,catEntries.length), borderWidth:2, borderColor:'#fff' }] },
       plugins:[doughnutLabelPlugin],
@@ -820,7 +897,7 @@ function renderZendesk(zd){
   }
   if(Object.keys(sent).length){
     const sentColors = {'긍정':'#2F9E44','중립':'#868E96','부정':'#F03E3E'};
-    new Chart(document.getElementById('chartZdSent'), {
+    mkChart('chartZdSent', {
       type:'doughnut',
       data:{ labels:Object.keys(sent), datasets:[{ data:Object.values(sent), backgroundColor:Object.keys(sent).map(k=>sentColors[k]||'#868E96'), borderWidth:2, borderColor:'#fff' }] },
       plugins:[doughnutLabelPlugin],
@@ -829,7 +906,7 @@ function renderZendesk(zd){
   }
   if(topics.length){
     const topN = topics.sort((a,b)=>b.count-a.count).slice(0,10);
-    new Chart(document.getElementById('chartZdTopics'), {
+    mkChart('chartZdTopics', {
       type:'bar',
       data:{ labels:topN.map(t=>t.topic), datasets:[{ data:topN.map(t=>t.count), backgroundColor:'#EA27C2CC', borderColor:'#EA27C2', borderWidth:1, borderRadius:4 }] },
       plugins:[dataLabelPlugin],
@@ -842,7 +919,7 @@ function renderZendesk(zd){
     const categories = Object.keys(weekly[weekKeys[0]]||{});
     const catColors = {'버그':'#F03E3E','UX혼란':'#E8590C','기능요청':'#1971C2','단순문의':'#868E96'};
     const datasets = categories.map((cat,i)=>({ label:cat, data:weekKeys.map(w=>(weekly[w]||{})[cat]||0), backgroundColor:(catColors[cat]||COLORS[i%COLORS.length])+'CC', borderColor:catColors[cat]||COLORS[i%COLORS.length], borderWidth:1 }));
-    new Chart(document.getElementById('chartZdWeekly'), {
+    mkChart('chartZdWeekly', {
       type:'bar',
       data:{ labels:weekKeys, datasets },
       options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:true, labels:{ color:'#4B4B4B', usePointStyle:true, pointStyle:'circle' } } }, scales:{ x:{ stacked:true }, y:{ stacked:true } } }
@@ -850,7 +927,7 @@ function renderZendesk(zd){
   }
   const kws = (zd.top_keywords||[]).slice(0,15);
   if(kws.length){
-    new Chart(document.getElementById('chartZdKeywords'), {
+    mkChart('chartZdKeywords', {
       type:'bar',
       data:{ labels:kws.map(k=>k.word), datasets:[{ data:kws.map(k=>k.count), backgroundColor:'#1971C2CC', borderColor:'#1971C2', borderWidth:1, borderRadius:4 }] },
       plugins:[dataLabelPlugin],
@@ -882,7 +959,7 @@ function renderJira(jira){
   if(Object.keys(statuses).length){
     const statusColors = {'해야 할 일':'#868E96','진행 중':'#1971C2','QA':'#F59F00','완료됨':'#2F9E44','Archive':'#B3B3B3'};
     const entries = Object.entries(statuses).sort((a,b)=>b[1]-a[1]);
-    new Chart(document.getElementById('chartJiraStatus'), {
+    mkChart('chartJiraStatus', {
       type:'doughnut',
       data:{ labels:entries.map(e=>e[0]), datasets:[{ data:entries.map(e=>e[1]), backgroundColor:entries.map(e=>statusColors[e[0]]||'#868E96'), borderWidth:2, borderColor:'#fff' }] },
       plugins:[doughnutLabelPlugin],
@@ -893,7 +970,7 @@ function renderJira(jira){
   if(Object.keys(priorities).length){
     const priColors = {'Highest':'#F03E3E','High':'#E8590C','Medium':'#F59F00','Low':'#2F9E44','Lowest':'#868E96'};
     const entries = Object.entries(priorities).sort((a,b)=>b[1]-a[1]);
-    new Chart(document.getElementById('chartJiraPriority'), {
+    mkChart('chartJiraPriority', {
       type:'doughnut',
       data:{ labels:entries.map(e=>e[0]), datasets:[{ data:entries.map(e=>e[1]), backgroundColor:entries.map(e=>priColors[e[0]]||'#132029'), borderWidth:2, borderColor:'#fff' }] },
       plugins:[doughnutLabelPlugin],
@@ -903,7 +980,7 @@ function renderJira(jira){
   const assignees = jira.assignees||{};
   if(Object.keys(assignees).length){
     const entries = Object.entries(assignees).sort((a,b)=>b[1]-a[1]).slice(0,10);
-    new Chart(document.getElementById('chartJiraAssignee'), {
+    mkChart('chartJiraAssignee', {
       type:'bar',
       data:{ labels:entries.map(e=>e[0]), datasets:[{ data:entries.map(e=>e[1]), backgroundColor:'#132029CC', borderColor:'#132029', borderWidth:1, borderRadius:4 }] },
       plugins:[dataLabelPlugin],
@@ -912,7 +989,7 @@ function renderJira(jira){
   }
   if(Object.keys(themes).length){
     const entries = Object.entries(themes).sort((a,b)=>b[1]-a[1]);
-    new Chart(document.getElementById('chartJiraThemes'), {
+    mkChart('chartJiraThemes', {
       type:'bar',
       data:{ labels:entries.map(e=>e[0]), datasets:[{ data:entries.map(e=>e[1]), backgroundColor:COLORS.slice(0,entries.length).map(c=>c+'CC'), borderColor:COLORS.slice(0,entries.length), borderWidth:1, borderRadius:4 }] },
       plugins:[dataLabelPlugin],
@@ -947,7 +1024,7 @@ function renderBuildings(bld, ga){
     '<div class="metric-card"><div class="metric-label">NPS 점수</div><div class="metric-value" style="color:'+(npsScore>50?'var(--green)':npsScore>0?'var(--yellow)':'var(--red)')+'">'+(npsScore||'-')+'</div><div class="metric-explain">'+(nps.grade||'고객 만족도 조사 데이터')+'</div></div>';
 
   if(catSummary.length){
-    new Chart(document.getElementById('chartBldCatRadar'), {
+    mkChart('chartBldCatRadar', {
       type:'radar',
       data:{ labels:catSummary.map(c=>c.cat), datasets:[{ label:'평균 도입률', data:catSummary.map(c=>c.avg), backgroundColor:'rgba(234,39,194,.12)', borderColor:'#EA27C2', borderWidth:2, pointBackgroundColor:'#EA27C2', pointRadius:4 }] },
       options:{ responsive:true, maintainAspectRatio:false, scales:{ r:{ beginAtZero:true, max:100, ticks:{ stepSize:20, color:'#909AA0', backdropColor:'transparent' }, grid:{ color:'#E9ECEF' }, angleLines:{ color:'#E9ECEF' }, pointLabels:{ color:'#4B4B4B', font:{ size:11 } } } }, plugins:{ tooltip:{ callbacks:{ label:ctx=>ctx.raw+'%' } } } }
