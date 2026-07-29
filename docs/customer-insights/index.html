@@ -60,8 +60,8 @@ a:hover{color:var(--navy)}
 .card-badge.yellow{background:var(--yellow-bg);color:var(--yellow)}
 .card-badge.blue{background:var(--blue-bg);color:var(--blue)}
 
-.metric-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;transition:border-color .2s,box-shadow .2s,transform .2s;position:relative;overflow:hidden;box-shadow:var(--shadow-1)}
-.metric-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--brand);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.metric-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;transition:border-color .2s,box-shadow .2s,transform .2s;position:relative;overflow:visible;box-shadow:var(--shadow-1)}
+.metric-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--brand);transform:scaleX(0);transform-origin:left;transition:transform .3s;border-radius:var(--radius) var(--radius) 0 0}
 .metric-card:hover{border-color:var(--line2);transform:translateY(-2px);box-shadow:var(--shadow-2)}.metric-card:hover::before{transform:scaleX(1)}
 .metric-label{font-size:12px;color:var(--ink3);margin-bottom:8px;display:flex;align-items:center;gap:6px;font-weight:500}
 .metric-value{font-size:30px;font-weight:800;letter-spacing:-1.4px;line-height:1.15;color:var(--navy)}
@@ -594,8 +594,9 @@ function render(D){
   document.getElementById('headerFreshness').innerHTML = '<div class="dot"></div><span>마지막 갱신: '+genStr+'</span>';
 
   const bldDate = bld.meta?.date || '수동 갱신';
+  const gaCsvDate = ga.csv_date || '수동 갱신';
   document.getElementById('freshnessBar').innerHTML =
-    '<div class="freshness-item"><div class="status daily"></div><span class="src">앱 분석 (GA)</span><span class="time">매일 자동 갱신</span></div>'+
+    '<div class="freshness-item"><div class="status manual"></div><span class="src">앱 분석 (GA)</span><span class="time">'+gaCsvDate+' 수집</span></div>'+
     '<div class="freshness-item"><div class="status daily"></div><span class="src">고객 문의 (Zendesk)</span><span class="time">매일 자동 갱신</span></div>'+
     '<div class="freshness-item"><div class="status manual"></div><span class="src">개발 현황 (Jira)</span><span class="time">수동 갱신 (스냅샷)</span></div>'+
     '<div class="freshness-item"><div class="status manual"></div><span class="src">건물 도입현황</span><span class="time">'+bldDate+' 기준</span></div>'+
@@ -632,8 +633,9 @@ function renderOverview(ga, gaS, zd, jira, bld, ins){
   const mauGrowth = gaS.mau_mom_growth||0, retRate = gaS.aarrr_retention_rate||0, actRate = gaS.aarrr_activation_rate||0;
   const totalBld = bld.meta?.n_general_active||0;
 
+  const mauMonth = gaS.current_month||''; const partialNote = gaS.partial_month ? ' <span style="font-size:11px;color:var(--ink3)">('+gaS.partial_month+' '+gaS.partial_date+'까지 진행중)</span>' : '';
   document.getElementById('heroMetrics').innerHTML =
-    '<div class="metric-card"><div class="metric-label">월간 이용자 수 (MAU) <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">지난 한 달 동안 앱을 한 번이라도 사용한 사람 수입니다.</div></div></div><div class="metric-value" id="metricMau">-</div><div class="metric-sub">전월 대비 <span class="metric-change '+(mauGrowth>=0?'up':'down')+'">'+(mauGrowth>=0?'+':'')+mauGrowth+'%</span></div><div class="metric-explain">'+(mauGrowth>0?'사용자가 늘고 있어 긍정적입니다.':mauGrowth<-5?'사용자가 줄고 있습니다. 이탈 원인 파악이 필요합니다.':'전월과 비슷한 수준입니다.')+'</div></div>'+
+    '<div class="metric-card"><div class="metric-label">월간 이용자 수 (MAU) <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">완전한 최근 달('+(mauMonth||'직전 월')+') 기준 MAU입니다. 진행 중인 달은 불완전하므로 MoM 비교에서 제외됩니다.</div></div></div><div class="metric-value" id="metricMau">-</div><div class="metric-sub">'+(mauMonth?mauMonth+' 기준 · ':'')+'전월 대비 <span class="metric-change '+(mauGrowth>=0?'up':'down')+'">'+(mauGrowth>=0?'+':'')+mauGrowth+'%</span>'+partialNote+'</div><div class="metric-explain">'+(mauGrowth>0?'사용자가 늘고 있어 긍정적입니다.':mauGrowth<-5?'사용자가 줄고 있습니다. 이탈 원인 파악이 필요합니다.':'전월과 비슷한 수준입니다.')+'</div></div>'+
     '<div class="metric-card"><div class="metric-label">서비스 활성화율 <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">앱에 접속한 사용자 중 실제로 서비스(불편신고, 대여 등)를 이용한 비율입니다. 높을수록 앱이 유용하게 사용되고 있다는 뜻입니다.</div></div></div><div class="metric-value" style="color:'+(actRate>40?'var(--green)':actRate>25?'var(--yellow)':'var(--red)')+'">'+actRate+'%</div><div class="metric-sub">접속자 대비 실제 이용 비율</div><div class="metric-explain">'+(actRate>40?'절반 가까이 서비스를 사용하고 있어 양호합니다.':actRate>25?'사용률을 높이기 위한 UX 개선이 필요합니다.':'대부분의 사용자가 서비스를 이용하지 않고 떠납니다.')+'</div></div>'+
     '<div class="metric-card"><div class="metric-label">재방문율 <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">앱에 접속한 사용자 중 다시 돌아와서 꾸준히 사용하는 비율입니다. 30% 이상이면 양호, 15% 미만이면 심각한 이탈 문제입니다.</div></div></div><div class="metric-value" style="color:'+(retRate>30?'var(--green)':retRate>15?'var(--yellow)':'var(--red)')+'">'+retRate+'%</div><div class="metric-sub">접속자 대비 재사용 비율</div><div class="metric-explain">'+(retRate>30?'사용자 유지가 잘 되고 있습니다.':retRate>15?'개선 여지가 있습니다. 알림과 개인화를 강화하세요.':'100명 중 '+Math.round(retRate)+'명만 다시 옵니다. 온보딩과 핵심 가치 전달 개선이 시급합니다.')+'</div></div>'+
     '<div class="metric-card"><div class="metric-label">고객 문의 <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">Zendesk로 접수된 고객 문의 건수입니다. 전체 사용자 의견이 아닌 문의를 남긴 고객만 반영하므로 해석에 주의가 필요합니다.</div></div></div><div class="metric-value" id="metricCs">-</div><div class="metric-sub">버그 신고 '+(zd.categories?.['버그']||0)+'건 포함</div><div class="metric-explain">문의 중 '+Math.round((zd.category_ratios?.['단순문의']||0)*100)+'%가 단순 문의입니다. FAQ 자동화로 줄일 수 있습니다.</div></div>'+
@@ -735,20 +737,24 @@ function renderGA(ga, gaS){
     '<div class="metric-card"><div class="metric-label">1인당 화면 조회</div><div class="metric-value">'+pvPerUser+'</div><div class="metric-explain">사용자 1명이 평균적으로 보는 화면 수입니다. '+(parseFloat(pvPerUser)>10?'10 이상이면 활발한 사용입니다.':'수치가 낮으면 핵심 기능을 더 잘 노출할 필요가 있습니다.')+'</div></div>';
 
   if(mau.length){
+    const mauLabels = mau.map(m => m.partial ? m.month+' (진행중)' : m.month);
+    const mauBorderDash = mau.map(m => m.partial ? [5,5] : []);
+    const mauPointStyle = mau.map(m => m.partial ? 'rectRot' : 'circle');
+    const mauPointBg = mau.map(m => m.partial ? '#909AA0' : '#132029');
     new Chart(document.getElementById('chartMau'), {
       type:'line',
-      data:{ labels:mau.map(m=>m.month), datasets:[{ label:'월간 이용자 수', data:mau.map(m=>m.activeUsers), borderColor:'#132029', backgroundColor:'rgba(19,32,41,.06)', fill:true, tension:.4, pointRadius:4, pointHoverRadius:7, pointBackgroundColor:'#132029', borderWidth:2.5 }] },
+      data:{ labels:mauLabels, datasets:[{ label:'월간 이용자 수', data:mau.map(m=>m.activeUsers), borderColor:'#132029', backgroundColor:'rgba(19,32,41,.06)', fill:true, tension:.4, pointRadius:4, pointHoverRadius:7, pointBackgroundColor:mauPointBg, borderWidth:2.5, segment:{ borderDash:ctx=>mau[ctx.p1DataIndex]?.partial?[5,5]:[] } }] },
       plugins:[dataLabelPlugin],
-      options:{ responsive:true, maintainAspectRatio:false, layout:{padding:{top:24}}, plugins:{ tooltip:{ callbacks:{ label:ctx=>fmt(ctx.raw)+'명' } } }, scales:{ y:{ beginAtZero:false, ticks:{ callback:v=>fmt(v)+'명' } } } }
+      options:{ responsive:true, maintainAspectRatio:false, layout:{padding:{top:24}}, plugins:{ tooltip:{ callbacks:{ label:ctx=>{ const m=mau[ctx.dataIndex]; return fmt(ctx.raw)+'명'+(m?.partial?' ('+m.partialDate+'까지 집계)':''); } } } }, scales:{ y:{ beginAtZero:false, ticks:{ callback:v=>fmt(v)+'명' } } } }
     });
     new Chart(document.getElementById('chartMauPv'), {
       type:'line',
-      data:{ labels:mau.map(m=>m.month), datasets:[
-        { label:'사용자 수', data:mau.map(m=>m.activeUsers), borderColor:'#132029', backgroundColor:'rgba(19,32,41,.05)', fill:true, tension:.4, yAxisID:'y', pointRadius:3, pointBackgroundColor:'#132029', borderWidth:2.5 },
-        { label:'화면 조회 수', data:mau.map(m=>m.pageViews), borderColor:'#EA27C2', backgroundColor:'rgba(234,39,194,.06)', fill:true, tension:.4, yAxisID:'y1', pointRadius:3, pointBackgroundColor:'#EA27C2', borderWidth:2.5 }
+      data:{ labels:mauLabels, datasets:[
+        { label:'사용자 수', data:mau.map(m=>m.activeUsers), borderColor:'#132029', backgroundColor:'rgba(19,32,41,.05)', fill:true, tension:.4, yAxisID:'y', pointRadius:3, pointBackgroundColor:mauPointBg, borderWidth:2.5, segment:{ borderDash:ctx=>mau[ctx.p1DataIndex]?.partial?[5,5]:[] } },
+        { label:'화면 조회 수', data:mau.map(m=>m.pageViews), borderColor:'#EA27C2', backgroundColor:'rgba(234,39,194,.06)', fill:true, tension:.4, yAxisID:'y1', pointRadius:3, pointBackgroundColor:mau.map(m=>m.partial?'#909AA0':'#EA27C2'), borderWidth:2.5, segment:{ borderDash:ctx=>mau[ctx.p1DataIndex]?.partial?[5,5]:[] } }
       ] },
       plugins:[dataLabelPlugin],
-      options:{ responsive:true, maintainAspectRatio:false, layout:{padding:{top:24}}, plugins:{ legend:{ display:true, labels:{ color:'#4B4B4B', usePointStyle:true, pointStyle:'circle' } }, tooltip:{ callbacks:{ label:ctx=>ctx.dataset.label+': '+fmt(ctx.raw) } } }, scales:{ y:{ position:'left', ticks:{ callback:v=>fmt(v) } }, y1:{ position:'right', grid:{ drawOnChartArea:false }, ticks:{ callback:v=>fmt(v) } } } }
+      options:{ responsive:true, maintainAspectRatio:false, layout:{padding:{top:24}}, plugins:{ legend:{ display:true, labels:{ color:'#4B4B4B', usePointStyle:true, pointStyle:'circle' } }, tooltip:{ callbacks:{ label:ctx=>{ const m=mau[ctx.dataIndex]; return ctx.dataset.label+': '+fmt(ctx.raw)+(m?.partial?' ('+m.partialDate+'까지)':''); } } } }, scales:{ y:{ position:'left', ticks:{ callback:v=>fmt(v) } }, y1:{ position:'right', grid:{ drawOnChartArea:false }, ticks:{ callback:v=>fmt(v) } } } }
     });
   }
 
