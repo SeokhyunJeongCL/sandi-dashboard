@@ -172,6 +172,88 @@ a:hover{color:var(--navy)}
 .period-ctl select{font-family:inherit;font-size:12px;padding:5px 8px;border:1px solid var(--line2);border-radius:6px;background:var(--card);color:var(--navy);font-weight:600;cursor:pointer}
 .period-ctl .pc-sep{color:var(--ink4);font-size:12px}
 .period-ctl .pc-note{font-size:11px;color:var(--ink4);margin-left:auto;text-align:right;line-height:1.5}
+
+/* ── 통합 필터바 (기간 · 건물 · 화면/서비스) — 스크롤 중에도 조건이 보이도록 고정 ──
+   top은 헤더+탭 높이를 런타임에 측정해 --fbar-top으로 주입한다 (하드코딩하면
+   폰트 로딩·줌·반응형에서 어긋난다). */
+.period-ctl.fbar{position:sticky;top:var(--fbar-top,111px);z-index:98;flex-direction:column;
+  align-items:stretch;gap:9px;background:rgba(255,255,255,.94);
+  backdrop-filter:saturate(180%) blur(12px);-webkit-backdrop-filter:saturate(180%) blur(12px)}
+.fb-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+/* 해당 탭에 적용되지 않는 컨트롤 — 숨기지 않고 비활성으로 남겨 '왜 안 먹나'를 없앤다 */
+.fb-row.off{opacity:.4;pointer-events:none;filter:grayscale(1)}
+.fb-row.hide{display:none}
+.fb-lbl{font-size:12px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:5px;
+  min-width:78px;flex-shrink:0}
+.fb-act{background:var(--muted);border:1px solid var(--line);border-radius:100px;padding:5px 11px;
+  font-size:11px;font-weight:600;color:var(--ink3);cursor:pointer;font-family:inherit;transition:all .15s}
+.fb-act:hover{background:var(--muted2);border-color:var(--line2);color:var(--navy)}
+.fb-act.ok{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.fb-spacer{margin-left:auto}
+.fb-off-note{font-size:11px;color:var(--yellow);font-weight:600;margin-left:auto;text-align:right}
+
+/* ── 검색 가능 콤보박스 ──
+   native <select>로는 건물 310개·화면 180개에서 항목을 찾을 수 없다.
+   검색 + 정렬 토글(가나다|건수) + 그룹 + 단일/다중 선택을 한 컴포넌트로 처리한다. */
+.cbx{position:relative;display:inline-flex;flex-direction:column}
+.cbx-btn{display:inline-flex;align-items:center;gap:7px;min-width:200px;max-width:320px;
+  font-family:inherit;font-size:12px;font-weight:600;padding:5px 9px;border:1px solid var(--line2);
+  border-radius:6px;background:var(--card);color:var(--navy);cursor:pointer;text-align:left}
+.cbx-btn:hover{border-color:var(--brand)}
+.cbx.open .cbx-btn{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+.cbx-btn .cbx-cur{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cbx-btn .cbx-cur.ph{color:var(--ink4);font-weight:500}
+.cbx-btn .cbx-ar{color:var(--ink4);font-size:9px;flex-shrink:0}
+.cbx-pop{position:absolute;top:calc(100% + 5px);left:0;z-index:220;width:340px;max-width:88vw;
+  background:var(--card);border:1px solid var(--line2);border-radius:10px;box-shadow:var(--shadow-2);
+  padding:8px;display:none}
+.cbx.open .cbx-pop{display:block}
+.cbx.up .cbx-pop{top:auto;bottom:calc(100% + 5px)}
+.cbx-search{width:100%;font-family:inherit;font-size:12px;padding:7px 9px;border:1px solid var(--line2);
+  border-radius:6px;color:var(--navy);background:var(--card)}
+.cbx-search:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+.cbx-tools{display:flex;align-items:center;gap:4px;margin:7px 0 4px}
+.cbx-sort{background:var(--muted);border:1px solid var(--line);border-radius:100px;padding:3px 9px;
+  font-size:10px;font-weight:700;color:var(--ink3);cursor:pointer;font-family:inherit}
+.cbx-sort.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.cbx-cnt{margin-left:auto;font-size:10px;color:var(--ink4);font-variant-numeric:tabular-nums}
+.cbx-list{max-height:292px;overflow-y:auto;margin-top:2px}
+.cbx-grp{font-size:10px;font-weight:800;color:var(--ink4);padding:8px 8px 4px;
+  position:sticky;top:0;background:var(--card);z-index:1}
+.cbx-opt{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;font-size:12px;
+  color:var(--ink2);cursor:pointer}
+.cbx-opt:hover,.cbx-opt.cur{background:var(--brand-soft)}
+.cbx-opt.sel{background:var(--brand);color:#fff}
+.cbx-opt .o-nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.cbx-opt .o-mt{font-size:10px;color:var(--ink4);font-variant-numeric:tabular-nums;flex-shrink:0}
+.cbx-opt.sel .o-mt{color:rgba(255,255,255,.82)}
+.cbx-empty{padding:16px 8px;font-size:12px;color:var(--ink4);text-align:center;line-height:1.6}
+.cbx-hit{color:var(--brand);font-weight:800}
+.cbx-opt.sel .cbx-hit{color:#fff;text-decoration:underline}
+
+/* ── 스코프 구분 (전체 / 건물별 / 화면·서비스별) ──
+   앱 사용 분석 탭은 세 가지 다른 모집단의 수치가 한 화면에 섞여 있다.
+   카드 '형태'는 통일하되(같은 .card), 스코프는 색 + 섹션 헤더로 구분한다.
+   색만 다르면 장식으로 읽히므로 각 섹션 머리에 '무엇을 세는 수치인지'를 적는다. */
+.scope{--sc:#132029;--sc-bg:rgba(19,32,41,.06)}
+.scope.all{--sc:#132029;--sc-bg:rgba(19,32,41,.06)}   /* 전체 */
+.scope.bld{--sc:#EA27C2;--sc-bg:rgba(234,39,194,.07)} /* 건물별 */
+.scope.scr{--sc:#1971C2;--sc-bg:rgba(25,113,194,.07)} /* 화면·서비스별 */
+
+.scope-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  margin:32px 0 14px;padding:10px 14px;border-radius:10px;
+  background:var(--sc-bg);border-left:3px solid var(--sc)}
+.scope-head:first-child{margin-top:0}
+.scope-tag{display:inline-flex;align-items:center;gap:5px;background:var(--sc);color:#fff;
+  border-radius:100px;padding:3px 11px;font-size:11px;font-weight:800;white-space:nowrap;flex-shrink:0}
+.scope-ttl{font-size:14px;font-weight:800;color:var(--navy);letter-spacing:-.3px}
+.scope-desc{font-size:11px;color:var(--ink3);line-height:1.6;flex:1;min-width:220px}
+.scope-desc b{color:var(--sc)}
+/* 카드는 형태를 유지하고 왼쪽 액센트로만 소속을 표시한다 */
+.scope > .card,.scope > .grid > .card{border-left:3px solid var(--sc)}
+.scope > .kpi-row .kpi{border-left:3px solid var(--sc);background:var(--sc-bg)}
+.scope-empty{padding:14px 16px;border:1px dashed var(--line2);border-radius:10px;
+  font-size:12px;color:var(--ink4);line-height:1.7}
 .scope-warn{display:flex;gap:8px;align-items:flex-start;background:var(--yellow-bg);border:1px solid var(--yellow);border-radius:8px;padding:10px 13px;font-size:12px;color:var(--yellow);margin-bottom:16px;line-height:1.6}
 .scope-warn b{color:var(--yellow)}
 
@@ -272,13 +354,35 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
 
   <div id="contentArea" style="display:none">
 
-    <div class="period-ctl" id="periodCtl" style="display:none">
-      <span class="pc-label">&#128197; 조회 기간</span>
-      <span class="pc-presets" id="pcPresets"></span>
-      <select id="pcFrom"></select>
-      <span class="pc-sep">~</span>
-      <select id="pcTo"></select>
-      <span class="pc-note" id="pcNote"></span>
+    <!-- ── 통합 필터바 · sticky ──
+         기간·건물·화면/서비스가 세 곳에 흩어져 서로를 볼 수 없던 문제를 한 줄로 합쳤다.
+         조회 버튼은 두지 않는다: 데이터가 전부 클라이언트에 있어 재렌더가 즉시이므로
+         버튼은 '설정했는데 안 눌러서 수치가 이전 조건인 상태'만 새로 만든다. -->
+    <div class="period-ctl fbar" id="periodCtl" style="display:none">
+      <div class="fb-row" id="fbRowPeriod">
+        <span class="fb-lbl">&#128197; 조회 기간</span>
+        <span class="pc-presets" id="pcPresets"></span>
+        <select id="pcFrom"></select>
+        <span class="pc-sep">~</span>
+        <select id="pcTo"></select>
+        <span class="pc-note" id="pcNote"></span>
+      </div>
+      <div class="fb-row" id="fbRowSeg">
+        <!-- 해상도(월/주)는 GA 세그먼트 차트에만 적용되므로 이 행에 둔다 -->
+        <span class="fb-lbl" style="min-width:0">&#128200; 해상도</span>
+        <span class="pc-presets" id="gaResToggle"></span>
+        <span class="fb-lbl" style="min-width:0;margin-left:6px">&#127970; 건물</span>
+        <span id="cbxBld"></span>
+        <span id="gaBldChips" style="display:flex;gap:5px;flex-wrap:wrap"></span>
+        <span class="fb-lbl" style="min-width:0;margin-left:6px">&#128241; 화면&middot;서비스</span>
+        <span id="cbxScreen"></span>
+        <span class="fb-spacer"></span>
+        <button class="fb-act" id="fbReset" title="모든 조건을 기본값으로">&#8635; 초기화</button>
+        <button class="fb-act" id="fbLink" title="현재 조건이 담긴 링크를 복사합니다">&#128279; 링크 복사</button>
+      </div>
+      <div class="fb-row" id="fbRowNote" style="display:none">
+        <span class="fb-off-note" id="fbOffNote"></span>
+      </div>
     </div>
 
     <div class="tab-content active" data-tab="overview">
@@ -333,95 +437,149 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       <div id="gaScopeNote"></div>
       <div class="ai-box" id="aiGaBox"></div>
 
-      <!-- ── 1단 · 조회 컨트롤 ── -->
-      <div class="card seg-ctl" style="margin-bottom:16px">
-        <div class="filter-row" style="margin-bottom:0">
-          <span style="font-size:12px;font-weight:700;color:var(--navy)">&#128202; 세그먼트</span>
-          <span class="pc-presets" id="gaResToggle"></span>
-          <select id="gaBldSel"><option value="">전체 건물</option></select>
-          <span id="gaBldChips" style="display:flex;gap:5px;flex-wrap:wrap"></span>
-          <span id="gaSegNote" style="font-size:11px;color:var(--ink4);margin-left:auto;text-align:right;line-height:1.5"></span>
-        </div>
-      </div>
+      <!-- ── 1단 · 조회 컨트롤은 상단 통합 필터바(#periodCtl)로 이동 ── -->
+      <div id="gaSegNote" style="font-size:11px;color:var(--ink4);text-align:right;line-height:1.5;margin-bottom:8px"></div>
       <div id="gaAxisWarn"></div>
 
-      <!-- ── 2단 · 핵심 지표 + 추이 (CDO 피드백 반영) ── -->
-      <div class="kpi-row" id="gaSegKpi" style="margin-bottom:20px"></div>
-      <div class="card" style="margin-bottom:24px">
-        <div class="card-header">
-          <span class="card-title" id="gaComboTitle">사용자 수 + 사용자당 지표</span>
-          <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
-            <div class="tooltip-text">막대(왼쪽 축)는 활성 사용자 수, 선(오른쪽 축)은 사용자당 세션·조회수입니다. 비율만 보면 하락이 참여 저하인지 사용자 감소인지 구분되지 않으므로 함께 봅니다. 흐린 점선 구간은 아직 끝나지 않은 기간이라 증감률 계산에서 제외됩니다.</div>
+      <!-- ══ 스코프 1 · 전체 ══
+           모집단이 다른 수치가 한 화면에 섞이면 "이 숫자가 무엇을 센 것인지"를
+           놓친다. 전체 → 건물별 → 화면·서비스별 순으로 드릴다운 구조를 만들고
+           각 구간을 색 + 섹션 헤더로 구분한다. 카드 형태는 통일한다. -->
+      <div class="scope all">
+        <div class="scope-head">
+          <span class="scope-tag">&#127760; 전체</span>
+          <span class="scope-ttl">앱 전체 기준</span>
+          <span class="scope-desc">앱 <b>전 사용자</b>를 센 수치입니다. 조회 기간만 반영하고 <b>건물·화면 선택과 무관</b>합니다.</span>
+        </div>
+        <div class="grid grid-3" id="gaMetrics" style="margin-bottom:16px"></div>
+        <div class="grid grid-2" style="margin-bottom:16px">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">월별 사용자 추이</span>
+              <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+                <div class="tooltip-text">최근 12개월간 앱을 한 번이라도 사용한 월간 순이용자(MAU) 수입니다. 이 수치가 올라가면 앱 성장 중, 내려가면 이탈이 많은 것입니다.</div>
+              </div>
+            </div>
+            <div class="chart-wrap tall"><canvas id="chartMau"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">이용량 비교: 사용자 수 vs 화면 조회 수</span>
+              <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+                <div class="tooltip-text"><b>사용자 수(MAU)</b>는 몇 명이 왔는지, <b>화면 조회 수(PV)</b>는 얼마나 많이 봤는지를 나타냅니다. MAU는 적은데 PV가 많으면 소수 충성 사용자가 많이 쓰는 것이고, 반대면 많은 사람이 조금씩 쓰는 것입니다.</div>
+              </div>
+            </div>
+            <div class="chart-wrap tall"><canvas id="chartMauPv"></canvas></div>
           </div>
         </div>
-        <div class="chart-wrap tall"><canvas id="chartGaCombo"></canvas></div>
-        <div id="gaComboNote" style="font-size:11px;color:var(--ink4);margin-top:10px;line-height:1.6"></div>
+        <div class="grid grid-2">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">서비스별 이용량 상위 15 <small style="font-weight:500;color:var(--ink4);font-size:11px">· 월평균 이용자</small></span>
+              <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+                <div class="tooltip-text">앱 내 각 서비스(메뉴)를 방문한 사용자 수 기준 상위 15개입니다. 어떤 기능이 가장 많이 쓰이는지 한눈에 볼 수 있습니다.</div>
+              </div>
+            </div>
+            <div class="chart-wrap tall"><canvas id="chartServices"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">화면별 방문량 지도</span>
+              <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+                <div class="tooltip-text">화면(페이지)별 방문량을 직사각형 크기로 표현한 지도입니다. 크기가 클수록 많이 방문한 화면이고, 색이 진할수록 사용자가 많은 화면입니다.</div>
+              </div>
+            </div>
+            <div class="chart-wrap tall"><canvas id="chartTreemap"></canvas></div>
+          </div>
+        </div>
       </div>
-      <div class="card" id="gaCompareCard" style="margin-bottom:24px;display:none">
+
+      <!-- ══ 스코프 2 · 건물별 ══ -->
+      <div class="scope bld">
+        <div class="scope-head">
+          <span class="scope-tag">&#127970; 건물별</span>
+          <span class="scope-ttl" id="gaBldScopeTtl">건물 세그먼트</span>
+          <span class="scope-desc" id="gaBldScopeDesc"></span>
+        </div>
+        <div class="kpi-row" id="gaSegKpi" style="margin-bottom:16px"></div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-header">
+            <span class="card-title" id="gaComboTitle">사용자 수 + 사용자당 지표</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+              <div class="tooltip-text">막대(왼쪽 축)는 활성 사용자 수, 선(오른쪽 축)은 사용자당 세션·조회수입니다. 비율만 보면 하락이 참여 저하인지 사용자 감소인지 구분되지 않으므로 함께 봅니다. 흐린 점선 구간은 아직 끝나지 않은 기간이라 증감률 계산에서 제외됩니다.</div>
+            </div>
+          </div>
+          <div class="chart-wrap tall"><canvas id="chartGaCombo"></canvas></div>
+          <div id="gaComboNote" style="font-size:11px;color:var(--ink4);margin-top:10px;line-height:1.6"></div>
+        </div>
+      <div class="card" id="gaCompareCard" style="margin-bottom:16px;display:none">
         <div class="card-header">
-          <span class="card-title">건물 비교</span>
+          <span class="card-title">A · 건물 추세 (완결 구간 + 이동평균)</span>
           <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
-            <div class="tooltip-text">선택한 건물과 전체 평균을 같은 축에서 비교합니다. 최대 5개까지 선택할 수 있습니다.</div>
+            <div class="tooltip-text">선택한 건물과 전체를 같은 화면에서 비교합니다. 미완결 구간은 계산에서 제외하고, 주 단위 편차를 걷어내기 위해 이동평균을 함께 그립니다. 주차별 증감률은 편차가 커서 판단 근거로 쓰지 않습니다.</div>
           </div>
         </div>
         <div class="chart-wrap tall"><canvas id="chartGaCompare"></canvas></div>
       </div>
 
-      <div class="grid grid-3" id="gaMetrics" style="margin-bottom:24px"></div>
-      <div class="grid grid-2" style="margin-bottom:24px">
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">월별 사용자 추이</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
-              <div class="tooltip-text">최근 12개월간 앱을 한 번이라도 사용한 월간 순이용자(MAU) 수입니다. 이 수치가 올라가면 앱 성장 중, 내려가면 이탈이 많은 것입니다.</div>
-            </div>
+      <!-- ── B · 상대 성과 ──
+           건물 증감률만 보면 '이 건물이 잘한 것'과 '전체가 올라 따라 오른 것'이
+           구분되지 않는다. 전체 성장률을 빼서 격차(%p)로 만들면 한 줄로 판별된다. -->
+      <div class="card" id="gaRelCard" style="margin-bottom:16px;display:none">
+        <div class="card-header">
+          <span class="card-title">B · 전체 대비 상대 성과</span>
+          <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-text">최근 완결 4구간 평균을 그 이전 4구간 평균과 비교한 증감률에서, 전체의 증감률을 뺀 <b>격차(%p)</b>입니다. 값이 양수면 전체 흐름보다 잘한 것이고, 음수면 전체가 올랐는데도 뒤처진 것입니다. 주차별 증감률 나열이 아니라 4구간 평균을 쓰는 이유는 주 단위 편차가 커서 한 주만 보면 추세를 오판하기 때문입니다.</div>
           </div>
-          <div class="chart-wrap tall"><canvas id="chartMau"></canvas></div>
         </div>
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">이용량 비교: 사용자 수 vs 화면 조회 수</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
-              <div class="tooltip-text"><b>사용자 수(MAU)</b>는 몇 명이 왔는지, <b>화면 조회 수(PV)</b>는 얼마나 많이 봤는지를 나타냅니다. MAU는 적은데 PV가 많으면 소수 충성 사용자가 많이 쓰는 것이고, 반대면 많은 사람이 조금씩 쓰는 것입니다.</div>
-            </div>
-          </div>
-          <div class="chart-wrap tall"><canvas id="chartMauPv"></canvas></div>
-        </div>
+        <div id="gaRelBody"></div>
       </div>
-      <div class="grid grid-2" style="margin-bottom:24px">
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">서비스별 이용량 상위 15 <small style="font-weight:500;color:var(--ink4);font-size:11px">· 월평균 이용자</small></span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
-              <div class="tooltip-text">앱 내 각 서비스(메뉴)를 방문한 사용자 수 기준 상위 15개입니다. 어떤 기능이 가장 많이 쓰이는지 한눈에 볼 수 있습니다.</div>
-            </div>
+
+      <!-- ── C · 참여 품질 사분면 ──
+           CDO 피드백("사용자 축이 하나 더 들어가면 직관적")의 정확한 답.
+           사용자 수 증감과 참여도 증감을 한 평면에 놓아야
+           '사람은 늘었는데 참여가 떨어지는 건물'이 눈에 보인다. -->
+      <div class="card" id="gaQuadCard" style="margin-bottom:16px;display:none">
+        <div class="card-header">
+          <span class="card-title">C · 참여 품질 사분면</span>
+          <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-text">가로축은 활성 사용자 증감률, 세로축은 세션/사용자(방문빈도) 증감률입니다.<br><b>↗ 성장</b> 사람도 참여도 상승 · <b>↘ 이탈위험</b> 사람은 늘었으나 참여 하락(신규가 안 붙는 신호) · <b>↖ 충성화</b> 사람은 줄었으나 남은 사용자는 더 씀 · <b>↙ 위험</b> 둘 다 하락. 오른쪽 아래에 몰린 건물이 Activation→Retention 병목의 건물 단위 후보입니다.</div>
           </div>
-          <div class="chart-wrap tall"><canvas id="chartServices"></canvas></div>
         </div>
-        <div class="card">
+        <div class="chart-wrap tall"><canvas id="chartGaQuad"></canvas></div>
+        <div id="gaQuadNote" style="font-size:11px;color:var(--ink4);margin-top:10px;line-height:1.6"></div>
+      </div>
+
+        <!-- 순위표 — 어느 건물에 개입할지 결정하기 위한 표 -->
+        <div class="card" id="gaRankCard">
           <div class="card-header">
-            <span class="card-title">화면별 방문량 지도</span>
+            <span class="card-title">건물 순위 · 개입 대상 판별</span>
             <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
-              <div class="tooltip-text">화면(페이지)별 방문량을 직사각형 크기로 표현한 지도입니다. 크기가 클수록 많이 방문한 화면이고, 색이 진할수록 사용자가 많은 화면입니다.</div>
+              <div class="tooltip-text">완결 구간 기준 건물별 활성 사용자·참여도와 전체 대비 격차입니다. 격차가 음수이면서 규모가 큰 건물이 개입 우선순위가 높습니다. 행을 클릭하면 그 건물이 위 차트에 선택됩니다.</div>
             </div>
           </div>
-          <div class="chart-wrap tall"><canvas id="chartTreemap"></canvas></div>
+          <div id="gaRankBody"></div>
         </div>
       </div>
 
-      <!-- ── 3단 · 화면별 퍼널 / 요소 클릭 ── -->
-      <div class="card" style="margin-bottom:24px">
-        <div class="card-header">
-          <span class="card-title">화면별 퍼널 · 요소 클릭</span>
-          <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
-            <div class="tooltip-text">GA event_label(화면_요소_클릭)을 파싱해 화면 단위로 집계한 결과입니다. 단계 순서가 정의된 화면은 퍼널과 이탈률을, 정의되지 않은 화면은 요소별 클릭 사용자 내림차순을 보여줍니다. 순서를 모르는 화면에 억지 퍼널을 씌우면 이탈률이 거짓이 되므로 구분합니다.</div>
+      <!-- ══ 스코프 3 · 화면 · 서비스별 ══ -->
+      <div class="scope scr">
+        <div class="scope-head">
+          <span class="scope-tag">&#128241; 화면&middot;서비스별</span>
+          <span class="scope-ttl" id="gaScrScopeTtl">화면 세그먼트</span>
+          <span class="scope-desc" id="gaScrScopeDesc"></span>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">화면별 퍼널 · 요소 클릭</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+              <div class="tooltip-text">GA event_label(화면_요소_클릭)을 파싱해 화면 단위로 집계한 결과입니다. 단계 순서가 정의된 화면은 퍼널과 이탈률을, 정의되지 않은 화면은 요소별 클릭 사용자 내림차순을 보여줍니다. 순서를 모르는 화면에 억지 퍼널을 씌우면 이탈률이 거짓이 되므로 구분합니다.</div>
+            </div>
           </div>
+          <!-- 화면·서비스 선택기는 상단 통합 필터바로 이동 -->
+          <div id="gaScreenMeta" style="font-size:11px;color:var(--ink4);margin-bottom:12px"></div>
+          <div id="gaFunnel"></div>
         </div>
-        <div class="filter-row">
-          <select id="gaScreenSel"></select>
-          <span id="gaScreenMeta" style="font-size:11px;color:var(--ink4)"></span>
-        </div>
-        <div id="gaFunnel"></div>
       </div>
     </div>
 
@@ -643,6 +801,171 @@ let _data = null;
 let _pendingTab = null;   // 데이터 도착 전에 사용자가 누른 탭
 
 function fmt(n){ return n == null ? '-' : n.toLocaleString('ko-KR'); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+const _combos = [];
+document.addEventListener('click', ()=>_combos.forEach(c=>c.close()));
+
+/* ══════════════════════════════════════════════════════════════
+   검색 가능 콤보박스 (makeCombo)
+
+   왜 필요한가: native <select>에 건물 310개 / 화면·서비스 180개를 넣으면
+   항목을 찾을 수 없다. 가나다순 정렬만으로는 '홈v1 13.9만건'처럼 규모가
+   큰 항목이 목록 중간에 묻히므로, 검색으로 찾기를 해결하고 정렬은
+   [가나다 | 건수] 토글로 남긴다 (기본 가나다).
+
+   cfg = { items:[{v,n,g,c}], multi, max, value, values, placeholder,
+           search, sort:'ko'|'cnt', allLabel, onChange(valueOrArray) }
+     v 값 · n 표시명 · g 그룹명(없으면 그룹 헤더 미표시) · c 건수(정렬·메타)
+   ══════════════════════════════════════════════════════════════ */
+function makeCombo(hostId, cfg){
+  const host = document.getElementById(hostId);
+  if(!host) return null;
+  const st = {
+    items: [], multi: !!cfg.multi, max: cfg.max||99,
+    sel: [], sort: cfg.sort||'ko', q:'', cur:-1, view:[],
+  };
+  host.className = 'cbx';
+  host.innerHTML =
+    '<button type="button" class="cbx-btn"><span class="cbx-cur"></span><span class="cbx-ar">&#9660;</span></button>'
+    + '<div class="cbx-pop">'
+    +   '<input type="text" class="cbx-search" placeholder="' + esc(cfg.search||'검색…') + '">'
+    +   '<div class="cbx-tools">'
+    +     '<button type="button" class="cbx-sort" data-s="ko">가나다</button>'
+    +     '<button type="button" class="cbx-sort" data-s="cnt">건수</button>'
+    +     '<span class="cbx-cnt"></span>'
+    +   '</div>'
+    +   '<div class="cbx-list"></div>'
+    + '</div>';
+  const btn  = host.querySelector('.cbx-btn');
+  const cur  = host.querySelector('.cbx-cur');
+  const pop  = host.querySelector('.cbx-pop');
+  const inp  = host.querySelector('.cbx-search');
+  const list = host.querySelector('.cbx-list');
+  const cnt  = host.querySelector('.cbx-cnt');
+
+  function isOpen(){ return host.classList.contains('open'); }
+  function norm(s){ return String(s||'').toLowerCase().replace(/\s+/g,''); }
+
+  function hi(name){
+    // 검색어 일치 구간 강조. 공백을 무시해 비교했으므로 원문 인덱스를 다시 찾는다.
+    if(!st.q) return esc(name);
+    const q = norm(st.q); if(!q) return esc(name);
+    let acc = '', buf = '', qi = 0;
+    for(const ch of String(name)){
+      if(qi < q.length && norm(ch) === q[qi]){ buf += ch; qi++; }
+      else if(/\s/.test(ch) && buf){ buf += ch; }
+      else { if(buf){ acc += '<span class="cbx-hit">'+esc(buf)+'</span>'; buf=''; qi=0; } acc += esc(ch); }
+    }
+    if(buf) acc += '<span class="cbx-hit">'+esc(buf)+'</span>';
+    return qi >= q.length || acc.includes('cbx-hit') ? acc : esc(name);
+  }
+
+  function build(){
+    const q = norm(st.q);
+    let its = st.items.filter(o => !q || norm(o.n).includes(q) || norm(o.v).includes(q));
+    const cmp = st.sort === 'cnt'
+      ? (a,b)=>(b.c||0)-(a.c||0)
+      : (a,b)=>String(a.n).localeCompare(String(b.n), 'ko');
+    // 그룹은 items에 등장한 순서를 유지하고, 정렬은 그룹 '안에서' 적용한다
+    const order = [], byG = new Map();
+    st.items.forEach(o=>{ const g=o.g||''; if(!byG.has(g)){ byG.set(g,[]); order.push(g); } });
+    byG.forEach(v=>v.length = 0);
+    its.forEach(o=>{ const g=o.g||''; if(!byG.has(g)){ byG.set(g,[]); order.push(g); } byG.get(g).push(o); });
+    st.view = [];
+    order.forEach(g=>{
+      const arr = (byG.get(g)||[]).slice().sort(cmp);
+      if(!arr.length) return;
+      if(g) st.view.push({grp:g, n:arr.length});
+      arr.forEach(o=>st.view.push(o));
+    });
+    st.cur = st.view.findIndex(x=>!x.grp);
+    paint();
+  }
+
+  function paint(){
+    const nOpt = st.view.filter(x=>!x.grp).length;
+    cnt.textContent = st.q ? nOpt + ' / ' + st.items.length : st.items.length + '개';
+    host.querySelectorAll('.cbx-sort').forEach(b=>b.classList.toggle('on', b.dataset.s === st.sort));
+    if(!nOpt){
+      list.innerHTML = '<div class="cbx-empty">일치하는 항목이 없습니다'
+        + (st.q ? '<br><span style="font-size:11px">&ldquo;'+esc(st.q)+'&rdquo;</span>' : '') + '</div>';
+      return;
+    }
+    list.innerHTML = st.view.map((x,i)=>{
+      if(x.grp) return '<div class="cbx-grp">'+esc(x.grp)+' '+x.n+'</div>';
+      const on = st.sel.includes(x.v);
+      return '<div class="cbx-opt'+(on?' sel':'')+(i===st.cur?' cur':'')+'" data-i="'+i+'" title="'+esc(x.n)+'">'
+        + (st.multi ? '<span style="font-size:10px;flex-shrink:0">'+(on?'&#10003;':'&#9744;')+'</span>' : '')
+        + '<span class="o-nm">'+hi(x.n)+'</span>'
+        + (x.c!=null ? '<span class="o-mt">'+fmt(x.c)+(cfg.unit||'건')+'</span>' : '')
+        + '</div>';
+    }).join('');
+    list.querySelectorAll('.cbx-opt').forEach(el=>{
+      el.addEventListener('click', ()=>pick(+el.dataset.i));
+      el.addEventListener('mouseenter', ()=>{ st.cur = +el.dataset.i;
+        list.querySelectorAll('.cbx-opt').forEach(o=>o.classList.toggle('cur', o===el)); });
+    });
+  }
+
+  function label(){
+    if(!st.sel.length){ cur.className = 'cbx-cur ph'; cur.textContent = cfg.allLabel||cfg.placeholder||'전체'; return; }
+    cur.className = 'cbx-cur';
+    const nm = v => (st.items.find(o=>o.v===v)||{}).n || v;
+    cur.textContent = st.sel.length === 1 ? nm(st.sel[0]) : nm(st.sel[0]) + ' +' + (st.sel.length-1);
+  }
+
+  function pick(i){
+    const o = st.view[i]; if(!o || o.grp) return;
+    if(st.multi){
+      if(st.sel.includes(o.v)) st.sel = st.sel.filter(x=>x!==o.v);
+      else if(st.sel.length >= st.max){ alert('최대 '+st.max+'개까지 선택할 수 있습니다.'); return; }
+      else st.sel.push(o.v);
+      paint();
+    } else { st.sel = [o.v]; close(); }
+    label();
+    if(cfg.onChange) cfg.onChange(st.multi ? st.sel.slice() : st.sel[0]);
+  }
+
+  function open(){
+    _combos.forEach(c=>{ if(c.host !== host) c.close(); });
+    host.classList.add('open');
+    // 팝업이 뷰포트 아래로 잘리면 위로 띄운다
+    const r = btn.getBoundingClientRect();
+    host.classList.toggle('up', r.bottom + 380 > window.innerHeight && r.top > 380);
+    st.q = ''; inp.value = ''; build(); inp.focus();
+  }
+  function close(){ host.classList.remove('open','up'); }
+
+  btn.addEventListener('click', e=>{ e.stopPropagation(); isOpen() ? close() : open(); });
+  pop.addEventListener('click', e=>e.stopPropagation());
+  inp.addEventListener('input', ()=>{ st.q = inp.value; build(); });
+  host.querySelectorAll('.cbx-sort').forEach(b=>
+    b.addEventListener('click', ()=>{ st.sort = b.dataset.s; build(); }));
+  inp.addEventListener('keydown', e=>{
+    if(e.key === 'Escape'){ close(); return; }
+    if(e.key === 'Enter'){ e.preventDefault(); if(st.cur>=0) pick(st.cur); return; }
+    if(e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    e.preventDefault();
+    const idx = st.view.map((x,i)=>x.grp?-1:i).filter(i=>i>=0);
+    if(!idx.length) return;
+    let p = idx.indexOf(st.cur);
+    p = e.key === 'ArrowDown' ? Math.min(p+1, idx.length-1) : Math.max(p-1, 0);
+    st.cur = idx[p]; paint();
+    const el = list.querySelector('.cbx-opt.cur'); if(el) el.scrollIntoView({block:'nearest'});
+  });
+
+  const api = {
+    host, close,
+    setItems(items){ st.items = items||[]; st.sel = st.sel.filter(v=>st.items.some(o=>o.v===v)); label(); if(isOpen()) build(); return api; },
+    setValue(v){ st.sel = v==null ? [] : (Array.isArray(v)?v.slice():[v]); label(); if(isOpen()) paint(); return api; },
+    value(){ return st.multi ? st.sel.slice() : st.sel[0]; },
+  };
+  _combos.push(api);
+  api.setItems(cfg.items||[]);
+  api.setValue(cfg.multi ? (cfg.values||[]) : cfg.value);
+  return api;
+}
 function scoreColor(s){ return s >= 80 ? '#2F9E44' : s >= 60 ? '#F59F00' : s >= 40 ? '#E8590C' : '#F03E3E'; }
 function scoreLabel(s){ return s >= 80 ? '양호' : s >= 60 ? '주의' : s >= 40 ? '개선 필요' : '위험'; }
 
@@ -719,12 +1042,100 @@ const dataLabelPlugin = {
   }
 };
 
+/* ── 결합 차트용 데이터 라벨 ──
+   기본 dataLabelPlugin은 모든 계열의 모든 점을 찍는다. 막대(활성 사용자)와
+   비율선 2개가 같이 있는 차트에 그대로 쓰면 12구간 × 3계열 = 36개가 겹쳐 못 읽는다.
+   규칙:
+     막대  — 항상 표시 (막대 안쪽 흰 글씨, 낮은 막대는 위쪽 바깥)
+     비율선 — 구간 8개 이하면 전부, 초과하면 첫·끝·최고·최저 4점만
+   dataset._lbl 로 계열별 동작을 지정한다: 'bar' | 'line' | false(생략) */
+const comboLabelPlugin = {
+  id:'comboLabels',
+  afterDatasetsDraw(chart){
+    const ctx = chart.ctx;
+    const n = chart.data.labels?.length || 0;
+    const dense = n > 8;
+    chart.data.datasets.forEach((ds,di)=>{
+      const mode = ds._lbl;
+      if(!mode) return;
+      const meta = chart.getDatasetMeta(di);
+      if(!meta || meta.hidden) return;
+      const vals = ds.data.map(v=>(typeof v === 'number' ? v : null));
+      let show = null;
+      if(mode === 'line' && dense){
+        // 첫·끝·최고·최저만 — 나머지는 툴팁으로 확인
+        const idx = vals.map((v,i)=>v==null?-1:i).filter(i=>i>=0);
+        if(!idx.length) return;
+        const mx = idx.reduce((a,i)=>vals[i]>vals[a]?i:a, idx[0]);
+        const mn = idx.reduce((a,i)=>vals[i]<vals[a]?i:a, idx[0]);
+        show = new Set([idx[0], idx[idx.length-1], mx, mn]);
+      }
+      meta.data.forEach((el,i)=>{
+        const v = vals[i];
+        if(v == null || (show && !show.has(i))) return;
+        const fade = !!(ds._partial && ds._partial[i]);
+        ctx.save();
+        ctx.textAlign = 'center';
+        ctx.font = (mode==='bar' ? 'bold ' : '') + '10px Pretendard Variable, Pretendard, sans-serif';
+        if(mode === 'bar'){
+          const txt = v >= 10000 ? (v/1000).toFixed(1)+'K' : fmt(v);
+          const h = (chart.scales[ds.yAxisID||'y']?.bottom||0) - el.y;
+          const inside = h > 26;
+          ctx.textBaseline = inside ? 'top' : 'bottom';
+          // canvas는 CSS 변수를 못 읽으므로 색을 직접 지정한다
+          ctx.fillStyle = inside ? (fade ? 'rgba(19,32,41,.55)' : 'rgba(255,255,255,.95)')
+                                 : (fade ? '#909AA0' : '#4B4B4B');
+          ctx.fillText(txt, el.x, el.y + (inside ? 6 : -4));
+        } else {
+          const txt = Number.isInteger(v) ? String(v) : v.toFixed(v < 10 ? 2 : 1);
+          ctx.textBaseline = 'bottom';
+          // 선 라벨은 배경을 깔아 격자·다른 선과 겹쳐도 읽히게 한다
+          const w = ctx.measureText(txt).width + 6;
+          ctx.globalAlpha = fade ? .45 : 1;
+          ctx.fillStyle = 'rgba(255,255,255,.86)';
+          ctx.fillRect(el.x - w/2, el.y - 16, w, 13);
+          ctx.fillStyle = ds.borderColor || '#4B4B4B';
+          ctx.fillText(txt, el.x, el.y - 4);
+        }
+        ctx.restore();
+      });
+    });
+  }
+};
+
+/* 사분면에서 선택 건물에만 이름을 붙인다.
+   20개 전부에 라벨을 달면 겹쳐서 못 읽고, 하나도 없으면 내 건물이 어느 점인지 알 수 없다. */
+const selLabelPlugin = {
+  id:'selLabels',
+  afterDatasetsDraw(chart){
+    const ctx = chart.ctx, ds = chart.data.datasets[0], meta = chart.getDatasetMeta(0);
+    if(!ds || !meta) return;
+    meta.data.forEach((el,i)=>{
+      const p = ds.data[i];
+      if(!p || !p._sel) return;
+      const t = p._r?.n || '';
+      if(!t) return;
+      ctx.save();
+      ctx.font = 'bold 10px Pretendard Variable, Pretendard, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+      const w = ctx.measureText(t).width + 8;
+      ctx.fillStyle = 'rgba(255,255,255,.9)';
+      ctx.fillRect(el.x - w/2, el.y - 26, w, 13);
+      ctx.fillStyle = '#132029';
+      ctx.fillText(t, el.x, el.y - 15);
+      ctx.restore();
+    });
+  }
+};
+
 document.querySelectorAll('.tab').forEach(t=>{
   t.addEventListener('click',()=>{
     document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
     document.querySelector('.tab-content[data-tab="'+t.dataset.tab+'"]').classList.add('active');
+    applyFbarScope(t.dataset.tab);
+    syncHash();
     lazyRenderTab(t.dataset.tab);
   });
 });
@@ -1059,7 +1470,7 @@ function setPeriod(from, to, presetKey, silent){
     'GA ' + n + '개월 · CS/개발 ' + pd.from + '~' + pd.to + '<br>' +
     '건물·서비스는 ' + bs + ' 스냅샷 (기간 필터 미적용)';
 
-  if(!silent) applyPeriod();
+  if(!silent){ syncHash(); applyPeriod(); }
 }
 
 function applyPeriod(){
@@ -1069,6 +1480,129 @@ function applyPeriod(){
   renderPeriodBadges();
   renderScopeNotes();
   lazyRenderTab(activeTabId());
+}
+
+/* ══════════════════════════════════════════════════════════════
+   통합 필터바 — sticky 오프셋 · 탭별 적용 범위 · URL 공유
+
+   조회 버튼을 두지 않는 이유: 데이터가 전부 클라이언트에 있어 재렌더가
+   즉시다. 버튼은 얻는 것 없이 '설정했는데 안 눌러서 수치가 이전 조건'
+   이라는 오류 상태만 새로 만든다. 대신 조건을 URL 해시에 실어
+   링크 하나로 같은 화면을 재현할 수 있게 한다.
+   ══════════════════════════════════════════════════════════════ */
+
+// 헤더+탭 높이를 측정해 sticky top으로 주입 (하드코딩하면 폰트 로딩·줌·반응형에서 어긋난다)
+function syncFbarTop(){
+  const h = document.querySelector('.header'), t = document.querySelector('.tabs');
+  if(!h || !t) return;
+  const px = h.offsetHeight + t.offsetHeight;
+  // 레이아웃 전(0)에는 건드리지 않는다 — 0을 넣으면 필터바가 헤더 뒤로 숨는다
+  if(px > 0) document.documentElement.style.setProperty('--fbar-top', px + 'px');
+}
+window.addEventListener('resize', syncFbarTop);
+if(document.fonts?.ready) document.fonts.ready.then(syncFbarTop);
+
+/* 탭마다 적용되는 축이 다르다. 안 먹는 컨트롤을 그냥 두면 '왜 안 바뀌나'가 되고,
+   숨기면 '왜 없어졌나'가 된다 → 비활성 + 사유 표기. */
+const TAB_SCOPE = {
+  overview:  {period:true,  seg:false, note:''},
+  ga:        {period:true,  seg:true,  note:''},
+  zendesk:   {period:true,  seg:false, note:''},
+  jira:      {period:true,  seg:false, note:''},
+  buildings: {period:false, seg:false,
+              note:'건물 · 서비스 탭은 도입일 필드가 없는 스냅샷이라 기간 필터가 적용되지 않습니다.'},
+};
+
+function applyFbarScope(tabId){
+  const sc = TAB_SCOPE[tabId] || TAB_SCOPE.overview;
+  const rp = document.getElementById('fbRowPeriod');
+  const rs = document.getElementById('fbRowSeg');
+  const rn = document.getElementById('fbRowNote');
+  if(!rp || !rs || !rn) return;
+  rp.classList.toggle('off', !sc.period);
+  rs.classList.toggle('hide', !sc.seg);
+  rn.style.display = sc.note ? 'flex' : 'none';
+  document.getElementById('fbOffNote').innerHTML = sc.note ? '&#9888; ' + sc.note : '';
+  syncFbarTop();
+}
+
+// ── URL 해시 ──
+function syncHash(){
+  if(!_raw) return;
+  const p = [];
+  if(_period) p.push('p=' + _period.from + '~' + _period.to);
+  if(_gaRes !== 'month') p.push('r=' + _gaRes);
+  if(_gaBld.length) p.push('b=' + _gaBld.join(','));
+  if(_gaScreen) p.push('s=' + encodeURIComponent(_gaScreen));
+  const tab = activeTabId();
+  if(tab !== 'overview') p.push('t=' + tab);
+  history.replaceState(null, '', location.pathname + location.search + (p.length ? '#'+p.join('&') : ''));
+}
+
+function parseHash(){
+  const h = location.hash.replace(/^#/, '');
+  if(!h) return null;
+  const o = {};
+  h.split('&').forEach(kv=>{
+    const i = kv.indexOf('=');
+    if(i < 0) return;
+    o[kv.slice(0,i)] = decodeURIComponent(kv.slice(i+1));
+  });
+  return o;
+}
+
+/* 진입 시 해시 조건을 복원. 기간은 setPeriod의 silent 경로로 넣어
+   렌더가 두 번 돌지 않게 한다 (render()가 마지막에 한 번 그린다). */
+function restoreFromHash(){
+  const o = parseHash();
+  if(!o) return;
+  const months = (_raw?.periods?.months)||[];
+  if(o.p && o.p.includes('~')){
+    const [f,t] = o.p.split('~');
+    if(months.includes(f) && months.includes(t) && f <= t) setPeriod(f, t, null, true);
+  }
+  if(o.r === 'week' || o.r === 'month') _gaRes = o.r;
+  if(o.b) _gaBld = o.b.split(',').filter(Boolean).slice(0, GA_BLD_MAX);
+  if(o.s) _gaScreen = /^s[cv]:/.test(o.s) ? o.s : 'sc:' + o.s;   // 구버전 링크 흡수
+  if(o.t && document.querySelector('.tab[data-tab="'+o.t+'"]')){
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));
+    document.querySelector('.tab[data-tab="'+o.t+'"]').classList.add('active');
+    document.querySelector('.tab-content[data-tab="'+o.t+'"]').classList.add('active');
+  }
+}
+
+function bindFbarActions(){
+  const rst = document.getElementById('fbReset');
+  const lnk = document.getElementById('fbLink');
+  if(rst && !rst.dataset.bound){
+    rst.dataset.bound = '1';
+    rst.addEventListener('click', ()=>{
+      const months = (_raw?.periods?.months)||[];
+      const d = _raw.periods?.default||{};
+      _gaBld = []; _gaRes = 'month'; _gaScreen = _detail ? defaultScreenKey() : null;
+      if(_cbxBld) _cbxBld.setValue([]);
+      if(_cbxScreen) _cbxScreen.setValue(_gaScreen);
+      const f0 = months.includes(d.from) ? d.from : months[0];
+      const t0 = months.includes(d.to) ? d.to : months[months.length-1];
+      setPeriod(f0, t0, null);      // applyPeriod → 전체 재렌더
+      syncHash();
+    });
+  }
+  if(lnk && !lnk.dataset.bound){
+    lnk.dataset.bound = '1';
+    lnk.addEventListener('click', ()=>{
+      syncHash();
+      const url = location.href;
+      const done = ()=>{
+        lnk.classList.add('ok'); lnk.innerHTML = '&#10003; 복사됨';
+        setTimeout(()=>{ lnk.classList.remove('ok'); lnk.innerHTML = '&#128279; 링크 복사'; }, 1600);
+      };
+      // clipboard API는 http/비보안 컨텍스트에서 막히므로 실패 시 프롬프트로 떨어뜨린다
+      if(navigator.clipboard?.writeText) navigator.clipboard.writeText(url).then(done, ()=>prompt('아래 링크를 복사하세요', url));
+      else prompt('아래 링크를 복사하세요', url);
+    });
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -1176,7 +1710,72 @@ function gaSeries(codes){
   return out;
 }
 
-// ── 1단 · 조회 컨트롤 ──
+// ── 1단 · 조회 컨트롤 (상단 통합 필터바에 마운트) ──
+let _cbxBld = null, _cbxScreen = null;
+
+/* 화면 축과 서비스 축은 다른 축이다:
+     화면    — event_label 앞 분절 (홈v1, 불편신고v1 …)
+     서비스  — 홈v1_서비스_{이름}_클릭 에서 뽑은 서비스명 (도입현황 gsvc와 매칭)
+   둘 다 필요하므로 한 콤보박스에 두 그룹으로 넣고 검색을 건다. */
+function screenComboItems(){
+  const screens = _detail?.screens||[];
+  const fdefs = _detail?.funnels||{};
+  const svcs = _detail?.home_services||[];
+  const out = [];
+  screens.filter(s=>fdefs[s.screen]).forEach(s=>out.push({v:'sc:'+s.screen, n:s.screen, c:s.c, g:'퍼널 정의됨'}));
+  screens.filter(s=>!fdefs[s.screen]).forEach(s=>out.push({v:'sc:'+s.screen, n:s.screen, c:s.c, g:'화면 (요소별 클릭)'}));
+  svcs.forEach(s=>out.push({v:'sv:'+s.svc, n:s.svc, c:s.c, g:'서비스 (홈 진입 클릭)'}));
+  return out;
+}
+
+/* 스코프 섹션 헤더를 현재 선택에 맞춰 갱신한다.
+   색만 다르면 장식으로 읽히므로, 각 섹션이 '무엇을 센 수치인지'를 항상 문장으로 적는다.
+   특히 건물 미선택일 때 그 블록이 전체 기준이라는 점을 밝히지 않으면
+   건물별 색을 달고 전체 수치를 보여주는 꼴이 되어 오해를 만든다. */
+function renderScopeBanner(){
+  const names = _detail?.building_index?.names||{};
+  const bt = document.getElementById('gaBldScopeTtl');
+  const bd = document.getElementById('gaBldScopeDesc');
+  const st = document.getElementById('gaScrScopeTtl');
+  const sd = document.getElementById('gaScrScopeDesc');
+  const unit = unitOf();
+
+  if(bt && bd){
+    if(_gaBld.length){
+      const nm = _gaBld.map(c=>names[c]||c);
+      bt.textContent = nm.length === 1 ? nm[0] : nm[0] + ' 외 ' + (nm.length-1) + '개 건물';
+      bd.innerHTML = '아래 수치는 <b>' + esc(nm.join(', ')) + '</b>에 귀속된 사용자만 센 것입니다. '
+        + '해상도 <b>' + unit + '</b> 기준이며 미완결 구간은 계산에서 제외합니다.';
+    } else {
+      bt.textContent = '전체 건물 (미선택)';
+      bd.innerHTML = '건물을 선택하지 않아 <b>전체 기준</b>으로 표시 중입니다. '
+        + '위 필터바에서 건물을 고르면 이 구간 전체가 그 건물 기준으로 바뀌고 비교 블록(A·B·C)이 열립니다.';
+    }
+  }
+
+  if(st && sd){
+    const key = _gaScreen || '';
+    const nm = key.replace(/^s[cv]:/, '');
+    const isSvc = key.startsWith('sv:');
+    st.textContent = nm || '화면 미선택';
+    sd.innerHTML = !nm
+      ? '위 필터바에서 화면 또는 서비스를 선택하세요.'
+      : (isSvc
+          ? '<b>서비스 축</b> — 홈 화면에서 이 서비스로 진입한 클릭을 센 것입니다. 단계가 없어 퍼널을 그리지 않습니다.'
+          : '<b>화면 축</b> — 이 화면 안에서 발생한 요소 클릭을 센 것입니다.'
+        )
+      + (_gaBld.length ? ' 선택한 <b>' + _gaBld.length + '개 건물</b> 기준입니다.'
+                       : ' 건물 미선택이라 <b>전체 기준</b>입니다.');
+  }
+}
+
+function defaultScreenKey(){
+  const screens = _detail?.screens||[];
+  const fdefs = _detail?.funnels||{};
+  const first = screens.find(s=>fdefs[s.screen]) || screens[0];
+  return first ? 'sc:'+first.screen : null;
+}
+
 function renderGaControls(){
   const av = _detail?.availability||{};
   const rt = document.getElementById('gaResToggle');
@@ -1185,63 +1784,62 @@ function renderGaControls(){
     rt.innerHTML = '<button class="pc-btn" data-res="month">월</button>'
                  + '<button class="pc-btn" data-res="week">주</button>';
     rt.querySelectorAll('.pc-btn').forEach(b=>b.addEventListener('click', ()=>{
-      _gaRes = b.dataset.res; renderGaSegment();
+      _gaRes = b.dataset.res; syncHash(); renderGaSegment();
     }));
-
-    const sel = document.getElementById('gaBldSel');
-    const idx = _detail?.building_index||{};
-    const names = idx.names||{};
-    const opts = Object.keys(names)
-      .map(c=>({c, n:names[c]}))
-      .sort((a,b)=>a.n.localeCompare(b.n,'ko'));
-    // 조인 실패(미분류) 건물도 숨기지 않고 코드로 노출한다 — 설계서 P1-2
-    const unm = (idx.ga_only||[]).map(c=>({c, n:'(미분류) '+c}));
-    sel.innerHTML = '<option value="">전체 건물</option>'
-      + opts.map(o=>'<option value="'+o.c+'">'+o.n+'</option>').join('')
-      + (unm.length ? '<optgroup label="도입현황 미매칭 '+unm.length+'개">'
-          + unm.map(o=>'<option value="'+o.c+'">'+o.n+'</option>').join('') + '</optgroup>' : '');
-    sel.addEventListener('change', ()=>{
-      const v = sel.value;
-      if(v && !_gaBld.includes(v)){
-        if(_gaBld.length >= GA_BLD_MAX){ alert('건물은 최대 '+GA_BLD_MAX+'개까지 비교할 수 있습니다.'); }
-        else _gaBld.push(v);
-      }
-      sel.value = '';
-      renderGaSegment();
-    });
-
-    const scr = document.getElementById('gaScreenSel');
-    const screens = _detail?.screens||[];
-    const fdefs = _detail?.funnels||{};
-    // 퍼널이 정의된 화면을 앞으로 모아 두고 기본 선택으로 쓴다.
-    // (요소만 100개 나열되는 화면이 기본이면 첫 화면이 정보가 없다)
-    const withF = screens.filter(s=>fdefs[s.screen]);
-    const without = screens.filter(s=>!fdefs[s.screen]);
-    const opt = s=>'<option value="'+s.screen+'">'+s.screen+' ('+fmt(s.c)+'건)</option>';
-    scr.innerHTML = (withF.length
-        ? '<optgroup label="퍼널 정의됨">'+withF.map(opt).join('')+'</optgroup>'
-          + '<optgroup label="요소별 클릭">'+without.map(opt).join('')+'</optgroup>'
-        : screens.map(opt).join(''))
-      || '<option value="">계측된 화면이 없습니다</option>';
-    if(screens.length && !_gaScreen) _gaScreen = (withF[0]||screens[0]).screen;
-    scr.value = _gaScreen||'';
-    scr.addEventListener('change', ()=>{ _gaScreen = scr.value; renderGaFunnel(); });
   }
   document.querySelectorAll('#gaResToggle .pc-btn').forEach(b=>
     b.classList.toggle('on', b.dataset.res === _gaRes));
 
-  // 선택 건물 칩
-  const names = _detail?.building_index?.names||{};
+  const idx = _detail?.building_index||{};
+  const names = idx.names||{};
+  if(!_cbxBld){
+    // 조인 실패(미분류) 건물도 숨기지 않고 코드로 노출한다 — 설계서 P1-2
+    const items = Object.keys(names).map(c=>({v:c, n:names[c], g:'도입현황 매칭', c:null}))
+      .concat((idx.ga_only||[]).map(c=>({v:c, n:'(미분류) '+c, g:'도입현황 미매칭', c:null})));
+    _cbxBld = makeCombo('cbxBld', {
+      items, multi:true, max:GA_BLD_MAX, sort:'ko',
+      allLabel:'전체 건물', search:'건물명 또는 코드 검색…',
+      onChange:v=>{ _gaBld = v; syncHash(); renderGaSegment(); },
+    });
+  }
+  /* 공유 링크의 건물 코드가 더 이상 존재하지 않을 수 있다(재수집으로 사라진 코드 등).
+     그대로 두면 빈 시계열 + 정체불명 칩이 남으므로 존재하는 코드만 남긴다. */
+  const known = new Set(Object.keys(names).concat(idx.ga_only||[]));
+  if(known.size){
+    const kept = _gaBld.filter(c=>known.has(c));
+    if(kept.length !== _gaBld.length){ _gaBld = kept; syncHash(); }
+  }
+  _cbxBld.setValue(_gaBld);
+
+  if(!_cbxScreen){
+    _cbxScreen = makeCombo('cbxScreen', {
+      items: screenComboItems(), sort:'ko',
+      allLabel:'화면 선택', search:'화면 또는 서비스명 검색…',
+      onChange:v=>{ _gaScreen = v; syncHash(); renderGaFunnel(); },
+    });
+  }
+  // 링크의 화면/서비스 값이 목록에 없으면 기본값으로 되돌린다
+  const keys = new Set(screenComboItems().map(o=>o.v));
+  if(!_gaScreen || (keys.size && !keys.has(_gaScreen))){
+    _gaScreen = defaultScreenKey();
+    syncHash();
+  }
+  _cbxScreen.setValue(_gaScreen);
+
+  // 선택 건물 칩 (필터바에 현재 조건을 항상 보이게 유지)
   document.getElementById('gaBldChips').innerHTML = _gaBld.map(c=>
-    '<span class="bld-chip">'+(names[c]||c)+'<button data-c="'+c+'" title="제거">&times;</button></span>').join('');
+    '<span class="bld-chip">'+esc(names[c]||c)+'<button data-c="'+esc(c)+'" title="제거">&times;</button></span>').join('');
   document.querySelectorAll('#gaBldChips .bld-chip button').forEach(b=>
-    b.addEventListener('click', ()=>{ _gaBld = _gaBld.filter(x=>x!==b.dataset.c); renderGaSegment(); }));
+    b.addEventListener('click', ()=>{
+      _gaBld = _gaBld.filter(x=>x!==b.dataset.c); syncHash(); renderGaSegment();
+    }));
 
   const cov = (_detail?.building_coverage||[]).slice(-1)[0];
   document.getElementById('gaSegNote').innerHTML =
     '건물 축 유효: ' + (av.building?.from||'-') + ' ~ ' + (av.building?.to||'-')
     + (cov ? ' · 최근 귀속률 ' + cov.rate + '%' : '')
-    + '<br>화면 축 유효: ' + (av.label?.from||'-') + ' ~ ' + (av.label?.to||'-');
+    + ' · 화면 축 유효: ' + (av.label?.from||'-') + ' ~ ' + (av.label?.to||'-');
+  renderScopeBanner();
 
   // 축별 유효 기간을 벗어난 조회인지 경고
   const warns = [];
@@ -1266,13 +1864,21 @@ function renderGaSegment(){
   const spu = done.length ? done.reduce((s,x)=>s+x.s,0)/done.reduce((s,x)=>s+x.au,0) : 0;
   const ppu = done.length ? done.reduce((s,x)=>s+x.pv,0)/done.reduce((s,x)=>s+x.au,0) : 0;
 
-  // 증감률: 완결 구간만 사용 (부분 주/월이 기준점이 되면 588% 같은 허수가 나온다)
-  let growth = null;
-  if(done.length >= 2){
+  /* 증감률: 완결 구간만 사용 (부분 주/월이 기준점이 되면 588% 같은 허수가 나온다).
+     또 한 구간 대 한 구간은 편차가 커서 추세로 못 쓴다 → 4구간 평균 비교를 1순위로,
+     표본이 모자랄 때만 직전 구간 비교로 떨어뜨리고 라벨에 그 사실을 밝힌다. */
+  const unit = unitOf();
+  const gBlk = blockGrowth(done.map(x=>x.au));
+  let growth = null, gBasis = '';
+  if(gBlk){
+    growth = gBlk.pct;
+    gBasis = '최근 ' + unitsOf(gBlk.n) + ' 평균 vs 이전 ' + unitsOf(gBlk.n);
+  } else if(done.length >= 2){
     const a = done[done.length-2].au, b = done[done.length-1].au;
-    if(a > 0) growth = (b-a)/a*100;
+    if(a > 0){ growth = (b-a)/a*100; gBasis = '직전 ' + unit + ' 대비 (표본 부족 — 편차 주의)'; }
+  } else {
+    gBasis = '완결 구간 부족';
   }
-  const unit = _gaRes === 'week' ? '주' : '월';
   const names = _detail?.building_index?.names||{};
   const scope = _gaBld.length
     ? _gaBld.map(c=>names[c]||c).join(', ') + ' (' + _gaBld.length + '개 건물)'
@@ -1291,21 +1897,24 @@ function renderGaSegment(){
 
   document.getElementById('gaSegKpi').innerHTML =
     '<div class="kpi"><div class="k-l">활성 사용자 ('+unit+'평균)</div><div class="k-v">'+fmt(auAvg)+'</div>'
-      + '<div class="k-s">'+scope+' · 완결 '+done.length+unit+' 기준</div></div>'
+      + '<div class="k-s">'+scope+' · 완결 '+unitsOf(done.length)+' 기준</div></div>'
     + '<div class="kpi"><div class="k-l">세션/사용자 (방문빈도)</div><div class="k-v">'+spu.toFixed(2)+'</div>'
       + '<div class="k-s">한 사용자가 '+unit+'에 여는 횟수</div></div>'
     + '<div class="kpi"><div class="k-l">조회수/사용자 (탐색깊이)</div><div class="k-v">'+ppu.toFixed(1)+'</div>'
       + '<div class="k-s">한 사용자가 보는 화면 수</div></div>'
-    + '<div class="kpi"><div class="k-l">직전 '+unit+' 대비</div>'
+    + '<div class="kpi"><div class="k-l">활성 사용자 증감</div>'
       + '<div class="k-v" style="color:'+(growth===null?'var(--ink4)':growth>=0?'var(--green)':'var(--red)')+'">'
       + (growth===null ? '—' : (growth>=0?'+':'△')+Math.abs(growth).toFixed(1)+'%') + '</div>'
-      + '<div class="k-s">미완결 '+unit+' 제외</div></div>'
+      + '<div class="k-s">'+gBasis+' · 미완결 제외</div></div>'
     + (adopted!==null ? '<div class="kpi"><div class="k-l">도입 서비스</div><div class="k-v">'+adopted
       + '<small style="font-size:12px;color:var(--ink4)">/88</small></div>'
       + '<div class="k-s">'+(_gaBld.length>1?'선택 건물 평균':'도입현황 기준')+'</div></div>' : '');
 
   drawGaCombo(ser);
-  drawGaCompare();
+  drawGaCompare();      // A · 추세 (완결 구간 + 이동평균)
+  drawGaRelative();     // B · 전체 대비 상대 성과
+  drawGaQuadrant();     // C · 참여 품질 사분면
+  drawGaRank();         // 순위표 · 개입 대상 판별
   renderGaFunnel();
 
   const pt = ser.filter(x=>x.partial);
@@ -1323,18 +1932,22 @@ function drawGaCombo(ser){
   const ppu = ser.map(x=>x.au ? +(x.pv/x.au).toFixed(1) : null);
   const dashIf = ctx => ser[ctx.p1DataIndex]?.partial ? [5,4] : undefined;
 
+  const pFlags = ser.map(x=>x.partial);
+
   mkChart('chartGaCombo', {
+    plugins:[comboLabelPlugin],
     data:{ labels, datasets:[
       { type:'bar', label:'활성 사용자', data:ser.map(x=>x.au), backgroundColor:barBg,
-        borderRadius:4, yAxisID:'y', order:3 },
+        borderRadius:4, yAxisID:'y', order:3, _lbl:'bar', _partial:pFlags },
       { type:'line', label:'세션/사용자', data:spu, borderColor:'#1971C2', backgroundColor:'#1971C2',
         borderWidth:2, pointRadius:3, tension:.3, yAxisID:'y1', order:1,
-        segment:{ borderDash:dashIf } },
+        segment:{ borderDash:dashIf }, _lbl:'line', _partial:pFlags },
       { type:'line', label:'조회수/사용자', data:ppu, borderColor:'#E8590C', backgroundColor:'#E8590C',
         borderWidth:2, pointRadius:3, tension:.3, yAxisID:'y2', order:2,
-        segment:{ borderDash:dashIf } },
+        segment:{ borderDash:dashIf }, _lbl:'line', _partial:pFlags },
     ]},
     options:{ responsive:true, maintainAspectRatio:false,
+      layout:{ padding:{ top:22 } },   // 상단 라벨이 잘리지 않도록
       interaction:{ mode:'index', intersect:false },
       plugins:{ legend:{ display:true, labels:{ usePointStyle:true, pointStyle:'circle', color:'#4B4B4B' } },
         tooltip:{ callbacks:{
@@ -1357,35 +1970,98 @@ function drawGaCombo(ser){
   });
 }
 
+/* ══════════════════════════════════════════════════════════════
+   CDO 보고 프레임 — A 추세 / B 상대 성과 / C 참여 품질
+
+   As-Is 문제: 주차별 증감률 2개("+588.8% → +20.5%")를 나열하면
+     ⓐ 부분 주가 기준점이 되어 허수가 생기고
+     ⓑ 주 단위 편차가 커서 추세를 오판하고
+     ⓒ 그래서 무엇을 결정하는지가 없다.
+   To-Be: 미완결 구간을 계산에서 빼고, 증감은 4구간 평균으로 재고,
+          전체와의 격차·참여 품질을 함께 놓아 개입 대상을 특정한다.
+   ══════════════════════════════════════════════════════════════ */
+const MA_WIN = 4;      // 이동평균 창
+const BLOCK = 4;       // 증감 비교 블록 크기 (최근 4구간 vs 이전 4구간)
+
+/* 단위 표기 두 종류를 구분한다. 섞으면 "4월 평균"처럼 4월(April)로 읽힌다.
+     unitOf()  — '월평균', '직전 월' 처럼 수식어로 쓸 때
+     unitsOf() — '4개월', '3주' 처럼 개수를 셀 때 */
+function unitOf(){ return _gaRes === 'week' ? '주' : '월'; }
+function unitsOf(n){ return _gaRes === 'week' ? n + '주' : n + '개월'; }
+
+// 완결 구간만 남긴다 — 부분 주/월이 섞이면 평균과 증감률이 전부 오염된다
+function doneSeries(codes){ return gaSeries(codes).filter(x=>!x.partial && x.au > 0); }
+
+function movingAvg(arr, w){
+  return arr.map((_,i)=>{
+    const s = Math.max(0, i-w+1), sl = arr.slice(s, i+1).filter(v=>v!=null);
+    return sl.length ? +(sl.reduce((a,b)=>a+b,0)/sl.length).toFixed(1) : null;
+  });
+}
+
+/* 최근 BLOCK구간 평균 vs 그 이전 BLOCK구간 평균. 표본이 모자라면 null을 반환해
+   '계산 불가'로 표시한다 (억지로 한 구간만 비교하면 편차가 증감률로 위장된다). */
+function blockGrowth(vals){
+  const v = vals.filter(x=>x!=null && !isNaN(x));
+  if(v.length < BLOCK+1) return null;
+  const n = Math.min(BLOCK, Math.floor(v.length/2));
+  const avg = a => a.reduce((s,x)=>s+x,0)/a.length;
+  const recent = avg(v.slice(-n)), prior = avg(v.slice(-2*n, -n));
+  if(!prior) return null;
+  return { pct:(recent-prior)/prior*100, recent, prior, n };
+}
+
+// 건물별 완결 구간 통계 — B·C·순위표가 공유한다
+function buildingStats(codes){
+  return codes.map(c=>{
+    const s = doneSeries([c]);
+    const au = s.map(x=>x.au);
+    const spu = s.map(x=>x.au ? x.s/x.au : null);
+    const g = blockGrowth(au), gs = blockGrowth(spu);
+    const avgAu = au.length ? Math.round(au.reduce((a,b)=>a+b,0)/au.length) : 0;
+    const totS = s.reduce((a,x)=>a+x.s,0), totU = s.reduce((a,x)=>a+x.au,0);
+    return { c, n:(_detail?.building_index?.names||{})[c]||c, nBucket:s.length,
+             avgAu, spu: totU ? totS/totU : 0,
+             gAu: g ? g.pct : null, gSpu: gs ? gs.pct : null };
+  });
+}
+
 function drawGaCompare(){
   const card = document.getElementById('gaCompareCard');
   if(_gaBld.length < 1){ card.style.display = 'none'; return; }
   card.style.display = 'block';
   const names = _detail?.building_index?.names||{};
-  const base = gaSeries([]);                      // 전체 기준선
+  const base = doneSeries([]);                   // 전체 기준선 (완결 구간만)
   const labels = base.map(x=>bucketLabel(x.k));
+  const unit = unitOf();
+
   /* 전체(1.4~1.8만)와 개별 건물(1천 내외)은 자릿수가 달라 같은 축에 두면
      선택 건물이 바닥에 붙어 추세를 읽을 수 없다. 전체를 우축으로 분리한다. */
   const ds = [{ label:'전체 (우축)', data:base.map(x=>x.au), borderColor:'#909AA0',
                 backgroundColor:'#909AA0', borderWidth:2, borderDash:[4,3],
                 pointRadius:0, tension:.3, yAxisID:'yAll' }];
   _gaBld.forEach((c,i)=>{
-    const s = gaSeries([c]);
-    const map = new Map(s.map(x=>[x.k, x.au]));
-    ds.push({ label:names[c]||c, data:base.map(x=>map.get(x.k)??0),
-              borderColor:COLORS[i%COLORS.length], backgroundColor:COLORS[i%COLORS.length],
+    const map = new Map(doneSeries([c]).map(x=>[x.k, x.au]));
+    const vals = base.map(x=>map.get(x.k) ?? null);
+    const col = COLORS[i%COLORS.length];
+    ds.push({ label:names[c]||c, data:vals, borderColor:col, backgroundColor:col,
               borderWidth:2, pointRadius:3, tension:.3, yAxisID:'y' });
+    // 주 단위 편차를 걷어낸 이동평균 — 추세 판정은 이 선으로 한다
+    if(vals.filter(v=>v!=null).length >= MA_WIN){
+      ds.push({ label:(names[c]||c)+' '+MA_WIN+unit+' 이동평균', data:movingAvg(vals, MA_WIN),
+                borderColor:col, backgroundColor:col, borderWidth:1.5, borderDash:[6,3],
+                pointRadius:0, tension:.4, yAxisID:'y' });
+    }
   });
   mkChart('chartGaCompare', {
     type:'line', data:{labels, datasets:ds},
-    options:{ responsive:true, maintainAspectRatio:false,
+    options:{ responsive:true, maintainAspectRatio:false, spanGaps:true,
       interaction:{ mode:'index', intersect:false },
       plugins:{ legend:{ display:true, labels:{ usePointStyle:true, pointStyle:'circle', color:'#4B4B4B' } },
         tooltip:{ callbacks:{ title:items=>{
           const e = base[items[0].dataIndex];
           const wd = _gaRes==='week' ? (_detail.week_dates[e.k]||{}) : {};
-          return (wd.from ? e.k+' ('+wd.from+' ~ '+wd.to+')' : e.k)
-               + (e.partial ? ' · 미완결' : '');
+          return wd.from ? e.k+' ('+wd.from+' ~ '+wd.to+')' : e.k;
         }}}},
       scales:{
         y:{ position:'left', beginAtZero:true, title:{display:true,text:'선택 건물 활성 사용자'},
@@ -1396,34 +2072,297 @@ function drawGaCompare(){
   });
 }
 
-// ── 3단 · 화면별 퍼널 / 요소 클릭 ──
+/* ── B · 전체 대비 상대 성과 ──
+   "GS타워 +20.5% / 전체 +12.2%" 를 보고 받는 사람이 머리로 빼게 하지 말고
+   격차 +8.3%p 를 직접 준다. 이게 "잘한 건지 따라 오른 건지"의 답이다. */
+function drawGaRelative(){
+  const card = document.getElementById('gaRelCard');
+  if(_gaBld.length < 1){ card.style.display = 'none'; return; }
+  card.style.display = 'block';
+  const unit = unitOf();
+  const all = doneSeries([]);
+  const gAll = blockGrowth(all.map(x=>x.au));
+  const body = document.getElementById('gaRelBody');
+
+  if(!gAll){
+    body.innerHTML = '<div class="scope-warn"><span>&#9888;</span><div>완결 구간이 '
+      + unitsOf(BLOCK+1) + ' 미만이라 상대 성과를 계산할 수 없습니다. 조회 기간을 늘리거나 '
+      + (_gaRes==='week' ? '월' : '주') + ' 해상도로 바꿔 보세요.</div></div>';
+    return;
+  }
+
+  const rows = buildingStats(_gaBld);
+  const sign = v => (v>=0?'+':'△') + Math.abs(v).toFixed(1);
+  let html = '<div style="font-size:12px;color:var(--ink2);margin-bottom:14px;padding:11px 14px;'
+    + 'background:var(--muted);border-radius:8px;line-height:1.7">'
+    + '기준: 최근 완결 <b>' + unitsOf(gAll.n) + '</b> 평균 vs 그 이전 <b>' + unitsOf(gAll.n) + '</b> 평균'
+    + ' · 전체 <b style="color:var(--navy)">' + sign(gAll.pct) + '%</b>'
+    + ' (' + fmt(Math.round(gAll.prior)) + '명 → ' + fmt(Math.round(gAll.recent)) + '명)'
+    + '<br>주차별 증감률을 쓰지 않는 이유: 주 단위 편차가 커서 한 구간만 보면 추세를 오판합니다. '
+    + '미완결 구간은 전부 제외했습니다.</div>';
+
+  const top = Math.max(1, ...rows.map(r=>Math.abs((r.gAu??0) - gAll.pct)));
+  rows.forEach(r=>{
+    if(r.gAu === null){
+      html += '<div class="el-row"><span class="el-nm">'+esc(r.n)+'</span>'
+        + '<span class="el-bar"></span>'
+        + '<span class="el-v" style="color:var(--ink4)">완결 '+unitsOf(r.nBucket)+' — 표본 부족</span></div>';
+      return;
+    }
+    const gap = r.gAu - gAll.pct;
+    const good = gap >= 0;
+    const w = Math.max(Math.abs(gap)/top*50, 2);
+    html += '<div class="el-row"><span class="el-nm" title="'+esc(r.n)+'">'+esc(r.n)+'</span>'
+      // 0을 가운데 두고 좌(뒤처짐)/우(앞섬)로 뻗는 막대 — 부호를 눈으로 읽게 한다
+      + '<span class="el-bar" style="position:relative">'
+      +   '<i style="position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line2)"></i>'
+      +   '<i style="position:absolute;top:0;bottom:0;'
+      +     (good ? 'left:50%' : 'right:50%') + ';width:'+w+'%;border-radius:3px;'
+      +     'background:'+(good?'var(--green)':'var(--red)')+'"></i>'
+      + '</span>'
+      + '<span class="el-v" style="color:'+(good?'var(--green)':'var(--red)')+';font-weight:700">'
+      +   sign(gap)+'%p</span></div>';
+  });
+  html += '<div style="font-size:11px;color:var(--ink4);margin-top:12px;line-height:1.6">'
+    + '격차 = 건물 증감률 &minus; 전체 증감률. 양수면 전체 흐름보다 잘한 것, '
+    + '음수면 전체가 올랐는데도 뒤처진 것입니다.</div>';
+  body.innerHTML = html;
+}
+
+/* ── C · 참여 품질 사분면 ──
+   CDO 피드백("사용자 축이 하나 더")의 정확한 답: 사용자 수 증감(x)과
+   참여도 증감(y)을 한 평면에 놓으면 '사람은 늘었는데 참여가 떨어지는 건물'이 보인다.
+   그 건물이 Activation→Retention 병목의 건물 단위 후보다. */
+function drawGaQuadrant(){
+  const card = document.getElementById('gaQuadCard');
+  const note = document.getElementById('gaQuadNote');
+  const names = _detail?.building_index?.names||{};
+  const ms = new Set(monthsInRange());
+  const vol = new Map();
+  (_detail?.building_monthly||[]).forEach(r=>{
+    if(!ms.has(r.m)) return;
+    vol.set(r.b, Math.max(vol.get(r.b)||0, r.au));
+  });
+  /* 선택 건물만 그리면 점 1개짜리 산점도가 되어 사분면의 의미가 사라진다.
+     비교 코호트(이용량 상위 20개)를 항상 배경에 두고 선택 건물을 강조한다. */
+  const cohort = [...vol.entries()].sort((a,b)=>b[1]-a[1]).slice(0,20).map(x=>x[0]);
+  const pool = [...new Set([..._gaBld, ...cohort])];
+  if(!pool.length){ card.style.display = 'none'; return; }
+
+  const rows = buildingStats(pool).filter(r=>r.gAu !== null && r.gSpu !== null);
+  if(rows.length < 2){
+    card.style.display = 'block';
+    mkChart('chartGaQuad', {type:'scatter', data:{datasets:[]}});
+    note.innerHTML = '&#9888; 완결 구간이 ' + unitsOf(BLOCK+1)
+      + ' 미만인 건물이 많아 사분면을 그릴 표본이 부족합니다. 조회 기간을 늘려 주세요.';
+    return;
+  }
+  card.style.display = 'block';
+
+  const QC = {gr:'#2F9E44', ri:'#F03E3E', lo:'#1971C2', dn:'#E8590C'};
+  const quad = r => r.gAu>=0 ? (r.gSpu>=0?'gr':'ri') : (r.gSpu>=0?'lo':'dn');
+  const QN = {gr:'성장', ri:'이탈위험', lo:'충성화', dn:'위험'};
+  const maxR = Math.max(...rows.map(r=>r.avgAu));
+  const isSel = r => _gaBld.includes(r.c);
+  const nSel = rows.filter(isSel).length;
+
+  mkChart('chartGaQuad', {
+    type:'scatter',
+    plugins:[selLabelPlugin, {
+      id:'quadGuides',
+      // 0축 십자선과 사분면 이름 — 없으면 산점도가 그냥 점 무리로만 보인다
+      beforeDatasetsDraw(ch){
+        const {ctx, chartArea:a, scales:{x,y}} = ch;
+        const x0 = x.getPixelForValue(0), y0 = y.getPixelForValue(0);
+        ctx.save();
+        ctx.strokeStyle = '#909AA0'; ctx.lineWidth = 1; ctx.setLineDash([4,4]);
+        ctx.beginPath(); ctx.moveTo(a.left, y0); ctx.lineTo(a.right, y0);
+        ctx.moveTo(x0, a.top); ctx.lineTo(x0, a.bottom); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.font = 'bold 11px Pretendard Variable, Pretendard, sans-serif';
+        const put = (t,px,py,c,ta,tb)=>{ ctx.fillStyle=c; ctx.textAlign=ta; ctx.textBaseline=tb; ctx.fillText(t,px,py); };
+        put('↗ 성장',      a.right-8, a.top+6,     'rgba(47,158,68,.55)',  'right','top');
+        put('↖ 충성화',    a.left+8,  a.top+6,     'rgba(25,113,194,.55)', 'left', 'top');
+        put('↘ 이탈위험',  a.right-8, a.bottom-6,  'rgba(240,62,62,.6)',   'right','bottom');
+        put('↙ 위험',      a.left+8,  a.bottom-6,  'rgba(232,89,12,.55)',  'left', 'bottom');
+        ctx.restore();
+      }
+    }],
+    data:{ datasets:[{
+      data: rows.map(r=>({x:+r.gAu.toFixed(1), y:+r.gSpu.toFixed(1), _r:r, _sel:isSel(r)})),
+      backgroundColor: rows.map(r=>QC[quad(r)]),
+      // 선택 건물은 진한 테두리로 배경 코호트와 구분한다
+      borderColor: rows.map(r=>isSel(r) ? '#132029' : QC[quad(r)]),
+      borderWidth: rows.map(r=>isSel(r) ? 2.5 : 0),
+      pointStyle: rows.map(r=>isSel(r) ? 'rectRot' : 'circle'),
+      // 점 크기 = 규모. 작은 건물의 큰 증감률에 시선이 쏠리는 것을 막는다
+      pointRadius: rows.map(r=>(isSel(r)?6:4) + Math.sqrt(r.avgAu/maxR)*11),
+      pointHoverRadius: rows.map(r=>(isSel(r)?8:6) + Math.sqrt(r.avgAu/maxR)*11),
+    }]},
+    options:{ responsive:true, maintainAspectRatio:false,
+      layout:{ padding:{ top:14, right:14 } },
+      plugins:{ legend:{display:false},
+        tooltip:{ callbacks:{
+          label:it=>{
+            const r = it.raw._r, s = v=>(v>=0?'+':'△')+Math.abs(v).toFixed(1)+'%';
+            return [r.n + ' · ' + QN[quad(r)] + (isSel(r) ? ' (선택)' : ''),
+                    '활성 사용자 ' + s(r.gAu) + ' (평균 ' + fmt(r.avgAu) + '명)',
+                    '세션/사용자 ' + s(r.gSpu) + ' (현재 ' + r.spu.toFixed(2) + ')'];
+          }}}},
+      scales:{
+        x:{ title:{display:true, text:'활성 사용자 증감률 (%) →'}, grid:{color:'#E9ECEF'},
+            ticks:{ callback:v=>(v>0?'+':'')+v+'%' } },
+        y:{ title:{display:true, text:'세션/사용자 증감률 (%) →'}, grid:{color:'#E9ECEF'},
+            ticks:{ callback:v=>(v>0?'+':'')+v+'%' } },
+      }},
+  });
+
+  const cnt = {gr:0, ri:0, lo:0, dn:0};
+  rows.forEach(r=>cnt[quad(r)]++);
+  const risk = rows.filter(r=>quad(r)==='ri').sort((a,b)=>b.avgAu-a.avgAu).slice(0,3);
+  const unit = unitOf();
+  note.innerHTML =
+    '건물 ' + rows.length + '개 · 성장 ' + cnt.gr + ' / 충성화 ' + cnt.lo
+    + ' / <b style="color:var(--red)">이탈위험 ' + cnt.ri + '</b> / 위험 ' + cnt.dn
+    + ' · 점 크기 = 규모(' + unit + '평균 활성 사용자)'
+    + (nSel ? ' · <b>&#9670; 마름모 ' + nSel + '개가 선택 건물</b>이고 나머지는 비교 코호트(이용량 상위 20)입니다'
+        : _gaBld.length
+          // 건물을 골랐는데 표본이 없어 빠진 경우를 '미선택'으로 뭉개면 오해한다
+          ? ' · &#9888; 선택한 ' + _gaBld.length + '개 건물은 완결 구간이 ' + unitsOf(BLOCK+1)
+            + ' 미만이라 사분면에서 제외되었습니다 (배경은 비교 코호트 상위 20)'
+          : ' · 건물 미선택이라 이용량 상위 20개를 표시했습니다')
+    + (risk.length ? '<br>&#9888; <b>이탈위험 상위</b>: '
+        + risk.map(r=>esc(r.n)+' (사용자 '+(r.gAu>=0?'+':'△')+Math.abs(r.gAu).toFixed(1)
+            +'%, 참여 △'+Math.abs(r.gSpu).toFixed(1)+'%)').join(' · ')
+        + ' — 사람은 늘었는데 참여가 떨어지고 있어 신규가 안 붙는 신호입니다.' : '')
+    + '<br>증감률은 최근 완결 ' + unitsOf(BLOCK) + ' 평균 대비 그 이전 ' + unitsOf(BLOCK) + ' 평균입니다. 미완결 구간 제외.';
+}
+
+/* ── 순위표 ── 어느 건물에 개입할지 결정하기 위한 표.
+   격차가 음수이면서 규모가 큰 건물이 우선순위 상위다. */
+let _gaRankSort = 'avgAu';
+function drawGaRank(){
+  const body = document.getElementById('gaRankBody');
+  const unit = unitOf();
+  const ms = new Set(monthsInRange());
+  const vol = new Map();
+  (_detail?.building_monthly||[]).forEach(r=>{ if(ms.has(r.m)) vol.set(r.b, Math.max(vol.get(r.b)||0, r.au)); });
+  const pool = [...vol.entries()].sort((a,b)=>b[1]-a[1]).slice(0,30).map(x=>x[0]);
+  if(!pool.length){
+    body.innerHTML = '<div class="scope-warn"><span>&#9888;</span><div>선택 기간에 건물별 데이터가 없습니다. '
+      + '건물 축은 <b>'+(_detail?.availability?.building?.from||'-')+'</b>부터 계측되었습니다.</div></div>';
+    return;
+  }
+  const gAll = blockGrowth(doneSeries([]).map(x=>x.au));
+  const rows = buildingStats(pool).map(r=>Object.assign(r, {
+    gap: (r.gAu !== null && gAll) ? r.gAu - gAll.pct : null,
+  }));
+  const key = _gaRankSort;
+  rows.sort((a,b)=>{
+    const av = a[key], bv = b[key];
+    if(av === null) return 1;
+    if(bv === null) return -1;
+    return key === 'gap' ? av - bv : bv - av;   // 격차는 나쁜 순(오름차순)이 개입 우선순위
+  });
+  const sign = v => v===null ? '—' : (v>=0?'+':'△')+Math.abs(v).toFixed(1);
+  const th = (k,t,tip)=>'<th class="srt num" data-k="'+k+'" title="'+tip+'">'+t
+    + (key===k?'<span class="ar">▼</span>':'')+'</th>';
+
+  body.innerHTML = '<div class="tbl-wrap" style="max-height:420px"><table class="mx">'
+    + '<thead><tr><th>건물</th>'
+    + th('avgAu', unit+'평균 활성 사용자', '완결 구간 평균. 사용자 수는 가산적이지 않아 합계를 쓰지 않습니다')
+    + th('spu', '세션/사용자', '방문 빈도. 완결 구간 세션합÷사용자합')
+    + th('gAu', '사용자 증감', '최근 완결 '+unitsOf(BLOCK)+' 평균 vs 이전 '+unitsOf(BLOCK)+' 평균')
+    + th('gap', '전체 대비 격차', '건물 증감률 − 전체 증감률. 음수 + 규모 큼 = 개입 우선순위 상위')
+    + '</tr></thead><tbody>'
+    + rows.map(r=>{
+        const bad = r.gap !== null && r.gap < 0;
+        return '<tr data-c="'+esc(r.c)+'" class="'+(_gaBld.includes(r.c)?'sel':'')+'" style="cursor:pointer">'
+          + '<td class="svcname">'+esc(r.n)+'</td>'
+          + '<td class="num">'+fmt(r.avgAu)+'</td>'
+          + '<td class="num">'+r.spu.toFixed(2)+'</td>'
+          + '<td class="num">'+sign(r.gAu)+(r.gAu===null?'':'%')
+          +   (r.gAu===null?'<br><span style="font-size:10px;color:var(--ink4)">완결 '+unitsOf(r.nBucket)+'</span>':'')+'</td>'
+          + '<td class="num" style="font-weight:700;color:'+(r.gap===null?'var(--ink4)':bad?'var(--red)':'var(--green)')+'">'
+          +   sign(r.gap)+(r.gap===null?'':'%p')+'</td></tr>';
+      }).join('')
+    + '</tbody></table></div>'
+    + '<div style="font-size:11px;color:var(--ink4);margin-top:10px;line-height:1.6">'
+    + '이용량 상위 30개 건물 · 행을 클릭하면 위 차트에 추가/제거됩니다 (최대 '+GA_BLD_MAX+'개)'
+    + (gAll ? ' · 전체 기준 증감 <b>'+sign(gAll.pct)+'%</b>' : ' · 전체 증감은 표본 부족으로 계산 불가')
+    + '</div>';
+
+  body.querySelectorAll('th.srt').forEach(h=>h.addEventListener('click', ()=>{
+    _gaRankSort = h.dataset.k; drawGaRank();
+  }));
+  body.querySelectorAll('tbody tr').forEach(tr=>tr.addEventListener('click', ()=>{
+    const c = tr.dataset.c;
+    if(_gaBld.includes(c)) _gaBld = _gaBld.filter(x=>x!==c);
+    else if(_gaBld.length >= GA_BLD_MAX){ alert('건물은 최대 '+GA_BLD_MAX+'개까지 비교할 수 있습니다.'); return; }
+    else _gaBld.push(c);
+    syncHash(); renderGaSegment();
+  }));
+}
+
+// ── 3단 · 화면별 퍼널 / 요소 클릭 / 서비스 ──
 function renderGaFunnel(){
   const box = document.getElementById('gaFunnel');
   const meta = document.getElementById('gaScreenMeta');
   if(!_detail){ box.innerHTML = ''; return; }
   const av = _detail.availability||{};
   const ms = monthsSet();
-  const rows = (_detail.labels_monthly||[]).filter(r=>r.sc===_gaScreen && ms.has(r.m));
 
-  if(!_gaScreen || !rows.length){
+  // 선택값은 'sc:{화면}' 또는 'sv:{서비스}'. 접두사가 없으면 구버전 링크로 보고 화면으로 해석한다.
+  const key = _gaScreen || '';
+  const kind = key.startsWith('sv:') ? 'sv' : 'sc';
+  const name = key.replace(/^s[cv]:/, '');
+  renderScopeBanner();
+  if(kind === 'sv'){ renderGaService(name, box, meta); return; }
+
+  /* 건물이 선택되면 건물 교차 리포트로 소스를 바꾼다.
+     labels_monthly에는 건물 차원이 없으므로 funnel_building(요소×건물)을 쓴다.
+     퍼널 정의 화면만 요소 단위로 뽑혀 있어, 그 외 화면은 화면 단위 비교만 가능하다. */
+  const bSel = new Set(_gaBld);
+  const useBld = _gaBld.length > 0;
+  const rows = useBld
+    ? (_detail.funnel_building||[]).filter(r=>r.sc===name && ms.has(r.m) && bSel.has(r.b))
+    : (_detail.labels_monthly||[]).filter(r=>r.sc===name && ms.has(r.m));
+
+  if(useBld && !rows.length){
+    // 건물 교차 데이터가 없는 화면 — 화면 단위 비교로 대체 안내 (전체 수치로 눙치지 않는다)
+    const sb = (_detail.screen_building||[]).filter(r=>r.sc===name && ms.has(r.m) && bSel.has(r.b));
+    renderScreenByBuilding(name, sb, box, meta);
+    return;
+  }
+
+  if(!name || !rows.length){
     meta.textContent = '';
     box.innerHTML = '<div class="scope-warn"><span>&#9888;</span><div>선택 기간에 이 화면의 클릭 데이터가 없습니다. '
       + '화면 축은 <b>'+(av.label?.from||'-')+' ~ '+(av.label?.to||'-')+'</b> 구간만 계측되었습니다.</div></div>';
     return;
   }
 
-  // 요소별 집계 — 사용자는 가산적이지 않으므로 월별 최대값을 대표로 둔다
+  /* 사용자 수 처리: 같은 사용자가 여러 달에 걸치면 중복이므로 월 간에는 합산하지 않고
+     최대값을 대표로 둔다. 반면 건물 간에는 사용자가 겹치지 않으므로(1인 1건물 귀속)
+     건물별 월최대값을 합산한다. 클릭 수는 두 축 모두 합계다. */
   const el = new Map();
   rows.forEach(r=>{
-    const e = el.get(r.el) || {el:r.el, c:0, u:0};
-    e.c += r.c; e.u = Math.max(e.u, r.u);
+    const e = el.get(r.el) || {el:r.el, c:0, u:0, _byB:new Map()};
+    e.c += r.c;
+    const bk = useBld ? r.b : '_all';
+    e._byB.set(bk, Math.max(e._byB.get(bk)||0, r.u));
     el.set(r.el, e);
   });
-  const mlist = [...new Set(rows.map(r=>r.m))].sort();
-  meta.innerHTML = mlist.join(', ') + ' · 요소 ' + el.size + '개'
-    + ' · 사용자 수는 월별 최대값(중복 집계 방지)';
+  el.forEach(e=>{ e.u = [...e._byB.values()].reduce((a,b)=>a+b, 0); });
 
-  const fdef = (_detail.funnels||{})[_gaScreen];
+  const mlist = [...new Set(rows.map(r=>r.m))].sort();
+  const bnames = _detail?.building_index?.names||{};
+  const minU = _detail?.funnel_building_min_users || 30;
+  const fscope = useBld ? _gaBld.map(c=>bnames[c]||c).join(', ') : '전체';
+  meta.innerHTML = mlist.join(', ') + ' · <b>' + esc(fscope) + '</b> · 요소 ' + el.size + '개'
+    + ' · 사용자 수는 ' + (useBld ? '건물별 월 최대값의 합' : '월별 최대값') + '(중복 집계 방지)';
+
+  const fdef = (_detail.funnels||{})[name];
   let html = '';
 
   if(fdef && fdef.steps){
@@ -1432,7 +2371,18 @@ function renderGaFunnel(){
     const mono = steps.every((s,i)=>i===0 || s.u <= steps[i-1].u);
     html += '<div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px">'
       + fdef.title + ' 퍼널</div>';
-    if(fdef.note) html += '<div style="font-size:11px;color:var(--ink4);margin-bottom:14px">'+fdef.note+'</div>';
+    /* funnels.json의 note는 전체 기준 실측값이다. 건물을 선택한 상태에서 그대로 띄우면
+       화면에 보이는 수치(건물 기준)와 어긋나 오해를 만든다 → 전체 기준임을 명시한다. */
+    if(fdef.note) html += '<div style="font-size:11px;color:var(--ink4);margin-bottom:14px">'
+      + (useBld ? '<b>전체 기준 참고값</b> — ' : '') + fdef.note + '</div>';
+    /* 건물별로 쪼개면 표본이 급격히 작아진다 (화면 축이 2개월뿐).
+       1단계 사용자가 기준 미달이면 이탈률은 노이즈이므로 수치를 보여주기 전에 못 믿는다고 밝힌다. */
+    if(useBld && steps[0].u < minU){
+      html += '<div class="scope-warn"><span>&#9888;</span><div>선택 건물의 1단계 사용자가 <b>'
+        + fmt(steps[0].u) + '명</b>으로 기준(' + minU + '명) 미달입니다. '
+        + '이 규모에서는 단계별 이탈률이 표본 오차에 묻히므로 <b>추세 판단에 쓰지 마세요.</b> '
+        + '건물 선택을 늘리거나 전체 기준으로 보세요.</div></div>';
+    }
     if(!mono){
       html += '<div class="scope-warn"><span>&#9888;</span><div>단계별 사용자 수가 단조 감소하지 않습니다. '
         + 'funnels.json의 단계 순서가 실제 플로우와 다를 수 있습니다 — 이탈률을 그대로 신뢰하지 마세요.</div></div>';
@@ -1459,7 +2409,7 @@ function renderGaFunnel(){
           +' → '+steps[worst.i].name+' (△'+worst.d.toFixed(1)+'%)</b>' : '')
       + '</div>';
 
-    const br = (_detail.branches||{})[_gaScreen]||[];
+    const br = (_detail.branches||{})[name]||[];
     const brRows = br.map(b=>el.get(b)).filter(Boolean).sort((a,b)=>b.u-a.u);
     if(brRows.length){
       const bt = Math.max(1, ...brRows.map(r=>r.u));
@@ -1483,6 +2433,107 @@ function renderGaFunnel(){
         + '<span class="el-v">'+fmt(r.u)+'명 · '+fmt(r.c)+'건</span></div>';
     });
   }
+  box.innerHTML = html;
+}
+
+/* 건물 선택 + 퍼널 미정의 화면 — 요소×건물 리포트가 없는 경우.
+   요소 단위 건물별 데이터는 퍼널 정의 화면(4개)에만 뽑혀 있다(카디널리티 제약).
+   그 외 화면은 화면 단위 건물 비교만 보여주고, 전체 수치로 눙치지 않는다. */
+function renderScreenByBuilding(screen, sb, box, meta){
+  const names = _detail?.building_index?.names||{};
+  const has = (_detail.screen_building||[]).length > 0;
+
+  if(!sb.length){
+    meta.textContent = '';
+    box.innerHTML = '<div class="scope-warn"><span>&#9888;</span><div>'
+      + (has
+        ? '선택 건물에는 <b>'+esc(screen)+'</b> 화면의 클릭 데이터가 없습니다. '
+          + '화면×건물 리포트는 이용량 상위 40개 건물만 담고 있어, 그 밖의 건물은 수치가 없습니다.'
+        : '건물별 화면 데이터(<code>ga4_screen_building_monthly</code>)가 아직 수집되지 않았습니다. '
+          + '<code>ga4_fetch.py --detail</code>을 실행한 뒤 <code>collect_all.py</code>로 재생성하세요. '
+          + '건물 선택을 해제하면 전체 기준 요소별 클릭은 지금도 볼 수 있습니다.')
+      + '</div></div>';
+    return;
+  }
+
+  // 건물별 집계 — 사용자는 월 간 최대값, 클릭은 합계
+  const agg = new Map();
+  sb.forEach(r=>{
+    const e = agg.get(r.b) || {b:r.b, c:0, u:0};
+    e.c += r.c; e.u = Math.max(e.u, r.u);
+    agg.set(r.b, e);
+  });
+  const list = [...agg.values()].sort((a,b)=>b.u-a.u);
+  const top = Math.max(1, ...list.map(r=>r.u));
+  const mlist = [...new Set(sb.map(r=>r.m))].sort();
+  meta.innerHTML = mlist.join(', ') + ' · 건물 ' + list.length + '개 · 화면 단위 비교';
+
+  let html = '<div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px">'
+    + esc(screen) + ' · 건물별 이용량</div>'
+    + '<div style="font-size:11px;color:var(--ink4);margin-bottom:14px">'
+    + '이 화면은 <b>요소 단위</b> 건물별 데이터가 없습니다 — 요소×건물은 퍼널이 정의된 화면에만 '
+    + '수집됩니다(카디널리티 제약). 요소별 이탈을 보려면 건물 선택을 해제하세요. '
+    + '순서를 알면 <code>funnels.json</code>에 추가하면 이 화면도 건물별 퍼널이 열립니다.</div>';
+  list.forEach(r=>{
+    html += '<div class="el-row"><span class="el-nm" title="'+esc(names[r.b]||r.b)+'">'
+      + esc(names[r.b]||r.b)+'</span>'
+      + '<span class="el-bar"><i style="width:'+(r.u/top*100)+'%"></i></span>'
+      + '<span class="el-v">'+fmt(r.u)+'명 · '+fmt(r.c)+'건</span></div>';
+  });
+  box.innerHTML = html;
+}
+
+/* 서비스 축 — 홈v1_서비스_{이름}_클릭 기준.
+   화면 축과 달리 단계가 없으므로 퍼널을 그리지 않고 월별 추이 + 도입현황 매칭을 보여준다.
+   (service_name 커스텀 파라미터는 커버리지 4.4%라 쓸 수 없어 label 파싱이 1차 소스다) */
+function renderGaService(svc, box, meta){
+  const ms = monthsSet();
+  const prefix = _detail.home_service_prefix || '서비스_';
+  const rows = (_detail.labels_monthly||[])
+    .filter(r=>r.sc === (_detail.home_screen||'홈v1') && r.el === prefix+svc && ms.has(r.m))
+    .sort((a,b)=>a.m.localeCompare(b.m));
+  const av = _detail.availability||{};
+
+  if(!rows.length){
+    meta.textContent = '';
+    box.innerHTML = '<div class="scope-warn"><span>&#9888;</span><div>선택 기간에 <b>'+esc(svc)
+      + '</b> 서비스의 홈 진입 클릭 데이터가 없습니다. 화면 축은 <b>'+(av.label?.from||'-')
+      + ' ~ '+(av.label?.to||'-')+'</b> 구간만 계측되었습니다.</div></div>';
+    return;
+  }
+
+  const tot = rows.reduce((s,r)=>s+r.c, 0);
+  const uMax = Math.max(...rows.map(r=>r.u));   // 사용자는 가산적이지 않다
+  /* 도입현황(gsvc 88개) 매칭 — 공백·하이픈 제거 후 비교.
+     GA label과 도입현황 표기가 달라(신고센터관리 vs 신고센터 관리) 정확 일치는 20개뿐이다.
+     funnels.json의 aliases를 먼저 적용하고 그다음 정규화 비교한다 (설계서 2.4절). */
+  const alias = (_detail.service_aliases||{})[svc] || svc;
+  const nk = s => String(s||'').replace(/[\s\-]/g,'');
+  const gsvc = (_data.bld?.service_summary||[]).find(x=>nk(x.svc) === nk(alias));
+  const nBld = gsvc ? gsvc.count : null;
+  const isTpl = (_detail.template_services||[]).includes(svc);
+
+  meta.innerHTML = rows.map(r=>r.m).join(', ') + ' · 홈 진입 클릭 ' + fmt(tot) + '건'
+    + ' · 사용자 수는 월별 최대값(중복 집계 방지)';
+
+  const top = Math.max(...rows.map(r=>r.c));
+  let html = '<div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px">'
+    + esc(svc) + ' · 홈 진입 클릭 추이</div>'
+    + '<div style="font-size:11px;color:var(--ink4);margin-bottom:14px">'
+    + '서비스 축은 단계가 없어 퍼널로 그리지 않습니다. 서비스 <b>안쪽</b> 플로우를 보려면 '
+    + '해당 화면(예: <code>공간예약v1</code>)을 선택하세요.'
+    + (nBld!==null ? ' · 도입현황: <b>'+nBld+'개 건물</b> 도입'
+        : isTpl ? ' · <b>템플릿 서비스</b> — 도입현황 88개 축에 없어 도입 건물 수를 셀 수 없습니다'
+        : ' · 도입현황 미매칭 — 표기 차이일 수 있으니 <code>funnels.json</code> aliases를 확인하세요')
+    + '</div>';
+  rows.forEach(r=>{
+    html += '<div class="el-row"><span class="el-nm">'+esc(r.m)+'</span>'
+      + '<span class="el-bar"><i style="width:'+(r.c/top*100)+'%"></i></span>'
+      + '<span class="el-v">'+fmt(r.u)+'명 · '+fmt(r.c)+'건</span></div>';
+  });
+  html += '<div style="margin-top:12px;padding:11px 14px;background:var(--muted);border-radius:8px;font-size:12px;color:var(--ink2)">'
+    + '합계 <b style="color:var(--navy)">'+fmt(tot)+'건</b> · 월 최대 이용자 <b style="color:var(--navy)">'
+    + fmt(uMax)+'명</b> · 이용자당 '+(uMax?(tot/uMax).toFixed(1):'-')+'회</div>';
   box.innerHTML = html;
 }
 
@@ -1515,14 +2566,54 @@ if(CHART_OK){
 }
 
 // 캔버스 재사용 시 'Canvas is already in use' 방지 + 캔버스 부재/라이브러리 부재 안전 처리
+/* 차트를 그릴 수 없을 때 캔버스 자리에 사유를 적는다.
+   조용히 빈 흰 칸으로 두면 "데이터가 없는 건지 안 그려진 건지"를 알 수 없다
+   (실제로 사내망에서 CDN이 막혀 전 차트가 빈 화면이 된 사례가 있었다). */
+function chartFallback(canvasId, msg){
+  const el = document.getElementById(canvasId);
+  const wrap = el ? el.parentElement : null;
+  if(!wrap) return;
+  let ph = wrap.querySelector('.chart-fallback');
+  if(!ph){
+    ph = document.createElement('div');
+    ph.className = 'chart-fallback';
+    ph.style.cssText = 'display:flex;align-items:center;justify-content:center;height:100%;'
+      + 'padding:20px;text-align:center;font-size:12px;color:var(--ink4);line-height:1.7';
+    wrap.appendChild(ph);
+  }
+  if(el) el.style.display = 'none';
+  ph.innerHTML = msg;
+}
+
+function clearChartFallback(canvasId){
+  const el = document.getElementById(canvasId);
+  const wrap = el ? el.parentElement : null;
+  if(!wrap) return;
+  const ph = wrap.querySelector('.chart-fallback');
+  if(ph) ph.remove();
+  if(el) el.style.display = '';
+}
+
 function mkChart(canvasId, cfg){
-  if(!CHART_OK) return null;
+  if(!CHART_OK){
+    chartFallback(canvasId,
+      '<div><b style="color:var(--yellow)">&#9888; 차트 라이브러리를 불러오지 못했습니다</b><br>'
+      + 'Chart.js가 CDN(<code>cdn.jsdelivr.net</code>)에서 차단된 것으로 보입니다.<br>'
+      + '수치는 위/아래 표와 KPI로 확인할 수 있습니다. 사내망 차단이면 네트워크 담당자에게 문의하세요.</div>');
+    return null;
+  }
   const el = document.getElementById(canvasId);
   if(!el) return null;
+  clearChartFallback(canvasId);
   const prev = Chart.getChart(el);
   if(prev) prev.destroy();
   try { return new Chart(el, cfg); }
-  catch(e){ console.error('[chart] '+canvasId, e); return null; }
+  catch(e){
+    console.error('[chart] '+canvasId, e);
+    chartFallback(canvasId, '<div><b style="color:var(--red)">차트를 그리는 중 오류가 발생했습니다</b><br>'
+      + esc(e.message) + '</div>');
+    return null;
+  }
 }
 
 // treemap/matrix 등 플러그인 컨트롤러 등록 여부 확인 (Chart.js v4 registry API)
@@ -1568,6 +2659,10 @@ function render(D){
   try { initPeriodCtl(); }
   catch(e){ console.error('[initPeriodCtl]', e); }
 
+  // 공유 링크로 들어온 경우 조건 복원 (기간은 silent — 아래 lazyRenderTab이 한 번만 그린다)
+  try { restoreFromHash(); bindFbarActions(); }
+  catch(e){ console.error('[restoreFromHash]', e); }
+
   // _data를 DOM 조작보다 먼저 확정 — 헤더 렌더가 실패해도 탭 전환은 계속 동작해야 함
   _data = buildDerived();
 
@@ -1577,6 +2672,8 @@ function render(D){
   // 활성 탭을 렌더 (overview 하드코딩 금지). 로딩 중 눌린 탭이 있으면 그것을 우선.
   const target = _pendingTab || activeTabId();
   _pendingTab = null;
+  applyFbarScope(target);
+  syncFbarTop();
   lazyRenderTab(target);
 }
 
