@@ -161,6 +161,66 @@ a:hover{color:var(--navy)}
 .period-badge .period-icon{font-size:13px}
 .period-badge .period-label{color:var(--ink3);font-weight:500}
 .period-badge .period-range{color:var(--navy);font-weight:700}
+
+/* ── 기간 선택기 ── */
+.period-ctl{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:16px;box-shadow:var(--shadow-1)}
+.period-ctl .pc-label{font-size:12px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:5px}
+.period-ctl .pc-presets{display:flex;gap:4px}
+.period-ctl .pc-btn{background:var(--muted);border:1px solid var(--line);border-radius:100px;padding:5px 12px;font-size:12px;color:var(--ink3);cursor:pointer;font-family:inherit;font-weight:600;transition:all .15s}
+.period-ctl .pc-btn:hover{background:var(--muted2);border-color:var(--line2)}
+.period-ctl .pc-btn.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.period-ctl select{font-family:inherit;font-size:12px;padding:5px 8px;border:1px solid var(--line2);border-radius:6px;background:var(--card);color:var(--navy);font-weight:600;cursor:pointer}
+.period-ctl .pc-sep{color:var(--ink4);font-size:12px}
+.period-ctl .pc-note{font-size:11px;color:var(--ink4);margin-left:auto;text-align:right;line-height:1.5}
+.scope-warn{display:flex;gap:8px;align-items:flex-start;background:var(--yellow-bg);border:1px solid var(--yellow);border-radius:8px;padding:10px 13px;font-size:12px;color:var(--yellow);margin-bottom:16px;line-height:1.6}
+.scope-warn b{color:var(--yellow)}
+
+/* ── 연계 등급 배지 ── */
+.lvl{display:inline-block;padding:2px 7px;border-radius:100px;font-size:10px;font-weight:700;white-space:nowrap}
+.lvl.direct{background:var(--green-bg);color:var(--green)}
+.lvl.category{background:var(--yellow-bg);color:var(--yellow)}
+.lvl.none{background:var(--muted2);color:var(--ink4)}
+
+/* ── 서비스 매트릭스 테이블 ── */
+.tbl-wrap{overflow-x:auto;max-height:640px;overflow-y:auto;border:1px solid var(--line);border-radius:8px}
+table.mx{width:100%;border-collapse:collapse;font-size:12px;min-width:840px}
+table.mx th{position:sticky;top:0;background:var(--muted);color:var(--navy);font-weight:700;text-align:left;padding:9px 11px;border-bottom:1px solid var(--line2);white-space:nowrap;z-index:2}
+table.mx th.srt{cursor:pointer;user-select:none}
+table.mx th.srt:hover{background:var(--muted2)}
+table.mx th .ar{color:var(--brand);font-size:10px;margin-left:3px}
+table.mx td{padding:8px 11px;border-bottom:1px solid var(--line);color:var(--ink2);vertical-align:middle}
+table.mx tbody tr:hover{background:var(--brand-soft)}
+table.mx tbody tr.sel{background:var(--brand-soft)}
+table.mx td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.mx .svcname{font-weight:600;color:var(--navy)}
+.minibar{display:inline-block;height:6px;border-radius:3px;background:var(--brand);vertical-align:middle;margin-right:6px;min-width:2px}
+.minibar-bg{display:inline-block;width:56px;height:6px;border-radius:3px;background:var(--muted2);vertical-align:middle;margin-right:7px;position:relative;overflow:hidden}
+.minibar-bg > i{position:absolute;left:0;top:0;height:100%;background:var(--brand);border-radius:3px}
+.filter-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.filter-row input[type=text],.filter-row select{font-family:inherit;font-size:12px;padding:6px 10px;border:1px solid var(--line2);border-radius:6px;background:var(--card);color:var(--navy)}
+.filter-row input[type=text]{min-width:180px}
+.chip{background:var(--muted);border:1px solid var(--line);border-radius:100px;padding:4px 11px;font-size:11px;color:var(--ink3);cursor:pointer;font-weight:600;transition:all .15s}
+.chip:hover{background:var(--muted2)}
+.chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+
+/* ── 건물 드릴다운 ── */
+.dd-grid{display:grid;grid-template-columns:minmax(240px,1fr) 2fr;gap:20px}
+@media(max-width:900px){.dd-grid{grid-template-columns:1fr}}
+.bld-list{max-height:520px;overflow-y:auto;border:1px solid var(--line);border-radius:8px}
+.bld-item{padding:9px 12px;border-bottom:1px solid var(--line);cursor:pointer;font-size:12px;display:flex;justify-content:space-between;gap:10px;align-items:center;transition:background .12s}
+.bld-item:hover{background:var(--brand-soft)}
+.bld-item.on{background:var(--brand);color:#fff}
+.bld-item.on .bld-cnt{color:#fff}
+.bld-item .bld-nm{font-weight:600;color:inherit;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bld-item .bld-cnt{color:var(--ink4);font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:700}
+.svc-pill{display:inline-flex;align-items:center;gap:5px;background:var(--muted);border:1px solid var(--line);border-radius:100px;padding:4px 10px;font-size:11px;color:var(--ink2);margin:0 5px 6px 0}
+.svc-pill.has{background:var(--green-bg);border-color:var(--green);color:var(--green);font-weight:600}
+.svc-pill.off{background:var(--muted);border-color:var(--line);color:var(--ink4)}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--muted);border-radius:8px;padding:12px 14px}
+.kpi .k-l{font-size:11px;color:var(--ink3);margin-bottom:5px;font-weight:600}
+.kpi .k-v{font-size:19px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
+.kpi .k-s{font-size:10px;color:var(--ink4);margin-top:3px}
 </style>
 </head>
 <body>
@@ -191,6 +251,15 @@ a:hover{color:var(--navy)}
   </div>
 
   <div id="contentArea" style="display:none">
+
+    <div class="period-ctl" id="periodCtl" style="display:none">
+      <span class="pc-label">&#128197; 조회 기간</span>
+      <span class="pc-presets" id="pcPresets"></span>
+      <select id="pcFrom"></select>
+      <span class="pc-sep">~</span>
+      <select id="pcTo"></select>
+      <span class="pc-note" id="pcNote"></span>
+    </div>
 
     <div class="tab-content active" data-tab="overview">
       <div class="freshness-bar" id="freshnessBar"></div>
@@ -241,6 +310,7 @@ a:hover{color:var(--navy)}
 
     <div class="tab-content" data-tab="ga">
       <div class="period-bar" id="gaPeriod"></div>
+      <div id="gaScopeNote"></div>
       <div class="ai-box" id="aiGaBox"></div>
       <div class="grid grid-3" id="gaMetrics" style="margin-bottom:24px"></div>
       <div class="grid grid-2" style="margin-bottom:24px">
@@ -266,7 +336,7 @@ a:hover{color:var(--navy)}
       <div class="grid grid-2" style="margin-bottom:24px">
         <div class="card">
           <div class="card-header">
-            <span class="card-title">서비스별 이용량 상위 15</span>
+            <span class="card-title">서비스별 이용량 상위 15 <small style="font-weight:500;color:var(--ink4);font-size:11px">· 월평균 이용자</small></span>
             <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
               <div class="tooltip-text">앱 내 각 서비스(메뉴)를 방문한 사용자 수 기준 상위 15개입니다. 어떤 기능이 가장 많이 쓰이는지 한눈에 볼 수 있습니다.</div>
             </div>
@@ -287,6 +357,7 @@ a:hover{color:var(--navy)}
 
     <div class="tab-content" data-tab="zendesk">
       <div class="period-bar" id="zdPeriod"></div>
+      <div id="zdScopeNote"></div>
       <div class="ai-box" id="aiZdBox"></div>
       <div class="grid grid-4" id="zdMetrics" style="margin-bottom:24px"></div>
       <div class="grid grid-2" style="margin-bottom:24px">
@@ -342,6 +413,7 @@ a:hover{color:var(--navy)}
 
     <div class="tab-content" data-tab="jira">
       <div class="period-bar" id="jiraPeriod"></div>
+      <div id="jiraScopeNote"></div>
       <div class="ai-box" id="aiJiraBox"></div>
       <div class="grid grid-4" id="jiraMetrics" style="margin-bottom:24px"></div>
       <div class="grid grid-2" style="margin-bottom:24px">
@@ -388,8 +460,44 @@ a:hover{color:var(--navy)}
 
     <div class="tab-content" data-tab="buildings">
       <div class="period-bar" id="bldPeriod"></div>
+      <div id="bldScopeWarn"></div>
       <div class="ai-box" id="aiBldBox"></div>
       <div class="grid grid-5" id="bldMetrics" style="margin-bottom:24px"></div>
+
+      <div class="card" style="margin-bottom:24px">
+        <div class="card-header">
+          <span class="card-title">서비스 × 연계 매트릭스</span>
+          <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-text">88개 일반서비스를 건물 도입현황 · 앱 사용량(GA) · 개발현황(Jira)과 연계한 표입니다. 연계 등급이 '직접'인 서비스만 해당 서비스 전용 GA 경로를 가지며, '카테고리'는 불편신고 공통 경로로만 집계되어 서비스 단위 분해가 불가능합니다.</div>
+          </div>
+        </div>
+        <div id="linkCoverage" style="margin-bottom:14px"></div>
+        <div class="filter-row">
+          <input type="text" id="svcSearch" placeholder="서비스명 검색...">
+          <select id="svcCatFilter"><option value="">전체 카테고리</option></select>
+          <span id="svcLvlChips" style="display:flex;gap:6px"></span>
+          <span id="svcCount" style="font-size:11px;color:var(--ink4);margin-left:auto"></span>
+        </div>
+        <div class="tbl-wrap"><table class="mx" id="svcTable"><thead></thead><tbody></tbody></table></div>
+      </div>
+
+      <div class="card" style="margin-bottom:24px">
+        <div class="card-header">
+          <span class="card-title">건물별 조회 (드릴다운)</span>
+          <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-text">건물을 선택하면 그 건물이 도입한 서비스와 미도입 서비스를 보여줍니다. 사용량은 '그 건물이 도입한 서비스들의 전사 합계'입니다 — GA에는 건물 차원이 없어 건물별 실사용량은 측정할 수 없습니다.</div>
+          </div>
+        </div>
+        <div class="dd-grid">
+          <div>
+            <div class="filter-row" style="margin-bottom:8px">
+              <input type="text" id="bldSearch" placeholder="건물명 · 코드 검색..." style="min-width:100%">
+            </div>
+            <div class="bld-list" id="bldList"></div>
+          </div>
+          <div id="bldDetail"></div>
+        </div>
+      </div>
       <div class="grid grid-2" style="margin-bottom:24px">
         <div class="card">
           <div class="card-header">
@@ -583,6 +691,316 @@ function lazyRenderTab(tabId){
   }
 }
 
+/* ══════════════════════════════════════════════════════════════
+   기간 조회 (Period filtering)
+
+   collect_all.py가 월별 팩트 테이블(ga.pages_monthly / services_monthly /
+   aarrr_monthly)과 티켓 팩트(zendesk.tickets / jira.tickets)를 실어 주므로,
+   여기서 선택 기간에 맞춰 재집계한다.
+
+   핵심 설계: 파생 결과를 기존 render 함수가 이미 기대하는 형태와 동일하게
+   만든다(top_pages/services/aarrr/summary, categories/sentiment/weekly/...).
+   덕분에 renderGA/renderZendesk/renderJira를 고치지 않고 재사용한다.
+
+   소스별 시간 해상도가 달라 하나의 축으로 통일할 수 없다:
+     GA     — 월 (yearMonth)
+     CS/Jira— 일 (티켓 생성일). 선택한 월 범위를 날짜 범위로 변환해 적용
+     건물    — 스냅샷. 도입일 필드가 없어 기간 필터를 적용하지 않는다
+   ══════════════════════════════════════════════════════════════ */
+let _raw = null;      // data.json 원본
+let _period = null;   // {from:'YYYY-MM', to:'YYYY-MM'}
+
+const PRESETS = [
+  {k:'3m',  label:'최근 3개월',  n:3},
+  {k:'6m',  label:'최근 6개월',  n:6},
+  {k:'12m', label:'최근 12개월', n:12},
+  {k:'all', label:'전체',        n:0},
+];
+
+function monthsInRange(){
+  const all = (_raw?.periods?.months)||[];
+  if(!_period) return all;
+  return all.filter(m => m >= _period.from && m <= _period.to);
+}
+
+function periodDates(){
+  // 월 범위 → 날짜 범위. to월의 말일까지 포함해야 그 달 티켓이 누락되지 않는다.
+  if(!_period) return {from:'0000-01-01', to:'9999-12-31'};
+  const [y, mo] = _period.to.split('-').map(Number);
+  const last = new Date(Date.UTC(y, mo, 0)).getUTCDate();  // mo는 1-based → 그 달 말일
+  return {from:_period.from+'-01', to:_period.to+'-'+String(last).padStart(2,'0')};
+}
+
+function monthSpan(){ return monthsInRange().length; }
+
+// ── GA 파생 ──
+/* 지표 가산성 주의:
+   screenPageViews / sessions 는 월별로 더해도 되지만 totalUsers 는 아니다.
+   같은 사용자가 여러 달에 방문하면 중복 집계되어, 12개월을 단순 합산하면
+   '/' 경로 이용자가 321,884명으로 나온다 — 실제 MAU 규모(약 26~29K)의 11배다.
+   따라서 users 는 '데이터가 있는 월 기준 월평균'으로 환산한다. */
+function aggPaths(rows, months){
+  const set = new Set(months), acc = new Map();
+  (rows||[]).forEach(r=>{
+    if(!set.has(r.m)) return;
+    let e = acc.get(r.p);
+    if(!e){ e = {path:r.p, pageViews:0, users:0, sessions:0, _uSum:0, _nm:0}; acc.set(r.p, e); }
+    e.pageViews += r.pv; e.sessions += r.s;
+    e._uSum += r.u; e._nm += 1;
+  });
+  const out = [...acc.values()];
+  out.forEach(e=>{ e.users = e._nm ? Math.round(e._uSum/e._nm) : 0; });
+  return out.sort((a,b)=>b.pageViews-a.pageViews);
+}
+
+function deriveGA(){
+  const raw = _raw.ga||{};
+  const months = monthsInRange();
+  // 월별 팩트가 없으면(구 data.json) 원본 전체기간 집계를 그대로 사용
+  if(!raw.has_monthly || !months.length){
+    return Object.assign({}, raw, {_fallback:true});
+  }
+  const mset = new Set(months);
+  const mau = (raw.mau||[]).filter(m=>mset.has(m.month));
+
+  /* ── AARRR 퍼널: '유효 월'만 사용 ──
+     service_icon_click_event 는 2025-11부터 수집되기 시작했다(그 이전 5개월은 0).
+     선택 기간에 그 이전 달이 섞이면 최근 달만 있는 분자를 전체 기간 분모로 나눠
+     활성화율이 실제(약 36%)보다 크게 낮게(21.9%) 나온다.
+     따라서 퍼널은 session_start와 service_icon_click_event가 모두 존재하는 달로
+     한정해 계산하고, users 는 월평균으로 환산한다(합산은 중복 집계). */
+  const perMonth = {};
+  (raw.aarrr_monthly||[]).forEach(r=>{
+    if(!mset.has(r.m)) return;
+    (perMonth[r.m] = perMonth[r.m]||{})[r.e] = {c:r.c, u:r.u};
+  });
+  const funnelMonths = Object.keys(perMonth).filter(m =>
+    (perMonth[m]['session_start']?.u||0) > 0 &&
+    (perMonth[m]['service_icon_click_event']?.u||0) > 0).sort();
+  const usedMonths = funnelMonths.length ? funnelMonths : Object.keys(perMonth).sort();
+  const excluded = Object.keys(perMonth).sort().filter(m=>!usedMonths.includes(m));
+
+  const aacc = new Map();
+  usedMonths.forEach(m=>{
+    Object.entries(perMonth[m]).forEach(([ev, v])=>{
+      let e = aacc.get(ev);
+      if(!e){ e = {event:ev, count:0, users:0, _uSum:0}; aacc.set(ev, e); }
+      e.count += v.c; e._uSum += v.u;
+    });
+  });
+  const nUsed = Math.max(1, usedMonths.length);
+  aacc.forEach(e=>{ e.users = Math.round(e._uSum/nUsed); });
+  const aarrr = [...aacc.values()].sort((a,b)=>b.count-a.count);
+
+  const out = Object.assign({}, raw, {
+    mau,
+    top_pages: aggPaths(raw.pages_monthly, months).slice(0,50),
+    services: aggPaths(raw.services_monthly, months).slice(0,30),
+    aarrr,
+    summary: {},
+  });
+
+  // ── 요약 재계산 (collect_all.py의 로직과 동일하게) ──
+  const s = out.summary;
+  const partial = _raw.periods?.partial_month;
+  if(mau.length){
+    const complete = mau.filter(m=>m.month!==partial);
+    const lc = complete.length ? complete[complete.length-1] : mau[mau.length-1];
+    const pc = complete.length>=2 ? complete[complete.length-2] : null;
+    s.current_mau = lc.activeUsers; s.current_pv = lc.pageViews;
+    s.current_sessions = lc.sessions; s.current_month = lc.month;
+    const le = mau[mau.length-1];
+    if(le.partial){ s.partial_mau = le.activeUsers; s.partial_month = le.month; s.partial_date = le.partialDate||''; }
+    s.mau_mom_growth = (pc && pc.activeUsers>0)
+      ? Math.round((lc.activeUsers-pc.activeUsers)/pc.activeUsers*1000)/10 : 0;
+    const us = mau.map(m=>m.activeUsers);
+    s.mau_peak = Math.max(...us); s.mau_trough = Math.min(...us);
+    s.mau_peak_month = mau[us.indexOf(s.mau_peak)].month;
+  }
+  const am = {}; aarrr.forEach(a=>am[a.event]=a);
+  const ssu = am['session_start']?.users||0;
+  if(ssu>0){
+    const r1 = v=>Math.round(v*1000)/10;
+    s.aarrr_acquisition = ssu;
+    s.aarrr_activation_rate = r1((am['service_icon_click_event']?.users||0)/ssu);
+    s.aarrr_retention_rate  = r1((am['user_engagement']?.users||0)/ssu);
+    s.aarrr_new_user_rate   = r1((am['first_visit']?.users||0)/ssu);
+  }
+  // 퍼널 산출 근거 (UI에 노출해 오독을 막는다)
+  s.aarrr_window = usedMonths.length ? {from:usedMonths[0], to:usedMonths[usedMonths.length-1], n:usedMonths.length} : null;
+  s.aarrr_excluded_months = excluded;
+  s.users_is_monthly_avg = true;
+  s.period_months = months.length;
+  return out;
+}
+
+// ── Zendesk 파생 ──
+const ZD_OPEN = new Set(['open','new','pending','hold']);
+
+function isoWeek(dstr){
+  const d = new Date(dstr+'T00:00:00Z');
+  const t = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+  t.setUTCDate(t.getUTCDate() + 4 - (t.getUTCDay()||7));
+  const y0 = new Date(Date.UTC(t.getUTCFullYear(),0,1));
+  return Math.ceil(((t-y0)/86400000 + 1)/7);
+}
+
+function deriveZD(){
+  const raw = _raw.zendesk||{};
+  if(!raw.has_tickets) return Object.assign({}, raw, {_fallback:true});
+  const {from, to} = periodDates();
+  const ts = (raw.tickets||[]).filter(t=>t.d>=from && t.d<=to);
+
+  const cats = {}, sent = {}, daily = {}, weekly = {}, topics = {};
+  let unresolved = 0;
+  ts.forEach(t=>{
+    cats[t.cat] = (cats[t.cat]||0)+1;
+    sent[t.sent] = (sent[t.sent]||0)+1;
+    if(ZD_OPEN.has((t.status||'').toLowerCase())) unresolved++;
+    (daily[t.d] = daily[t.d]||{})[t.cat] = ((daily[t.d]||{})[t.cat]||0)+1;
+    const wk = isoWeek(t.d)+'주차';
+    weekly[wk] = weekly[wk]||{};
+    weekly[wk][t.cat] = (weekly[wk][t.cat]||0)+1;
+    const tp = topics[t.topic] = topics[t.topic]||{topic:t.topic,count:0,resolved_count:0,neg_count:0,issue_detail_counts:{}};
+    tp.count++;
+    if(!ZD_OPEN.has((t.status||'').toLowerCase())) tp.resolved_count++;
+    if(t.sent==='부정') tp.neg_count++;
+    if(t.issue) tp.issue_detail_counts[t.issue] = (tp.issue_detail_counts[t.issue]||0)+1;
+  });
+  // weekly 각 주에 전체 카테고리 키를 채워 스택 차트의 데이터셋이 어긋나지 않게 한다
+  const allCats = Object.keys(cats);
+  Object.values(weekly).forEach(w=>allCats.forEach(c=>{ if(w[c]===undefined) w[c]=0; }));
+
+  const total = ts.length;
+  const ratios = {};
+  Object.entries(cats).forEach(([k,v])=>ratios[k] = total? v/total : 0);
+  const topic_stats = Object.values(topics).map(t=>Object.assign(t,{
+    resolution_rate: t.count? t.resolved_count/t.count : 0,
+    neg_rate: t.count? t.neg_count/t.count : 0,
+  })).sort((a,b)=>b.count-a.count);
+
+  return Object.assign({}, raw, {
+    total, categories:cats, category_ratios:ratios,
+    unresolved_rate: total? unresolved/total : 0,
+    sentiment: {counts:sent}, daily, weekly, topic_stats,
+    // 아래는 기간별 재계산이 불가한 전체기간 값 (CSAT 응답·키워드·액션아이템)
+    _fullPeriodFields: ['top_keywords','csat_rate','satisfaction_avg','action_items','ticket_samples'],
+  });
+}
+
+// ── Jira 파생 ──
+function deriveJira(){
+  const raw = _raw.jira||{};
+  if(!raw.has_tickets) return Object.assign({}, raw, {_fallback:true});
+  const {from, to} = periodDates();
+  const ts = (raw.tickets||[]).filter(t=>t.created>=from && t.created<=to);
+  if(!ts.length) return Object.assign({}, raw, {total:0, status_counts:{}, assignees:{}, priority_counts:{}, themes:{}, completion_rate:0, qa_count:0, _empty:true});
+
+  const st = {}, as = {}, pr = {}, th = {};
+  let done = 0;
+  const THEMES = {
+    '대여/렌탈':['rental','대여','우산','렌탈'], '로그인/인증':['login','auth','로그인','인증','회원'],
+    '공간예약':['space','예약','회의실'], '방문자관리':['visitor','방문자','초대'],
+    '결제/카드':['card','결제','사원카드','membership'], '알림/Push':['push','알림','notification'],
+    '화장실':['toilet','화장실'], '온습도/투표':['vote','투표','온도','습도','온습도'],
+    '대시보드/리포트':['dashboard','리포트','report'], '건물정보':['building','건물'],
+  };
+  ts.forEach(t=>{
+    st[t.status] = (st[t.status]||0)+1;
+    as[t.as] = (as[t.as]||0)+1;
+    pr[t.pri] = (pr[t.pri]||0)+1;
+    if(t.done) done++;
+    const sum = (t.sum||'').toLowerCase();
+    let hit = null;
+    for(const [k, kws] of Object.entries(THEMES)){ if(kws.some(w=>sum.includes(w))){ hit = k; break; } }
+    const key = hit||'기타';
+    th[key] = (th[key]||0)+1;
+  });
+  return Object.assign({}, raw, {
+    total: ts.length, status_counts:st, assignees:as, priority_counts:pr, themes:th,
+    completion_rate: Math.round(done/ts.length*1000)/10,
+    qa_count: st['QA']||0,
+  });
+}
+
+function buildDerived(){
+  const ga = deriveGA();
+  return {
+    ga, gaS: ga.summary||{},
+    zd: deriveZD(),
+    jira: deriveJira(),
+    bld: _raw.buildings||{},
+    ins: _raw.insights||{},
+    lk: _raw.linkage||{},
+  };
+}
+
+// ── 기간 선택기 ──
+function initPeriodCtl(){
+  const months = (_raw?.periods?.months)||[];
+  const ctl = document.getElementById('periodCtl');
+  if(months.length < 2){ ctl.style.display = 'none'; return; }
+  ctl.style.display = 'flex';
+
+  const fromSel = document.getElementById('pcFrom'), toSel = document.getElementById('pcTo');
+  const opts = months.map(m=>'<option value="'+m+'">'+m+'</option>').join('');
+  fromSel.innerHTML = opts; toSel.innerHTML = opts;
+
+  document.getElementById('pcPresets').innerHTML =
+    PRESETS.map(p=>'<button class="pc-btn" data-preset="'+p.k+'">'+p.label+'</button>').join('');
+  document.querySelectorAll('#pcPresets .pc-btn').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const p = PRESETS.find(x=>x.k===b.dataset.preset);
+      const n = p.n ? Math.min(p.n, months.length) : months.length;
+      setPeriod(months[months.length-n], months[months.length-1], p.k);
+    });
+  });
+  const onSel = ()=>{
+    let f = fromSel.value, t = toSel.value;
+    if(f > t){ const tmp = f; f = t; t = tmp; }   // 역순 선택 방어
+    setPeriod(f, t, null);
+  };
+  fromSel.addEventListener('change', onSel);
+  toSel.addEventListener('change', onSel);
+
+  const d = _raw.periods?.default||{};
+  const f0 = months.includes(d.from) ? d.from : months[0];
+  const t0 = months.includes(d.to) ? d.to : months[months.length-1];
+  setPeriod(f0, t0, null, true);
+}
+
+function setPeriod(from, to, presetKey, silent){
+  _period = {from, to};
+  document.getElementById('pcFrom').value = from;
+  document.getElementById('pcTo').value = to;
+
+  const months = (_raw?.periods?.months)||[];
+  const n = monthSpan();
+  document.querySelectorAll('#pcPresets .pc-btn').forEach(b=>{
+    const p = PRESETS.find(x=>x.k===b.dataset.preset);
+    const want = p.n ? Math.min(p.n, months.length) : months.length;
+    const on = n===want && to===months[months.length-1] && from===months[months.length-want];
+    b.classList.toggle('on', on);
+  });
+
+  const pd = periodDates();
+  const bs = _raw.periods?.buildings?.snapshot||'-';
+  document.getElementById('pcNote').innerHTML =
+    'GA ' + n + '개월 · CS/개발 ' + pd.from + '~' + pd.to + '<br>' +
+    '건물·서비스는 ' + bs + ' 스냅샷 (기간 필터 미적용)';
+
+  if(!silent) applyPeriod();
+}
+
+function applyPeriod(){
+  if(!_raw) return;
+  _data = buildDerived();
+  _tabRendered = {overview:false, ga:false, zendesk:false, jira:false, buildings:false};
+  renderPeriodBadges();
+  renderScopeNotes();
+  lazyRenderTab(activeTabId());
+}
+
 // Chart.js CDN 로딩 실패 시 스크립트 전체가 중단되지 않도록 가드
 const CHART_OK = typeof Chart !== 'undefined';
 if(CHART_OK){
@@ -642,13 +1060,16 @@ function loadData(){
 loadData();
 
 function render(D){
-  const ga = D.ga||{}, zd = D.zendesk||{}, jira = D.jira||{}, bld = D.buildings||{}, ins = D.insights||{};
-  const gaS = ga.summary||{};
+  _raw = D;
+
+  // 기간 선택기 초기화 → _period 확정 (silent, 렌더는 아래에서 한 번만)
+  try { initPeriodCtl(); }
+  catch(e){ console.error('[initPeriodCtl]', e); }
 
   // _data를 DOM 조작보다 먼저 확정 — 헤더 렌더가 실패해도 탭 전환은 계속 동작해야 함
-  _data = { ga, gaS, zd, jira, bld, ins };
+  _data = buildDerived();
 
-  try { renderChrome(D, ga, zd, jira, bld); }
+  try { renderChrome(D, D.ga||{}, D.zendesk||{}, D.jira||{}, D.buildings||{}); }
   catch(e){ console.error('[renderChrome]', e); }
 
   // 활성 탭을 렌더 (overview 하드코딩 금지). 로딩 중 눌린 탭이 있으면 그것을 우선.
@@ -671,27 +1092,87 @@ function renderChrome(D, ga, zd, jira, bld){
     '<div class="freshness-item"><div class="status manual"></div><span class="src">건물 도입현황</span><span class="time">'+bldDate+' 기준</span></div>'+
     '<div class="freshness-item"><div class="status live"></div><span class="src">AI 분석</span><span class="time">'+genStr+'</span></div>';
 
-  const mauData = ga.mau||[];
-  const gaStart = mauData.length ? mauData[0].month : '-';
-  const gaEnd = mauData.length ? mauData[mauData.length-1].month : '-';
-  const gaMonths = mauData.length;
-  const zdDaily = zd.daily||{};
-  const zdDates = Object.keys(zdDaily).sort();
-  const zdStart = zdDates.length ? zdDates[0] : '-';
-  const zdEnd = zdDates.length ? zdDates[zdDates.length-1] : '-';
-  const zdDays = zdDates.length;
-  const bldDateStr = bld.meta?.date || '-';
+  _genStr = genStr;
+  renderPeriodBadges();
+  renderScopeNotes();
+}
+
+let _genStr = '';
+
+/* 산출 근거 주석 — 수치를 오독하기 쉬운 지점을 탭 상단에 명시한다.
+   기간 변경마다 다시 그린다. */
+function renderScopeNotes(){
+  if(!_data) return;
+  const {ga, gaS, zd, jira} = _data;
+  const warn = html => '<div class="scope-warn"><span>&#9888;</span><div>'+html+'</div></div>';
+  const q = id => document.getElementById(id);
+
+  // ── GA ──
+  let g = [];
+  if(gaS.period_months > 1){
+    g.push('<b>이용자 수는 선택 기간의 월평균</b>입니다. 같은 사용자가 여러 달에 방문하면 중복되므로 월별 합산은 실제의 몇 배로 부풀려집니다. (조회수·세션은 합계)');
+  }
+  const w = gaS.aarrr_window, ex = gaS.aarrr_excluded_months||[];
+  if(w && ex.length){
+    g.push('<b>퍼널은 '+w.from+' ~ '+w.to+' ('+w.n+'개월)만 사용</b>했습니다. '+
+      ex.join(', ')+' 은 서비스 아이콘 클릭 이벤트가 수집되기 전이라 포함하면 활성화율이 실제보다 낮게 계산됩니다.');
+  }
+  if(q('gaScopeNote')) q('gaScopeNote').innerHTML = g.length ? warn(g.join('<br>')) : '';
+
+  // ── Zendesk: 선택 기간이 CS 수집 범위를 벗어나는지 ──
+  const zr = _raw?.zendesk?.date_range, pd = periodDates();
+  let z = [];
+  if(zr){
+    if(zr.to > pd.to) z.push('선택 기간이 <b>'+pd.to+'</b> 까지라 <b>'+pd.to+' 이후 ~ '+zr.to+'</b> 의 문의가 제외되었습니다.');
+    if(zr.from > pd.from) z.push('CS 데이터는 <b>'+zr.from+'</b> 부터만 존재합니다 (그 이전 기간은 집계 대상 없음).');
+  }
+  if(!zd.total) z.push('선택 기간에 해당하는 문의가 없습니다.');
+  z.push('키워드·CSAT·권장 조치는 기간별 재계산이 불가해 <b>전체 기간</b> 값입니다.');
+  if(q('zdScopeNote')) q('zdScopeNote').innerHTML = warn(z.join('<br>'));
+
+  // ── Jira ──
+  let j = [];
+  const jp = _raw?.periods?.jira||{};
+  if(jp.truncated){
+    j.push('<b>전체 백로그가 아닙니다.</b> all_tickets.json이 isLast=false 인 첫 페이지 '+
+      (_raw.jira?.total||0)+'건만 담고 있고 스냅샷은 '+(jp.snapshot||'?')+' 기준입니다. '+
+      '완료율을 누적 실적으로 해석하면 안 됩니다.');
+  }
+  if(!jira.total) j.push('선택 기간에 생성된 티켓이 없습니다.');
+  j.push('상태는 스냅샷 시점 값이며 과거 시점 상태는 복원할 수 없습니다.');
+  if(q('jiraScopeNote')) q('jiraScopeNote').innerHTML = warn(j.join('<br>'));
+}
+
+/* 탭별 기간 배지 — 전역 기간 선택 결과를 반영해야 하므로 기간 변경 시마다 다시 그린다.
+   (예전에는 render() 1회만 그려서 기간을 바꿔도 배지가 고정된 전체 범위를 보여줬다) */
+function renderPeriodBadges(){
+  if(!_data) return;
+  const {ga, zd, jira, bld} = _data;
   const pb = (icon,label,range)=>'<div class="period-badge"><span class="period-icon">'+icon+'</span><span class="period-label">'+label+'</span><span class="period-range">'+range+'</span></div>';
 
-  document.getElementById('overviewPeriod').innerHTML =
+  const mauData = ga.mau||[];
+  const gaStart = _period ? _period.from : (mauData[0]?.month||'-');
+  const gaEnd   = _period ? _period.to   : (mauData[mauData.length-1]?.month||'-');
+  const gaMonths = monthSpan() || mauData.length;
+  const pd = periodDates();
+  const zdDates = Object.keys(zd.daily||{}).sort();
+  const bldDateStr = bld.meta?.date || '-';
+  const jTrunc = _raw?.periods?.jira?.truncated;
+
+  const q = id => document.getElementById(id);
+  if(q('overviewPeriod')) q('overviewPeriod').innerHTML =
     pb('&#128202;','GA', gaStart+' ~ '+gaEnd+' ('+gaMonths+'개월)')+
-    pb('&#128172;','CS', zdDates.length ? zdStart+' ~ '+zdEnd+' ('+zdDays+'일)' : '데이터 없음')+
-    pb('&#128736;','Jira', genStr+' 기준 스냅샷')+
-    pb('&#127970;','건물', bldDateStr+' 기준');
-  document.getElementById('gaPeriod').innerHTML = pb('&#128197;','분석 기간', gaStart+' ~ '+gaEnd+' ('+gaMonths+'개월)');
-  document.getElementById('zdPeriod').innerHTML = pb('&#128197;','문의 수집 기간', zdDates.length ? zdStart+' ~ '+zdEnd+' ('+zdDays+'일간 '+(zd.total||0)+'건)' : '데이터 없음');
-  document.getElementById('jiraPeriod').innerHTML = pb('&#128197;','데이터 기준', genStr+' 시점 스냅샷 (누적 '+(jira.total||0)+'건)');
-  document.getElementById('bldPeriod').innerHTML = pb('&#128197;','도입현황 기준일', bldDateStr+' ('+(bld.meta?.n_general_active||0)+'개 건물)');
+    pb('&#128172;','CS', zd.total ? pd.from+' ~ '+pd.to+' ('+zd.total+'건)' : '해당 기간 데이터 없음')+
+    pb('&#128736;','Jira', (jira.total||0)+'건'+(jTrunc?' (⚠ 부분 수집)':''))+
+    pb('&#127970;','건물', bldDateStr+' 스냅샷 (기간 무관)');
+  if(q('gaPeriod')) q('gaPeriod').innerHTML =
+    pb('&#128197;','분석 기간', gaStart+' ~ '+gaEnd+' ('+gaMonths+'개월)');
+  if(q('zdPeriod')) q('zdPeriod').innerHTML =
+    pb('&#128197;','문의 수집 기간', zd.total ? pd.from+' ~ '+pd.to+' ('+zdDates.length+'일간 '+zd.total+'건)' : '해당 기간 데이터 없음');
+  if(q('jiraPeriod')) q('jiraPeriod').innerHTML =
+    pb('&#128197;','생성일 기준', pd.from+' ~ '+pd.to+' ('+(jira.total||0)+'건)');
+  if(q('bldPeriod')) q('bldPeriod').innerHTML =
+    pb('&#128197;','도입현황 기준일', bldDateStr+' ('+(bld.meta?.n_general_active||0)+'개 건물)');
 }
 
 function renderOverview(ga, gaS, zd, jira, bld, ins){
@@ -829,7 +1310,7 @@ function renderGA(ga, gaS){
       type:'bar',
       data:{ labels:svcs.map(s=>friendlyName(s.path)), datasets:[{ data:svcs.map(s=>s.users), backgroundColor:COLORS.map(c=>c+'CC'), borderColor:COLORS, borderWidth:1, borderRadius:4 }] },
       plugins:[dataLabelPlugin],
-      options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y', plugins:{ tooltip:{ callbacks:{ label:ctx=>fmt(ctx.raw)+'명 이용' } } }, scales:{ x:{ ticks:{ callback:v=>fmt(v)+'명' } } } }
+      options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y', plugins:{ tooltip:{ callbacks:{ label:ctx=>fmt(ctx.raw)+'명 (월평균 이용자)' } } }, scales:{ x:{ ticks:{ callback:v=>fmt(v)+'명' } } } }
     });
   }
 
@@ -998,7 +1479,257 @@ function renderJira(jira){
   }
 }
 
+/* ══════════════════════════════════════════════════════════════
+   건물 × 서비스 연계 (요구사항 2)
+
+   collect_all.py가 buildings.matrix (328건물 × 88서비스 비트문자열) 와
+   linkage.services / linkage.categories 를 실어 준다.
+
+   연계 가능한 대상만 연결한다:
+     GA      — 서비스 전용 경로가 있는 23개는 'direct'.
+               불편신고 항목 65개는 개별 경로가 없어 카테고리 공통 경로로만
+               롤업되므로 'category' 로 표시하고 수치는 카테고리에서 가져온다.
+     Jira    — summary 키워드 매칭. 동일 원칙으로 direct / category 구분.
+     Zendesk — 티켓에 건물/조직 필드가 없고 토픽 축이 서비스와 불일치하여
+               서비스 단위 연계를 하지 않는다 (근거는 service_map.json).
+
+   기간 필터: 건물 도입현황은 도입일 필드가 없는 스냅샷이라 적용되지 않는다.
+   GA/Jira 쪽 수치는 collect_all.py가 전체 기간으로 집계한 값이므로,
+   여기서 선택 기간에 맞춰 월별 시계열(monthly)로 다시 합산한다.
+   ══════════════════════════════════════════════════════════════ */
+let _bldSel = null;      // 선택된 건물 code
+let _svcSort = {key:'rate', dir:-1};
+
+// 카테고리 레벨 서비스는 지표를 중복 저장하지 않고 ref만 갖는다 → 카테고리에서 조회
+function resolveMetric(obj, cats, kind){
+  if(obj && obj.ref !== undefined){
+    const c = cats.find(x=>x.cat===obj.ref);
+    return c ? c[kind] : null;
+  }
+  return obj;
+}
+
+// 선택 기간에 맞춰 월별 시계열을 재합산 (monthly가 없으면 전체 기간 값 사용)
+function sumMonthly(m, months, keys){
+  if(!m || !m.monthly) return null;
+  const out = {};
+  keys.forEach(k=>out[k]=0);
+  months.forEach(mo=>{
+    const e = m.monthly[mo];
+    if(!e) return;
+    if(typeof e === 'number'){ out[keys[0]] += e; return; }
+    keys.forEach(k=>{ out[k] += (e[k]||0); });
+  });
+  return out;
+}
+
+function svcRows(){
+  const lk = _data.lk||{}, cats = lk.categories||[];
+  const months = monthsInRange();
+  return (lk.services||[]).map(s=>{
+    const gm = resolveMetric(s.ga, cats, 'ga');
+    const jm = resolveMetric(s.jira, cats, 'jira');
+    const gAgg = sumMonthly(gm, months, ['pv','u','s']) || {pv:0,u:0,s:0};
+    const jAgg = sumMonthly(jm, months, ['count']) || {count:0};
+    return {
+      svc:s.svc, cat:s.cat, buildings:s.buildings, rate:s.rate,
+      ga_level:s.ga_level, jira_level:s.jira_level,
+      pv:gAgg.pv, users:gAgg.u,
+      jira:jAgg.count,
+      jira_done: jm && jm.done!==undefined ? jm.done : 0,
+      paths: (gm && gm.paths) ? gm.paths.length : 0,
+    };
+  });
+}
+
+const LVL_LABEL = {direct:'직접', category:'카테고리', none:'불가'};
+
+function renderLinkage(){
+  const lk = _data.lk||{}, cov = lk.coverage||{};
+  if(!cov.total_services){
+    document.getElementById('linkCoverage').innerHTML =
+      '<div class="scope-warn"><span>&#9888;</span><div>service_map.json 이 없어 연계 분석이 비활성화되었습니다. collect_all.py를 다시 실행해 주세요.</div></div>';
+    return;
+  }
+
+  document.getElementById('bldScopeWarn').innerHTML =
+    '<div class="scope-warn"><span>&#9888;</span><div>'+
+    '<b>이 탭은 조회 기간의 영향을 받지 않습니다.</b> 건물별 도입현황은 '+
+    (_raw.periods?.buildings?.snapshot||'-')+' 스냅샷이며 도입일 필드가 없어 기간별 추이를 만들 수 없습니다. '+
+    '표의 앱 사용량·개발 건수만 선택 기간으로 집계됩니다.<br>'+
+    '<b>GA에는 건물 차원이 없습니다.</b> 따라서 건물별 실사용량은 측정 불가이며, 건물 드릴다운의 사용량은 '+
+    '“그 건물이 도입한 서비스들의 전사 합계”입니다.</div></div>';
+
+  document.getElementById('linkCoverage').innerHTML =
+    '<div class="kpi-row">'+
+    '<div class="kpi"><div class="k-l">GA 직접 연계</div><div class="k-v">'+cov.ga_direct+'<small style="font-size:12px;color:var(--ink4)">/'+cov.total_services+'</small></div><div class="k-s">서비스 전용 경로 보유</div></div>'+
+    '<div class="kpi"><div class="k-l">카테고리 롤업만</div><div class="k-v">'+cov.ga_category+'</div><div class="k-s">불편신고 항목 — 서비스 단위 분해 불가</div></div>'+
+    '<div class="kpi"><div class="k-l">Jira 매칭</div><div class="k-v">'+(cov.jira_direct||0)+'</div><div class="k-s">summary 키워드 직접 매칭</div></div>'+
+    '<div class="kpi"><div class="k-l">CS 연계</div><div class="k-v" style="color:var(--ink4)">불가</div><div class="k-s">티켓에 건물·서비스 필드 없음</div></div>'+
+    '</div>';
+
+  // 카테고리 필터 옵션
+  const sel = document.getElementById('svcCatFilter');
+  if(sel.options.length <= 1){
+    const cats = [...new Set((lk.services||[]).map(s=>s.cat))].filter(Boolean).sort();
+    sel.innerHTML = '<option value="">전체 카테고리</option>' +
+      cats.map(c=>'<option value="'+c+'">'+c+'</option>').join('');
+    sel.addEventListener('change', drawSvcTable);
+    document.getElementById('svcSearch').addEventListener('input', drawSvcTable);
+    document.getElementById('svcLvlChips').innerHTML =
+      ['direct','category'].map(l=>'<button class="chip" data-lvl="'+l+'">'+LVL_LABEL[l]+' 연계</button>').join('');
+    document.querySelectorAll('#svcLvlChips .chip').forEach(c=>{
+      c.addEventListener('click', ()=>{ c.classList.toggle('on'); drawSvcTable(); });
+    });
+  }
+  drawSvcTable();
+}
+
+const SVC_COLS = [
+  {k:'svc',       t:'서비스',        srt:true,  num:false},
+  {k:'cat',       t:'카테고리',      srt:true,  num:false},
+  {k:'rate',      t:'도입률',        srt:true,  num:true},
+  {k:'buildings', t:'도입 건물',     srt:true,  num:true},
+  {k:'pv',        t:'앱 조회수(PV)', srt:true,  num:true},
+  {k:'users',     t:'이용자',        srt:true,  num:true},
+  {k:'jira',      t:'개발 건수',     srt:true,  num:true},
+  {k:'ga_level',  t:'연계 등급',     srt:true,  num:false},
+];
+
+function drawSvcTable(){
+  const q = (document.getElementById('svcSearch').value||'').trim().toLowerCase();
+  const cat = document.getElementById('svcCatFilter').value;
+  const lvls = [...document.querySelectorAll('#svcLvlChips .chip.on')].map(c=>c.dataset.lvl);
+
+  let rows = svcRows();
+  if(q)   rows = rows.filter(r=>r.svc.toLowerCase().includes(q));
+  if(cat) rows = rows.filter(r=>r.cat===cat);
+  if(lvls.length) rows = rows.filter(r=>lvls.includes(r.ga_level));
+
+  const {key, dir} = _svcSort;
+  rows.sort((a,b)=>{
+    const x=a[key], y=b[key];
+    if(typeof x==='number' && typeof y==='number') return (x-y)*dir;
+    return String(x).localeCompare(String(y),'ko')*dir;
+  });
+
+  document.getElementById('svcTable').querySelector('thead').innerHTML =
+    '<tr>'+SVC_COLS.map(c=>'<th class="'+(c.srt?'srt':'')+(c.num?' num':'')+'" data-k="'+c.k+'">'+c.t+
+      (key===c.k?'<span class="ar">'+(dir<0?'▼':'▲')+'</span>':'')+'</th>').join('')+'</tr>';
+  document.querySelectorAll('#svcTable thead th.srt').forEach(th=>{
+    th.addEventListener('click', ()=>{
+      const k = th.dataset.k;
+      _svcSort = (k===_svcSort.key) ? {key:k, dir:-_svcSort.dir}
+                                    : {key:k, dir:(k==='svc'||k==='cat'||k==='ga_level')?1:-1};
+      drawSvcTable();
+    });
+  });
+
+  const maxPv = Math.max(1, ...rows.map(r=>r.pv));
+  document.getElementById('svcTable').querySelector('tbody').innerHTML = rows.map(r=>{
+    const lvlNote = r.ga_level==='category'
+      ? ' title="이 서비스만의 GA 경로가 없어 ‘'+r.cat+'’ 카테고리 공통 경로로 집계된 값입니다. 같은 카테고리 서비스끼리 동일한 수치가 표시됩니다."'
+      : (r.ga_level==='direct' ? ' title="전용 경로 '+r.paths+'개 기준"' : '');
+    const pvCell = r.ga_level==='none' ? '<span style="color:var(--ink4)">—</span>'
+      : '<span class="minibar-bg"><i style="width:'+(r.pv/maxPv*100)+'%"></i></span>'+fmt(r.pv);
+    return '<tr>'+
+      '<td class="svcname">'+r.svc+'</td>'+
+      '<td style="color:var(--ink3)">'+(r.cat||'-')+'</td>'+
+      '<td class="num"><span class="minibar-bg"><i style="width:'+r.rate+'%"></i></span>'+r.rate.toFixed(1)+'%</td>'+
+      '<td class="num">'+r.buildings+'</td>'+
+      '<td class="num"'+lvlNote+'>'+pvCell+'</td>'+
+      '<td class="num">'+(r.ga_level==='none'?'<span style="color:var(--ink4)">—</span>':fmt(r.users))+'</td>'+
+      '<td class="num">'+(r.jira ? r.jira+(r.jira_done?' <span style="color:var(--green);font-size:10px">완료'+r.jira_done+'</span>':'') : '<span style="color:var(--ink4)">—</span>')+'</td>'+
+      '<td><span class="lvl '+r.ga_level+'">'+LVL_LABEL[r.ga_level]+'</span></td>'+
+    '</tr>';
+  }).join('') || '<tr><td colspan="8" style="text-align:center;padding:28px;color:var(--ink4)">조건에 맞는 서비스가 없습니다.</td></tr>';
+
+  document.getElementById('svcCount').textContent = rows.length + ' / ' + svcRows().length + '개 서비스';
+}
+
+// ── 건물 드릴다운 ──
+function renderDrilldown(){
+  const bld = _data.bld||{};
+  const mx = bld.matrix||[];
+  if(!mx.length){
+    document.getElementById('bldList').innerHTML =
+      '<div style="padding:20px;color:var(--ink4);font-size:12px">건물×서비스 매트릭스가 없습니다. collect_all.py를 다시 실행해 주세요.</div>';
+    return;
+  }
+  const inp = document.getElementById('bldSearch');
+  if(!inp.dataset.bound){ inp.dataset.bound = '1'; inp.addEventListener('input', drawBldList); }
+  if(!_bldSel) _bldSel = mx.reduce((a,b)=>a.v.split('1').length>b.v.split('1').length?a:b).c;
+  drawBldList();
+}
+
+function drawBldList(){
+  const mx = (_data.bld||{}).matrix||[];
+  const q = (document.getElementById('bldSearch').value||'').trim().toLowerCase();
+  const rows = (q ? mx.filter(b=>b.n.toLowerCase().includes(q)||b.c.toLowerCase().includes(q)) : mx)
+    .slice().sort((a,b)=>(b.v.match(/1/g)||[]).length-(a.v.match(/1/g)||[]).length);
+
+  document.getElementById('bldList').innerHTML = rows.slice(0,400).map(b=>{
+    const n = (b.v.match(/1/g)||[]).length;
+    return '<div class="bld-item'+(b.c===_bldSel?' on':'')+'" data-code="'+b.c+'">'+
+      '<span class="bld-nm" title="'+b.n+' ('+b.c+')">'+b.n+'</span>'+
+      '<span class="bld-cnt">'+n+'개</span></div>';
+  }).join('') || '<div style="padding:20px;color:var(--ink4);font-size:12px">검색 결과가 없습니다.</div>';
+
+  document.querySelectorAll('#bldList .bld-item').forEach(el=>{
+    el.addEventListener('click', ()=>{ _bldSel = el.dataset.code; drawBldList(); });
+  });
+  drawBldDetail();
+}
+
+function drawBldDetail(){
+  const bld = _data.bld||{}, mx = bld.matrix||[], gsvc = bld.gsvc||[];
+  const row = mx.find(b=>b.c===_bldSel);
+  const box = document.getElementById('bldDetail');
+  if(!row){ box.innerHTML = '<p style="color:var(--ink4);font-size:12px">건물을 선택하세요.</p>'; return; }
+
+  const byName = {};
+  svcRows().forEach(r=>byName[r.svc]=r);
+  const adopted = [], missing = [];
+  gsvc.forEach((s,i)=>{ (row.v[i]==='1'?adopted:missing).push(s); });
+
+  const dir = adopted.map(s=>byName[s]).filter(r=>r && r.ga_level==='direct');
+  const pv = dir.reduce((a,r)=>a+r.pv,0);
+  const jira = adopted.map(s=>byName[s]).filter(Boolean)
+                      .reduce((a,r)=>a+(r.jira_level==='direct'?r.jira:0),0);
+  const totalSvc = gsvc.length;
+  const avg = (bld.stats||{}).mean||0;
+  const diff = adopted.length - avg;
+
+  // 미도입 중 도입률 높은 것 = 놓치고 있는 표준 서비스
+  const missRanked = missing.map(s=>byName[s]).filter(Boolean).sort((a,b)=>b.rate-a.rate).slice(0,8);
+
+  box.innerHTML =
+    '<div style="font-size:15px;font-weight:800;color:var(--navy);margin-bottom:3px">'+row.n+'</div>'+
+    '<div style="font-size:11px;color:var(--ink4);margin-bottom:14px">'+row.c+'</div>'+
+    '<div class="kpi-row">'+
+      '<div class="kpi"><div class="k-l">도입 서비스</div><div class="k-v">'+adopted.length+'<small style="font-size:12px;color:var(--ink4)">/'+totalSvc+'</small></div>'+
+        '<div class="k-s">전체 평균 '+avg.toFixed(0)+'개 대비 '+(diff>=0?'+':'△')+Math.abs(diff).toFixed(0)+'개</div></div>'+
+      '<div class="kpi"><div class="k-l">직접 연계 서비스</div><div class="k-v">'+dir.length+'</div><div class="k-s">GA 전용 경로 보유</div></div>'+
+      '<div class="kpi"><div class="k-l">연계 서비스 조회수</div><div class="k-v">'+fmt(pv)+'</div><div class="k-s">전사 합계 (건물별 아님)</div></div>'+
+      '<div class="kpi"><div class="k-l">관련 개발 건수</div><div class="k-v">'+jira+'</div><div class="k-s">선택 기간 생성 기준</div></div>'+
+    '</div>'+
+    (missRanked.length ?
+      '<div style="font-size:12px;font-weight:700;color:var(--navy);margin:16px 0 8px">미도입 중 도입률 높은 서비스 (확대 후보)</div>'+
+      '<div>'+missRanked.map(r=>'<span class="svc-pill off">'+r.svc+' <b style="color:var(--yellow)">'+r.rate.toFixed(0)+'%</b></span>').join('')+'</div>'
+      : '<div style="font-size:12px;color:var(--green);margin-top:16px;font-weight:600">모든 서비스를 도입한 건물입니다.</div>')+
+    '<div style="font-size:12px;font-weight:700;color:var(--navy);margin:18px 0 8px">도입 서비스 '+adopted.length+'개</div>'+
+    '<div style="max-height:190px;overflow-y:auto">'+
+      adopted.map(s=>{
+        const r = byName[s];
+        return '<span class="svc-pill has">'+s+(r&&r.ga_level==='direct'&&r.pv?' <b>'+fmt(r.pv)+'</b>':'')+'</span>';
+      }).join('')+
+    '</div>';
+}
+
 function renderBuildings(bld, ga){
+  renderLinkage();
+  renderDrilldown();
+
   const meta = bld.meta||{}, stats = bld.stats||{};
   const catSummary = bld.category_summary||[], svcSummary = bld.service_summary||[], bldSummary = bld.building_summary||{};
   const nps = bld.nps||{}, buckets = bld.buckets||{};
