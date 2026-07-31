@@ -276,6 +276,53 @@ a:hover{color:var(--navy)}
 .quad-card .q-act b{color:var(--qc)}
 .quad-card .q-list{font-size:10px;color:var(--ink4);margin-top:5px;line-height:1.5;
   overflow:hidden;text-overflow:ellipsis}
+
+/* ── 문제 발굴 ──
+   지표를 보여주는 것과 문제를 짚는 것은 다르다. 규칙을 돌려 이상을 찾고
+   각 건을 [숫자 · 근거 · 분석 · 대안] 4단으로 낸다. 근거를 같이 내야
+   "어떻게 나온 숫자냐"를 되묻지 않고, 대안을 같이 내야 결정으로 이어진다. */
+.scope.iss{--sc:#E8590C;--sc-bg:rgba(232,89,12,.07)}
+.iss-method{background:var(--muted);border-radius:10px;padding:12px 15px;margin-bottom:16px;
+  font-size:11px;color:var(--ink3);line-height:1.75}
+.iss-method b{color:var(--navy)}
+.iss-method .im-rules{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.iss-method .im-rule{background:var(--card);border:1px solid var(--line2);border-radius:100px;
+  padding:2px 9px;font-size:10px;color:var(--ink3);font-weight:600}
+.iss-method .im-rule.hit{border-color:var(--yellow);color:var(--yellow);background:var(--yellow-bg)}
+
+.iss{border:1px solid var(--line);border-left:4px solid var(--sv,var(--ink4));border-radius:10px;
+  padding:0;margin-bottom:12px;background:var(--card);overflow:hidden}
+.iss-h{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:12px 15px;background:var(--sv-bg,var(--muted))}
+.iss-sev{background:var(--sv);color:#fff;border-radius:100px;padding:2px 10px;
+  font-size:10px;font-weight:800;white-space:nowrap;flex-shrink:0}
+.iss-t{font-size:13px;font-weight:800;color:var(--navy);letter-spacing:-.2px}
+.iss-scope{font-size:10px;color:var(--ink4);background:var(--card);border:1px solid var(--line);
+  border-radius:100px;padding:2px 8px;white-space:nowrap}
+.iss-imp{margin-left:auto;font-size:10px;color:var(--ink3);text-align:right;white-space:nowrap}
+.iss-imp b{font-size:14px;color:var(--sv);font-variant-numeric:tabular-nums}
+
+.iss-b{padding:13px 15px}
+.iss-row{display:grid;grid-template-columns:56px 1fr;gap:11px;margin-bottom:11px;align-items:start}
+.iss-row:last-child{margin-bottom:0}
+.iss-k{font-size:10px;font-weight:800;color:var(--sv);padding-top:2px;letter-spacing:.02em}
+.iss-v{font-size:12px;color:var(--ink2);line-height:1.75}
+.iss-v b{color:var(--navy)}
+.iss-num{font-size:20px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums;
+  line-height:1.3;letter-spacing:-.5px}
+.iss-num small{font-size:11px;font-weight:600;color:var(--ink3);margin-left:5px}
+.iss-src{font-size:10px;color:var(--ink4);line-height:1.6;margin-top:3px}
+.iss-src code{background:var(--muted);padding:1px 4px;border-radius:3px;font-size:10px}
+.iss-opt{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px}
+.iss-opt:last-child{margin-bottom:0}
+.iss-opt .o-n{background:var(--muted2);color:var(--navy);border-radius:50%;width:17px;height:17px;
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px}
+.iss-opt .o-b{flex:1}
+.iss-opt .o-t{font-size:12px;color:var(--navy);font-weight:700}
+.iss-opt .o-d{font-size:11px;color:var(--ink3);line-height:1.65}
+.iss-opt .o-tr{font-size:10px;color:var(--ink4);line-height:1.6;margin-top:2px}
+.iss-opt .o-tr b{color:var(--yellow)}
+.iss-none{padding:22px 16px;text-align:center;font-size:12px;color:var(--ink3);line-height:1.8;
+  border:1px dashed var(--line2);border-radius:10px}
 .scope-warn{display:flex;gap:8px;align-items:flex-start;background:var(--yellow-bg);border:1px solid var(--yellow);border-radius:8px;padding:10px 13px;font-size:12px;color:var(--yellow);margin-bottom:16px;line-height:1.6}
 .scope-warn b{color:var(--yellow)}
 
@@ -462,6 +509,28 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       <!-- ── 1단 · 조회 컨트롤은 상단 통합 필터바(#periodCtl)로 이동 ── -->
       <div id="gaSegNote" style="font-size:11px;color:var(--ink4);text-align:right;line-height:1.5;margin-bottom:8px"></div>
       <div id="gaAxisWarn"></div>
+
+      <!-- ══ 문제 발굴 ══
+           지표 나열과 문제 제기는 다르다. 규칙 세트를 데이터에 돌려 이상을 찾고
+           각 건을 [숫자 · 근거 · 분석 · 대안] 4단으로 낸다.
+           발굴 '방법'도 함께 노출해 결과를 감사 가능하게 만든다. -->
+      <div class="scope iss">
+        <div class="scope-head">
+          <span class="scope-tag">&#128269; 문제 발굴</span>
+          <span class="scope-ttl">자동 점검 결과</span>
+          <span class="scope-desc">현재 조회 조건에 <b>규칙 세트</b>를 돌려 찾은 문제입니다. 각 건마다 <b>숫자 · 근거 · 분석 · 대안</b>을 함께 제시하며, <b>영향 사용자 수</b>가 큰 순으로 정렬합니다.</span>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">점검 결과</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+              <div class="tooltip-text">사람이 눈으로 찾던 이상 패턴을 규칙으로 고정해 매번 같은 기준으로 점검합니다. 규칙·임계값·데이터 출처를 모두 노출하므로 결과를 다시 검증할 수 있습니다. 조회 기간·건물·화면을 바꾸면 점검도 다시 돕니다.</div>
+            </div>
+          </div>
+          <div class="iss-method" id="gaIssueMethod"></div>
+          <div id="gaIssueList"></div>
+        </div>
+      </div>
 
       <!-- ══ 스코프 1 · 전체 ══
            모집단이 다른 수치가 한 화면에 섞이면 "이 숫자가 무엇을 센 것인지"를
@@ -1984,6 +2053,7 @@ function renderGaSegment(){
   safeBlock('C 참여 품질',   drawGaQuadrant, 'gaQuadNote');
   safeBlock('건물 순위표',   drawGaRank,     'gaRankBody');
   safeBlock('화면 퍼널',     renderGaFunnel, 'gaFunnel');
+  safeBlock('문제 발굴',     runIssueDetection, 'gaIssueList');
 
   const pt = ser.filter(x=>x.partial);
   document.getElementById('gaComboNote').innerHTML =
@@ -2493,6 +2563,330 @@ function drawGaRank(){
     else _gaBld.push(c);
     syncHash(); renderGaSegment();
   }));
+}
+
+/* ══════════════════════════════════════════════════════════════
+   문제 발굴 (Issue detection)
+
+   왜 규칙으로 고정하는가: 눈으로 찾으면 볼 때마다 기준이 달라지고,
+   찾은 사람만 안다. 규칙·임계값·데이터 출처를 코드에 박아 두면
+   매번 같은 기준으로 점검되고 결과를 되짚어 검증할 수 있다.
+
+   각 규칙은 아래 형태를 반환한다 (없으면 null):
+     { sev:'high'|'mid'|'low', title, scope, affected,
+       num, numUnit, numSub,          ← 숫자
+       source[],                      ← 근거 (계산식·출처·표본)
+       analysis,                      ← 분석 (왜 문제인가)
+       options:[{t,d,tr}] }           ← 대안 (+ 트레이드오프)
+
+   정렬은 '영향 사용자 수' 내림차순 — 늦을수록 비싼 것부터 본다.
+   ══════════════════════════════════════════════════════════════ */
+const SEV = {
+  high:{nm:'심각', c:'#F03E3E', bg:'rgba(240,62,62,.07)'},
+  mid: {nm:'주의', c:'#E8590C', bg:'rgba(232,89,12,.07)'},
+  low: {nm:'참고', c:'#1971C2', bg:'rgba(25,113,194,.06)'},
+};
+
+const ISSUE_RULES = [
+  {
+    id:'funnel-drop',
+    nm:'퍼널 최대 이탈',
+    desc:'정의된 퍼널마다 단계별 이탈률을 계산해 가장 크게 빠지는 구간을 찾는다 (이탈 20%p 이상)',
+    run(){
+      const ms = monthsSet(), out = [];
+      Object.entries(_detail.funnels||{}).forEach(([sc, fd])=>{
+        if(!fd.steps || fd.steps.length < 2) return;
+        const rows = (_detail.labels_monthly||[]).filter(r=>r.sc===sc && ms.has(r.m));
+        if(!rows.length) return;
+        const el = new Map();
+        rows.forEach(r=>{ const e = el.get(r.el)||{u:0}; e.u = Math.max(e.u, r.u); el.set(r.el, e); });
+        const steps = fd.steps.map(s=>({name:s, u:(el.get(s)||{}).u||0}));
+        if(steps[0].u < 100) return;         // 표본 부족은 이탈률이 노이즈다
+        let worst = {i:-1, d:0};
+        steps.forEach((s,i)=>{ if(i>0){ const p=steps[i-1].u; const d=p?(p-s.u)/p*100:0; if(d>worst.d) worst={i,d}; }});
+        if(worst.i < 1 || worst.d < 20) return;
+        const lost = steps[worst.i-1].u - steps[worst.i].u;
+        const done = steps[steps.length-1].u, first = steps[0].u;
+        out.push({
+          sev: worst.d >= 30 ? 'high' : 'mid',
+          title: (fd.title||sc) + ' — ' + steps[worst.i-1].name + ' → ' + steps[worst.i].name + ' 구간에서 이탈 집중',
+          scope: '화면 ' + sc,
+          affected: lost,
+          num: '△' + worst.d.toFixed(1) + '%',
+          numUnit: '이 구간 이탈률',
+          numSub: fmt(steps[worst.i-1].u) + '명 → ' + fmt(steps[worst.i].u) + '명 · <b>' + fmt(lost) + '명 이탈</b>',
+          source: [
+            'GA <code>event_label</code>의 <code>' + sc + '_{요소}_클릭</code> 이벤트, 조회 기간 ' + [...ms].sort()[0] + '~' + [...ms].sort().slice(-1)[0],
+            '단계 순서는 <code>funnels.json</code> 정의 기준 (' + fd.steps.join(' → ') + ')',
+            '사용자 수는 월별 최대값 — 같은 사용자가 여러 달에 걸치면 중복이라 합산하지 않음',
+          ],
+          analysis: '전체 완주율은 <b>' + (first?(done/first*100).toFixed(1):0) + '%</b>인데, 손실의 대부분이 이 한 구간에서 발생합니다. '
+            + '앞 단계까지 온 사용자는 이미 <b>의도가 확인된</b> 사람이라 여기서의 이탈이 가장 비쌉니다 — '
+            + '유입을 늘리는 것보다 이 구간을 고치는 편이 같은 인원을 확보하는 데 훨씬 적게 듭니다.',
+          options: [
+            {t:'해당 단계 UI·문구 점검', d:'선택지가 너무 많거나 명칭이 모호해 판단이 멈추는 경우가 가장 흔합니다. 상위 선택지 노출·검색·최근 선택 기억을 검토하세요.',
+             tr:'가장 확실하지만 디자인·개발 리소스가 듭니다.'},
+            {t:'단계 자체를 없애거나 자동 채우기', d:'직전 단계 값으로 유추 가능하면 기본값을 넣고 확인만 받습니다 (Skip 조건 B: 화면 노출 + 자동 완료 렌더링).',
+             tr:'정확도가 떨어질 수 있어 수정 경로를 반드시 함께 제공해야 합니다.'},
+            {t:'먼저 원인을 좁힌다', d:'해당 화면 CS 문의를 대조하고, 건물별로 이탈률 차이가 있는지 확인해 UI 문제인지 데이터 문제인지 가릅니다.',
+             tr:'가장 싸지만 조치가 한 사이클 늦어집니다.'},
+          ],
+        });
+      });
+      return out;
+    },
+  },
+  {
+    id:'churn-risk',
+    nm:'이탈위험 건물',
+    desc:'사용자는 늘었는데 1인당 사용은 줄어든 건물을 찾는다 (사분면 ↘, 참여도 5% 이상 하락)',
+    run(){
+      const ms = new Set(monthsInRange()), vol = new Map();
+      (_detail.building_monthly||[]).forEach(r=>{ if(ms.has(r.m)) vol.set(r.b, Math.max(vol.get(r.b)||0, r.au)); });
+      const pool = [...vol.entries()].sort((a,b)=>b[1]-a[1]).slice(0,30).map(x=>x[0]);
+      const rows = buildingStats(pool)
+        .filter(r=>r.gAu !== null && r.gSpu !== null && r.gAu >= 0 && r.gSpu <= -5)
+        .sort((a,b)=>b.avgAu-a.avgAu);
+      if(rows.length < 2) return null;
+      const aff = rows.reduce((s,r)=>s+r.avgAu, 0);
+      const top = rows.slice(0,4);
+      return {
+        sev: rows.length >= 5 ? 'high' : 'mid',
+        title: '사용자는 느는데 참여도가 떨어지는 건물 ' + rows.length + '개',
+        scope: '건물 축',
+        affected: aff,
+        num: rows.length + '개',
+        numUnit: '건물 (상위 30개 중)',
+        numSub: '합산 ' + unitOf() + '평균 활성 사용자 <b>' + fmt(aff) + '명</b>',
+        source: [
+          'GA <code>customUser:building_id</code> × ' + (_gaRes==='week'?'주':'월') + '별 활성 사용자·세션',
+          '최근 완결 ' + unitsOf(BLOCK) + ' 평균과 그 이전 ' + unitsOf(BLOCK) + ' 평균을 비교 (미완결 구간 제외)',
+          '판정 기준: 활성 사용자 증감 ≥ 0% 이면서 세션/사용자 증감 ≤ △5%',
+          '대상: ' + top.map(r=>esc(r.n)+' (사용자 +'+r.gAu.toFixed(1)+'%, 참여 △'+Math.abs(r.gSpu).toFixed(1)+'%)').join(' · ')
+            + (rows.length>4 ? ' 외 '+(rows.length-4)+'개' : ''),
+        ],
+        analysis: '사람이 늘면서 1인당 사용이 줄었다는 건, 새로 들어온 사용자가 <b>기존 사용자만큼 쓰지 않는다</b>는 뜻입니다. '
+          + '앱 전체 병목인 <b>Activation → Retention 전환율 30.96%</b>가 어느 건물에서 발생하는지를 이 목록이 가리킵니다. '
+          + '유입은 늘고 있으므로 마케팅이 아니라 <b>첫 사용 경험</b>이 문제일 가능성이 큽니다.',
+        options: [
+          {t:'해당 건물의 첫 사용 경험 점검', d:'로그인 직후 첫 화면에서 무엇이 보이는지, 그 건물에 도입된 서비스가 몇 개인지 확인합니다. 도입 서비스가 적으면 홈이 비어 보여 재방문 이유가 없습니다.',
+           tr:'도입 확대는 건물주 협의가 필요해 리드타임이 깁니다.'},
+          {t:'신규·기존 사용자를 분리해 재측정', d:'현재는 둘이 섞여 있어 "신규가 안 붙는 것"인지 "기존이 이탈하는 것"인지 확정할 수 없습니다. FE에 <code>building_id</code>를 first_visit 이전에 세팅하도록 요청하면 분리됩니다.',
+           tr:'계측 변경이라 다음 릴리스 이후에나 데이터가 쌓입니다.'},
+          {t:'CS 문의와 교차 확인', d:'해당 건물에서 올라온 문의 유형을 대조해 특정 서비스 장애·혼란이 원인인지 먼저 배제합니다.',
+           tr:'문의는 건물 정보가 없어 간접 추정만 가능합니다.'},
+        ],
+      };
+    },
+  },
+  {
+    id:'adopted-no-traffic',
+    nm:'도입했으나 미사용',
+    desc:'도입현황에는 있는데 조회 기간에 GA 트래픽이 전혀 없는 건물을 찾는다',
+    run(){
+      const nt = _detail?.building_index?.no_traffic || [];
+      if(nt.length < 5) return null;
+      /* no_traffic은 GA에 없는 건물이라 building_index.names(GA 조인 결과)로는
+         이름이 안 나온다. 도입현황 매트릭스에서 직접 이름을 찾는다. */
+      const mx = _data.bld?.matrix||[];
+      const nameOf = c => (mx.find(x=>x.c===c)||{}).n || c;
+      const total = mx.length || 0;
+      return {
+        sev:'mid',
+        title: '도입은 했지만 사용 흔적이 없는 건물 ' + nt.length + '개',
+        scope: '건물 축',
+        // 인원은 0이지만 방치 비용이 있으므로 규모를 건물 수로 환산해 순위에 태운다
+        affected: nt.length * 40,
+        num: nt.length + '개',
+        numUnit: '건물' + (total ? ' (도입 ' + total + '개 중 ' + (nt.length/total*100).toFixed(0) + '%)' : ''),
+        numSub: '조회 기간 활성 사용자 <b>0명</b>',
+        source: [
+          '도입현황 매트릭스 <code>code</code>와 GA <code>building_id</code>를 조인한 차집합',
+          'GA 건물 축 유효 구간: <b>' + (_detail?.availability?.building?.from||'-') + ' ~ ' + (_detail?.availability?.building?.to||'-') + '</b>',
+          '예: ' + nt.slice(0,5).map(c=>esc(nameOf(c))).join(', ') + (nt.length>5 ? ' 외 '+(nt.length-5)+'개' : ''),
+        ],
+        analysis: '도입 수(계약)와 사용량(실제)이 벌어져 있습니다. 도입 건수를 성과 지표로 보고하면 <b>실제보다 좋게 보입니다.</b> '
+          + '다만 이 목록은 "안 쓴다"와 "계측이 안 된다"를 구분하지 못합니다 — 최근 귀속률이 100%가 아니므로 일부는 계측 누락일 수 있습니다.',
+        options: [
+          {t:'표본 5개를 골라 실사', d:'앱이 실제로 열리는지 현장 확인해 미사용/미계측을 가릅니다. 어느 쪽인지에 따라 조치가 완전히 달라집니다.',
+           tr:'수작업이라 시간이 들지만, 이 구분 없이는 나머지 조치가 전부 추측입니다.'},
+          {t:'도입 후 사용 안내 캠페인', d:'입주사 담당자에게 사용 가이드를 전달하고 2주 뒤 재측정합니다.',
+           tr:'미계측이 원인이면 효과가 없어 리소스만 소모합니다.'},
+          {t:'보고 지표를 도입 수 → 활성 건물 수로 교체', d:'"도입 328개"가 아니라 "실사용 N개"를 지표로 삼으면 이 격차가 자동으로 드러납니다.',
+           tr:'보고 수치가 낮아 보여 사전 설명이 필요합니다.'},
+        ],
+      };
+    },
+  },
+  {
+    id:'engagement-gap',
+    nm:'규모 대비 참여 저조',
+    desc:'활성 사용자는 상위인데 세션/사용자가 하위 25%인 건물을 찾는다',
+    run(){
+      const ms = new Set(monthsInRange()), vol = new Map();
+      (_detail.building_monthly||[]).forEach(r=>{ if(ms.has(r.m)) vol.set(r.b, Math.max(vol.get(r.b)||0, r.au)); });
+      const pool = [...vol.entries()].sort((a,b)=>b[1]-a[1]).slice(0,30).map(x=>x[0]);
+      const rows = buildingStats(pool).filter(r=>r.spu > 0);
+      if(rows.length < 8) return null;
+      const spus = rows.map(r=>r.spu).sort((a,b)=>a-b);
+      const q1 = spus[Math.floor(spus.length*0.25)];
+      const med = spus[Math.floor(spus.length*0.5)];
+      const hit = rows.filter(r=>r.spu <= q1).sort((a,b)=>b.avgAu-a.avgAu).slice(0,5);
+      if(hit.length < 2) return null;
+      const aff = hit.reduce((s,r)=>s+r.avgAu, 0);
+      return {
+        sev:'mid',
+        title: '규모는 큰데 방문 빈도가 하위권인 건물 ' + hit.length + '개',
+        scope: '건물 축',
+        affected: aff,
+        // 규모순으로 골랐으므로 표시용 범위는 참여도 기준으로 다시 정렬해 뽑는다
+        num: Math.min(...hit.map(r=>r.spu)).toFixed(2) + '~' + Math.max(...hit.map(r=>r.spu)).toFixed(2),
+        numUnit: '세션/사용자 (중앙값 ' + med.toFixed(2) + ')',
+        numSub: '합산 ' + unitOf() + '평균 활성 사용자 <b>' + fmt(aff) + '명</b>',
+        source: [
+          '완결 구간의 세션 합계 ÷ 활성 사용자 합계 (' + unitOf() + ' 단위)',
+          '이용량 상위 30개 건물 중 <b>하위 25%(' + q1.toFixed(2) + ' 이하)</b>를 대상으로 선정',
+          '대상: ' + hit.map(r=>esc(r.n)+' ('+r.spu.toFixed(2)+', '+fmt(r.avgAu)+'명)').join(' · '),
+        ],
+        analysis: '사용자 수는 확보했는데 <b>다시 들어오지 않습니다.</b> 중앙값 대비 방문 빈도가 낮다는 건 '
+          + '이 건물에서는 앱이 "필요할 때 한 번" 쓰는 도구에 머물고 있다는 뜻입니다. '
+          + '규모가 크므로 빈도를 중앙값까지만 올려도 절대 세션 증가폭이 가장 큰 집단입니다.',
+        options: [
+          {t:'도입 서비스 수 대조', d:'쓸 게 적으면 자주 올 이유가 없습니다. 해당 건물의 도입 서비스 수를 상위 건물과 비교하세요.',
+           tr:'도입 확대는 건물주 협의가 필요합니다.'},
+          {t:'재방문 트리거 점검', d:'건물톡·공지 등 다시 들어올 이유를 만드는 기능이 이 건물에서 활성화되어 있는지 확인합니다.',
+           tr:'알림 과다는 오히려 이탈을 부르므로 빈도 설계가 필요합니다.'},
+          {t:'상위 건물과 사용 화면 구성 비교', d:'화면×건물 데이터로 상위 건물이 자주 쓰는 화면이 이 건물에서도 열리는지 확인합니다.',
+           tr:'화면 축이 2개월치라 추세가 아닌 스냅샷 비교에 그칩니다.'},
+        ],
+      };
+    },
+  },
+  {
+    id:'attribution',
+    nm:'건물 귀속률 저하',
+    desc:'building_id가 비어 있는 사용자 비율을 확인한다 (귀속률 90% 미만)',
+    run(){
+      const cov = (_detail?.building_coverage||[]).slice(-4);
+      if(!cov.length) return null;
+      const last = cov[cov.length-1];
+      if(!last || last.rate >= 90) return null;
+      const miss = last.unatt || 0;
+      return {
+        sev: last.rate < 80 ? 'high' : 'mid',
+        title: '건물이 특정되지 않은 사용자가 ' + (100-last.rate).toFixed(1) + '%',
+        scope: '계측 품질',
+        affected: miss,
+        num: last.rate.toFixed(1) + '%',
+        numUnit: '건물 귀속률 (최근 주)',
+        numSub: '미귀속 <b>' + fmt(miss) + '명</b> — 건물별 집계에서 빠짐',
+        source: [
+          'GA <code>customUser:building_id</code>가 <code>(not set)</code>인 활성 사용자 비율, 주 단위',
+          '최근 4주 추이: ' + cov.map(c=>c.w.slice(4)+'주 '+c.rate+'%').join(' → '),
+        ],
+        analysis: '건물별 수치를 모두 더해도 전체와 맞지 않는 이유입니다. 미귀속분이 특정 건물에 몰려 있으면 '
+          + '그 건물은 <b>실제보다 작게 보입니다.</b> 귀속률이 떨어지는 추세라면 건물 단위 비교 자체의 신뢰도가 함께 떨어집니다.',
+        options: [
+          {t:'건물별 합계와 전체의 차이를 항상 병기', d:'대시보드에 미귀속 인원을 명시해 "합이 안 맞는다"는 오해를 사전에 차단합니다.',
+           tr:'원인 해결은 아니고 오해만 막습니다.'},
+          {t:'FE에 세팅 시점 변경 요청', d:'<code>building_id</code>가 로그인·건물선택 이후에 세팅되어 그 전 활동이 미귀속으로 남습니다. first_visit 이전/동시 세팅을 요청하세요.',
+           tr:'릴리스 이후 데이터부터 적용되어 과거는 복구되지 않습니다.'},
+        ],
+      };
+    },
+  },
+  {
+    id:'axis-window',
+    nm:'분석 가능 기간 부족',
+    desc:'조회 기간 대비 각 축의 실제 계측 구간이 충분한지 확인한다',
+    run(){
+      const av = _detail?.availability||{};
+      const sel = monthsInRange();
+      const lab = av.label?.months || 0;
+      if(!sel.length || lab >= BLOCK+1) return null;
+      return {
+        sev:'low',
+        title: '화면 축 계측이 ' + unitsOf(lab) + '뿐이라 추세 판단 불가',
+        scope: '데이터 한계',
+        affected: 0,
+        num: unitsOf(lab),
+        numUnit: '화면 축 계측 구간',
+        numSub: '조회 기간은 ' + unitsOf(sel.length) + ' — 증감 비교에 <b>최소 ' + unitsOf(BLOCK+1) + '</b> 필요',
+        source: [
+          'GA <code>customEvent:event_label</code> 실질 계측 시작: <b>' + (av.label?.from||'-') + '</b>',
+          '건물 축(<code>building_id</code>)은 <b>' + (av.building?.from||'-') + '</b>부터로 별개',
+        ],
+        analysis: '화면·퍼널 수치는 <b>현재 상태(스냅샷)로만</b> 읽어야 하며 "좋아지고 있다/나빠지고 있다"는 판단에 쓸 수 없습니다. '
+          + '특히 건물별로 쪼개면 표본이 더 작아져 이탈률이 표본 오차에 묻힙니다.',
+        options: [
+          {t:'화면 지표는 스냅샷으로만 보고', d:'추세 문장을 빼고 "현재 완주율 N%"로만 보고합니다.',
+           tr:'개선 여부를 다음 달까지 말할 수 없습니다.'},
+          {t:'건물 축·전체 축으로 추세를 대신 확인', d:'그쪽은 계측 기간이 길어 추세 판단이 가능합니다.',
+           tr:'화면 단위 원인까지는 좁히지 못합니다.'},
+        ],
+      };
+    },
+  },
+];
+
+function runIssueDetection(){
+  const method = document.getElementById('gaIssueMethod');
+  const list = document.getElementById('gaIssueList');
+  if(!method || !list) return;
+  if(!_detail){ list.innerHTML = ''; return; }
+
+  const found = [], ran = [];
+  ISSUE_RULES.forEach(rule=>{
+    let r = null;
+    try { r = rule.run(); }
+    catch(e){ console.error('[issue:'+rule.id+']', e); }
+    const arr = !r ? [] : (Array.isArray(r) ? r.filter(Boolean) : [r]);
+    ran.push({rule, n:arr.length});
+    arr.forEach(x=>found.push(Object.assign(x, {_rule:rule})));
+  });
+  found.sort((a,b)=>(b.affected||0)-(a.affected||0));
+
+  const ms = monthsInRange();
+  method.innerHTML =
+    '<b>점검 방법</b> — 아래 ' + ISSUE_RULES.length + '개 규칙을 현재 조회 조건'
+    + (ms.length ? ' (<b>' + ms[0] + ' ~ ' + ms[ms.length-1] + '</b>, 해상도 ' + unitOf() + ')' : '')
+    + '에 적용했습니다. 임계값과 데이터 출처를 각 건의 <b>근거</b>에 함께 적었으므로 결과를 되짚어 검증할 수 있습니다. '
+    + '순서는 <b>영향 사용자 수</b> 내림차순 — 늦을수록 비싼 것부터 봅니다.'
+    + '<div class="im-rules">'
+    + ran.map(x=>'<span class="im-rule'+(x.n?' hit':'')+'" title="'+esc(x.rule.desc)+'">'
+        + esc(x.rule.nm) + (x.n ? ' ' + x.n + '건' : ' 해당 없음') + '</span>').join('')
+    + '</div>';
+
+  if(!found.length){
+    list.innerHTML = '<div class="iss-none">&#9989; 현재 조건에서 규칙에 걸린 문제가 없습니다.'
+      + '<br><span style="font-size:11px;color:var(--ink4)">규칙이 못 잡는 문제는 여전히 있을 수 있습니다 — '
+      + '위 칩에 마우스를 올리면 각 규칙이 무엇을 보는지 확인할 수 있습니다.</span></div>';
+    return;
+  }
+
+  list.innerHTML = found.map(f=>{
+    const sv = SEV[f.sev] || SEV.low;
+    return '<div class="iss" style="--sv:'+sv.c+';--sv-bg:'+sv.bg+'">'
+      + '<div class="iss-h">'
+      +   '<span class="iss-sev">'+sv.nm+'</span>'
+      +   '<span class="iss-t">'+f.title+'</span>'
+      +   '<span class="iss-scope">'+esc(f.scope)+'</span>'
+      +   (f.affected ? '<span class="iss-imp">영향 규모<br><b>'+fmt(f.affected)+'</b>명</span>' : '')
+      + '</div>'
+      + '<div class="iss-b">'
+      +   '<div class="iss-row"><span class="iss-k">숫자</span><span class="iss-v">'
+      +     '<span class="iss-num">'+f.num+'<small>'+esc(f.numUnit)+'</small></span>'
+      +     '<div style="margin-top:2px">'+f.numSub+'</div></span></div>'
+      +   '<div class="iss-row"><span class="iss-k">근거</span><span class="iss-v"><div class="iss-src">'
+      +     f.source.map(s=>'· '+s).join('<br>') + '</div></span></div>'
+      +   '<div class="iss-row"><span class="iss-k">분석</span><span class="iss-v">'+f.analysis+'</span></div>'
+      +   '<div class="iss-row"><span class="iss-k">대안</span><span class="iss-v">'
+      +     f.options.map((o,i)=>'<div class="iss-opt"><span class="o-n">'+(i+1)+'</span><span class="o-b">'
+      +       '<div class="o-t">'+o.t+'</div><div class="o-d">'+o.d+'</div>'
+      +       '<div class="o-tr">트레이드오프: <b>'+o.tr+'</b></div></span></div>').join('')
+      +   '</span></div>'
+      + '</div></div>';
+  }).join('');
 }
 
 // ── 3단 · 화면별 퍼널 / 요소 클릭 / 서비스 ──
