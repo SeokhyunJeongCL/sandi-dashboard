@@ -181,7 +181,8 @@ a:hover{color:var(--navy)}
   backdrop-filter:saturate(180%) blur(12px);-webkit-backdrop-filter:saturate(180%) blur(12px)}
 .fb-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 /* 해당 탭에 적용되지 않는 컨트롤 — 숨기지 않고 비활성으로 남겨 '왜 안 먹나'를 없앤다 */
-.fb-row.off{opacity:.4;pointer-events:none;filter:grayscale(1)}
+.fb-row.off,.fb-ctl.off{opacity:.4;pointer-events:none;filter:grayscale(1)}
+.fb-ctl{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}
 .fb-row.hide{display:none}
 .fb-lbl{font-size:12px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:5px;
   min-width:78px;flex-shrink:0}
@@ -323,6 +324,39 @@ a:hover{color:var(--navy)}
 .iss-opt .o-tr b{color:var(--yellow)}
 .iss-none{padding:22px 16px;text-align:center;font-size:12px;color:var(--ink3);line-height:1.8;
   border:1px dashed var(--line2);border-radius:10px}
+
+/* ── 서브탭 ──
+   한 탭 안에 모집단이 다른 블록이 섞여 있으면 상단 필터가 어디에 먹는지 알 수 없다.
+   전체/건물별/화면·서비스별로 화면을 가르고, 필터바는 활성 서브탭에 필요한
+   컨트롤만 켠다. 안 먹는 컨트롤은 숨기지 않고 비활성 + 사유를 남긴다. */
+.subtabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;border-bottom:1px solid var(--line);
+  padding-bottom:0}
+.subtab{background:none;border:1px solid transparent;border-bottom:none;
+  border-radius:9px 9px 0 0;padding:9px 15px;font-family:inherit;font-size:13px;font-weight:700;
+  color:var(--ink3);cursor:pointer;transition:all .15s;position:relative;top:1px}
+.subtab:hover{color:var(--navy);background:var(--muted)}
+.subtab.on{color:var(--sc,var(--navy));background:var(--card);
+  border-color:var(--line);border-bottom:1px solid var(--card)}
+.subtab.on::before{content:'';position:absolute;left:0;right:0;top:0;height:3px;
+  background:var(--sc,var(--navy));border-radius:9px 9px 0 0}
+.subtab .st-n{font-size:10px;font-weight:800;margin-left:5px;padding:1px 6px;border-radius:100px;
+  background:var(--muted2);color:var(--ink3)}
+.subtab.on .st-n{background:var(--sc);color:#fff}
+.scope[hidden]{display:none}
+
+/* ── 퍼널·요소 읽는 법 / AARRR ── */
+.fn-guide{background:var(--muted);border-radius:10px;padding:12px 15px;margin:14px 0;
+  font-size:11px;color:var(--ink3);line-height:1.8}
+.fn-guide b{color:var(--navy)}
+.fn-guide .fg-t{font-size:11px;font-weight:800;color:var(--navy);margin-bottom:4px;display:block}
+.fn-guide .fg-sec{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line2)}
+.fn-guide .fg-sec:first-child{margin-top:0;padding-top:0;border-top:none}
+.aarrr-chain{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin:6px 0 4px}
+.aarrr-chain .ac{border-radius:100px;padding:2px 9px;font-size:10px;font-weight:700;
+  background:var(--muted2);color:var(--ink4);white-space:nowrap}
+.aarrr-chain .ac.on{background:var(--brand);color:#fff}
+.aarrr-chain .ac-ar{color:var(--ink4);font-size:10px}
+.el-ratio{font-size:10px;color:var(--yellow);font-weight:700;margin-left:5px}
 .scope-warn{display:flex;gap:8px;align-items:flex-start;background:var(--yellow-bg);border:1px solid var(--yellow);border-radius:8px;padding:10px 13px;font-size:12px;color:var(--yellow);margin-bottom:16px;line-height:1.6}
 .scope-warn b{color:var(--yellow)}
 
@@ -437,14 +471,20 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         <span class="pc-note" id="pcNote"></span>
       </div>
       <div class="fb-row" id="fbRowSeg">
-        <!-- 해상도(월/주)는 GA 세그먼트 차트에만 적용되므로 이 행에 둔다 -->
-        <span class="fb-lbl" style="min-width:0">&#128200; 해상도</span>
-        <span class="pc-presets" id="gaResToggle"></span>
-        <span class="fb-lbl" style="min-width:0;margin-left:6px">&#127970; 건물</span>
-        <span id="cbxBld"></span>
-        <span id="gaBldChips" style="display:flex;gap:5px;flex-wrap:wrap"></span>
-        <span class="fb-lbl" style="min-width:0;margin-left:6px">&#128241; 화면&middot;서비스</span>
-        <span id="cbxScreen"></span>
+        <!-- 각 컨트롤을 .fb-ctl로 감싸 서브탭별로 개별 비활성화한다 -->
+        <span class="fb-ctl">
+          <span class="fb-lbl" style="min-width:0">&#128200; 해상도</span>
+          <span class="pc-presets" id="gaResToggle"></span>
+        </span>
+        <span class="fb-ctl">
+          <span class="fb-lbl" style="min-width:0">&#127970; 건물</span>
+          <span id="cbxBld"></span>
+          <span id="gaBldChips" style="display:flex;gap:5px;flex-wrap:wrap"></span>
+        </span>
+        <span class="fb-ctl">
+          <span class="fb-lbl" style="min-width:0">&#128241; 화면&middot;서비스</span>
+          <span id="cbxScreen"></span>
+        </span>
         <span class="fb-spacer"></span>
         <button class="fb-act" id="fbReset" title="모든 조건을 기본값으로">&#8635; 초기화</button>
         <button class="fb-act" id="fbLink" title="현재 조건이 담긴 링크를 복사합니다">&#128279; 링크 복사</button>
@@ -510,11 +550,14 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       <div id="gaSegNote" style="font-size:11px;color:var(--ink4);text-align:right;line-height:1.5;margin-bottom:8px"></div>
       <div id="gaAxisWarn"></div>
 
+      <!-- 서브탭 — 모집단이 다른 블록을 갈라 상단 필터의 적용 범위를 명확히 한다 -->
+      <div class="subtabs" id="gaSubtabs"></div>
+
       <!-- ══ 문제 발굴 ══
            지표 나열과 문제 제기는 다르다. 규칙 세트를 데이터에 돌려 이상을 찾고
            각 건을 [숫자 · 근거 · 분석 · 대안] 4단으로 낸다.
            발굴 '방법'도 함께 노출해 결과를 감사 가능하게 만든다. -->
-      <div class="scope iss">
+      <div class="scope iss" data-sub="issue">
         <div class="scope-head">
           <span class="scope-tag">&#128269; 문제 발굴</span>
           <span class="scope-ttl">자동 점검 결과</span>
@@ -536,7 +579,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
            모집단이 다른 수치가 한 화면에 섞이면 "이 숫자가 무엇을 센 것인지"를
            놓친다. 전체 → 건물별 → 화면·서비스별 순으로 드릴다운 구조를 만들고
            각 구간을 색 + 섹션 헤더로 구분한다. 카드 형태는 통일한다. -->
-      <div class="scope all">
+      <div class="scope all" data-sub="all">
         <div class="scope-head">
           <span class="scope-tag">&#127760; 전체</span>
           <span class="scope-ttl">앱 전체 기준</span>
@@ -586,7 +629,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       </div>
 
       <!-- ══ 스코프 2 · 건물별 ══ -->
-      <div class="scope bld">
+      <div class="scope bld" data-sub="bld">
         <div class="scope-head">
           <span class="scope-tag">&#127970; 건물별</span>
           <span class="scope-ttl" id="gaBldScopeTtl">건물 세그먼트</span>
@@ -663,7 +706,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       </div>
 
       <!-- ══ 스코프 3 · 화면 · 서비스별 ══ -->
-      <div class="scope scr">
+      <div class="scope scr" data-sub="scr">
         <div class="scope-head">
           <span class="scope-tag">&#128241; 화면&middot;서비스별</span>
           <span class="scope-ttl" id="gaScrScopeTtl">화면 세그먼트</span>
@@ -1636,17 +1679,77 @@ const TAB_SCOPE = {
               note:'건물 · 서비스 탭은 도입일 필드가 없는 스냅샷이라 기간 필터가 적용되지 않습니다.'},
 };
 
+/* 앱 사용 분석 서브탭 — 서브탭마다 '실제로 먹는' 컨트롤이 다르다.
+   ctl에 켤 컨트롤을 적고, 나머지는 비활성 + 사유를 남긴다. */
+const GA_SUBS = [
+  {k:'issue', nm:'&#128269; 문제 발굴', sc:'#E8590C',
+   ctl:{period:1, res:0, bld:0, scr:0},
+   note:'문제 발굴은 <b>조회 기간 전체</b>를 대상으로 점검합니다 — 건물·화면 선택의 영향을 받지 않습니다.'},
+  {k:'all', nm:'&#127760; 전체', sc:'#132029',
+   ctl:{period:1, res:0, bld:0, scr:0},
+   note:'이 화면은 <b>앱 전 사용자</b> 기준입니다 — 건물·화면 선택의 영향을 받지 않습니다.'},
+  {k:'bld', nm:'&#127970; 건물별', sc:'#EA27C2',
+   ctl:{period:1, res:1, bld:1, scr:0},
+   note:''},
+  {k:'scr', nm:'&#128241; 화면&middot;서비스별', sc:'#1971C2',
+   ctl:{period:1, res:0, bld:1, scr:1},
+   note:'화면 축은 <b>월 단위로만</b> 계측되어 해상도(주) 선택이 적용되지 않습니다.'},
+];
+let _gaSub = 'issue';
+
+function currentSub(){ return GA_SUBS.find(s=>s.k === _gaSub) || GA_SUBS[0]; }
+
 function applyFbarScope(tabId){
   const sc = TAB_SCOPE[tabId] || TAB_SCOPE.overview;
   const rp = document.getElementById('fbRowPeriod');
   const rs = document.getElementById('fbRowSeg');
   const rn = document.getElementById('fbRowNote');
   if(!rp || !rs || !rn) return;
-  rp.classList.toggle('off', !sc.period);
-  rs.classList.toggle('hide', !sc.seg);
-  rn.style.display = sc.note ? 'flex' : 'none';
-  document.getElementById('fbOffNote').innerHTML = sc.note ? '&#9888; ' + sc.note : '';
+
+  const isGa = tabId === 'ga';
+  const sub = currentSub();
+  const c = isGa ? sub.ctl : {period:sc.period?1:0, res:0, bld:0, scr:0};
+
+  rp.classList.toggle('off', !c.period);
+  rs.classList.toggle('hide', !isGa);
+  // 개별 컨트롤 단위로 켜고 끈다 (행 단위로만 끄면 '건물은 먹는데 해상도는 안 먹는' 경우를 표현 못 한다)
+  const set = (id, on) => {
+    const el = document.getElementById(id);
+    if(el) el.closest('.fb-ctl')?.classList.toggle('off', !on);
+  };
+  set('gaResToggle', c.res);
+  set('cbxBld', c.bld);
+  set('cbxScreen', c.scr);
+
+  const note = isGa ? sub.note : sc.note;
+  rn.style.display = note ? 'flex' : 'none';
+  document.getElementById('fbOffNote').innerHTML = note ? '&#9888; ' + note : '';
   syncFbarTop();
+}
+
+function renderGaSubtabs(){
+  const nav = document.getElementById('gaSubtabs');
+  if(!nav) return;
+  const nIssue = document.querySelectorAll('#gaIssueList .iss').length;
+  nav.innerHTML = GA_SUBS.map(s=>
+    '<button class="subtab'+(s.k===_gaSub?' on':'')+'" data-sub="'+s.k+'" style="--sc:'+s.sc+'">'
+    + s.nm + (s.k==='issue' && nIssue ? '<span class="st-n">'+nIssue+'</span>' : '')
+    + '</button>').join('');
+  nav.querySelectorAll('.subtab').forEach(b=>b.addEventListener('click', ()=>{
+    _gaSub = b.dataset.sub;
+    syncHash();
+    showGaSub();
+  }));
+  showGaSub();
+}
+
+function showGaSub(){
+  document.querySelectorAll('#gaSubtabs .subtab').forEach(b=>
+    b.classList.toggle('on', b.dataset.sub === _gaSub));
+  document.querySelectorAll('.tab-content[data-tab="ga"] .scope[data-sub]').forEach(p=>{
+    p.hidden = p.dataset.sub !== _gaSub;
+  });
+  applyFbarScope(activeTabId());
 }
 
 // ── URL 해시 ──
@@ -1659,6 +1762,7 @@ function syncHash(){
   if(_gaScreen) p.push('s=' + encodeURIComponent(_gaScreen));
   const tab = activeTabId();
   if(tab !== 'overview') p.push('t=' + tab);
+  if(_gaSub !== 'issue') p.push('v=' + _gaSub);
   history.replaceState(null, '', location.pathname + location.search + (p.length ? '#'+p.join('&') : ''));
 }
 
@@ -1687,6 +1791,7 @@ function restoreFromHash(){
   if(o.r === 'week' || o.r === 'month') _gaRes = o.r;
   if(o.b) _gaBld = o.b.split(',').filter(Boolean).slice(0, GA_BLD_MAX);
   if(o.s) _gaScreen = /^s[cv]:/.test(o.s) ? o.s : 'sc:' + o.s;   // 구버전 링크 흡수
+  if(o.v && GA_SUBS.some(x=>x.k === o.v)) _gaSub = o.v;
   if(o.t && document.querySelector('.tab[data-tab="'+o.t+'"]')){
     document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));
@@ -2054,6 +2159,8 @@ function renderGaSegment(){
   safeBlock('건물 순위표',   drawGaRank,     'gaRankBody');
   safeBlock('화면 퍼널',     renderGaFunnel, 'gaFunnel');
   safeBlock('문제 발굴',     runIssueDetection, 'gaIssueList');
+  // 서브탭 배지(문제 건수)는 발굴 결과가 나온 뒤에 그린다
+  safeBlock('서브탭',        renderGaSubtabs,   'gaSubtabs');
 
   const pt = ser.filter(x=>x.partial);
   document.getElementById('gaComboNote').innerHTML =
@@ -2994,16 +3101,23 @@ function renderGaFunnel(){
           +' → '+steps[worst.i].name+' (△'+worst.d.toFixed(1)+'%)</b>' : '')
       + '</div>';
 
+    html += funnelGuide(steps, first, last, worst, useBld);
+
     const br = (_detail.branches||{})[name]||[];
     const brRows = br.map(b=>el.get(b)).filter(Boolean).sort((a,b)=>b.u-a.u);
     if(brRows.length){
       const bt = Math.max(1, ...brRows.map(r=>r.u));
       html += '<div style="font-size:12px;font-weight:700;color:var(--navy);margin:18px 0 8px">분기 · 보조 동작</div>';
       brRows.forEach(r=>{
-        html += '<div class="el-row"><span class="el-nm">'+r.el+'</span>'
+        // 1인당 반복 횟수 — 사용자는 적은데 건수가 많으면 반복 조작 = 마찰 신호
+        const rep = r.u ? r.c / r.u : 0;
+        html += '<div class="el-row"><span class="el-nm">'+esc(r.el)+'</span>'
           + '<span class="el-bar"><i style="width:'+(r.u/bt*100)+'%"></i></span>'
-          + '<span class="el-v">'+fmt(r.u)+'명 · '+fmt(r.c)+'건</span></div>';
+          + '<span class="el-v">'+fmt(r.u)+'명 · '+fmt(r.c)+'건'
+          + (rep >= 1.5 ? '<span class="el-ratio" title="1인당 반복 횟수 — 반복 조작은 마찰 신호입니다">×'+rep.toFixed(1)+'</span>' : '')
+          + '</span></div>';
       });
+      html += branchGuide(brRows);
     }
   } else {
     // 순서를 모르는 화면에 억지 퍼널을 씌우지 않는다
@@ -3019,6 +3133,77 @@ function renderGaFunnel(){
     });
   }
   box.innerHTML = html;
+}
+
+/* ── 퍼널 읽는 법 + AARRR 관점 ──
+   막대와 %만 두면 "그래서 이게 좋은 건가"를 알 수 없다. 계산식과 함께,
+   이 퍼널이 AARRR 어디에 해당하고 완주/이탈이 무엇을 뜻하는지 적는다. */
+function funnelGuide(steps, first, last, worst, useBld){
+  const rate = first ? (last/first*100) : 0;
+  const lost = first - last;
+  return '<div class="fn-guide">'
+    + '<div class="fg-sec"><span class="fg-t">&#128207; 읽는 법</span>'
+    +   '· <b>막대 길이</b> = 그 단계까지 도달한 사용자 수 (가장 큰 단계를 100%로 본 상대 길이)<br>'
+    +   '· <b>오른쪽 %</b> = <u>직전 단계 대비</u> 이탈률입니다. 첫 단계 대비가 아닙니다<br>'
+    +   '· <b>빨간 막대</b> = 가장 크게 빠지는 한 구간. 여기를 고치는 것이 투입 대비 회수가 가장 큽니다<br>'
+    +   '· <b>완주율</b> = 마지막 단계 ÷ 첫 단계 = <b>' + rate.toFixed(1) + '%</b>'
+    + '</div>'
+    + '<div class="fg-sec"><span class="fg-t">&#128202; 어떻게 측정하나</span>'
+    +   '· GA <code>event_label</code>의 <code>{화면}_{요소}_클릭</code> 이벤트를 요소별로 집계합니다<br>'
+    +   '· 단계의 <b>순서는 자동 추론이 아니라</b> <code>funnels.json</code>에 사람이 정의한 값입니다. '
+    +   '순서를 모르는 화면에 억지 퍼널을 씌우면 이탈률이 거짓이 되므로 정의된 화면만 퍼널로 그립니다<br>'
+    +   '· 사용자 수는 <b>' + (useBld ? '건물별 월 최대값의 합' : '월별 최대값') + '</b>입니다. '
+    +   '같은 사람이 여러 달에 걸치면 중복이라 월끼리 더하지 않습니다'
+    +   (useBld ? ' (건물끼리는 1인 1건물 귀속이라 더합니다)' : '') + '<br>'
+    +   '· 단계별 사용자가 <b>증가</b>하면 순서 정의가 틀렸다는 신호이며 경고가 표시됩니다'
+    + '</div>'
+    + '<div class="fg-sec"><span class="fg-t">&#127919; AARRR 관점 해석</span>'
+    +   '<div class="aarrr-chain">'
+    +     '<span class="ac">유입<br><span style="font-size:9px">Acquisition</span></span><span class="ac-ar">→</span>'
+    +     '<span class="ac on">활성화<br><span style="font-size:9px">Activation</span></span><span class="ac-ar">→</span>'
+    +     '<span class="ac">재방문<br><span style="font-size:9px">Retention</span></span><span class="ac-ar">→</span>'
+    +     '<span class="ac">추천<br><span style="font-size:9px">Referral</span></span><span class="ac-ar">→</span>'
+    +     '<span class="ac">수익<br><span style="font-size:9px">Revenue</span></span>'
+    +   '</div>'
+    +   '이 퍼널은 <b>활성화(Activation)</b> 구간입니다. 1단계에 들어온 사람은 이미 '
+    +   '<b>쓰겠다는 의도가 확인된</b> 사용자라, 여기서의 이탈은 유입 단계의 이탈보다 훨씬 비쌉니다 — '
+    +   '광고로 새 사람을 데려오는 비용보다 이미 온 사람을 끝까지 보내는 비용이 적기 때문입니다.<br>'
+    +   '· <b>완주 = 가치를 한 번 경험</b> → 다음 달 재방문(Retention)으로 이어질 확률이 오릅니다<br>'
+    +   '· 따라서 이 화면의 <b>' + fmt(lost) + '명 이탈</b>은 곧 Retention 손실 후보입니다. '
+    +   '앱 전체 병목인 <b>Activation → Retention 30.96%</b>를 화면·단계 단위로 특정한 것이 이 수치입니다<br>'
+    +   '· 완주율만 보지 말고 <b>절대 인원</b>을 함께 보세요. 완주율이 같아도 규모가 크면 손실 인원이 큽니다'
+    + '</div>'
+    + '</div>';
+}
+
+/* ── 분기·보조 동작 설명 ──
+   "이건 뭔데 여기 있나"가 가장 먼저 나오는 질문이라 정의부터 적는다. */
+function branchGuide(rows){
+  const rep = rows.filter(r=>r.u && r.c/r.u >= 1.5).sort((a,b)=>(b.c/b.u)-(a.c/a.u));
+  return '<div class="fn-guide">'
+    + '<div class="fg-sec"><span class="fg-t">&#10067; 분기 · 보조 동작이란</span>'
+    +   '퍼널 <b>단계에 포함되지 않는</b> 클릭입니다. <code>funnels.json</code>의 <code>branches</code>에 '
+    +   '정의된 요소만 모읍니다.<br>'
+    +   '· <b>왜 분리하나</b>: 순서가 있는 단계와 섞으면 이탈률이 거짓이 됩니다. 예를 들어 '
+    +   '<code>취소</code>는 되돌아가는 동작이고 <code>QR코드NFC인식</code>은 대체 경로라, '
+    +   '단계로 세면 완주율이 부풀거나 깎입니다<br>'
+    +   '· <b>측정</b>: 퍼널과 동일하게 <code>event_label</code>을 요소별 집계 — '
+    +   '<b>사용자</b>는 월별 최대값, <b>건수</b>는 합계'
+    + '</div>'
+    + '<div class="fg-sec"><span class="fg-t">&#128207; 읽는 법</span>'
+    +   '· <b>막대 길이</b>는 이 목록 안에서의 상대 비율입니다. '
+    +   '<u>위쪽 퍼널 막대와 축이 달라 길이를 직접 비교하면 안 됩니다</u><br>'
+    +   '· <b>×N 표시</b> = 1인당 반복 클릭 횟수(건수÷사용자). '
+    +   '1.5회를 넘으면 <b>한 번에 안 끝났다</b>는 뜻이라 마찰 신호로 봅니다<br>'
+    +   '· 사용자가 <b>많은</b> 분기는 그 경로를 정식 단계로 승격할지 검토 대상, '
+    +   '<b>반복이 잦은</b> 분기는 UI 개선 대상입니다'
+    +   (rep.length
+      ? '<br>· &#9888; 현재 반복이 잦은 항목: '
+        + rep.slice(0,3).map(r=>'<b>'+esc(r.el)+'</b> ×'+(r.c/r.u).toFixed(1)).join(' · ')
+        + ' — 한 번에 원하는 결과가 안 나오는지 확인해 보세요'
+      : '')
+    + '</div>'
+    + '</div>';
 }
 
 /* 건물 선택 + 퍼널 미정의 화면 — 요소×건물 리포트가 없는 경우.
