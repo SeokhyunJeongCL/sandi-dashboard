@@ -32,16 +32,16 @@ a{color:var(--brand);text-decoration:none}
 a:hover{color:var(--navy)}
 
 .header{background:rgba(255,255,255,.85);border-bottom:1px solid var(--line);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:saturate(180%) blur(12px);-webkit-backdrop-filter:saturate(180%) blur(12px)}
-.header h1{font-size:18px;font-weight:700;letter-spacing:-.4px;color:var(--navy);display:flex;align-items:center;gap:9px}
+.header h1{font-size:21px;font-weight:700;letter-spacing:-.4px;color:var(--navy);display:flex;align-items:center;gap:9px}
 .brand-mark{font-weight:800;color:var(--brand);letter-spacing:-.5px}
 .brand-div{width:1px;height:15px;background:var(--line2)}
-.header .sub{font-weight:500;color:var(--ink3);font-size:14px}
-.freshness{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink3);background:var(--muted);padding:7px 14px;border-radius:100px;border:1px solid var(--line)}
+.header .sub{font-weight:500;color:var(--ink3);font-size:17px}
+.freshness{display:flex;align-items:center;gap:7px;font-size:15px;color:var(--ink3);background:var(--muted);padding:7px 14px;border-radius:100px;border:1px solid var(--line)}
 .freshness .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
 
-.tabs{display:flex;gap:28px;padding:0 32px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:57px;z-index:99;overflow-x:auto}
-.tab{padding:15px 2px;font-size:14px;font-weight:600;color:var(--ink3);cursor:pointer;transition:color .18s;border:none;border-bottom:2px solid transparent;background:none;white-space:nowrap;letter-spacing:-.2px}
+.tabs{display:flex;gap:28px;padding:0 32px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:var(--tabs-top,57px);z-index:99;overflow-x:auto}
+.tab{padding:15px 2px;font-size:17px;font-weight:600;color:var(--ink3);cursor:pointer;transition:color .18s;border:none;border-bottom:2px solid transparent;background:none;white-space:nowrap;letter-spacing:-.2px}
 .tab:hover{color:var(--navy)}
 .tab.active{color:var(--navy);border-bottom-color:var(--brand)}
 
@@ -53,8 +53,8 @@ a:hover{color:var(--navy)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;position:relative;box-shadow:var(--shadow-1);transition:border-color .2s,box-shadow .2s}
 .card:hover{border-color:var(--line2);box-shadow:var(--shadow-2)}
 .card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;gap:10px}
-.card-title{font-size:15px;font-weight:700;color:var(--navy);letter-spacing:-.3px}
-.card-badge{font-size:11px;padding:4px 11px;border-radius:100px;font-weight:600}
+.card-title{font-size:18px;font-weight:700;color:var(--navy);letter-spacing:-.3px}
+.card-badge{font-size:14px;padding:4px 11px;border-radius:100px;font-weight:600}
 .card-badge.green{background:var(--green-bg);color:var(--green)}
 .card-badge.red{background:var(--red-bg);color:var(--red)}
 .card-badge.yellow{background:var(--yellow-bg);color:var(--yellow)}
@@ -63,16 +63,16 @@ a:hover{color:var(--navy)}
 .metric-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;transition:border-color .2s,box-shadow .2s,transform .2s;position:relative;overflow:visible;box-shadow:var(--shadow-1)}
 .metric-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--brand);transform:scaleX(0);transform-origin:left;transition:transform .3s;border-radius:var(--radius) var(--radius) 0 0}
 .metric-card:hover{border-color:var(--line2);transform:translateY(-2px);box-shadow:var(--shadow-2)}.metric-card:hover::before{transform:scaleX(1)}
-.metric-label{font-size:12px;color:var(--ink3);margin-bottom:8px;display:flex;align-items:center;gap:6px;font-weight:500}
-.metric-value{font-size:30px;font-weight:800;letter-spacing:-1.4px;line-height:1.15;color:var(--navy)}
-.metric-sub{font-size:12px;color:var(--ink3);margin-top:7px}
-.metric-change{font-size:13px;font-weight:700;margin-left:6px}
+.metric-label{font-size:15px;color:var(--ink3);margin-bottom:8px;display:flex;align-items:center;gap:6px;font-weight:500}
+.metric-value{font-size:34px;font-weight:800;letter-spacing:-1.4px;line-height:1.15;color:var(--navy)}
+.metric-sub{font-size:15px;color:var(--ink3);margin-top:7px}
+.metric-change{font-size:16px;font-weight:700;margin-left:6px}
 .metric-change.up{color:var(--green)}.metric-change.down{color:var(--red)}
-.metric-explain{font-size:12px;color:var(--ink3);margin-top:12px;padding-top:12px;border-top:1px solid var(--line);line-height:1.65}
+.metric-explain{font-size:15px;color:var(--ink3);margin-top:12px;padding-top:12px;border-top:1px solid var(--line);line-height:1.65}
 
 .ai-box{background:linear-gradient(180deg,#FEF7FC,#FFFFFF 60%);border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:var(--radius);padding:24px 26px;margin:22px 0;position:relative;box-shadow:var(--shadow-1)}
-.ai-box-header{display:flex;align-items:center;gap:9px;margin-bottom:14px;font-size:15px;font-weight:700;color:var(--brand);letter-spacing:-.2px}
-.ai-box-header .icon{font-size:17px}
+.ai-box-header{display:flex;align-items:center;gap:9px;margin-bottom:14px;font-size:18px;font-weight:700;color:var(--brand);letter-spacing:-.2px}
+.ai-box-header .icon{font-size:20px}
 .ai-box p{font-size:13.5px;color:var(--navy700);line-height:1.85;margin-bottom:9px}
 .ai-box p:last-child{margin-bottom:0}
 .ai-box .highlight{color:var(--navy);font-weight:700}
@@ -82,7 +82,7 @@ a:hover{color:var(--navy)}
 .ai-box b{color:var(--navy);font-weight:700}
 
 .freshness-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px}
-.freshness-item{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 14px;font-size:12px;transition:border-color .2s;box-shadow:var(--shadow-1)}
+.freshness-item{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 14px;font-size:15px;transition:border-color .2s;box-shadow:var(--shadow-1)}
 .freshness-item:hover{border-color:var(--line2)}
 .freshness-item .src{color:var(--navy);font-weight:600}
 .freshness-item .time{color:var(--ink3)}
@@ -94,42 +94,45 @@ a:hover{color:var(--navy)}
 .score-ring svg{transform:rotate(-90deg)}
 .score-ring .bg{fill:none;stroke:var(--muted2);stroke-width:13}
 .score-ring .fg{fill:none;stroke-width:13;stroke-linecap:round;transition:stroke-dashoffset 1.5s ease}
-.score-ring .val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:46px;font-weight:800;letter-spacing:-2px;color:var(--navy)}
-.score-ring .val small{font-size:13px;color:var(--ink3);font-weight:500;letter-spacing:0;margin-top:2px}
+.score-ring .val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:52px;font-weight:800;letter-spacing:-2px;color:var(--navy)}
+.score-ring .val small{font-size:16px;color:var(--ink3);font-weight:500;letter-spacing:0;margin-top:2px}
 
 .progress-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
 .progress-row:last-child{border-bottom:none}
-.progress-label{width:158px;font-size:12px;color:var(--navy700);flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
+.progress-label{width:172px;font-size:15px;color:var(--navy700);flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
 .progress-bar-wrap{flex:1;height:20px;background:var(--muted);border-radius:6px;overflow:hidden;position:relative}
 .progress-bar-fill{height:100%;border-radius:6px;transition:width 1.2s ease}
-.progress-value{width:50px;text-align:right;font-size:12px;font-weight:700;color:var(--navy700);flex-shrink:0}
+.progress-value{width:62px;text-align:right;font-size:15px;font-weight:700;color:var(--navy700);flex-shrink:0}
 
-.data-table{width:100%;border-collapse:collapse;font-size:13px}
-.data-table th{text-align:left;padding:11px 12px;color:var(--ink3);font-weight:600;border-bottom:1px solid var(--line2);font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+.data-table{width:100%;border-collapse:collapse;font-size:16px}
+.data-table th{text-align:left;padding:11px 12px;color:var(--ink3);font-weight:600;border-bottom:1px solid var(--line2);font-size:14px;text-transform:uppercase;letter-spacing:.4px}
 .data-table td{padding:11px 12px;border-bottom:1px solid var(--line);color:var(--navy700)}
 .data-table tr:last-child td{border-bottom:none}
 .data-table tr:hover td{background:var(--canvas)}
+/* 숫자 열은 머리글도 값과 같은 축(우측)에 맞춘다 — 머리글만 좌측이면 어느 열의 숫자인지 눈으로 잇기 어렵다 */
+.data-table th.num,.data-table td.num{text-align:right;font-variant-numeric:tabular-nums}
+.data-table th+th,.data-table td+td{border-left:1px solid var(--line)}
 
-.chart-wrap{position:relative;height:300px}
-.chart-wrap.tall{height:400px}
-.chart-wrap.short{height:200px}
+.chart-wrap{position:relative;height:340px}
+.chart-wrap.tall{height:450px}
+.chart-wrap.short{height:230px}
 
 .funnel{display:flex;flex-direction:column;gap:10px;padding:14px 0}
 .funnel-step{display:flex;align-items:center;gap:16px}
-.funnel-bar{height:44px;border-radius:8px;display:flex;align-items:center;padding:0 18px;font-size:13px;font-weight:700;color:#fff;transition:width 1s ease;min-width:64px;letter-spacing:-.2px}
-.funnel-info{font-size:12px;color:var(--ink3);min-width:200px;line-height:1.5}
-.funnel-info strong{color:var(--navy);display:block;font-size:13px;font-weight:700}
+.funnel-bar{height:44px;border-radius:8px;display:flex;align-items:center;padding:0 18px;font-size:16px;font-weight:700;color:#fff;transition:width 1s ease;min-width:64px;letter-spacing:-.2px}
+.funnel-info{font-size:15px;color:var(--ink3);min-width:200px;line-height:1.5}
+.funnel-info strong{color:var(--navy);display:block;font-size:16px;font-weight:700}
 
-.section-title{font-size:18px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;letter-spacing:-.4px;color:var(--navy)}
-.section-desc{font-size:13px;color:var(--ink3);margin-bottom:18px;line-height:1.6}
+.section-title{font-size:21px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;letter-spacing:-.4px;color:var(--navy)}
+.section-desc{font-size:16px;color:var(--ink3);margin-bottom:18px;line-height:1.6}
 
 .insight-list{display:flex;flex-direction:column;gap:10px}
 .insight-item{display:flex;gap:12px;padding:15px 16px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-sm);border-left:3px solid var(--ink4);transition:border-color .2s,box-shadow .2s}
 .insight-item:hover{border-color:var(--line2);box-shadow:var(--shadow-1)}
 .insight-item.high{border-left-color:var(--red)}.insight-item.medium{border-left-color:var(--yellow)}.insight-item.info{border-left-color:var(--blue)}
-.insight-item .tag{font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;flex-shrink:0;align-self:flex-start}
+.insight-item .tag{font-size:14px;font-weight:700;padding:3px 10px;border-radius:6px;flex-shrink:0;align-self:flex-start}
 .insight-item .tag.P1{background:var(--red-bg);color:var(--red)}.insight-item .tag.P2{background:var(--yellow-bg);color:var(--yellow)}.insight-item .tag.P3{background:var(--blue-bg);color:var(--blue)}
-.insight-item .msg{font-size:13px;color:var(--navy700);line-height:1.6}
+.insight-item .msg{font-size:16px;color:var(--navy700);line-height:1.6}
 .insight-item .msg b{color:var(--navy)}
 
 @media(max-width:1100px){.grid-4,.grid-5{grid-template-columns:repeat(2,1fr)}}
@@ -144,34 +147,34 @@ a:hover{color:var(--navy)}
 @keyframes spin{to{transform:rotate(360deg)}}
 .error-msg{color:var(--red);text-align:center;padding:40px}
 
-.tooltip-icon{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--muted);color:var(--ink3);font-size:10px;cursor:help;font-weight:700;border:1px solid var(--line2)}
+.tooltip-icon{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:50%;background:var(--muted);color:var(--ink3);font-size:13px;cursor:help;font-weight:700;border:1px solid var(--line2)}
 .tooltip-wrap{position:relative;display:inline-block}
-.tooltip-text{visibility:hidden;opacity:0;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(4px);background:var(--navy);color:#F1F3F5;padding:12px 15px;border-radius:10px;font-size:12px;font-weight:400;white-space:normal;width:280px;line-height:1.7;z-index:20;box-shadow:var(--shadow-pop);transition:all .18s ease;letter-spacing:0}
+.tooltip-text{visibility:hidden;opacity:0;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(4px);background:var(--navy);color:#F1F3F5;padding:12px 15px;border-radius:10px;font-size:15px;font-weight:400;white-space:normal;width:280px;line-height:1.7;z-index:20;box-shadow:var(--shadow-pop);transition:all .18s ease;letter-spacing:0}
 .tooltip-text b{color:#fff;font-weight:700}
 .tooltip-wrap:hover .tooltip-text{visibility:visible;opacity:1;transform:translateX(-50%) translateY(0)}
 
 .bucket-row{display:flex;align-items:flex-end;gap:6px;height:120px;padding:0 4px}
 .bucket-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
 .bucket-bar{width:100%;border-radius:6px 6px 0 0;transition:height 1s ease}
-.bucket-label{font-size:10px;color:var(--ink3);text-align:center}
-.bucket-count{font-size:11px;font-weight:700;color:var(--navy700)}
+.bucket-label{font-size:13px;color:var(--ink3);text-align:center}
+.bucket-count{font-size:14px;font-weight:700;color:var(--navy700)}
 
 .period-bar{display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap}
-.period-badge{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 13px;font-size:12px;color:var(--navy700);box-shadow:var(--shadow-1)}
-.period-badge .period-icon{font-size:13px}
+.period-badge{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 13px;font-size:15px;color:var(--navy700);box-shadow:var(--shadow-1)}
+.period-badge .period-icon{font-size:16px}
 .period-badge .period-label{color:var(--ink3);font-weight:500}
 .period-badge .period-range{color:var(--navy);font-weight:700}
 
 /* ── 기간 선택기 ── */
 .period-ctl{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:16px;box-shadow:var(--shadow-1)}
-.period-ctl .pc-label{font-size:12px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:5px}
+.period-ctl .pc-label{font-size:15px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:5px}
 .period-ctl .pc-presets{display:flex;gap:4px}
-.period-ctl .pc-btn{background:var(--muted);border:1px solid var(--line);border-radius:100px;padding:5px 12px;font-size:12px;color:var(--ink3);cursor:pointer;font-family:inherit;font-weight:600;transition:all .15s}
+.period-ctl .pc-btn{background:var(--muted);border:1px solid var(--line);border-radius:100px;padding:5px 12px;font-size:15px;color:var(--ink3);cursor:pointer;font-family:inherit;font-weight:600;transition:all .15s}
 .period-ctl .pc-btn:hover{background:var(--muted2);border-color:var(--line2)}
 .period-ctl .pc-btn.on{background:var(--brand);border-color:var(--brand);color:#fff}
-.period-ctl select{font-family:inherit;font-size:12px;padding:5px 8px;border:1px solid var(--line2);border-radius:6px;background:var(--card);color:var(--navy);font-weight:600;cursor:pointer}
-.period-ctl .pc-sep{color:var(--ink4);font-size:12px}
-.period-ctl .pc-note{font-size:11px;color:var(--ink4);margin-left:auto;text-align:right;line-height:1.5}
+.period-ctl select{font-family:inherit;font-size:15px;padding:5px 8px;border:1px solid var(--line2);border-radius:6px;background:var(--card);color:var(--navy);font-weight:600;cursor:pointer}
+.period-ctl .pc-sep{color:var(--ink4);font-size:15px}
+.period-ctl .pc-note{font-size:14px;color:var(--ink4);margin-left:auto;text-align:right;line-height:1.5}
 
 /* ── 통합 필터바 (기간 · 건물 · 화면/서비스) — 스크롤 중에도 조건이 보이도록 고정 ──
    top은 헤더+탭 높이를 런타임에 측정해 --fbar-top으로 주입한다 (하드코딩하면
@@ -184,51 +187,51 @@ a:hover{color:var(--navy)}
 .fb-row.off,.fb-ctl.off{opacity:.4;pointer-events:none;filter:grayscale(1)}
 .fb-ctl{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}
 .fb-row.hide{display:none}
-.fb-lbl{font-size:12px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:5px;
+.fb-lbl{font-size:15px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:5px;
   min-width:78px;flex-shrink:0}
 .fb-act{background:var(--muted);border:1px solid var(--line);border-radius:100px;padding:5px 11px;
-  font-size:11px;font-weight:600;color:var(--ink3);cursor:pointer;font-family:inherit;transition:all .15s}
+  font-size:14px;font-weight:600;color:var(--ink3);cursor:pointer;font-family:inherit;transition:all .15s}
 .fb-act:hover{background:var(--muted2);border-color:var(--line2);color:var(--navy)}
 .fb-act.ok{background:var(--green-bg);border-color:var(--green);color:var(--green)}
 .fb-spacer{margin-left:auto}
-.fb-off-note{font-size:11px;color:var(--yellow);font-weight:600;margin-left:auto;text-align:right}
+.fb-off-note{font-size:14px;color:var(--yellow);font-weight:600;margin-left:auto;text-align:right}
 
 /* ── 검색 가능 콤보박스 ──
    native <select>로는 건물 310개·화면 180개에서 항목을 찾을 수 없다.
    검색 + 정렬 토글(가나다|건수) + 그룹 + 단일/다중 선택을 한 컴포넌트로 처리한다. */
 .cbx{position:relative;display:inline-flex;flex-direction:column}
 .cbx-btn{display:inline-flex;align-items:center;gap:7px;min-width:200px;max-width:320px;
-  font-family:inherit;font-size:12px;font-weight:600;padding:5px 9px;border:1px solid var(--line2);
+  font-family:inherit;font-size:15px;font-weight:600;padding:5px 9px;border:1px solid var(--line2);
   border-radius:6px;background:var(--card);color:var(--navy);cursor:pointer;text-align:left}
 .cbx-btn:hover{border-color:var(--brand)}
 .cbx.open .cbx-btn{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
 .cbx-btn .cbx-cur{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cbx-btn .cbx-cur.ph{color:var(--ink4);font-weight:500}
-.cbx-btn .cbx-ar{color:var(--ink4);font-size:9px;flex-shrink:0}
+.cbx-btn .cbx-ar{color:var(--ink4);font-size:11px;flex-shrink:0}
 .cbx-pop{position:absolute;top:calc(100% + 5px);left:0;z-index:220;width:340px;max-width:88vw;
   background:var(--card);border:1px solid var(--line2);border-radius:10px;box-shadow:var(--shadow-2);
   padding:8px;display:none}
 .cbx.open .cbx-pop{display:block}
 .cbx.up .cbx-pop{top:auto;bottom:calc(100% + 5px)}
-.cbx-search{width:100%;font-family:inherit;font-size:12px;padding:7px 9px;border:1px solid var(--line2);
+.cbx-search{width:100%;font-family:inherit;font-size:15px;padding:7px 9px;border:1px solid var(--line2);
   border-radius:6px;color:var(--navy);background:var(--card)}
 .cbx-search:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
 .cbx-tools{display:flex;align-items:center;gap:4px;margin:7px 0 4px}
 .cbx-sort{background:var(--muted);border:1px solid var(--line);border-radius:100px;padding:3px 9px;
-  font-size:10px;font-weight:700;color:var(--ink3);cursor:pointer;font-family:inherit}
+  font-size:13px;font-weight:700;color:var(--ink3);cursor:pointer;font-family:inherit}
 .cbx-sort.on{background:var(--navy);border-color:var(--navy);color:#fff}
-.cbx-cnt{margin-left:auto;font-size:10px;color:var(--ink4);font-variant-numeric:tabular-nums}
+.cbx-cnt{margin-left:auto;font-size:13px;color:var(--ink4);font-variant-numeric:tabular-nums}
 .cbx-list{max-height:292px;overflow-y:auto;margin-top:2px}
-.cbx-grp{font-size:10px;font-weight:800;color:var(--ink4);padding:8px 8px 4px;
+.cbx-grp{font-size:13px;font-weight:800;color:var(--ink4);padding:8px 8px 4px;
   position:sticky;top:0;background:var(--card);z-index:1}
-.cbx-opt{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;font-size:12px;
+.cbx-opt{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;font-size:15px;
   color:var(--ink2);cursor:pointer}
 .cbx-opt:hover,.cbx-opt.cur{background:var(--brand-soft)}
 .cbx-opt.sel{background:var(--brand);color:#fff}
 .cbx-opt .o-nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
-.cbx-opt .o-mt{font-size:10px;color:var(--ink4);font-variant-numeric:tabular-nums;flex-shrink:0}
+.cbx-opt .o-mt{font-size:13px;color:var(--ink4);font-variant-numeric:tabular-nums;flex-shrink:0}
 .cbx-opt.sel .o-mt{color:rgba(255,255,255,.82)}
-.cbx-empty{padding:16px 8px;font-size:12px;color:var(--ink4);text-align:center;line-height:1.6}
+.cbx-empty{padding:16px 8px;font-size:15px;color:var(--ink4);text-align:center;line-height:1.6}
 .cbx-hit{color:var(--brand);font-weight:800}
 .cbx-opt.sel .cbx-hit{color:#fff;text-decoration:underline}
 
@@ -246,36 +249,36 @@ a:hover{color:var(--navy)}
   background:var(--sc-bg);border-left:3px solid var(--sc)}
 .scope-head:first-child{margin-top:0}
 .scope-tag{display:inline-flex;align-items:center;gap:5px;background:var(--sc);color:#fff;
-  border-radius:100px;padding:3px 11px;font-size:11px;font-weight:800;white-space:nowrap;flex-shrink:0}
-.scope-ttl{font-size:14px;font-weight:800;color:var(--navy);letter-spacing:-.3px}
-.scope-desc{font-size:11px;color:var(--ink3);line-height:1.6;flex:1;min-width:220px}
+  border-radius:100px;padding:3px 11px;font-size:14px;font-weight:800;white-space:nowrap;flex-shrink:0}
+.scope-ttl{font-size:17px;font-weight:800;color:var(--navy);letter-spacing:-.3px}
+.scope-desc{font-size:14px;color:var(--ink3);line-height:1.6;flex:1;min-width:220px}
 .scope-desc b{color:var(--sc)}
 /* 카드는 형태를 유지하고 왼쪽 액센트로만 소속을 표시한다 */
 .scope > .card,.scope > .grid > .card{border-left:3px solid var(--sc)}
 .scope > .kpi-row .kpi{border-left:3px solid var(--sc);background:var(--sc-bg)}
 .scope-empty{padding:14px 16px;border:1px dashed var(--line2);border-radius:10px;
-  font-size:12px;color:var(--ink4);line-height:1.7}
+  font-size:15px;color:var(--ink4);line-height:1.7}
 
 /* ── 사분면 읽는 법 / 요약 ──
    산점도는 축이 두 개라 "무엇을 보라는 건지"가 그래프 밖 문단에만 있으면 해석이 어렵다.
    읽는 법을 차트 위에, 사분면별 의미·조치를 차트 아래 카드로 붙인다. */
 .quad-how{display:flex;gap:18px;flex-wrap:wrap;background:var(--muted);border-radius:10px;
-  padding:11px 14px;margin-bottom:14px;font-size:12px;color:var(--ink2);line-height:1.6}
+  padding:11px 14px;margin-bottom:14px;font-size:15px;color:var(--ink2);line-height:1.6}
 .quad-how .qh{display:flex;align-items:flex-start;gap:7px}
 .quad-how .qh b{color:var(--navy);white-space:nowrap}
-.quad-how .qh-ax{font-size:11px;color:var(--ink3)}
+.quad-how .qh-ax{font-size:14px;color:var(--ink3)}
 
 .quad-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-top:14px}
 .quad-card{border:1px solid var(--line);border-left:4px solid var(--qc,var(--ink4));
   border-radius:10px;padding:11px 13px;background:var(--card)}
 .quad-card .q-top{display:flex;align-items:baseline;gap:7px;margin-bottom:5px}
-.quad-card .q-nm{font-size:12px;font-weight:800;color:var(--qc)}
-.quad-card .q-n{font-size:17px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums;margin-left:auto}
-.quad-card .q-mean{font-size:11px;color:var(--ink2);line-height:1.6}
-.quad-card .q-act{font-size:11px;color:var(--ink3);line-height:1.6;margin-top:5px;
+.quad-card .q-nm{font-size:15px;font-weight:800;color:var(--qc)}
+.quad-card .q-n{font-size:20px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums;margin-left:auto}
+.quad-card .q-mean{font-size:14px;color:var(--ink2);line-height:1.6}
+.quad-card .q-act{font-size:14px;color:var(--ink3);line-height:1.6;margin-top:5px;
   padding-top:5px;border-top:1px dashed var(--line)}
 .quad-card .q-act b{color:var(--qc)}
-.quad-card .q-list{font-size:10px;color:var(--ink4);margin-top:5px;line-height:1.5;
+.quad-card .q-list{font-size:13px;color:var(--ink4);margin-top:5px;line-height:1.5;
   overflow:hidden;text-overflow:ellipsis}
 
 /* ── 문제 발굴 ──
@@ -284,107 +287,140 @@ a:hover{color:var(--navy)}
    "어떻게 나온 숫자냐"를 되묻지 않고, 대안을 같이 내야 결정으로 이어진다. */
 .scope.iss{--sc:#E8590C;--sc-bg:rgba(232,89,12,.07)}
 .iss-method{background:var(--muted);border-radius:10px;padding:12px 15px;margin-bottom:16px;
-  font-size:11px;color:var(--ink3);line-height:1.75}
+  font-size:14px;color:var(--ink3);line-height:1.75}
 .iss-method b{color:var(--navy)}
 .iss-method .im-rules{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
 .iss-method .im-rule{background:var(--card);border:1px solid var(--line2);border-radius:100px;
-  padding:2px 9px;font-size:10px;color:var(--ink3);font-weight:600}
+  padding:2px 9px;font-size:13px;color:var(--ink3);font-weight:600}
 .iss-method .im-rule.hit{border-color:var(--yellow);color:var(--yellow);background:var(--yellow-bg)}
 
 .iss{border:1px solid var(--line);border-left:4px solid var(--sv,var(--ink4));border-radius:10px;
   padding:0;margin-bottom:12px;background:var(--card);overflow:hidden}
 .iss-h{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:12px 15px;background:var(--sv-bg,var(--muted))}
 .iss-sev{background:var(--sv);color:#fff;border-radius:100px;padding:2px 10px;
-  font-size:10px;font-weight:800;white-space:nowrap;flex-shrink:0}
-.iss-t{font-size:13px;font-weight:800;color:var(--navy);letter-spacing:-.2px}
-.iss-scope{font-size:10px;color:var(--ink4);background:var(--card);border:1px solid var(--line);
+  font-size:13px;font-weight:800;white-space:nowrap;flex-shrink:0}
+.iss-t{font-size:16px;font-weight:800;color:var(--navy);letter-spacing:-.2px}
+.iss-scope{font-size:13px;color:var(--ink4);background:var(--card);border:1px solid var(--line);
   border-radius:100px;padding:2px 8px;white-space:nowrap}
-.iss-imp{margin-left:auto;font-size:10px;color:var(--ink3);text-align:right;white-space:nowrap}
-.iss-imp b{font-size:14px;color:var(--sv);font-variant-numeric:tabular-nums}
+.iss-imp{margin-left:auto;font-size:13px;color:var(--ink3);text-align:right;white-space:nowrap}
+.iss-imp b{font-size:17px;color:var(--sv);font-variant-numeric:tabular-nums}
 
 .iss-b{padding:13px 15px}
 .iss-row{display:grid;grid-template-columns:56px 1fr;gap:11px;margin-bottom:11px;align-items:start}
 .iss-row:last-child{margin-bottom:0}
-.iss-k{font-size:10px;font-weight:800;color:var(--sv);padding-top:2px;letter-spacing:.02em}
-.iss-v{font-size:12px;color:var(--ink2);line-height:1.75}
+.iss-k{font-size:13px;font-weight:800;color:var(--sv);padding-top:2px;letter-spacing:.02em}
+.iss-v{font-size:15px;color:var(--ink2);line-height:1.75}
 .iss-v b{color:var(--navy)}
-.iss-num{font-size:20px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums;
+.iss-num{font-size:23px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums;
   line-height:1.3;letter-spacing:-.5px}
-.iss-num small{font-size:11px;font-weight:600;color:var(--ink3);margin-left:5px}
-.iss-src{font-size:10px;color:var(--ink4);line-height:1.6;margin-top:3px}
-.iss-src code{background:var(--muted);padding:1px 4px;border-radius:3px;font-size:10px}
+.iss-num small{font-size:14px;font-weight:600;color:var(--ink3);margin-left:5px}
+.iss-src{font-size:13px;color:var(--ink4);line-height:1.6;margin-top:3px}
+.iss-src code{background:var(--muted);padding:1px 4px;border-radius:3px;font-size:13px}
 .iss-opt{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px}
 .iss-opt:last-child{margin-bottom:0}
-.iss-opt .o-n{background:var(--muted2);color:var(--navy);border-radius:50%;width:17px;height:17px;
-  flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px}
+.iss-opt .o-n{background:var(--muted2);color:var(--navy);border-radius:50%;width:20px;height:20px;
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;margin-top:2px}
 .iss-opt .o-b{flex:1}
-.iss-opt .o-t{font-size:12px;color:var(--navy);font-weight:700}
-.iss-opt .o-d{font-size:11px;color:var(--ink3);line-height:1.65}
-.iss-opt .o-tr{font-size:10px;color:var(--ink4);line-height:1.6;margin-top:2px}
+.iss-opt .o-t{font-size:15px;color:var(--navy);font-weight:700}
+.iss-opt .o-d{font-size:14px;color:var(--ink3);line-height:1.65}
+.iss-opt .o-tr{font-size:13px;color:var(--ink4);line-height:1.6;margin-top:2px}
 .iss-opt .o-tr b{color:var(--yellow)}
-.iss-none{padding:22px 16px;text-align:center;font-size:12px;color:var(--ink3);line-height:1.8;
+/* 대상 건물 목록 — 기본은 접어 두고, 펼치면 운영이 그대로 들고 갈 수 있는 표 */
+.iss-tg{border:1px solid var(--line);border-radius:8px;background:var(--card);overflow:hidden}
+.iss-tg>summary{cursor:pointer;list-style:none;padding:7px 11px;font-size:14px;font-weight:700;
+  color:var(--navy);background:var(--muted);user-select:none;display:flex;align-items:center;gap:6px}
+.iss-tg>summary::-webkit-details-marker{display:none}
+.iss-tg>summary::before{content:'▸';color:var(--sv);font-size:13px}
+.iss-tg[open]>summary::before{content:'▾'}
+.iss-tg>summary:hover{background:var(--muted2)}
+.iss-tg .tg-hint{margin-left:auto;font-weight:600;color:var(--ink4);font-size:13px}
+.iss-tg .tg-body{max-height:320px;overflow:auto}
+table.iss-tbl{width:100%;border-collapse:collapse;font-size:14px}
+table.iss-tbl th{position:sticky;top:0;background:var(--card);color:var(--ink3);font-weight:700;
+  text-align:left;padding:6px 10px;border-bottom:1px solid var(--line2);white-space:nowrap;z-index:1;
+  box-shadow:inset 0 -1px 0 var(--line2)}
+table.iss-tbl td{padding:5px 10px;border-bottom:1px solid var(--line);color:var(--ink2);white-space:nowrap}
+table.iss-tbl tr:last-child td{border-bottom:none}
+table.iss-tbl th.num,table.iss-tbl td.num{text-align:right;font-variant-numeric:tabular-nums}
+table.iss-tbl th+th,table.iss-tbl td+td{border-left:1px solid var(--line)}
+table.iss-tbl td:first-child{font-weight:600;color:var(--navy);white-space:normal}
+/* 숫자 열은 내용폭만 쓰고 남는 폭은 건물명이 가져간다 — 열이 균등 분배되면 숫자가 멀리 흩어진다 */
+table.iss-tbl th:not(:first-child),table.iss-tbl td:not(:first-child){width:1%}
+table.iss-tbl tbody tr:hover td{background:var(--muted)}
+.iss-none{padding:22px 16px;text-align:center;font-size:15px;color:var(--ink3);line-height:1.8;
   border:1px dashed var(--line2);border-radius:10px}
 
 /* ── 서브탭 ──
    한 탭 안에 모집단이 다른 블록이 섞여 있으면 상단 필터가 어디에 먹는지 알 수 없다.
    전체/건물별/화면·서비스별로 화면을 가르고, 필터바는 활성 서브탭에 필요한
    컨트롤만 켠다. 안 먹는 컨트롤은 숨기지 않고 비활성 + 사유를 남긴다. */
+/* 서브탭도 필터바 바로 아래에 고정한다 — 아래로 스크롤하면 지금 어느 축(전체/건물별/
+   화면·서비스별)을 보고 있는지 사라져서 매번 위로 올라가야 했다.
+   top은 헤더+탭+필터바 높이를 런타임에 측정해 --subtab-top으로 주입한다. */
 .subtabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;border-bottom:1px solid var(--line);
-  padding-bottom:0}
+  padding-bottom:0;position:sticky;top:var(--subtab-top,168px);z-index:97;background:var(--canvas);
+  /* margin-bottom 16px 틈으로 아래 카드가 비쳐 보이지 않게 배경을 그만큼 아래로 늘린다 */
+  box-shadow:0 16px 0 var(--canvas)}
 .subtab{background:none;border:1px solid transparent;border-bottom:none;
-  border-radius:9px 9px 0 0;padding:9px 15px;font-family:inherit;font-size:13px;font-weight:700;
+  border-radius:9px 9px 0 0;padding:9px 15px;font-family:inherit;font-size:16px;font-weight:700;
   color:var(--ink3);cursor:pointer;transition:all .15s;position:relative;top:1px}
 .subtab:hover{color:var(--navy);background:var(--muted)}
 .subtab.on{color:var(--sc,var(--navy));background:var(--card);
   border-color:var(--line);border-bottom:1px solid var(--card)}
 .subtab.on::before{content:'';position:absolute;left:0;right:0;top:0;height:3px;
   background:var(--sc,var(--navy));border-radius:9px 9px 0 0}
-.subtab .st-n{font-size:10px;font-weight:800;margin-left:5px;padding:1px 6px;border-radius:100px;
+.subtab .st-n{font-size:13px;font-weight:800;margin-left:5px;padding:1px 6px;border-radius:100px;
   background:var(--muted2);color:var(--ink3)}
 .subtab.on .st-n{background:var(--sc);color:#fff}
 .scope[hidden]{display:none}
 
 /* ── 퍼널·요소 읽는 법 / AARRR ── */
 .fn-guide{background:var(--muted);border-radius:10px;padding:12px 15px;margin:14px 0;
-  font-size:11px;color:var(--ink3);line-height:1.8}
+  font-size:14px;color:var(--ink3);line-height:1.8}
 .fn-guide b{color:var(--navy)}
-.fn-guide .fg-t{font-size:11px;font-weight:800;color:var(--navy);margin-bottom:4px;display:block}
+.fn-guide .fg-t{font-size:14px;font-weight:800;color:var(--navy);margin-bottom:4px;display:block}
 .fn-guide .fg-sec{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line2)}
 .fn-guide .fg-sec:first-child{margin-top:0;padding-top:0;border-top:none}
 .aarrr-chain{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin:6px 0 4px}
-.aarrr-chain .ac{border-radius:100px;padding:2px 9px;font-size:10px;font-weight:700;
+.aarrr-chain .ac{border-radius:100px;padding:2px 9px;font-size:13px;font-weight:700;
   background:var(--muted2);color:var(--ink4);white-space:nowrap}
 .aarrr-chain .ac.on{background:var(--brand);color:#fff}
-.aarrr-chain .ac-ar{color:var(--ink4);font-size:10px}
-.el-ratio{font-size:10px;color:var(--yellow);font-weight:700;margin-left:5px}
-.scope-warn{display:flex;gap:8px;align-items:flex-start;background:var(--yellow-bg);border:1px solid var(--yellow);border-radius:8px;padding:10px 13px;font-size:12px;color:var(--yellow);margin-bottom:16px;line-height:1.6}
+.aarrr-chain .ac-ar{color:var(--ink4);font-size:13px}
+.el-ratio{font-size:13px;color:var(--yellow);font-weight:700;margin-left:5px}
+.scope-warn{display:flex;gap:8px;align-items:flex-start;background:var(--yellow-bg);border:1px solid var(--yellow);border-radius:8px;padding:10px 13px;font-size:15px;color:var(--yellow);margin-bottom:16px;line-height:1.6}
 .scope-warn b{color:var(--yellow)}
 
 /* ── 연계 등급 배지 ── */
-.lvl{display:inline-block;padding:2px 7px;border-radius:100px;font-size:10px;font-weight:700;white-space:nowrap}
+.lvl{display:inline-block;padding:2px 7px;border-radius:100px;font-size:13px;font-weight:700;white-space:nowrap}
 .lvl.direct{background:var(--green-bg);color:var(--green)}
 .lvl.category{background:var(--yellow-bg);color:var(--yellow)}
 .lvl.none{background:var(--muted2);color:var(--ink4)}
 
 /* ── 서비스 매트릭스 테이블 ── */
 .tbl-wrap{overflow-x:auto;max-height:640px;overflow-y:auto;border:1px solid var(--line);border-radius:8px}
-table.mx{width:100%;border-collapse:collapse;font-size:12px;min-width:840px}
+table.mx{width:100%;border-collapse:collapse;font-size:15px;min-width:1010px}
 table.mx th{position:sticky;top:0;background:var(--muted);color:var(--navy);font-weight:700;text-align:left;padding:9px 11px;border-bottom:1px solid var(--line2);white-space:nowrap;z-index:2}
 table.mx th.srt{cursor:pointer;user-select:none}
 table.mx th.srt:hover{background:var(--muted2)}
-table.mx th .ar{color:var(--brand);font-size:10px;margin-left:3px}
+table.mx th .ar{color:var(--brand);font-size:13px;margin-left:3px}
 table.mx td{padding:8px 11px;border-bottom:1px solid var(--line);color:var(--ink2);vertical-align:middle}
 table.mx tbody tr:hover{background:var(--brand-soft)}
 table.mx tbody tr.sel{background:var(--brand-soft)}
 table.mx td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+/* 숫자 열은 머리글도 우측 정렬 — 값(우측)과 머리글(좌측)이 어긋나 어느 열인지 눈으로 잇기 어려웠다 */
+table.mx th.num{text-align:right}
+/* 세로 구분선: 숫자 열이 4개 이상이라 기준선이 없으면 행을 가로로 따라가기 어렵다 */
+table.mx th+th,table.mx td+td{border-left:1px solid var(--line)}
+/* sticky th는 border-collapse에서 아래 테두리가 스크롤과 함께 사라진다 → inset 그림자로 고정 */
+table.mx thead th{box-shadow:inset 0 -1px 0 var(--line2)}
 table.mx .svcname{font-weight:600;color:var(--navy)}
 .minibar{display:inline-block;height:6px;border-radius:3px;background:var(--brand);vertical-align:middle;margin-right:6px;min-width:2px}
 .minibar-bg{display:inline-block;width:56px;height:6px;border-radius:3px;background:var(--muted2);vertical-align:middle;margin-right:7px;position:relative;overflow:hidden}
 .minibar-bg > i{position:absolute;left:0;top:0;height:100%;background:var(--brand);border-radius:3px}
 .filter-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
-.filter-row input[type=text],.filter-row select{font-family:inherit;font-size:12px;padding:6px 10px;border:1px solid var(--line2);border-radius:6px;background:var(--card);color:var(--navy)}
+.filter-row input[type=text],.filter-row select{font-family:inherit;font-size:15px;padding:6px 10px;border:1px solid var(--line2);border-radius:6px;background:var(--card);color:var(--navy)}
 .filter-row input[type=text]{min-width:180px}
-.chip{background:var(--muted);border:1px solid var(--line);border-radius:100px;padding:4px 11px;font-size:11px;color:var(--ink3);cursor:pointer;font-weight:600;transition:all .15s}
+.chip{background:var(--muted);border:1px solid var(--line);border-radius:100px;padding:4px 11px;font-size:14px;color:var(--ink3);cursor:pointer;font-weight:600;transition:all .15s}
 .chip:hover{background:var(--muted2)}
 .chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
 
@@ -392,34 +428,34 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
 .dd-grid{display:grid;grid-template-columns:minmax(240px,1fr) 2fr;gap:20px}
 @media(max-width:900px){.dd-grid{grid-template-columns:1fr}}
 .bld-list{max-height:520px;overflow-y:auto;border:1px solid var(--line);border-radius:8px}
-.bld-item{padding:9px 12px;border-bottom:1px solid var(--line);cursor:pointer;font-size:12px;display:flex;justify-content:space-between;gap:10px;align-items:center;transition:background .12s}
+.bld-item{padding:9px 12px;border-bottom:1px solid var(--line);cursor:pointer;font-size:15px;display:flex;justify-content:space-between;gap:10px;align-items:center;transition:background .12s}
 .bld-item:hover{background:var(--brand-soft)}
 .bld-item.on{background:var(--brand);color:#fff}
 .bld-item.on .bld-cnt{color:#fff}
 .bld-item .bld-nm{font-weight:600;color:inherit;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bld-item .bld-cnt{color:var(--ink4);font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:700}
-.svc-pill{display:inline-flex;align-items:center;gap:5px;background:var(--muted);border:1px solid var(--line);border-radius:100px;padding:4px 10px;font-size:11px;color:var(--ink2);margin:0 5px 6px 0}
+.svc-pill{display:inline-flex;align-items:center;gap:5px;background:var(--muted);border:1px solid var(--line);border-radius:100px;padding:4px 10px;font-size:14px;color:var(--ink2);margin:0 5px 6px 0}
 .svc-pill.has{background:var(--green-bg);border-color:var(--green);color:var(--green);font-weight:600}
 .svc-pill.off{background:var(--muted);border-color:var(--line);color:var(--ink4)}
 .kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:16px}
 .kpi{background:var(--muted);border-radius:8px;padding:12px 14px}
-.kpi .k-l{font-size:11px;color:var(--ink3);margin-bottom:5px;font-weight:600}
-.kpi .k-v{font-size:19px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
-.kpi .k-s{font-size:10px;color:var(--ink4);margin-top:3px}
+.kpi .k-l{font-size:14px;color:var(--ink3);margin-bottom:5px;font-weight:600}
+.kpi .k-v{font-size:22px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
+.kpi .k-s{font-size:13px;color:var(--ink4);margin-top:3px}
 
 /* ── 세그먼트 컨트롤 / 퍼널 ── */
 .seg-ctl{padding:12px 16px}
-.bld-chip{display:inline-flex;align-items:center;gap:5px;background:var(--brand);color:#fff;border:none;border-radius:100px;padding:4px 8px 4px 11px;font-size:11px;font-weight:600;font-family:inherit}
-.bld-chip button{background:rgba(255,255,255,.28);border:none;color:#fff;border-radius:50%;width:15px;height:15px;line-height:1;cursor:pointer;font-size:11px;padding:0;display:flex;align-items:center;justify-content:center}
+.bld-chip{display:inline-flex;align-items:center;gap:5px;background:var(--brand);color:#fff;border:none;border-radius:100px;padding:4px 8px 4px 11px;font-size:14px;font-weight:600;font-family:inherit}
+.bld-chip button{background:rgba(255,255,255,.28);border:none;color:#fff;border-radius:50%;width:15px;height:15px;line-height:1;cursor:pointer;font-size:14px;padding:0;display:flex;align-items:center;justify-content:center}
 .bld-chip button:hover{background:rgba(255,255,255,.5)}
 .fnl-step{display:flex;align-items:center;gap:12px;margin-bottom:9px}
 .fnl-bar-wrap{flex:1;background:var(--muted);border-radius:6px;height:34px;position:relative;overflow:hidden}
-.fnl-bar{height:100%;border-radius:6px;display:flex;align-items:center;padding:0 12px;color:#fff;font-size:12px;font-weight:700;white-space:nowrap;transition:width .5s ease}
-.fnl-lbl{width:150px;font-size:12px;color:var(--navy);font-weight:600;text-align:right;flex-shrink:0}
-.fnl-drop{width:104px;font-size:11px;flex-shrink:0;font-variant-numeric:tabular-nums}
+.fnl-bar{height:100%;border-radius:6px;display:flex;align-items:center;padding:0 12px;color:#fff;font-size:15px;font-weight:700;white-space:nowrap;transition:width .5s ease}
+.fnl-lbl{width:150px;font-size:15px;color:var(--navy);font-weight:600;text-align:right;flex-shrink:0}
+.fnl-drop{width:104px;font-size:14px;flex-shrink:0;font-variant-numeric:tabular-nums}
 .fnl-drop.bad{color:var(--red);font-weight:700}
 .fnl-drop.ok{color:var(--ink4)}
-.el-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;font-size:12px}
+.el-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;font-size:15px}
 .el-row .el-nm{width:190px;color:var(--navy);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0}
 .el-row .el-bar{flex:1;height:16px;background:var(--muted);border-radius:4px;overflow:hidden}
 .el-row .el-bar > i{display:block;height:100%;background:var(--brand);border-radius:4px}
@@ -437,7 +473,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       <div class="dot"></div>
       <span>데이터 로딩 중...</span>
     </div>
-    <button onclick="location.reload()" style="background:var(--muted);border:1px solid var(--line);border-radius:100px;padding:7px 14px;font-size:12px;color:var(--ink3);cursor:pointer;font-family:inherit;font-weight:600;transition:background .2s,border-color .2s" onmouseover="this.style.background='var(--muted2)';this.style.borderColor='var(--line2)'" onmouseout="this.style.background='var(--muted)';this.style.borderColor='var(--line)'">&#8635; 새로고침</button>
+    <button onclick="location.reload()" style="background:var(--muted);border:1px solid var(--line);border-radius:100px;padding:7px 14px;font-size:15px;color:var(--ink3);cursor:pointer;font-family:inherit;font-weight:600;transition:background .2s,border-color .2s" onmouseover="this.style.background='var(--muted2)';this.style.borderColor='var(--line2)'" onmouseout="this.style.background='var(--muted)';this.style.borderColor='var(--line)'">&#8635; 새로고침</button>
   </div>
 </div>
 
@@ -452,7 +488,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
 <div class="main">
   <div id="loadingArea" class="loading">
     <div class="spinner"></div>
-    <p style="color:var(--ink3);font-size:13px">데이터를 불러오는 중입니다...</p>
+    <p style="color:var(--ink3);font-size:16px">데이터를 불러오는 중입니다...</p>
   </div>
 
   <div id="contentArea" style="display:none">
@@ -547,7 +583,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       <div class="ai-box" id="aiGaBox"></div>
 
       <!-- ── 1단 · 조회 컨트롤은 상단 통합 필터바(#periodCtl)로 이동 ── -->
-      <div id="gaSegNote" style="font-size:11px;color:var(--ink4);text-align:right;line-height:1.5;margin-bottom:8px"></div>
+      <div id="gaSegNote" style="font-size:14px;color:var(--ink4);text-align:right;line-height:1.5;margin-bottom:8px"></div>
       <div id="gaAxisWarn"></div>
 
       <!-- 서브탭 — 모집단이 다른 블록을 갈라 상단 필터의 적용 범위를 명확히 한다 -->
@@ -609,7 +645,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         <div class="grid grid-2">
           <div class="card">
             <div class="card-header">
-              <span class="card-title">서비스별 이용량 상위 15 <small style="font-weight:500;color:var(--ink4);font-size:11px">· 월평균 이용자</small></span>
+              <span class="card-title">서비스별 이용량 상위 15 <small style="font-weight:500;color:var(--ink4);font-size:14px">· 월평균 이용자</small></span>
               <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
                 <div class="tooltip-text">앱 내 각 서비스(메뉴)를 방문한 사용자 수 기준 상위 15개입니다. 어떤 기능이 가장 많이 쓰이는지 한눈에 볼 수 있습니다.</div>
               </div>
@@ -644,7 +680,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
             </div>
           </div>
           <div class="chart-wrap tall"><canvas id="chartGaCombo"></canvas></div>
-          <div id="gaComboNote" style="font-size:11px;color:var(--ink4);margin-top:10px;line-height:1.6"></div>
+          <div id="gaComboNote" style="font-size:14px;color:var(--ink4);margin-top:10px;line-height:1.6"></div>
         </div>
       <div class="card" id="gaCompareCard" style="margin-bottom:16px;display:none">
         <div class="card-header">
@@ -655,7 +691,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         </div>
         <div class="quad-how" id="gaCompareHow"></div>
         <div class="chart-wrap tall"><canvas id="chartGaCompare"></canvas></div>
-        <div id="gaCompareNote" style="font-size:11px;color:var(--ink4);margin-top:12px;line-height:1.6"></div>
+        <div id="gaCompareNote" style="font-size:14px;color:var(--ink4);margin-top:12px;line-height:1.6"></div>
       </div>
 
       <!-- ── B · 상대 성과 ──
@@ -690,7 +726,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         </div>
         <div class="chart-wrap tall"><canvas id="chartGaQuad"></canvas></div>
         <div id="gaQuadCards"></div>
-        <div id="gaQuadNote" style="font-size:11px;color:var(--ink4);margin-top:12px;line-height:1.6"></div>
+        <div id="gaQuadNote" style="font-size:14px;color:var(--ink4);margin-top:12px;line-height:1.6"></div>
       </div>
 
         <!-- 순위표 — 어느 건물에 개입할지 결정하기 위한 표 -->
@@ -720,7 +756,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
             </div>
           </div>
           <!-- 화면·서비스 선택기는 상단 통합 필터바로 이동 -->
-          <div id="gaScreenMeta" style="font-size:11px;color:var(--ink4);margin-bottom:12px"></div>
+          <div id="gaScreenMeta" style="font-size:14px;color:var(--ink4);margin-bottom:12px"></div>
           <div id="gaFunnel"></div>
         </div>
       </div>
@@ -847,7 +883,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
           <input type="text" id="svcSearch" placeholder="서비스명 검색...">
           <select id="svcCatFilter"><option value="">전체 카테고리</option></select>
           <span id="svcLvlChips" style="display:flex;gap:6px"></span>
-          <span id="svcCount" style="font-size:11px;color:var(--ink4);margin-left:auto"></span>
+          <span id="svcCount" style="font-size:14px;color:var(--ink4);margin-left:auto"></span>
         </div>
         <div class="tbl-wrap"><table class="mx" id="svcTable"><thead></thead><tbody></tbody></table></div>
       </div>
@@ -890,8 +926,8 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
           <div id="bucketChart" style="padding:20px 0">
             <div class="bucket-row" id="bucketBars"></div>
           </div>
-          <div id="bucketStats" style="font-size:12px;color:var(--ink3);text-align:center;margin-top:8px"></div>
-          <div id="bucketAnalysis" style="margin-top:16px;font-size:12px;color:var(--ink3);line-height:1.7;padding:12px 16px;background:var(--muted);border-radius:8px"></div>
+          <div id="bucketStats" style="font-size:15px;color:var(--ink3);text-align:center;margin-top:8px"></div>
+          <div id="bucketAnalysis" style="margin-top:16px;font-size:15px;color:var(--ink3);line-height:1.7;padding:12px 16px;background:var(--muted);border-radius:8px"></div>
         </div>
       </div>
       <div class="card" style="margin-bottom:24px">
@@ -903,11 +939,11 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         </div>
         <div class="grid grid-2">
           <div>
-            <div style="font-size:12px;color:var(--ink3);margin-bottom:12px;font-weight:600">도입률 높은 서비스 (전체 328건 기준)</div>
+            <div style="font-size:15px;color:var(--ink3);margin-bottom:12px;font-weight:600">도입률 높은 서비스 (전체 328건 기준)</div>
             <div id="svcTop20"></div>
           </div>
           <div>
-            <div style="font-size:12px;color:var(--ink3);margin-bottom:12px;font-weight:600">도입률 낮은 서비스 (확대 기회)</div>
+            <div style="font-size:15px;color:var(--ink3);margin-bottom:12px;font-weight:600">도입률 낮은 서비스 (확대 기회)</div>
             <div id="svcBottom10"></div>
           </div>
         </div>
@@ -942,6 +978,12 @@ const COLORS = ['#132029','#EA27C2','#1971C2','#0CA678','#F59F00','#E8590C','#70
 let _tabRendered = { overview:false, ga:false, zendesk:false, jira:false, buildings:false };
 let _data = null;
 let _pendingTab = null;   // 데이터 도착 전에 사용자가 누른 탭
+let _repaintTried = {};   // 탭별 자동 재렌더 1회 제한 (무한 루프 방지)
+
+function resetRenderState(){
+  _tabRendered = { overview:false, ga:false, zendesk:false, jira:false, buildings:false };
+  _repaintTried = {};
+}
 
 function fmt(n){ return n == null ? '-' : n.toLocaleString('ko-KR'); }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -1042,14 +1084,14 @@ function makeCombo(hostId, cfg){
     host.querySelectorAll('.cbx-sort').forEach(b=>b.classList.toggle('on', b.dataset.s === st.sort));
     if(!nOpt){
       list.innerHTML = '<div class="cbx-empty">일치하는 항목이 없습니다'
-        + (st.q ? '<br><span style="font-size:11px">&ldquo;'+esc(st.q)+'&rdquo;</span>' : '') + '</div>';
+        + (st.q ? '<br><span style="font-size:14px">&ldquo;'+esc(st.q)+'&rdquo;</span>' : '') + '</div>';
       return;
     }
     list.innerHTML = st.view.map((x,i)=>{
       if(x.grp) return '<div class="cbx-grp">'+esc(x.grp)+' '+x.n+'</div>';
       const on = st.sel.includes(x.v);
       return '<div class="cbx-opt'+(on?' sel':'')+(i===st.cur?' cur':'')+'" data-i="'+i+'" title="'+esc(x.n)+'">'
-        + (st.multi ? '<span style="font-size:10px;flex-shrink:0">'+(on?'&#10003;':'&#9744;')+'</span>' : '')
+        + (st.multi ? '<span style="font-size:13px;flex-shrink:0">'+(on?'&#10003;':'&#9744;')+'</span>' : '')
         + '<span class="o-nm">'+hi(x.n)+'</span>'
         + (x.c!=null ? '<span class="o-mt">'+fmt(x.c)+(cfg.unit||'건')+'</span>' : '')
         + '</div>';
@@ -1166,9 +1208,9 @@ const doughnutLabelPlugin = {
       const {x,y} = arc.tooltipPosition();
       ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle';
       ctx.lineWidth=3; ctx.strokeStyle='rgba(19,32,41,.55)'; ctx.lineJoin='round';
-      ctx.font='bold 13px Pretendard Variable, Pretendard, sans-serif';
+      ctx.font='bold 16px Pretendard Variable, Pretendard, sans-serif';
       ctx.strokeText(fmt(val)+'건', x, y-8); ctx.fillStyle='#fff'; ctx.fillText(fmt(val)+'건', x, y-8);
-      ctx.font='11px Pretendard Variable, Pretendard, sans-serif';
+      ctx.font='14px Pretendard Variable, Pretendard, sans-serif';
       ctx.strokeText(pctVal+'%', x, y+9); ctx.fillStyle='rgba(255,255,255,.9)'; ctx.fillText(pctVal+'%', x, y+9);
       ctx.restore();
     });
@@ -1185,7 +1227,7 @@ const dataLabelPlugin = {
         const val = ds.data[i];
         if(val == null) return;
         const label = typeof val === 'number' && val >= 1000 ? (val/1000).toFixed(1)+'K' : fmt(val);
-        ctx.save(); ctx.font='11px Pretendard Variable, Pretendard, sans-serif'; ctx.fillStyle='#6E6E6E';
+        ctx.save(); ctx.font='14px Pretendard Variable, Pretendard, sans-serif'; ctx.fillStyle='#6E6E6E';
         ctx.textAlign='center'; ctx.textBaseline='bottom';
         if(chart.config.options?.indexAxis === 'y'){ ctx.textAlign='left'; ctx.textBaseline='middle'; ctx.fillText(fmt(val), el.x+6, el.y); }
         else { ctx.fillText(label, el.x, el.y-6); }
@@ -1229,7 +1271,7 @@ const comboLabelPlugin = {
         const fade = !!(ds._partial && ds._partial[i]);
         ctx.save();
         ctx.textAlign = 'center';
-        ctx.font = (mode==='bar' ? 'bold ' : '') + '10px Pretendard Variable, Pretendard, sans-serif';
+        ctx.font = (mode==='bar' ? 'bold ' : '') + '13px Pretendard Variable, Pretendard, sans-serif';
         if(mode === 'bar'){
           const txt = v >= 10000 ? (v/1000).toFixed(1)+'K' : fmt(v);
           const h = (chart.scales[ds.yAxisID||'y']?.bottom||0) - el.y;
@@ -1277,7 +1319,7 @@ const selLabelPlugin = {
       if(!el) return;
       const t = p._r?.n || '';
       if(!t) return;
-      ctx.font = (p._sel ? 'bold ' : '') + '10px Pretendard Variable, Pretendard, sans-serif';
+      ctx.font = (p._sel ? 'bold ' : '') + '13px Pretendard Variable, Pretendard, sans-serif';
       const w = ctx.measureText(t).width + 8, h = 14;
       const x = el.x - w/2, y = el.y - (el.options?.radius || 6) - h - 3;
       if(hit(x,y,w,h)) return;
@@ -1302,7 +1344,11 @@ document.querySelectorAll('.tab').forEach(t=>{
     document.querySelector('.tab-content[data-tab="'+t.dataset.tab+'"]').classList.add('active');
     applyFbarScope(t.dataset.tab);
     syncHash();
-    lazyRenderTab(t.dataset.tab);
+    /* display:none → block 직후에 그리면 브라우저가 아직 레이아웃을 확정하지
+       않아 Chart.js가 컨테이너 크기를 0으로 읽고 빈 캔버스를 만드는 경우가 있다
+       (증상: 탭을 바꾸면 차트가 비어 있고 새로고침해야 나옴).
+       다음 프레임으로 미뤄 레이아웃이 끝난 뒤 그린다. */
+    requestAnimationFrame(()=>lazyRenderTab(t.dataset.tab));
   });
 });
 function activeTabId(){
@@ -1313,7 +1359,7 @@ function activeTabId(){
 function lazyRenderTab(tabId){
   // 데이터 도착 전 클릭은 버리지 않고 보류 → render()에서 flush
   if(!_data){ _pendingTab = tabId; return; }
-  if(_tabRendered[tabId]) return;
+  if(_tabRendered[tabId]){ scheduleRepaint(tabId); return; }
   const {ga, gaS, zd, jira, bld, ins} = _data;
   try {
     if(tabId === 'overview'){ renderOverview(ga, gaS, zd, jira, bld, ins); }
@@ -1331,12 +1377,64 @@ function lazyRenderTab(tabId){
     if(pane && !pane.querySelector('.render-err')){
       const w = document.createElement('div');
       w.className = 'render-err';
-      w.style.cssText = 'margin:16px 0;padding:14px 16px;border:1px solid var(--red);background:var(--red-bg);border-radius:8px;font-size:13px;color:var(--red)';
+      w.style.cssText = 'margin:16px 0;padding:14px 16px;border:1px solid var(--red);background:var(--red-bg);border-radius:8px;font-size:16px;color:var(--red)';
       w.textContent = '이 탭을 그리는 중 오류가 발생했습니다: ' + e.message;
       pane.prepend(w);
     }
   }
+  scheduleRepaint(tabId);
 }
+
+/* ── 탭 전환 후 실제로 칠해졌는지 확인하고 스스로 고친다 ──
+   렌더 호출이 성공해도 화면이 비는 경로가 두 가지 있다.
+     1) 캔버스가 0×0으로 잡혀 차트가 그려졌지만 보이지 않음
+        (숨김 상태 레이아웃 · 창 크기 변경 · sticky 필터바 높이 재계산)
+     2) 렌더가 통째로 유실돼 캔버스에 Chart 인스턴스가 하나도 안 붙음
+   1은 resize()로, 2는 1회 재렌더로 복구한다. 새로고침을 시키지 않는 것이 목적. */
+function scheduleRepaint(tabId){
+  requestAnimationFrame(()=>repaintTab(tabId));
+  setTimeout(()=>repaintTab(tabId), 450);   // fadein(.35s) + sticky 재계산 이후 한 번 더
+}
+
+function repaintTab(tabId){
+  if(!CHART_OK) return;
+  const pane = document.querySelector('.tab-content[data-tab="'+tabId+'"]');
+  if(!pane || !pane.classList.contains('active')) return;
+
+  let missing = 0, alive = 0;
+  pane.querySelectorAll('canvas').forEach(c=>{
+    // 숨겨진 서브탭·폴백으로 display:none 처리된 캔버스는 판단 대상이 아니다
+    if(!c.isConnected || c.offsetParent === null) return;
+    const box = c.parentElement;
+    const w = box ? box.clientWidth : 0, h = box ? box.clientHeight : 0;
+    if(!w || !h) return;
+    const ch = Chart.getChart(c);
+    if(!ch){ missing++; return; }
+    alive++;
+    /* 크기를 다시 잡아야 하는 경우만 손댄다.
+       - 캔버스가 0으로 잡힘 = 숨김 상태에서 만들어져 아무것도 안 보이는 상태
+       - 컨테이너와 폭이 어긋남 = 숨은 사이 창 크기가 바뀐 상태
+       비율 유지(maintainAspectRatio) 차트는 컨테이너 높이와 원래 다르므로 건드리지 않는다. */
+    const fixedBox = ch.options && ch.options.maintainAspectRatio === false;
+    const degenerate = !c.width || !c.height || !ch.width || !ch.height;
+    if(degenerate || (fixedBox && Math.abs(ch.width - w) > 1)){
+      try { ch.resize(); } catch(e){ console.error('[repaint]', c.id, e); }
+    }
+  });
+
+  if(missing && !alive && !_repaintTried[tabId]){
+    _repaintTried[tabId] = true;
+    _tabRendered[tabId] = false;
+    console.warn('[repaint] '+tabId+' 탭이 비어 있어 다시 렌더합니다');
+    lazyRenderTab(tabId);
+  }
+}
+
+// 창 크기 변경·백그라운드 복귀·뒤로가기 복원 시에도 활성 탭을 다시 맞춘다
+let _rpT = null;
+window.addEventListener('resize', ()=>{ clearTimeout(_rpT); _rpT = setTimeout(()=>repaintTab(activeTabId()), 180); });
+document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) scheduleRepaint(activeTabId()); });
+window.addEventListener('pageshow', e=>{ if(e.persisted) scheduleRepaint(activeTabId()); });
 
 /* ══════════════════════════════════════════════════════════════
    기간 조회 (Period filtering)
@@ -1642,7 +1740,7 @@ function setPeriod(from, to, presetKey, silent){
 function applyPeriod(){
   if(!_raw) return;
   _data = buildDerived();
-  _tabRendered = {overview:false, ga:false, zendesk:false, jira:false, buildings:false};
+  resetRenderState();
   renderPeriodBadges();
   renderScopeNotes();
   lazyRenderTab(activeTabId());
@@ -1657,16 +1755,37 @@ function applyPeriod(){
    링크 하나로 같은 화면을 재현할 수 있게 한다.
    ══════════════════════════════════════════════════════════════ */
 
-// 헤더+탭 높이를 측정해 sticky top으로 주입 (하드코딩하면 폰트 로딩·줌·반응형에서 어긋난다)
+/* 고정 요소가 헤더 → 탭 → 필터바 → 서브탭 4단으로 쌓인다.
+   각 단의 top을 하드코딩하면 폰트 로딩·줌·반응형·글자 크기 변경에서 어긋나므로
+   실제 높이를 재서 CSS 변수로 주입한다. */
 function syncFbarTop(){
   const h = document.querySelector('.header'), t = document.querySelector('.tabs');
   if(!h || !t) return;
-  const px = h.offsetHeight + t.offsetHeight;
+  const rs = document.documentElement.style;
+  const hh = h.offsetHeight;
+  if(hh > 0) rs.setProperty('--tabs-top', hh + 'px');
+  const px = hh + t.offsetHeight;
   // 레이아웃 전(0)에는 건드리지 않는다 — 0을 넣으면 필터바가 헤더 뒤로 숨는다
-  if(px > 0) document.documentElement.style.setProperty('--fbar-top', px + 'px');
+  if(px > 0) rs.setProperty('--fbar-top', px + 'px');
+
+  // 서브탭은 활성 탭의 필터바 아래에 붙는다. 필터바가 접혀 있으면 그 높이는 0.
+  const fb = document.querySelector('.period-ctl.fbar');
+  const fh = fb && fb.offsetParent !== null ? fb.offsetHeight : 0;
+  if(px > 0) rs.setProperty('--subtab-top', (px + fh) + 'px');
 }
 window.addEventListener('resize', syncFbarTop);
 if(document.fonts?.ready) document.fonts.ready.then(syncFbarTop);
+
+/* 높이가 바뀌는 시점을 일일이 호출해 맞추면 하나만 빠뜨려도 서브탭이 엉뚱한 위치에
+   붙는다(필터바가 한 줄 늘거나 경고 문구가 켜지는 경우). 실제 크기 변화를 관찰해
+   맞춘다 — 호출 지점을 늘리지 않아도 항상 일치한다. */
+if(window.ResizeObserver){
+  const ro = new ResizeObserver(()=>syncFbarTop());
+  ['.header', '.tabs', '.period-ctl.fbar'].forEach(sel=>{
+    const el = document.querySelector(sel);
+    if(el) ro.observe(el);
+  });
+}
 
 /* 탭마다 적용되는 축이 다르다. 안 먹는 컨트롤을 그냥 두면 '왜 안 바뀌나'가 되고,
    숨기면 '왜 없어졌나'가 된다 → 비활성 + 사유 표기. */
@@ -1750,6 +1869,8 @@ function showGaSub(){
     p.hidden = p.dataset.sub !== _gaSub;
   });
   applyFbarScope(activeTabId());
+  // 숨겨진 상태에서 만들어진 차트는 캔버스 폭이 어긋난 채 남는다 → 노출 직후 다시 맞춘다
+  scheduleRepaint('ga');
 }
 
 // ── URL 해시 ──
@@ -2149,7 +2270,7 @@ function renderGaSegment(){
       + (growth===null ? '—' : (growth>=0?'+':'△')+Math.abs(growth).toFixed(1)+'%') + '</div>'
       + '<div class="k-s">'+gBasis+' · 미완결 제외</div></div>'
     + (adopted!==null ? '<div class="kpi"><div class="k-l">도입 서비스</div><div class="k-v">'+adopted
-      + '<small style="font-size:12px;color:var(--ink4)">/88</small></div>'
+      + '<small style="font-size:15px;color:var(--ink4)">/88</small></div>'
       + '<div class="k-s">'+(_gaBld.length>1?'선택 건물 평균':'도입현황 기준')+'</div></div>' : '');
 
   safeBlock('사용자 수 + 사용자당 지표', ()=>drawGaCombo(ser), 'gaComboNote');
@@ -2341,10 +2462,10 @@ function drawGaCompare(){
         }}}},
       scales:{
         y:{ position:'left', beginAtZero:true,
-            title:{display:true, text:'← 선택 건물 활성 사용자 (명)', font:{size:11,weight:'bold'}},
+            title:{display:true, text:'← 선택 건물 활성 사용자 (명)', font:{size:14,weight:'bold'}},
             ticks:{ callback:v=>fmt(v) } },
         yAll:{ position:'right', beginAtZero:true, grid:{drawOnChartArea:false},
-               title:{display:true, text:'앱 전체 활성 사용자 (명) →', font:{size:11,weight:'bold'}},
+               title:{display:true, text:'앱 전체 활성 사용자 (명) →', font:{size:14,weight:'bold'}},
                ticks:{ callback:v=>fmt(v) } },
       }}
   });
@@ -2397,7 +2518,7 @@ function drawGaRelative(){
 
   const rows = buildingStats(_gaBld);
   const sign = v => (v>=0?'+':'△') + Math.abs(v).toFixed(1);
-  let html = '<div style="font-size:12px;color:var(--ink2);margin-bottom:14px;padding:11px 14px;'
+  let html = '<div style="font-size:15px;color:var(--ink2);margin-bottom:14px;padding:11px 14px;'
     + 'background:var(--muted);border-radius:8px;line-height:1.7">'
     + '기준: 최근 완결 <b>' + unitsOf(gAll.n) + '</b> 평균 vs 그 이전 <b>' + unitsOf(gAll.n) + '</b> 평균'
     + ' · 전체 <b style="color:var(--navy)">' + sign(gAll.pct) + '%</b>'
@@ -2427,7 +2548,7 @@ function drawGaRelative(){
       + '<span class="el-v" style="color:'+(good?'var(--green)':'var(--red)')+';font-weight:700">'
       +   sign(gap)+'%p</span></div>';
   });
-  html += '<div style="font-size:11px;color:var(--ink4);margin-top:12px;line-height:1.6">'
+  html += '<div style="font-size:14px;color:var(--ink4);margin-top:12px;line-height:1.6">'
     + '격차 = 건물 증감률 &minus; 전체 증감률. 양수면 전체 흐름보다 잘한 것, '
     + '음수면 전체가 올랐는데도 뒤처진 것입니다.</div>';
   body.innerHTML = html;
@@ -2456,7 +2577,9 @@ function drawGaQuadrant(){
   const rows = buildingStats(pool).filter(r=>r.gAu !== null && r.gSpu !== null);
   if(rows.length < 2){
     card.style.display = 'block';
-    mkChart('chartGaQuad', {type:'scatter', data:{datasets:[]}});
+    // options를 빼면 maintainAspectRatio 기본값(true)이 먹어 캔버스가 폭÷2 높이로 늘어나 카드를 넘친다
+    mkChart('chartGaQuad', {type:'scatter', data:{datasets:[]},
+      options:{responsive:true, maintainAspectRatio:false}});
     note.innerHTML = '&#9888; 완결 구간이 ' + unitsOf(BLOCK+1)
       + ' 미만인 건물이 많아 사분면을 그릴 표본이 부족합니다. 조회 기간을 늘려 주세요.';
     return;
@@ -2503,10 +2626,10 @@ function drawGaQuadrant(){
           const px = ha === 'right' ? zx+zw-10 : zx+10;
           const py = va === 'top' ? zy+9 : zy+zh-9;
           ctx.textAlign = ha; ctx.fillStyle = fg;
-          ctx.font = 'bold 12px Pretendard Variable, Pretendard, sans-serif';
+          ctx.font = 'bold 15px Pretendard Variable, Pretendard, sans-serif';
           ctx.textBaseline = va === 'top' ? 'top' : 'bottom';
           ctx.fillText(nm, px, va === 'top' ? py : py-13);
-          ctx.font = '10px Pretendard Variable, Pretendard, sans-serif';
+          ctx.font = '13px Pretendard Variable, Pretendard, sans-serif';
           ctx.fillText(mn, px, va === 'top' ? py+15 : py);
         });
 
@@ -2515,7 +2638,7 @@ function drawGaQuadrant(){
         ctx.moveTo(x0, a.top); ctx.lineTo(x0, a.bottom); ctx.stroke();
         ctx.setLineDash([]);
         // 0선이 '변화 없음'이라는 걸 밝힌다 — 안 적으면 무슨 기준선인지 모른다
-        ctx.font = '10px Pretendard Variable, Pretendard, sans-serif';
+        ctx.font = '13px Pretendard Variable, Pretendard, sans-serif';
         ctx.fillStyle = '#909AA0'; ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
         ctx.fillText('변화 없음 (0%)', a.left+4, y0-3);
         ctx.restore();
@@ -2547,10 +2670,10 @@ function drawGaQuadrant(){
       scales:{
         // 축 이름에 방향의 의미를 같이 적는다 ('증감률 →'만으로는 어느 쪽이 좋은지 모른다)
         x:{ title:{display:true, text:'← 사용자 줄었다      활성 사용자 증감률      사용자 늘었다 →',
-                   font:{size:11, weight:'bold'}, color:'#6E6E6E'},
+                   font:{size:14, weight:'bold'}, color:'#6E6E6E'},
             grid:{color:'#E9ECEF'}, ticks:{ callback:v=>(v>0?'+':'')+v+'%' } },
         y:{ title:{display:true, text:'← 덜 쓴다      세션/사용자 증감률      더 쓴다 →',
-                   font:{size:11, weight:'bold'}, color:'#6E6E6E'},
+                   font:{size:14, weight:'bold'}, color:'#6E6E6E'},
             grid:{color:'#E9ECEF'}, ticks:{ callback:v=>(v>0?'+':'')+v+'%' } },
       }},
   });
@@ -2581,7 +2704,7 @@ function drawGaQuadrant(){
         const list = byQ[q.k].slice().sort((a,b)=>b.avgAu-a.avgAu);
         return '<div class="quad-card" style="--qc:'+q.c+'">'
           + '<div class="q-top"><span class="q-nm">'+q.nm+'</span>'
-          +   '<span class="q-n">'+list.length+'<small style="font-size:11px;color:var(--ink4)">개</small></span></div>'
+          +   '<span class="q-n">'+list.length+'<small style="font-size:14px;color:var(--ink4)">개</small></span></div>'
           + '<div class="q-mean">'+q.mean+'</div>'
           + '<div class="q-act">'+q.act+'</div>'
           + (list.length
@@ -2650,12 +2773,12 @@ function drawGaRank(){
           + '<td class="num">'+fmt(r.avgAu)+'</td>'
           + '<td class="num">'+r.spu.toFixed(2)+'</td>'
           + '<td class="num">'+sign(r.gAu)+(r.gAu===null?'':'%')
-          +   (r.gAu===null?'<br><span style="font-size:10px;color:var(--ink4)">완결 '+unitsOf(r.nBucket)+'</span>':'')+'</td>'
+          +   (r.gAu===null?'<br><span style="font-size:13px;color:var(--ink4)">완결 '+unitsOf(r.nBucket)+'</span>':'')+'</td>'
           + '<td class="num" style="font-weight:700;color:'+(r.gap===null?'var(--ink4)':bad?'var(--red)':'var(--green)')+'">'
           +   sign(r.gap)+(r.gap===null?'':'%p')+'</td></tr>';
       }).join('')
     + '</tbody></table></div>'
-    + '<div style="font-size:11px;color:var(--ink4);margin-top:10px;line-height:1.6">'
+    + '<div style="font-size:14px;color:var(--ink4);margin-top:10px;line-height:1.6">'
     + '이용량 상위 30개 건물 · 행을 클릭하면 위 차트에 추가/제거됩니다 (최대 '+GA_BLD_MAX+'개)'
     + (gAll ? ' · 전체 기준 증감 <b>'+sign(gAll.pct)+'%</b>' : ' · 전체 증감은 표본 부족으로 계산 불가')
     + '</div>';
@@ -2693,6 +2816,30 @@ const SEV = {
   mid: {nm:'주의', c:'#E8590C', bg:'rgba(232,89,12,.07)'},
   low: {nm:'참고', c:'#1971C2', bg:'rgba(25,113,194,.06)'},
 };
+
+/* 대상 목록 표 (targets)
+   근거 줄에 '외 70개'로 줄여 적으면 운영에서 "그래서 어느 건물이냐"를 알 수 없어
+   결국 다른 표를 다시 뒤져야 했다. 대상 전체를 카드 안에 넣되 기본은 접어 둔다.
+
+   cols: [{t:머리글, num:숫자열여부, v:(row)=>셀HTML, c:(row)=>글자색}]  */
+function issTargets(label, cols, rows){
+  if(!rows || !rows.length) return null;
+  return {
+    n: rows.length,
+    label: label,
+    html: '<table class="iss-tbl"><thead><tr>'
+      + cols.map(c=>'<th'+(c.num?' class="num"':'')+'>'+esc(c.t)+'</th>').join('')
+      + '</tr></thead><tbody>'
+      + rows.map(r=>'<tr>' + cols.map(c=>
+          '<td'+(c.num?' class="num"':'')+(c.c?' style="color:'+c.c(r)+';font-weight:700"':'')+'>'
+          + c.v(r) + '</td>').join('') + '</tr>').join('')
+      + '</tbody></table>',
+  };
+}
+
+// 증감 표기 — 한국식 회계 표기(△ = 음수)를 대상 표에서도 그대로 쓴다
+function issPct(v){ return v === null || v === undefined ? '—' : (v>=0?'+':'△')+Math.abs(v).toFixed(1)+'%'; }
+function issPctColor(v){ return v === null || v === undefined ? 'var(--ink4)' : (v>=0?'var(--green)':'var(--red)'); }
 
 const ISSUE_RULES = [
   {
@@ -2772,6 +2919,13 @@ const ISSUE_RULES = [
           '대상: ' + top.map(r=>esc(r.n)+' (사용자 +'+r.gAu.toFixed(1)+'%, 참여 △'+Math.abs(r.gSpu).toFixed(1)+'%)').join(' · ')
             + (rows.length>4 ? ' 외 '+(rows.length-4)+'개' : ''),
         ],
+        targets: issTargets('대상 건물 ' + rows.length + '개 · 영향 큰 순', [
+          {t:'건물', v:r=>esc(r.n)},
+          {t:unitOf()+'평균 활성 사용자', num:1, v:r=>fmt(r.avgAu)},
+          {t:'세션/사용자', num:1, v:r=>r.spu.toFixed(2)},
+          {t:'사용자 증감', num:1, v:r=>issPct(r.gAu),  c:r=>issPctColor(r.gAu)},
+          {t:'참여 증감',   num:1, v:r=>issPct(r.gSpu), c:r=>issPctColor(r.gSpu)},
+        ], rows),
         analysis: '사람이 늘면서 1인당 사용이 줄었다는 건, 새로 들어온 사용자가 <b>기존 사용자만큼 쓰지 않는다</b>는 뜻입니다. '
           + '앱 전체 병목인 <b>Activation → Retention 전환율 30.96%</b>가 어느 건물에서 발생하는지를 이 목록이 가리킵니다. '
           + '유입은 늘고 있으므로 마케팅이 아니라 <b>첫 사용 경험</b>이 문제일 가능성이 큽니다.',
@@ -2812,6 +2966,18 @@ const ISSUE_RULES = [
           'GA 건물 축 유효 구간: <b>' + (_detail?.availability?.building?.from||'-') + ' ~ ' + (_detail?.availability?.building?.to||'-') + '</b>',
           '예: ' + nt.slice(0,5).map(c=>esc(nameOf(c))).join(', ') + (nt.length>5 ? ' 외 '+(nt.length-5)+'개' : ''),
         ],
+        /* 도입 서비스 수를 함께 보여 준다 — 실사 순서를 정하려면 '무엇이 깔려 있는데
+           안 쓰는지'가 필요하다. 도입이 많은데 트래픽 0인 건물이 가장 이상하다. */
+        targets: issTargets('대상 건물 ' + nt.length + '개 · 도입 서비스 많은 순',
+          [
+            {t:'건물', v:r=>esc(r.n)},
+            {t:'도입 서비스', num:1, v:r=>r.svc + '개'},
+            {t:'건물 코드', num:1, v:r=>'<code>'+esc(r.c)+'</code>'},
+          ],
+          nt.map(c=>{
+            const m = mx.find(x=>x.c===c) || {};
+            return {c:c, n:nameOf(c), svc:(m.v||'').split('').filter(x=>x==='1').length};
+          }).sort((a,b)=>b.svc-a.svc || a.n.localeCompare(b.n,'ko'))),
         analysis: '도입 수(계약)와 사용량(실제)이 벌어져 있습니다. 도입 건수를 성과 지표로 보고하면 <b>실제보다 좋게 보입니다.</b> '
           + '다만 이 목록은 "안 쓴다"와 "계측이 안 된다"를 구분하지 못합니다 — 최근 귀속률이 100%가 아니므로 일부는 계측 누락일 수 있습니다.',
         options: [
@@ -2855,6 +3021,12 @@ const ISSUE_RULES = [
           '이용량 상위 30개 건물 중 <b>하위 25%(' + q1.toFixed(2) + ' 이하)</b>를 대상으로 선정',
           '대상: ' + hit.map(r=>esc(r.n)+' ('+r.spu.toFixed(2)+', '+fmt(r.avgAu)+'명)').join(' · '),
         ],
+        targets: issTargets('대상 건물 ' + hit.length + '개 · 규모 큰 순', [
+          {t:'건물', v:r=>esc(r.n)},
+          {t:unitOf()+'평균 활성 사용자', num:1, v:r=>fmt(r.avgAu)},
+          {t:'세션/사용자', num:1, v:r=>r.spu.toFixed(2)},
+          {t:'중앙값 대비', num:1, v:r=>issPct((r.spu/med-1)*100), c:r=>issPctColor(r.spu-med)},
+        ], hit),
         analysis: '사용자 수는 확보했는데 <b>다시 들어오지 않습니다.</b> 중앙값 대비 방문 빈도가 낮다는 건 '
           + '이 건물에서는 앱이 "필요할 때 한 번" 쓰는 도구에 머물고 있다는 뜻입니다. '
           + '규모가 크므로 빈도를 중앙값까지만 올려도 절대 세션 증가폭이 가장 큰 집단입니다.',
@@ -2966,7 +3138,7 @@ function runIssueDetection(){
 
   if(!found.length){
     list.innerHTML = '<div class="iss-none">&#9989; 현재 조건에서 규칙에 걸린 문제가 없습니다.'
-      + '<br><span style="font-size:11px;color:var(--ink4)">규칙이 못 잡는 문제는 여전히 있을 수 있습니다 — '
+      + '<br><span style="font-size:14px;color:var(--ink4)">규칙이 못 잡는 문제는 여전히 있을 수 있습니다 — '
       + '위 칩에 마우스를 올리면 각 규칙이 무엇을 보는지 확인할 수 있습니다.</span></div>';
     return;
   }
@@ -2986,6 +3158,10 @@ function runIssueDetection(){
       +     '<div style="margin-top:2px">'+f.numSub+'</div></span></div>'
       +   '<div class="iss-row"><span class="iss-k">근거</span><span class="iss-v"><div class="iss-src">'
       +     f.source.map(s=>'· '+s).join('<br>') + '</div></span></div>'
+      +   (f.targets ? '<div class="iss-row"><span class="iss-k">대상</span><span class="iss-v">'
+      +     '<details class="iss-tg"><summary>' + esc(f.targets.label)
+      +       '<span class="tg-hint">클릭하면 전체 목록</span></summary>'
+      +     '<div class="tg-body">' + f.targets.html + '</div></details></span></div>' : '')
       +   '<div class="iss-row"><span class="iss-k">분석</span><span class="iss-v">'+f.analysis+'</span></div>'
       +   '<div class="iss-row"><span class="iss-k">대안</span><span class="iss-v">'
       +     f.options.map((o,i)=>'<div class="iss-opt"><span class="o-n">'+(i+1)+'</span><span class="o-b">'
@@ -3061,11 +3237,11 @@ function renderGaFunnel(){
     const steps = fdef.steps.map(s=>({name:s, u:(el.get(s)||{}).u||0, c:(el.get(s)||{}).c||0}));
     const top = Math.max(1, ...steps.map(s=>s.u));
     const mono = steps.every((s,i)=>i===0 || s.u <= steps[i-1].u);
-    html += '<div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px">'
+    html += '<div style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px">'
       + fdef.title + ' 퍼널</div>';
     /* funnels.json의 note는 전체 기준 실측값이다. 건물을 선택한 상태에서 그대로 띄우면
        화면에 보이는 수치(건물 기준)와 어긋나 오해를 만든다 → 전체 기준임을 명시한다. */
-    if(fdef.note) html += '<div style="font-size:11px;color:var(--ink4);margin-bottom:14px">'
+    if(fdef.note) html += '<div style="font-size:14px;color:var(--ink4);margin-bottom:14px">'
       + (useBld ? '<b>전체 기준 참고값</b> — ' : '') + fdef.note + '</div>';
     /* 건물별로 쪼개면 표본이 급격히 작아진다 (화면 축이 2개월뿐).
        1단계 사용자가 기준 미달이면 이탈률은 노이즈이므로 수치를 보여주기 전에 못 믿는다고 밝힌다. */
@@ -3094,7 +3270,7 @@ function renderGaFunnel(){
         + '</span></div>';
     });
     const first = steps[0].u, last = steps[steps.length-1].u;
-    html += '<div style="margin-top:12px;padding:11px 14px;background:var(--muted);border-radius:8px;font-size:12px;color:var(--ink2)">'
+    html += '<div style="margin-top:12px;padding:11px 14px;background:var(--muted);border-radius:8px;font-size:15px;color:var(--ink2)">'
       + '완주율 <b style="color:var(--navy)">'+(first?(last/first*100).toFixed(1):0)+'%</b> '
       + '('+fmt(first)+'명 → '+fmt(last)+'명)'
       + (worst.i>0 ? ' · 최대 이탈 구간: <b style="color:var(--red)">'+steps[worst.i-1].name
@@ -3107,7 +3283,7 @@ function renderGaFunnel(){
     const brRows = br.map(b=>el.get(b)).filter(Boolean).sort((a,b)=>b.u-a.u);
     if(brRows.length){
       const bt = Math.max(1, ...brRows.map(r=>r.u));
-      html += '<div style="font-size:12px;font-weight:700;color:var(--navy);margin:18px 0 8px">분기 · 보조 동작</div>';
+      html += '<div style="font-size:15px;font-weight:700;color:var(--navy);margin:18px 0 8px">분기 · 보조 동작</div>';
       brRows.forEach(r=>{
         // 1인당 반복 횟수 — 사용자는 적은데 건수가 많으면 반복 조작 = 마찰 신호
         const rep = r.u ? r.c / r.u : 0;
@@ -3123,7 +3299,7 @@ function renderGaFunnel(){
     // 순서를 모르는 화면에 억지 퍼널을 씌우지 않는다
     const list = [...el.values()].sort((a,b)=>b.u-a.u);
     const top = Math.max(1, ...list.map(r=>r.u));
-    html += '<div style="font-size:12px;color:var(--ink4);margin-bottom:12px">'
+    html += '<div style="font-size:15px;color:var(--ink4);margin-bottom:12px">'
       + '이 화면은 단계 순서가 정의되지 않아 퍼널로 그리지 않습니다 (요소별 클릭 내림차순). '
       + '순서를 알면 <code>funnels.json</code>에 추가하세요.</div>';
     list.forEach(r=>{
@@ -3159,11 +3335,11 @@ function funnelGuide(steps, first, last, worst, useBld){
     + '</div>'
     + '<div class="fg-sec"><span class="fg-t">&#127919; AARRR 관점 해석</span>'
     +   '<div class="aarrr-chain">'
-    +     '<span class="ac">유입<br><span style="font-size:9px">Acquisition</span></span><span class="ac-ar">→</span>'
-    +     '<span class="ac on">활성화<br><span style="font-size:9px">Activation</span></span><span class="ac-ar">→</span>'
-    +     '<span class="ac">재방문<br><span style="font-size:9px">Retention</span></span><span class="ac-ar">→</span>'
-    +     '<span class="ac">추천<br><span style="font-size:9px">Referral</span></span><span class="ac-ar">→</span>'
-    +     '<span class="ac">수익<br><span style="font-size:9px">Revenue</span></span>'
+    +     '<span class="ac">유입<br><span style="font-size:11px">Acquisition</span></span><span class="ac-ar">→</span>'
+    +     '<span class="ac on">활성화<br><span style="font-size:11px">Activation</span></span><span class="ac-ar">→</span>'
+    +     '<span class="ac">재방문<br><span style="font-size:11px">Retention</span></span><span class="ac-ar">→</span>'
+    +     '<span class="ac">추천<br><span style="font-size:11px">Referral</span></span><span class="ac-ar">→</span>'
+    +     '<span class="ac">수익<br><span style="font-size:11px">Revenue</span></span>'
     +   '</div>'
     +   '이 퍼널은 <b>활성화(Activation)</b> 구간입니다. 1단계에 들어온 사람은 이미 '
     +   '<b>쓰겠다는 의도가 확인된</b> 사용자라, 여기서의 이탈은 유입 단계의 이탈보다 훨씬 비쌉니다 — '
@@ -3238,9 +3414,9 @@ function renderScreenByBuilding(screen, sb, box, meta){
   const mlist = [...new Set(sb.map(r=>r.m))].sort();
   meta.innerHTML = mlist.join(', ') + ' · 건물 ' + list.length + '개 · 화면 단위 비교';
 
-  let html = '<div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px">'
+  let html = '<div style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px">'
     + esc(screen) + ' · 건물별 이용량</div>'
-    + '<div style="font-size:11px;color:var(--ink4);margin-bottom:14px">'
+    + '<div style="font-size:14px;color:var(--ink4);margin-bottom:14px">'
     + '이 화면은 <b>요소 단위</b> 건물별 데이터가 없습니다 — 요소×건물은 퍼널이 정의된 화면에만 '
     + '수집됩니다(카디널리티 제약). 요소별 이탈을 보려면 건물 선택을 해제하세요. '
     + '순서를 알면 <code>funnels.json</code>에 추가하면 이 화면도 건물별 퍼널이 열립니다.</div>';
@@ -3287,9 +3463,9 @@ function renderGaService(svc, box, meta){
     + ' · 사용자 수는 월별 최대값(중복 집계 방지)';
 
   const top = Math.max(...rows.map(r=>r.c));
-  let html = '<div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px">'
+  let html = '<div style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px">'
     + esc(svc) + ' · 홈 진입 클릭 추이</div>'
-    + '<div style="font-size:11px;color:var(--ink4);margin-bottom:14px">'
+    + '<div style="font-size:14px;color:var(--ink4);margin-bottom:14px">'
     + '서비스 축은 단계가 없어 퍼널로 그리지 않습니다. 서비스 <b>안쪽</b> 플로우를 보려면 '
     + '해당 화면(예: <code>공간예약v1</code>)을 선택하세요.'
     + (nBld!==null ? ' · 도입현황: <b>'+nBld+'개 건물</b> 도입'
@@ -3301,7 +3477,7 @@ function renderGaService(svc, box, meta){
       + '<span class="el-bar"><i style="width:'+(r.c/top*100)+'%"></i></span>'
       + '<span class="el-v">'+fmt(r.u)+'명 · '+fmt(r.c)+'건</span></div>';
   });
-  html += '<div style="margin-top:12px;padding:11px 14px;background:var(--muted);border-radius:8px;font-size:12px;color:var(--ink2)">'
+  html += '<div style="margin-top:12px;padding:11px 14px;background:var(--muted);border-radius:8px;font-size:15px;color:var(--ink2)">'
     + '합계 <b style="color:var(--navy)">'+fmt(tot)+'건</b> · 월 최대 이용자 <b style="color:var(--navy)">'
     + fmt(uMax)+'명</b> · 이용자당 '+(uMax?(tot/uMax).toFixed(1):'-')+'회</div>';
   box.innerHTML = html;
@@ -3330,7 +3506,7 @@ if(CHART_OK){
   Chart.defaults.color = '#6E6E6E';
   Chart.defaults.borderColor = '#E9ECEF';
   Chart.defaults.font.family = "'Pretendard Variable','Pretendard',sans-serif";
-  Chart.defaults.font.size = 11;
+  Chart.defaults.font.size = 13;
   Chart.defaults.plugins.legend.display = false;
   Chart.defaults.animation = { duration: 1100, easing: 'easeOutQuart' };
 }
@@ -3348,7 +3524,7 @@ function chartFallback(canvasId, msg){
     ph = document.createElement('div');
     ph.className = 'chart-fallback';
     ph.style.cssText = 'display:flex;align-items:center;justify-content:center;height:100%;'
-      + 'padding:20px;text-align:center;font-size:12px;color:var(--ink4);line-height:1.7';
+      + 'padding:20px;text-align:center;font-size:15px;color:var(--ink4);line-height:1.7';
     wrap.appendChild(ph);
   }
   if(el) el.style.display = 'none';
@@ -3398,15 +3574,15 @@ function showFatal(msg, detail){
   la.style.display = 'flex';
   document.getElementById('contentArea').style.display = 'none';
   la.innerHTML =
-    '<div class="error-msg"><p style="font-size:18px;margin-bottom:8px;color:var(--navy)">'+msg+'</p>'+
-    '<p style="color:var(--ink3);font-size:13px">'+(detail||'')+'</p>'+
-    '<p style="color:var(--ink4);font-size:12px;margin-top:16px">collect_all.py를 실행하여 data.json을 생성해주세요.</p></div>';
+    '<div class="error-msg"><p style="font-size:21px;margin-bottom:8px;color:var(--navy)">'+msg+'</p>'+
+    '<p style="color:var(--ink3);font-size:16px">'+(detail||'')+'</p>'+
+    '<p style="color:var(--ink4);font-size:15px;margin-top:16px">collect_all.py를 실행하여 data.json을 생성해주세요.</p></div>';
 }
 
 function loadData(){
   document.getElementById('loadingArea').style.display = 'flex';
   document.getElementById('contentArea').style.display = 'none';
-  _tabRendered = {overview:false, ga:false, zendesk:false, jira:false, buildings:false};
+  resetRenderState();
   _data = null;
   fetch('data.json', {cache:'no-store'})
     .then(r=>{ if(!r.ok) throw new Error('data.json not found ('+r.status+')'); return r.json(); })
@@ -3548,7 +3724,7 @@ function renderOverview(ga, gaS, zd, jira, bld, ins){
   const mauGrowth = gaS.mau_mom_growth||0, retRate = gaS.aarrr_retention_rate||0, actRate = gaS.aarrr_activation_rate||0;
   const totalBld = bld.meta?.n_general_active||0;
 
-  const mauMonth = gaS.current_month||''; const partialNote = gaS.partial_month ? ' <span style="font-size:11px;color:var(--ink3)">('+gaS.partial_month+' '+gaS.partial_date+'까지 진행중)</span>' : '';
+  const mauMonth = gaS.current_month||''; const partialNote = gaS.partial_month ? ' <span style="font-size:14px;color:var(--ink3)">('+gaS.partial_month+' '+gaS.partial_date+'까지 진행중)</span>' : '';
   document.getElementById('heroMetrics').innerHTML =
     '<div class="metric-card"><div class="metric-label">월간 이용자 수 (MAU) <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">완전한 최근 달('+(mauMonth||'직전 월')+') 기준 MAU입니다. 진행 중인 달은 불완전하므로 MoM 비교에서 제외됩니다.</div></div></div><div class="metric-value" id="metricMau">-</div><div class="metric-sub">'+(mauMonth?mauMonth+' 기준 · ':'')+'전월 대비 <span class="metric-change '+(mauGrowth>=0?'up':'down')+'">'+(mauGrowth>=0?'+':'')+mauGrowth+'%</span>'+partialNote+'</div><div class="metric-explain">'+(mauGrowth>0?'사용자가 늘고 있어 긍정적입니다.':mauGrowth<-5?'사용자가 줄고 있습니다. 이탈 원인 파악이 필요합니다.':'전월과 비슷한 수준입니다.')+'</div></div>'+
     '<div class="metric-card"><div class="metric-label">서비스 활성화율 <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">앱에 접속한 사용자 중 실제로 서비스(불편신고, 대여 등)를 이용한 비율입니다. 높을수록 앱이 유용하게 사용되고 있다는 뜻입니다.</div></div></div><div class="metric-value" style="color:'+(actRate>40?'var(--green)':actRate>25?'var(--yellow)':'var(--red)')+'">'+actRate+'%</div><div class="metric-sub">접속자 대비 실제 이용 비율</div><div class="metric-explain">'+(actRate>40?'절반 가까이 서비스를 사용하고 있어 양호합니다.':actRate>25?'사용률을 높이기 위한 UX 개선이 필요합니다.':'대부분의 사용자가 서비스를 이용하지 않고 떠납니다.')+'</div></div>'+
@@ -3612,18 +3788,18 @@ function renderOverview(ga, gaS, zd, jira, bld, ins){
   (ins.cross_insights||[]).forEach(ci=>{
     crossHtml += '<div class="insight-item '+ci.severity+'"><span class="tag '+(ci.severity==='high'?'P1':ci.severity==='medium'?'P2':'P3')+'">'+(ci.sources?.join(' + ')||'')+'</span><div class="msg"><b>'+ci.title+'</b><br>'+ci.detail+'</div></div>';
   });
-  document.getElementById('crossInsights').innerHTML = crossHtml || '<p style="color:var(--ink4);font-size:13px">교차 분석 인사이트가 없습니다.</p>';
+  document.getElementById('crossInsights').innerHTML = crossHtml || '<p style="color:var(--ink4);font-size:16px">교차 분석 인사이트가 없습니다.</p>';
 
   let riskHtml = '';
   (ins.risks||[]).forEach(r=>{ riskHtml += '<div class="insight-item '+r.level+'"><span class="tag '+(r.level==='high'?'P1':'P2')+'">'+(r.level==='high'?'위험':'주의')+'</span><div class="msg">'+r.msg+'</div></div>'; });
-  document.getElementById('risksList').innerHTML = riskHtml || '<p style="color:var(--ink4);font-size:13px">현재 감지된 위험 신호가 없습니다.</p>';
+  document.getElementById('risksList').innerHTML = riskHtml || '<p style="color:var(--ink4);font-size:16px">현재 감지된 위험 신호가 없습니다.</p>';
 
   let recHtml = '';
   (ins.recommendations||[]).forEach(r=>{ recHtml += '<div class="insight-item info"><span class="tag '+r.priority+'">'+r.priority+'</span><div class="msg">'+r.action+'</div></div>'; });
   document.getElementById('recsList').innerHTML = recHtml;
 
   let cavHtml = '';
-  (ins.data_caveats||[]).forEach(c=>{ cavHtml += '<p style="font-size:12px;color:var(--navy700);padding:4px 0;line-height:1.7">&#8226; '+c+'</p>'; });
+  (ins.data_caveats||[]).forEach(c=>{ cavHtml += '<p style="font-size:15px;color:var(--navy700);padding:4px 0;line-height:1.7">&#8226; '+c+'</p>'; });
   document.getElementById('caveatsList').innerHTML = cavHtml;
 }
 
@@ -3694,7 +3870,7 @@ function renderGA(ga, gaS){
       data:{ datasets:[{
         tree:pages.map(p=>({label:friendlyName(p.path),value:p.pageViews,users:p.users})),
         key:'value',
-        labels:{ display:true, formatter:ctx=>{ const d=ctx.raw?._data; return d?d.label+'\n'+fmt(d.value):''; }, color:'#FFFFFF', font:{size:11,weight:'600'} },
+        labels:{ display:true, formatter:ctx=>{ const d=ctx.raw?._data; return d?d.label+'\n'+fmt(d.value):''; }, color:'#FFFFFF', font:{size:14,weight:'600'} },
         backgroundColor:ctx=>{ const v=ctx.raw?._data?.value||0; const max=Math.max(...pages.map(p=>p.pageViews)); const ratio=v/max; return 'rgba(234,39,194,'+(0.25+ratio*0.7)+')'; },
         borderColor:'#FFFFFF', borderWidth:2, spacing:2
       }] },
@@ -3731,7 +3907,7 @@ function renderZendesk(zd){
   const topics = zd.topic_stats||[];
   const loginTopics = topics.filter(t=>t.topic?.includes('로그인'));
   if(loginTopics.length){ const loginCount = loginTopics.reduce((s,t)=>s+t.count,0); aiHtml += '<p>로그인/인증 관련 문의가 <span class="highlight">'+loginCount+'건</span>으로, 앱 분석(GA)에서도 로그인 페이지가 상위에 위치하고 있어 <b>로그인 UX 개선</b>이 CS 부담 감소와 사용자 경험 향상 모두에 효과적입니다.</p>'; }
-  aiHtml += '<p style="color:var(--ink4);font-size:11px;margin-top:8px">* 이 데이터는 문의를 남긴 고객만 반영하며, 전체 사용자 의견을 대표하지 않습니다.</p>';
+  aiHtml += '<p style="color:var(--ink4);font-size:14px;margin-top:8px">* 이 데이터는 문의를 남긴 고객만 반영하며, 전체 사용자 의견을 대표하지 않습니다.</p>';
   document.getElementById('aiZdBox').innerHTML = aiHtml;
 
   document.getElementById('zdMetrics').innerHTML =
@@ -3935,7 +4111,7 @@ function renderLinkage(){
 
   document.getElementById('linkCoverage').innerHTML =
     '<div class="kpi-row">'+
-    '<div class="kpi"><div class="k-l">GA 직접 연계</div><div class="k-v">'+cov.ga_direct+'<small style="font-size:12px;color:var(--ink4)">/'+cov.total_services+'</small></div><div class="k-s">서비스 전용 경로 보유</div></div>'+
+    '<div class="kpi"><div class="k-l">GA 직접 연계</div><div class="k-v">'+cov.ga_direct+'<small style="font-size:15px;color:var(--ink4)">/'+cov.total_services+'</small></div><div class="k-s">서비스 전용 경로 보유</div></div>'+
     '<div class="kpi"><div class="k-l">카테고리 롤업만</div><div class="k-v">'+cov.ga_category+'</div><div class="k-s">불편신고 항목 — 서비스 단위 분해 불가</div></div>'+
     '<div class="kpi"><div class="k-l">Jira 매칭</div><div class="k-v">'+(cov.jira_direct||0)+'</div><div class="k-s">summary 키워드 직접 매칭</div></div>'+
     '<div class="kpi"><div class="k-l">CS 연계</div><div class="k-v" style="color:var(--ink4)">불가</div><div class="k-s">티켓에 건물·서비스 필드 없음</div></div>'+
@@ -4012,7 +4188,7 @@ function drawSvcTable(){
       '<td class="num">'+r.buildings+'</td>'+
       '<td class="num"'+lvlNote+'>'+pvCell+'</td>'+
       '<td class="num">'+(r.ga_level==='none'?'<span style="color:var(--ink4)">—</span>':fmt(r.users))+'</td>'+
-      '<td class="num">'+(r.jira ? r.jira+(r.jira_done?' <span style="color:var(--green);font-size:10px">완료'+r.jira_done+'</span>':'') : '<span style="color:var(--ink4)">—</span>')+'</td>'+
+      '<td class="num">'+(r.jira ? r.jira+(r.jira_done?' <span style="color:var(--green);font-size:13px">완료'+r.jira_done+'</span>':'') : '<span style="color:var(--ink4)">—</span>')+'</td>'+
       '<td><span class="lvl '+r.ga_level+'">'+LVL_LABEL[r.ga_level]+'</span></td>'+
     '</tr>';
   }).join('') || '<tr><td colspan="8" style="text-align:center;padding:28px;color:var(--ink4)">조건에 맞는 서비스가 없습니다.</td></tr>';
@@ -4026,7 +4202,7 @@ function renderDrilldown(){
   const mx = bld.matrix||[];
   if(!mx.length){
     document.getElementById('bldList').innerHTML =
-      '<div style="padding:20px;color:var(--ink4);font-size:12px">건물×서비스 매트릭스가 없습니다. collect_all.py를 다시 실행해 주세요.</div>';
+      '<div style="padding:20px;color:var(--ink4);font-size:15px">건물×서비스 매트릭스가 없습니다. collect_all.py를 다시 실행해 주세요.</div>';
     return;
   }
   const inp = document.getElementById('bldSearch');
@@ -4046,7 +4222,7 @@ function drawBldList(){
     return '<div class="bld-item'+(b.c===_bldSel?' on':'')+'" data-code="'+b.c+'">'+
       '<span class="bld-nm" title="'+b.n+' ('+b.c+')">'+b.n+'</span>'+
       '<span class="bld-cnt">'+n+'개</span></div>';
-  }).join('') || '<div style="padding:20px;color:var(--ink4);font-size:12px">검색 결과가 없습니다.</div>';
+  }).join('') || '<div style="padding:20px;color:var(--ink4);font-size:15px">검색 결과가 없습니다.</div>';
 
   document.querySelectorAll('#bldList .bld-item').forEach(el=>{
     el.addEventListener('click', ()=>{ _bldSel = el.dataset.code; drawBldList(); });
@@ -4058,7 +4234,7 @@ function drawBldDetail(){
   const bld = _data.bld||{}, mx = bld.matrix||[], gsvc = bld.gsvc||[];
   const row = mx.find(b=>b.c===_bldSel);
   const box = document.getElementById('bldDetail');
-  if(!row){ box.innerHTML = '<p style="color:var(--ink4);font-size:12px">건물을 선택하세요.</p>'; return; }
+  if(!row){ box.innerHTML = '<p style="color:var(--ink4);font-size:15px">건물을 선택하세요.</p>'; return; }
 
   const byName = {};
   svcRows().forEach(r=>byName[r.svc]=r);
@@ -4096,16 +4272,16 @@ function drawBldDetail(){
     } else {
       const inGa = (_detail.building_index?.no_traffic||[]).includes(row.c);
       realKpi = '<div class="kpi"><div class="k-l">실측 사용량</div>'
-        + '<div class="k-v" style="color:var(--ink4);font-size:15px">'+(inGa?'트래픽 없음':'미계측')+'</div>'
+        + '<div class="k-v" style="color:var(--ink4);font-size:18px">'+(inGa?'트래픽 없음':'미계측')+'</div>'
         + '<div class="k-s">'+(inGa ? '도입했으나 GA 트래픽 0' : '건물 축 유효기간 '+(av.from||'-')+'~'+(av.to||'-'))+'</div></div>';
     }
   }
 
   box.innerHTML =
-    '<div style="font-size:15px;font-weight:800;color:var(--navy);margin-bottom:3px">'+row.n+'</div>'+
-    '<div style="font-size:11px;color:var(--ink4);margin-bottom:14px">'+row.c+'</div>'+
+    '<div style="font-size:18px;font-weight:800;color:var(--navy);margin-bottom:3px">'+row.n+'</div>'+
+    '<div style="font-size:14px;color:var(--ink4);margin-bottom:14px">'+row.c+'</div>'+
     '<div class="kpi-row">'+
-      '<div class="kpi"><div class="k-l">도입 서비스</div><div class="k-v">'+adopted.length+'<small style="font-size:12px;color:var(--ink4)">/'+totalSvc+'</small></div>'+
+      '<div class="kpi"><div class="k-l">도입 서비스</div><div class="k-v">'+adopted.length+'<small style="font-size:15px;color:var(--ink4)">/'+totalSvc+'</small></div>'+
         '<div class="k-s">전체 평균 '+avg.toFixed(0)+'개 대비 '+(diff>=0?'+':'△')+Math.abs(diff).toFixed(0)+'개</div></div>'+
       realKpi+
       '<div class="kpi"><div class="k-l">직접 연계 서비스</div><div class="k-v">'+dir.length+'</div><div class="k-s">GA 전용 경로 보유</div></div>'+
@@ -4113,10 +4289,10 @@ function drawBldDetail(){
       '<div class="kpi"><div class="k-l">관련 개발 건수</div><div class="k-v">'+jira+'</div><div class="k-s">선택 기간 생성 기준</div></div>'+
     '</div>'+
     (missRanked.length ?
-      '<div style="font-size:12px;font-weight:700;color:var(--navy);margin:16px 0 8px">미도입 중 도입률 높은 서비스 (확대 후보)</div>'+
+      '<div style="font-size:15px;font-weight:700;color:var(--navy);margin:16px 0 8px">미도입 중 도입률 높은 서비스 (확대 후보)</div>'+
       '<div>'+missRanked.map(r=>'<span class="svc-pill off">'+r.svc+' <b style="color:var(--yellow)">'+r.rate.toFixed(0)+'%</b></span>').join('')+'</div>'
-      : '<div style="font-size:12px;color:var(--green);margin-top:16px;font-weight:600">모든 서비스를 도입한 건물입니다.</div>')+
-    '<div style="font-size:12px;font-weight:700;color:var(--navy);margin:18px 0 8px">도입 서비스 '+adopted.length+'개</div>'+
+      : '<div style="font-size:15px;color:var(--green);margin-top:16px;font-weight:600">모든 서비스를 도입한 건물입니다.</div>')+
+    '<div style="font-size:15px;font-weight:700;color:var(--navy);margin:18px 0 8px">도입 서비스 '+adopted.length+'개</div>'+
     '<div style="max-height:190px;overflow-y:auto">'+
       adopted.map(s=>{
         const r = byName[s];
@@ -4161,13 +4337,13 @@ function renderBuildings(bld, ga){
     mkChart('chartBldCatRadar', {
       type:'radar',
       data:{ labels:catSummary.map(c=>c.cat), datasets:[{ label:'평균 도입률', data:catSummary.map(c=>c.avg), backgroundColor:'rgba(234,39,194,.12)', borderColor:'#EA27C2', borderWidth:2, pointBackgroundColor:'#EA27C2', pointRadius:4 }] },
-      options:{ responsive:true, maintainAspectRatio:false, scales:{ r:{ beginAtZero:true, max:100, ticks:{ stepSize:20, color:'#909AA0', backdropColor:'transparent' }, grid:{ color:'#E9ECEF' }, angleLines:{ color:'#E9ECEF' }, pointLabels:{ color:'#4B4B4B', font:{ size:11 } } } }, plugins:{ tooltip:{ callbacks:{ label:ctx=>ctx.raw+'%' } } } }
+      options:{ responsive:true, maintainAspectRatio:false, scales:{ r:{ beginAtZero:true, max:100, ticks:{ stepSize:20, color:'#909AA0', backdropColor:'transparent' }, grid:{ color:'#E9ECEF' }, angleLines:{ color:'#E9ECEF' }, pointLabels:{ color:'#4B4B4B', font:{ size:14 } } } }, plugins:{ tooltip:{ callbacks:{ label:ctx=>ctx.raw+'%' } } } }
     });
     const sorted = [...catSummary].sort((a,b)=>b.avg-a.avg);
-    let rankHtml = '<div style="font-size:12px;color:var(--ink3);margin-bottom:8px;font-weight:600">카테고리별 도입률 순위</div>';
+    let rankHtml = '<div style="font-size:15px;color:var(--ink3);margin-bottom:8px;font-weight:600">카테고리별 도입률 순위</div>';
     sorted.forEach((c,idx)=>{
       const color = c.avg>80?'var(--green)':c.avg>50?'var(--blue)':c.avg>20?'var(--yellow)':'var(--red)';
-      rankHtml += '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--line);font-size:12px"><span style="color:var(--navy700)">'+(idx+1)+'. '+c.cat+'</span><span style="color:'+color+';font-weight:700">'+c.avg+'%</span></div>';
+      rankHtml += '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--line);font-size:15px"><span style="color:var(--navy700)">'+(idx+1)+'. '+c.cat+'</span><span style="color:'+color+';font-weight:700">'+c.avg+'%</span></div>';
     });
     document.getElementById('catRankList').innerHTML = rankHtml;
   }
@@ -4202,8 +4378,8 @@ function renderBuildings(bld, ga){
   }
 
   function renderBldTable(container, items){
-    let html = '<table class="data-table"><thead><tr><th>건물명</th><th style="text-align:right">도입 서비스</th><th style="text-align:right">도입률</th></tr></thead><tbody>';
-    items.forEach(b=>{ const rate = (b.total/totalSvc*100).toFixed(1); const barColor = rate>50?'var(--green)':rate>30?'var(--yellow)':'var(--red)'; html += '<tr><td>'+b.name+'</td><td style="text-align:right">'+b.total+'/'+totalSvc+'</td><td style="text-align:right;color:'+barColor+';font-weight:700">'+rate+'%</td></tr>'; });
+    let html = '<table class="data-table"><thead><tr><th>건물명</th><th class="num">도입 서비스</th><th class="num">도입률</th></tr></thead><tbody>';
+    items.forEach(b=>{ const rate = (b.total/totalSvc*100).toFixed(1); const barColor = rate>50?'var(--green)':rate>30?'var(--yellow)':'var(--red)'; html += '<tr><td>'+b.name+'</td><td class="num">'+b.total+'/'+totalSvc+'</td><td class="num" style="color:'+barColor+';font-weight:700">'+rate+'%</td></tr>'; });
     html += '</tbody></table>';
     document.getElementById(container).innerHTML = html;
   }
