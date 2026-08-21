@@ -73,6 +73,11 @@ a:hover{color:var(--navy)}
 .ai-box{background:linear-gradient(180deg,#FEF7FC,#FFFFFF 60%);border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:var(--radius);padding:24px 26px;margin:22px 0;position:relative;box-shadow:var(--shadow-1)}
 .ai-box-header{display:flex;align-items:center;gap:9px;margin-bottom:14px;font-size:18px;font-weight:700;color:var(--brand);letter-spacing:-.2px}
 .ai-box-header .icon{font-size:20px}
+/* 'AI'라고 적으면 어떻게 만든 수치냐는 질문에 답할 수 없다. 규칙 기반임을 배지로 밝힌다 */
+.ai-box-kind{font-size:12px;font-weight:700;color:var(--ink4);background:var(--muted);
+  border:1px solid var(--line2);border-radius:100px;padding:2px 8px;letter-spacing:0}
+.ai-box p.ai-box-note{font-size:13px;color:var(--ink4);line-height:1.7;
+  background:var(--muted);border-radius:8px;padding:8px 11px;margin-bottom:12px}
 .ai-box p{font-size:13.5px;color:var(--navy700);line-height:1.85;margin-bottom:9px}
 .ai-box p:last-child{margin-bottom:0}
 .ai-box .highlight{color:var(--navy);font-weight:700}
@@ -151,7 +156,9 @@ a:hover{color:var(--navy)}
 .tooltip-wrap{position:relative;display:inline-block}
 .tooltip-text{visibility:hidden;opacity:0;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(4px);background:var(--navy);color:#F1F3F5;padding:12px 15px;border-radius:10px;font-size:15px;font-weight:400;white-space:normal;width:280px;line-height:1.7;z-index:20;box-shadow:var(--shadow-pop);transition:all .18s ease;letter-spacing:0}
 .tooltip-text b{color:#fff;font-weight:700}
-.tooltip-wrap:hover .tooltip-text{visibility:visible;opacity:1;transform:translateX(-50%) translateY(0)}
+.tooltip-wrap:hover .tooltip-text,
+.tooltip-wrap:focus-within .tooltip-text{visibility:visible;opacity:1;transform:translateX(-50%) translateY(0)}
+.tooltip-icon:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 
 .bucket-row{display:flex;align-items:flex-end;gap:6px;height:120px;padding:0 4px}
 .bucket-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
@@ -183,8 +190,15 @@ a:hover{color:var(--navy)}
   align-items:stretch;gap:9px;background:rgba(255,255,255,.94);
   backdrop-filter:saturate(180%) blur(12px);-webkit-backdrop-filter:saturate(180%) blur(12px)}
 .fb-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-/* 해당 탭에 적용되지 않는 컨트롤 — 숨기지 않고 비활성으로 남겨 '왜 안 먹나'를 없앤다 */
-.fb-row.off,.fb-ctl.off{opacity:.4;pointer-events:none;filter:grayscale(1)}
+/* 해당 탭에 적용되지 않는 컨트롤.
+   '왜 안 먹나'에는 계속 답해야 하지만, 회색 위젯을 그대로 남기면 누를 수 있어 보이는
+   가짜 컨트롤이 상시 노출된다. 위젯은 접고 이유만 칩으로 남긴다. */
+.fb-row.off{opacity:.45;pointer-events:none}
+.fb-ctl.off{pointer-events:none}
+.fb-ctl.off>:not(.fb-lbl){display:none}
+.fb-ctl.off .fb-lbl{color:var(--ink4);font-weight:600}
+.fb-ctl.off::after{content:attr(data-off);font-size:13px;color:var(--ink4);background:var(--muted);
+  border:1px dashed var(--line2);border-radius:100px;padding:2px 9px;white-space:nowrap}
 .fb-ctl{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}
 .fb-row.hide{display:none}
 .fb-lbl{font-size:15px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:5px;
@@ -286,6 +300,92 @@ a:hover{color:var(--navy)}
    각 건을 [숫자 · 근거 · 분석 · 대안] 4단으로 낸다. 근거를 같이 내야
    "어떻게 나온 숫자냐"를 되묻지 않고, 대안을 같이 내야 결정으로 이어진다. */
 .scope.iss{--sc:#E8590C;--sc-bg:rgba(232,89,12,.07)}
+.scope.opp{--sc:#0CA678;--sc-bg:rgba(12,166,120,.07)}   /* 기회 — 문제와 다른 색이어야 '나쁜 일'로 안 읽힌다 */
+
+/* ── 종합 탭 머리 · 지금 봐야 할 3가지 ── */
+.ov-top{border:1px solid var(--line2);border-radius:var(--radius);background:var(--card);
+  padding:15px 18px;box-shadow:var(--shadow-1)}
+.ov-top .ovt-h{display:flex;align-items:center;gap:9px;font-size:17px;font-weight:800;
+  color:var(--navy);margin-bottom:11px;letter-spacing:-.2px}
+.ov-top .ovt-more{margin-left:auto;font-size:14px;font-weight:700;color:var(--brand);
+  text-decoration:none;letter-spacing:0}
+.ov-top .ovt-more:hover{text-decoration:underline}
+.ov-top .ovt-i{display:flex;align-items:flex-start;gap:10px;padding:9px 11px;border-radius:9px;
+  border:1px solid var(--line);border-left:3px solid var(--sv);margin-bottom:7px;
+  text-decoration:none;background:var(--canvas);transition:background .15s}
+.ov-top .ovt-i:last-child{margin-bottom:0}
+.ov-top .ovt-i:hover{background:var(--muted)}
+.ov-top .ovt-i:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.ov-top .ovt-n{background:var(--sv);color:#fff;border-radius:50%;width:21px;height:21px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;margin-top:1px}
+.ov-top .ovt-b{flex:1;min-width:0}
+.ov-top .ovt-t{display:block;font-size:15px;font-weight:700;color:var(--navy);line-height:1.5}
+.ov-top .ovt-m{display:block;font-size:13px;color:var(--ink4);margin-top:2px;line-height:1.5}
+.ov-top .ovt-sev{font-size:12px;font-weight:800;color:var(--sv);white-space:nowrap;flex-shrink:0;margin-top:2px}
+.ov-top .ovt-none,.ov-top .ovt-load{font-size:14px;color:var(--ink4);line-height:1.7}
+/* 합성 지표의 한계를 카드 안에 상시 노출 — 툴팁에 두면 가장 필요한 사람이 안 본다 */
+.card-caveat{font-size:13px;color:var(--ink4);line-height:1.65;background:var(--muted);
+  border-radius:8px;padding:8px 11px;margin-bottom:14px}
+.card-caveat b{color:var(--ink3)}
+
+/* 숫자를 읽는 규칙 — 호버가 아니라 화면에 붙여 둔다 (인쇄·스크린샷·터치에서도 남는다) */
+.read-rules{border:1px dashed var(--line2);border-radius:10px;background:var(--canvas);
+  padding:11px 14px;margin-bottom:12px}
+.read-rules>b{display:block;font-size:13px;color:var(--ink3);margin-bottom:6px;letter-spacing:.02em}
+.read-rules .rr{display:block;font-size:13px;color:var(--ink4);line-height:1.65;margin-bottom:3px}
+.read-rules .rr:last-child{margin-bottom:0}
+.read-rules .rr>b:first-child{display:inline-block;min-width:172px;color:var(--navy);font-weight:700}
+.read-rules .rr b{color:var(--ink3)}
+.read-rules code{background:var(--muted);padding:1px 4px;border-radius:3px}
+@media(max-width:768px){ .read-rules .rr>b:first-child{display:block;min-width:0} }
+
+/* 차트의 표 대체 — 접근성이자 값 복사 수단 */
+.ch-tbl{margin-top:10px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.ch-tbl>summary{cursor:pointer;list-style:none;padding:6px 11px;font-size:13px;font-weight:700;
+  color:var(--ink3);background:var(--muted);user-select:none;display:flex;align-items:center;gap:6px}
+.ch-tbl>summary::-webkit-details-marker{display:none}
+.ch-tbl>summary::before{content:'▸';font-size:12px}
+.ch-tbl[open]>summary::before{content:'▾'}
+.ch-tbl>summary:hover{background:var(--muted2)}
+.ch-tbl>summary:focus-visible{outline:2px solid var(--brand);outline-offset:-2px}
+.ch-tbl .ct-h{margin-left:auto;font-weight:600;color:var(--ink4)}
+.ch-tbl .ct-body{max-height:300px;overflow:auto}
+
+/* 퍼널 순서 근거 배지 */
+.fn-basis{font-size:12px;font-weight:700;border-radius:100px;padding:2px 9px;margin-left:8px;
+  white-space:nowrap;letter-spacing:0;vertical-align:middle}
+.fn-basis.ok{color:var(--green);background:rgba(12,166,120,.09);border:1px solid rgba(12,166,120,.35)}
+.fn-basis.warn{color:var(--yellow);background:var(--yellow-bg);border:1px dashed var(--yellow)}
+.fn-basis-note{font-size:13px;color:var(--ink3);line-height:1.65;background:var(--yellow-bg);
+  border-left:3px solid var(--yellow);border-radius:7px;padding:8px 11px;margin-bottom:12px}
+.fn-nd{margin-top:8px;font-size:14px;color:var(--ink3);line-height:1.7;background:var(--muted);
+  border-radius:8px;padding:9px 12px}
+.fn-nd b{color:var(--navy)}
+.fn-nd .fn-nd-s{font-size:13px;color:var(--ink4)}
+
+/* 모바일 요약칩 */
+.fb-mini{display:none;align-items:center;gap:8px;width:100%;background:var(--muted);
+  border:1px solid var(--line2);border-radius:10px;padding:8px 12px;font-family:inherit;
+  font-size:14px;font-weight:700;color:var(--navy);cursor:pointer;text-align:left}
+.fb-mini .fbm-t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-weight:600;color:var(--ink3)}
+.fb-mini .fbm-c{color:var(--ink4)}
+.fb-mini[aria-expanded="true"] .fbm-c{transform:rotate(180deg)}
+.fb-mini:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+
+@media(max-width:768px){
+  .fb-mini{display:flex}
+  .period-ctl.fbar.collapsed .fb-row{display:none}
+  .period-ctl.fbar{padding:10px 12px}
+  /* 문제·기회 카드: 56px 라벨 열이 폰에서 본문을 짜부순다 → 위아래로 쌓는다 */
+  .iss-row{grid-template-columns:1fr;gap:3px}
+  .iss-k{padding-top:0}
+  .iss-k br{display:none}
+  .iss-h{gap:6px}
+  .iss-imp{margin-left:0;text-align:left}
+  .ov-top .ovt-sev{display:none}
+  .read-rules{padding:10px 12px}
+}
 .iss-method{background:var(--muted);border-radius:10px;padding:12px 15px;margin-bottom:16px;
   font-size:14px;color:var(--ink3);line-height:1.75}
 .iss-method b{color:var(--navy)}
@@ -293,6 +393,21 @@ a:hover{color:var(--navy)}
 .iss-method .im-rule{background:var(--card);border:1px solid var(--line2);border-radius:100px;
   padding:2px 9px;font-size:13px;color:var(--ink3);font-weight:600}
 .iss-method .im-rule.hit{border-color:var(--yellow);color:var(--yellow);background:var(--yellow-bg)}
+.iss-method .im-rule.err{border-color:var(--red);color:var(--red);background:rgba(240,62,62,.07)}
+.iss-method .im-note{margin-top:7px;font-size:13px;color:var(--ink4);line-height:1.65}
+.iss-method .im-err{margin-top:7px;font-size:13px;color:var(--red);font-weight:600;line-height:1.6}
+
+/* ── 변화 요약 — 모니터링 도구의 첫 줄. 목록보다 먼저 읽혀야 한다 ── */
+.iss-diff{border:1px solid var(--line2);border-radius:10px;background:var(--card);
+  padding:12px 15px;margin-bottom:14px}
+.iss-diff .id-h{font-size:15px;color:var(--ink2);line-height:1.7}
+.iss-diff .id-h b{color:var(--navy)}
+.iss-diff .id-n{font-size:13px;color:var(--ink4);line-height:1.65;margin-top:6px}
+.iss-diff .id-n b{color:var(--ink3)}
+.iss-diff .id-gone{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line2)}
+.iss-diff .id-gone>b{font-size:14px;color:var(--green)}
+.iss-diff .idg{font-size:14px;color:var(--ink2);line-height:1.7;margin-top:4px}
+.iss-diff .idg-m{font-size:13px;color:var(--ink4)}
 
 .iss{border:1px solid var(--line);border-left:4px solid var(--sv,var(--ink4));border-radius:10px;
   padding:0;margin-bottom:12px;background:var(--card);overflow:hidden}
@@ -304,6 +419,23 @@ a:hover{color:var(--navy)}
   border-radius:100px;padding:2px 8px;white-space:nowrap}
 .iss-imp{margin-left:auto;font-size:13px;color:var(--ink3);text-align:right;white-space:nowrap}
 .iss-imp b{font-size:17px;color:var(--sv);font-variant-numeric:tabular-nums}
+/* 추정값은 실측과 같은 서식으로 쓰지 않는다 — 이 대시보드가 잡으려는 허수와 같은 종류다 */
+.iss-imp.est b{color:var(--ink3);font-weight:700}
+.iss-imp.est i{font-style:normal;color:var(--yellow);font-weight:700}
+.iss-chg{font-size:13px;font-weight:800;color:var(--cc);background:var(--card);
+  border:1px solid currentColor;border-radius:100px;padding:1px 8px;white-space:nowrap;flex-shrink:0}
+.iss.hl{box-shadow:0 0 0 3px var(--sv);transition:box-shadow .3s}
+
+/* 조언 도구 — 상태를 저장하지 않고, 발견을 밖으로 옮기는 경로만 제공한다 */
+.iss-act{display:flex;gap:7px;flex-wrap:wrap;padding:9px 15px;border-bottom:1px solid var(--line);
+  background:var(--canvas)}
+.iss-act .ia{background:var(--card);border:1px solid var(--line2);border-radius:100px;
+  padding:4px 11px;font-size:13px;font-weight:700;color:var(--ink3);cursor:pointer;
+  font-family:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:4px;
+  transition:border-color .15s,color .15s}
+.iss-act .ia:hover{border-color:var(--sv);color:var(--sv)}
+.iss-act .ia:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.iss-act .ia.ok{border-color:var(--green);color:var(--green)}
 
 .iss-b{padding:13px 15px}
 .iss-row{display:grid;grid-template-columns:56px 1fr;gap:11px;margin-bottom:11px;align-items:start}
@@ -316,6 +448,13 @@ a:hover{color:var(--navy)}
 .iss-num small{font-size:14px;font-weight:600;color:var(--ink3);margin-left:5px}
 .iss-src{font-size:13px;color:var(--ink4);line-height:1.6;margin-top:3px}
 .iss-src code{background:var(--muted);padding:1px 4px;border-radius:3px;font-size:13px}
+.iss-est{font-size:13px;color:var(--yellow);line-height:1.6;margin-top:5px;font-weight:600}
+.iss-est b{color:var(--yellow)}
+.iss-prevv{font-size:13px;color:var(--ink4);margin-top:4px}
+/* 규칙별 고정 문구임을 밝혀 둔다 — 계산 결과와 같은 서식이면 이 건의 결론으로 읽힌다 */
+.iss-pb{font-size:13px;color:var(--ink4);line-height:1.65;background:var(--muted);
+  border-radius:7px;padding:7px 10px;margin-bottom:8px}
+.iss-pb b{color:var(--ink3)}
 .iss-opt{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px}
 .iss-opt:last-child{margin-bottom:0}
 .iss-opt .o-n{background:var(--muted2);color:var(--navy);border-radius:50%;width:20px;height:20px;
@@ -477,12 +616,17 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
   </div>
 </div>
 
-<div class="tabs" id="tabBar">
-  <button class="tab active" data-tab="overview">전체 종합</button>
-  <button class="tab" data-tab="ga">앱 사용 분석</button>
-  <button class="tab" data-tab="zendesk">고객 문의 (CS)</button>
-  <button class="tab" data-tab="jira">개발 현황</button>
-  <button class="tab" data-tab="buildings">건물 · 서비스</button>
+<!-- ── 탭 ──
+     순서를 데이터 출처별에서 '질문별'로 바꿨다. 이 사이트의 목적은 조회가 아니라
+     개선사항 발굴이고, 주 사용자(기획자·운영자)가 묻는 것은 "다음에 뭘 볼 것인가"다.
+     발굴이 첫 화면이 되고, 소스별 탭은 그 근거를 확인하는 드릴다운으로 내린다. -->
+<div class="tabs" id="tabBar" role="tablist" aria-label="분석 영역">
+  <button class="tab active" data-tab="discover" role="tab" aria-selected="true" aria-controls="pane-discover" id="tabbtn-discover">&#128269; 발굴</button>
+  <button class="tab" data-tab="overview" role="tab" aria-selected="false" aria-controls="pane-overview" id="tabbtn-overview">전체 종합</button>
+  <button class="tab" data-tab="ga" role="tab" aria-selected="false" aria-controls="pane-ga" id="tabbtn-ga">앱 사용 분석</button>
+  <button class="tab" data-tab="zendesk" role="tab" aria-selected="false" aria-controls="pane-zendesk" id="tabbtn-zendesk">고객 문의 (CS)</button>
+  <button class="tab" data-tab="jira" role="tab" aria-selected="false" aria-controls="pane-jira" id="tabbtn-jira">개발 현황</button>
+  <button class="tab" data-tab="buildings" role="tab" aria-selected="false" aria-controls="pane-buildings" id="tabbtn-buildings">건물 · 서비스</button>
 </div>
 
 <div class="main">
@@ -497,7 +641,12 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
          기간·건물·화면/서비스가 세 곳에 흩어져 서로를 볼 수 없던 문제를 한 줄로 합쳤다.
          조회 버튼은 두지 않는다: 데이터가 전부 클라이언트에 있어 재렌더가 즉시이므로
          버튼은 '설정했는데 안 눌러서 수치가 이전 조건인 상태'만 새로 만든다. -->
-    <div class="period-ctl fbar" id="periodCtl" style="display:none">
+    <div class="period-ctl fbar collapsed" id="periodCtl" style="display:none">
+      <!-- 모바일 요약칩 — 폰에서 2행 컨트롤이 4~5행으로 접히며 sticky로 화면을 계속 먹는다.
+           기본은 접고, 현재 조건을 한 줄로 보여 준 뒤 탭하면 펼친다. 데스크톱에서는 숨는다. -->
+      <button class="fb-mini" id="fbMini" aria-expanded="false" aria-controls="fbRowPeriod">
+        <span class="fbm-i">&#128197;</span><span class="fbm-t" id="fbMiniTxt">조회 조건</span><span class="fbm-c">&#9662;</span>
+      </button>
       <div class="fb-row" id="fbRowPeriod">
         <span class="fb-lbl">&#128197; 조회 기간</span>
         <span class="pc-presets" id="pcPresets"></span>
@@ -530,25 +679,89 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       </div>
     </div>
 
-    <div class="tab-content active" data-tab="overview">
+    <!-- ══ 발굴 — 첫 화면 ══
+         "무엇이 달라졌나 → 무엇이 문제인가 → 무엇이 기회인가" 순서.
+         지표 나열과 문제 제기는 다르다. 규칙 세트를 데이터에 돌려 이상을 찾고
+         각 건을 [숫자 · 근거 · 분석 · 검토항목] 4단으로 낸다.
+         발굴 '방법'도 함께 노출해 결과를 감사 가능하게 만든다.
+         상태 저장·담당자 배정은 두지 않는다 — 모니터링 조언 도구이고,
+         작업 추적은 Jira가 이미 한다. 대신 밖으로 옮기는 경로만 제공한다. -->
+    <div class="tab-content active" data-tab="discover" role="tabpanel" id="pane-discover" aria-labelledby="tabbtn-discover">
+      <div class="period-bar" id="dscPeriod"></div>
+
+      <div class="subtabs" id="dscSubtabs"></div>
+
+      <div class="scope iss" data-dsub="issue">
+        <div class="scope-head">
+          <span class="scope-tag">&#128269; 문제 발굴</span>
+          <span class="scope-ttl">자동 점검 결과</span>
+          <span class="scope-desc">현재 조회 기간에 <b>규칙 세트</b>를 돌려 찾은 문제입니다. 각 건마다 <b>숫자 · 근거 · 분석 · 검토항목</b>을 함께 제시하며, <b>영향 사용자 수</b>가 큰 순으로 정렬합니다.</span>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">점검 결과</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기" tabindex="0" role="button" aria-label="설명 보기">?</span>
+              <div class="tooltip-text">사람이 눈으로 찾던 이상 패턴을 규칙으로 고정해 매번 같은 기준으로 점검합니다. 규칙·임계값·데이터 출처를 모두 노출하므로 결과를 다시 검증할 수 있습니다. 조회 기간을 바꾸면 점검도 다시 돕니다.</div>
+            </div>
+          </div>
+          <div class="iss-method" id="gaIssueMethod"></div>
+          <div id="gaIssueList"></div>
+        </div>
+      </div>
+
+      <!-- ══ 기회 발굴 ══
+           가설의 후반부("근거를 갖고 새로운 서비스를 발굴")에 대응하는 축.
+           문제 발굴 규칙은 전부 하락·결함 탐지기라 '무엇을 새로 만들까'에는 답하지 못한다.
+           수요의 흔적(검색어·미도입·요청 문의)을 따로 모은다. -->
+      <div class="scope opp" data-dsub="opp" hidden>
+        <div class="scope-head">
+          <span class="scope-tag">&#128161; 기회 발굴</span>
+          <span class="scope-ttl">미충족 수요 신호</span>
+          <span class="scope-desc">사용자가 <b>찾았지만 없었던 것</b>, <b>깔렸지만 안 쓰는 것</b>, <b>직접 요청한 것</b>을 모았습니다. 문제 발굴이 "고칠 것"이라면 이쪽은 <b>"만들 것"</b>의 후보입니다.</span>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">수요 신호</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기" tabindex="0" role="button" aria-label="설명 보기">?</span>
+              <div class="tooltip-text">신호는 가설의 씨앗이고 결론이 아닙니다. 표본이 작은 항목이 많으므로 각 건의 표본 수를 반드시 함께 보세요. 검색어는 이벤트 자체가 적어(전 기간 수백 건) 순위보다 '어떤 말로 찾는가'를 읽는 데 씁니다.</div>
+            </div>
+          </div>
+          <div class="iss-method" id="oppMethod"></div>
+          <div id="oppList"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" data-tab="overview" role="tabpanel" id="pane-overview" aria-labelledby="tabbtn-overview">
       <div class="freshness-bar" id="freshnessBar"></div>
       <div class="period-bar" id="overviewPeriod"></div>
+
+      <!-- ── 지금 봐야 할 것 ──
+           이 탭에는 7개 블록이 동등한 무게로 있었고, 가장 크게 보이는 점수 링이
+           가장 행동으로 이어지지 않았다. 팀장·CDO는 드물게 들어와 빨리 나가므로
+           우선순위를 화면이 대신 정해 준다. 출처는 발굴 탭과 같은 규칙 세트다. -->
+      <div id="ovTop3" style="margin-bottom:20px"></div>
+
       <div class="grid grid-5" id="heroMetrics" style="margin-bottom:20px"></div>
       <div class="ai-box" id="aiOverviewBox"></div>
       <div class="grid grid-2" style="margin-bottom:24px">
         <div class="card">
           <div class="card-header">
             <span class="card-title">서비스 일체성 점수</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기" tabindex="0" role="button" aria-label="설명 보기">?</span>
               <div class="tooltip-text">MAU 성장, 사용자 활성화, 재방문율, CS 건강도, 개발 실행력 5가지 영역을 각 20점 만점으로 평가한 종합 점수입니다. 80점 이상이면 양호, 60점 이하면 개선이 필요합니다.</div>
             </div>
           </div>
+          <!-- 합성 지표의 한계를 카드 안에 적는다. 점수만 크게 보여 주면 '몇 점 떨어졌다'가
+               곧 '무엇을 하라'로 읽히는데, 5개 임의 버킷의 합이라 그렇게 쓸 수 없다. -->
+          <div class="card-caveat">5개 영역을 각 20점으로 <b>임의 배분</b>한 합성 점수입니다. 추세를 보는 데는 쓸 수 있지만
+            <b>점수 변화만으로는 무엇을 할지 알 수 없습니다</b> — 아래 영역별 막대에서 어느 항목이 움직였는지 확인하세요.</div>
           <div id="scoreSection" style="display:flex;gap:32px;align-items:center;flex-wrap:wrap"></div>
         </div>
         <div class="card">
           <div class="card-header">
             <span class="card-title">사용자 여정 퍼널 (AARRR)</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
               <div class="tooltip-text"><b>AARRR</b>은 앱 사용자의 여정을 5단계로 나눈 분석 방법입니다.<br><b>유입</b>: 앱에 처음 접속 → <b>활성화</b>: 서비스를 실제로 이용 → <b>재방문</b>: 다시 돌아와서 사용 → <b>추천</b>: 다른 사람에게 알림 → <b>수익</b>: 비즈니스 가치 창출</div>
             </div>
           </div>
@@ -577,39 +790,17 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       </div>
     </div>
 
-    <div class="tab-content" data-tab="ga">
+    <div class="tab-content" data-tab="ga" role="tabpanel" id="pane-ga" aria-labelledby="tabbtn-ga">
       <div class="period-bar" id="gaPeriod"></div>
       <div id="gaScopeNote"></div>
       <div class="ai-box" id="aiGaBox"></div>
 
       <!-- ── 1단 · 조회 컨트롤은 상단 통합 필터바(#periodCtl)로 이동 ── -->
-      <div id="gaSegNote" style="font-size:14px;color:var(--ink4);text-align:right;line-height:1.5;margin-bottom:8px"></div>
+      <div id="gaSegNote"></div>
       <div id="gaAxisWarn"></div>
 
       <!-- 서브탭 — 모집단이 다른 블록을 갈라 상단 필터의 적용 범위를 명확히 한다 -->
       <div class="subtabs" id="gaSubtabs"></div>
-
-      <!-- ══ 문제 발굴 ══
-           지표 나열과 문제 제기는 다르다. 규칙 세트를 데이터에 돌려 이상을 찾고
-           각 건을 [숫자 · 근거 · 분석 · 대안] 4단으로 낸다.
-           발굴 '방법'도 함께 노출해 결과를 감사 가능하게 만든다. -->
-      <div class="scope iss" data-sub="issue">
-        <div class="scope-head">
-          <span class="scope-tag">&#128269; 문제 발굴</span>
-          <span class="scope-ttl">자동 점검 결과</span>
-          <span class="scope-desc">현재 조회 조건에 <b>규칙 세트</b>를 돌려 찾은 문제입니다. 각 건마다 <b>숫자 · 근거 · 분석 · 대안</b>을 함께 제시하며, <b>영향 사용자 수</b>가 큰 순으로 정렬합니다.</span>
-        </div>
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">점검 결과</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
-              <div class="tooltip-text">사람이 눈으로 찾던 이상 패턴을 규칙으로 고정해 매번 같은 기준으로 점검합니다. 규칙·임계값·데이터 출처를 모두 노출하므로 결과를 다시 검증할 수 있습니다. 조회 기간·건물·화면을 바꾸면 점검도 다시 돕니다.</div>
-            </div>
-          </div>
-          <div class="iss-method" id="gaIssueMethod"></div>
-          <div id="gaIssueList"></div>
-        </div>
-      </div>
 
       <!-- ══ 스코프 1 · 전체 ══
            모집단이 다른 수치가 한 화면에 섞이면 "이 숫자가 무엇을 센 것인지"를
@@ -626,7 +817,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
           <div class="card">
             <div class="card-header">
               <span class="card-title">월별 사용자 추이</span>
-              <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+              <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
                 <div class="tooltip-text">최근 12개월간 앱을 한 번이라도 사용한 월간 순이용자(MAU) 수입니다. 이 수치가 올라가면 앱 성장 중, 내려가면 이탈이 많은 것입니다.</div>
               </div>
             </div>
@@ -635,7 +826,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
           <div class="card">
             <div class="card-header">
               <span class="card-title">이용량 비교: 사용자 수 vs 화면 조회 수</span>
-              <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+              <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
                 <div class="tooltip-text"><b>사용자 수(MAU)</b>는 몇 명이 왔는지, <b>화면 조회 수(PV)</b>는 얼마나 많이 봤는지를 나타냅니다. MAU는 적은데 PV가 많으면 소수 충성 사용자가 많이 쓰는 것이고, 반대면 많은 사람이 조금씩 쓰는 것입니다.</div>
               </div>
             </div>
@@ -646,7 +837,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
           <div class="card">
             <div class="card-header">
               <span class="card-title">서비스별 이용량 상위 15 <small style="font-weight:500;color:var(--ink4);font-size:14px">· 월평균 이용자</small></span>
-              <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+              <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
                 <div class="tooltip-text">앱 내 각 서비스(메뉴)를 방문한 사용자 수 기준 상위 15개입니다. 어떤 기능이 가장 많이 쓰이는지 한눈에 볼 수 있습니다.</div>
               </div>
             </div>
@@ -655,7 +846,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
           <div class="card">
             <div class="card-header">
               <span class="card-title">화면별 방문량 지도</span>
-              <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+              <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
                 <div class="tooltip-text">화면(페이지)별 방문량을 직사각형 크기로 표현한 지도입니다. 크기가 클수록 많이 방문한 화면이고, 색이 진할수록 사용자가 많은 화면입니다.</div>
               </div>
             </div>
@@ -675,7 +866,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         <div class="card" style="margin-bottom:16px">
           <div class="card-header">
             <span class="card-title" id="gaComboTitle">사용자 수 + 사용자당 지표</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
               <div class="tooltip-text">막대(왼쪽 축)는 활성 사용자 수, 선(오른쪽 축)은 사용자당 세션·조회수입니다. 비율만 보면 하락이 참여 저하인지 사용자 감소인지 구분되지 않으므로 함께 봅니다. 흐린 점선 구간은 아직 끝나지 않은 기간이라 증감률 계산에서 제외됩니다.</div>
             </div>
           </div>
@@ -685,7 +876,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       <div class="card" id="gaCompareCard" style="margin-bottom:16px;display:none">
         <div class="card-header">
           <span class="card-title">A · 건물 추세 (완결 구간 + 이동평균)</span>
-          <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+          <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
             <div class="tooltip-text">선택한 건물과 전체를 같은 화면에서 비교합니다. 미완결 구간은 계산에서 제외하고, 주 단위 편차를 걷어내기 위해 이동평균을 함께 그립니다. 주차별 증감률은 편차가 커서 판단 근거로 쓰지 않습니다.</div>
           </div>
         </div>
@@ -700,7 +891,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       <div class="card" id="gaRelCard" style="margin-bottom:16px;display:none">
         <div class="card-header">
           <span class="card-title">B · 전체 대비 상대 성과</span>
-          <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+          <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
             <div class="tooltip-text">최근 완결 4구간 평균을 그 이전 4구간 평균과 비교한 증감률에서, 전체의 증감률을 뺀 <b>격차(%p)</b>입니다. 값이 양수면 전체 흐름보다 잘한 것이고, 음수면 전체가 올랐는데도 뒤처진 것입니다. 주차별 증감률 나열이 아니라 4구간 평균을 쓰는 이유는 주 단위 편차가 커서 한 주만 보면 추세를 오판하기 때문입니다.</div>
           </div>
         </div>
@@ -714,7 +905,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       <div class="card" id="gaQuadCard" style="margin-bottom:16px;display:none">
         <div class="card-header">
           <span class="card-title">C · 참여 품질 사분면</span>
-          <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+          <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
             <div class="tooltip-text">가로축은 활성 사용자 증감률, 세로축은 세션/사용자(방문빈도) 증감률입니다.<br><b>↗ 성장</b> 사람도 참여도 상승 · <b>↘ 이탈위험</b> 사람은 늘었으나 참여 하락(신규가 안 붙는 신호) · <b>↖ 충성화</b> 사람은 줄었으나 남은 사용자는 더 씀 · <b>↙ 위험</b> 둘 다 하락. 오른쪽 아래에 몰린 건물이 Activation→Retention 병목의 건물 단위 후보입니다.</div>
           </div>
         </div>
@@ -733,7 +924,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         <div class="card" id="gaRankCard">
           <div class="card-header">
             <span class="card-title">건물 순위 · 개입 대상 판별</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
               <div class="tooltip-text">완결 구간 기준 건물별 활성 사용자·참여도와 전체 대비 격차입니다. 격차가 음수이면서 규모가 큰 건물이 개입 우선순위가 높습니다. 행을 클릭하면 그 건물이 위 차트에 선택됩니다.</div>
             </div>
           </div>
@@ -751,7 +942,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         <div class="card">
           <div class="card-header">
             <span class="card-title">화면별 퍼널 · 요소 클릭</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
               <div class="tooltip-text">GA event_label(화면_요소_클릭)을 파싱해 화면 단위로 집계한 결과입니다. 단계 순서가 정의된 화면은 퍼널과 이탈률을, 정의되지 않은 화면은 요소별 클릭 사용자 내림차순을 보여줍니다. 순서를 모르는 화면에 억지 퍼널을 씌우면 이탈률이 거짓이 되므로 구분합니다.</div>
             </div>
           </div>
@@ -762,7 +953,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       </div>
     </div>
 
-    <div class="tab-content" data-tab="zendesk">
+    <div class="tab-content" data-tab="zendesk" role="tabpanel" id="pane-zendesk" aria-labelledby="tabbtn-zendesk">
       <div class="period-bar" id="zdPeriod"></div>
       <div id="zdScopeNote"></div>
       <div class="ai-box" id="aiZdBox"></div>
@@ -771,7 +962,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         <div class="card">
           <div class="card-header">
             <span class="card-title">문의 유형별 분포</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
               <div class="tooltip-text">고객 문의를 내용에 따라 분류한 비율입니다. <b>단순문의</b>는 사용법 질문, <b>버그</b>는 오류 신고, <b>UX혼란</b>은 메뉴를 못 찾거나 헷갈린 경우입니다.</div>
             </div>
           </div>
@@ -780,7 +971,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         <div class="card">
           <div class="card-header">
             <span class="card-title">감성 분석</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
               <div class="tooltip-text">고객 문의 텍스트를 AI가 분석하여 긍정·중립·부정으로 분류한 결과입니다. 부정 비율이 높으면 고객 불만이 커지고 있다는 신호입니다.</div>
             </div>
           </div>
@@ -791,7 +982,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         <div class="card">
           <div class="card-header">
             <span class="card-title">주제별 문의량</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
               <div class="tooltip-text">고객이 문의한 주제를 분류한 결과입니다. 어떤 기능에서 문의가 집중되는지 파악할 수 있습니다.</div>
             </div>
           </div>
@@ -800,7 +991,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         <div class="card">
           <div class="card-header">
             <span class="card-title">주간 문의 추이</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
               <div class="tooltip-text">주차별 카테고리 문의 건수 변화입니다. 특정 시점에 급증하면 장애나 업데이트 후 혼란이 있었을 수 있습니다.</div>
             </div>
           </div>
@@ -810,7 +1001,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       <div class="card">
         <div class="card-header">
           <span class="card-title">자주 등장하는 키워드</span>
-          <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+          <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
             <div class="tooltip-text">고객 문의에서 가장 많이 언급된 단어입니다. 반복적으로 나타나는 키워드는 고객의 핵심 불편 사항을 나타냅니다.</div>
           </div>
         </div>
@@ -818,7 +1009,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       </div>
     </div>
 
-    <div class="tab-content" data-tab="jira">
+    <div class="tab-content" data-tab="jira" role="tabpanel" id="pane-jira" aria-labelledby="tabbtn-jira">
       <div class="period-bar" id="jiraPeriod"></div>
       <div id="jiraScopeNote"></div>
       <div class="ai-box" id="aiJiraBox"></div>
@@ -827,7 +1018,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         <div class="card">
           <div class="card-header">
             <span class="card-title">작업 상태 분포</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
               <div class="tooltip-text">개발 작업(티켓)의 진행 상태를 나타냅니다. <b>할 일</b>은 아직 시작 안 한 것, <b>진행 중</b>은 현재 개발 중, <b>완료</b>는 끝난 것입니다.</div>
             </div>
           </div>
@@ -836,7 +1027,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         <div class="card">
           <div class="card-header">
             <span class="card-title">우선순위 분포</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
               <div class="tooltip-text">개발 작업의 긴급도입니다. <b>Highest/High</b>는 즉시 처리해야 할 항목, <b>Medium</b>은 일반 작업, <b>Low</b>는 여유 있는 작업입니다.</div>
             </div>
           </div>
@@ -847,7 +1038,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         <div class="card">
           <div class="card-header">
             <span class="card-title">담당자별 작업량</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
               <div class="tooltip-text">각 개발 담당자에게 배정된 작업 수입니다. 특정 인원에게 편중되면 병목이 발생할 수 있습니다.</div>
             </div>
           </div>
@@ -856,7 +1047,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         <div class="card">
           <div class="card-header">
             <span class="card-title">기능 영역별 작업 분포</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
               <div class="tooltip-text">개발 작업을 기능 영역(로그인, 대여, 결제 등)으로 분류한 결과입니다. 어디에 개발 리소스가 집중되는지 보여줍니다.</div>
             </div>
           </div>
@@ -865,7 +1056,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       </div>
     </div>
 
-    <div class="tab-content" data-tab="buildings">
+    <div class="tab-content" data-tab="buildings" role="tabpanel" id="pane-buildings" aria-labelledby="tabbtn-buildings">
       <div class="period-bar" id="bldPeriod"></div>
       <div id="bldScopeWarn"></div>
       <div class="ai-box" id="aiBldBox"></div>
@@ -874,7 +1065,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       <div class="card" style="margin-bottom:24px">
         <div class="card-header">
           <span class="card-title">서비스 × 연계 매트릭스</span>
-          <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+          <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
             <div class="tooltip-text">88개 일반서비스를 건물 도입현황 · 앱 사용량(GA) · 개발현황(Jira)과 연계한 표입니다. 연계 등급이 '직접'인 서비스만 해당 서비스 전용 GA 경로를 가지며, '카테고리'는 불편신고 공통 경로로만 집계되어 서비스 단위 분해가 불가능합니다.</div>
           </div>
         </div>
@@ -891,7 +1082,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       <div class="card" style="margin-bottom:24px">
         <div class="card-header">
           <span class="card-title">건물별 조회 (드릴다운)</span>
-          <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+          <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
             <div class="tooltip-text">건물을 선택하면 그 건물이 도입한 서비스와 미도입 서비스를 보여줍니다. 사용량은 '그 건물이 도입한 서비스들의 전사 합계'입니다 — GA에는 건물 차원이 없어 건물별 실사용량은 측정할 수 없습니다.</div>
           </div>
         </div>
@@ -909,7 +1100,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         <div class="card">
           <div class="card-header">
             <span class="card-title">카테고리별 평균 도입률</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
               <div class="tooltip-text">서비스 카테고리별 평균 도입률입니다. 328개 건물 중 해당 카테고리 서비스를 도입한 건물 비율의 평균입니다. 높을수록 보편적으로 사용되는 카테고리입니다.</div>
             </div>
           </div>
@@ -919,7 +1110,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         <div class="card">
           <div class="card-header">
             <span class="card-title">건물별 도입 서비스 수 분포</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
               <div class="tooltip-text">각 건물이 도입한 서비스 수의 분포입니다. 대부분의 건물이 31~40개 서비스를 사용 중이며, 88개 전체를 도입한 건물은 극소수입니다.</div>
             </div>
           </div>
@@ -933,7 +1124,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       <div class="card" style="margin-bottom:24px">
         <div class="card-header">
           <span class="card-title">서비스별 도입률 상위 20 / 하위 10</span>
-          <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+          <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
             <div class="tooltip-text">328개 건물 중 해당 서비스를 도입한 건물의 비율입니다. 100%에 가까울수록 거의 모든 건물에서 사용 중이고, 낮을수록 일부 건물에서만 쓰입니다.</div>
           </div>
         </div>
@@ -952,7 +1143,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         <div class="card">
           <div class="card-header">
             <span class="card-title">건물 순위 상위 10</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
               <div class="tooltip-text">가장 많은 서비스를 도입한 건물 Top 10입니다. 88개 서비스 중 몇 개를 사용 중인지 보여줍니다.</div>
             </div>
           </div>
@@ -961,7 +1152,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
         <div class="card">
           <div class="card-header">
             <span class="card-title">건물 순위 하위 10</span>
-            <div class="tooltip-wrap"><span class="tooltip-icon">?</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
               <div class="tooltip-text">가장 적은 서비스를 도입한 건물 10개입니다. 서비스 확대 영업 대상 후보입니다.</div>
             </div>
           </div>
@@ -975,13 +1166,13 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
 
 <script>
 const COLORS = ['#132029','#EA27C2','#1971C2','#0CA678','#F59F00','#E8590C','#7048E8','#1098AD','#F03E3E','#FA84DA','#2F9E44','#868E96'];
-let _tabRendered = { overview:false, ga:false, zendesk:false, jira:false, buildings:false };
+let _tabRendered = { discover:false, overview:false, ga:false, zendesk:false, jira:false, buildings:false };
 let _data = null;
 let _pendingTab = null;   // 데이터 도착 전에 사용자가 누른 탭
 let _repaintTried = {};   // 탭별 자동 재렌더 1회 제한 (무한 루프 방지)
 
 function resetRenderState(){
-  _tabRendered = { overview:false, ga:false, zendesk:false, jira:false, buildings:false };
+  _tabRendered = { discover:false, overview:false, ga:false, zendesk:false, jira:false, buildings:false };
   _repaintTried = {};
 }
 
@@ -1338,11 +1529,9 @@ const selLabelPlugin = {
 
 document.querySelectorAll('.tab').forEach(t=>{
   t.addEventListener('click',()=>{
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));
-    t.classList.add('active');
-    document.querySelector('.tab-content[data-tab="'+t.dataset.tab+'"]').classList.add('active');
+    setActiveTab(t.dataset.tab);
     applyFbarScope(t.dataset.tab);
+    scrollToReadStart(null);      // 새 탭은 맨 위부터
     syncHash();
     /* display:none → block 직후에 그리면 브라우저가 아직 레이아웃을 확정하지
        않아 Chart.js가 컨테이너 크기를 0으로 읽고 빈 캔버스를 만드는 경우가 있다
@@ -1350,10 +1539,37 @@ document.querySelectorAll('.tab').forEach(t=>{
        다음 프레임으로 미뤄 레이아웃이 끝난 뒤 그린다. */
     requestAnimationFrame(()=>lazyRenderTab(t.dataset.tab));
   });
+
+  // 탭은 role="tab"이므로 좌우 화살표 이동을 지원해야 키보드로 쓸 수 있다
+  t.addEventListener('keydown', e=>{
+    const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+    if(!dir) return;
+    e.preventDefault();
+    const tabs = [...document.querySelectorAll('.tab')];
+    const nx = tabs[(tabs.indexOf(t) + dir + tabs.length) % tabs.length];
+    nx.focus(); nx.click();
+  });
 });
+
+/* 앵커 링크(원본 지표 보기 · 지금 봐야 할 것 · 발굴 탭 전체 보기)는 해시만 바꾼다.
+   syncHash는 replaceState라 hashchange를 발생시키지 않으므로, 이 리스너는 사용자가
+   실제로 링크를 눌렀을 때만 돌고 재렌더 루프가 생기지 않는다. */
+window.addEventListener('hashchange', ()=>{
+  if(!_raw) return;
+  restoreFromHash();
+  if(_cbxBld) _cbxBld.setValue(_gaBld);
+  if(_cbxScreen) _cbxScreen.setValue(_gaScreen);
+  applyFbarScope(activeTabId());
+  applyPeriod();          // 파생 재계산 + 활성 탭 재렌더
+  showDscSub();
+  /* 특정 건을 가리키는 링크(#i=)는 flushPendingIssue가 그 카드로 이동시킨다.
+     그 외(탭만 바뀌는 링크)는 새 화면을 맨 위부터 읽게 한다. */
+  if(!_pendingIssue) scrollToReadStart(null);
+});
+
 function activeTabId(){
   const t = document.querySelector('.tab.active');
-  return t ? t.dataset.tab : 'overview';
+  return t ? t.dataset.tab : 'discover';
 }
 
 function lazyRenderTab(tabId){
@@ -1362,7 +1578,8 @@ function lazyRenderTab(tabId){
   if(_tabRendered[tabId]){ scheduleRepaint(tabId); return; }
   const {ga, gaS, zd, jira, bld, ins} = _data;
   try {
-    if(tabId === 'overview'){ renderOverview(ga, gaS, zd, jira, bld, ins); }
+    if(tabId === 'discover'){ renderDiscover(); }
+    else if(tabId === 'overview'){ renderOverview(ga, gaS, zd, jira, bld, ins); }
     else if(tabId === 'ga'){ renderGA(ga, gaS); }
     else if(tabId === 'zendesk'){ renderZendesk(zd); }
     else if(tabId === 'jira'){ renderJira(jira); }
@@ -1454,6 +1671,7 @@ window.addEventListener('pageshow', e=>{ if(e.persisted) scheduleRepaint(activeT
    ══════════════════════════════════════════════════════════════ */
 let _raw = null;      // data.json 원본
 let _period = null;   // {from:'YYYY-MM', to:'YYYY-MM'}
+let _pendingIssue = null;   // 퍼머링크(#i=)로 지정된 문제 카드 key — 렌더 후 스크롤
 
 const PRESETS = [
   {k:'3m',  label:'최근 3개월',  n:3},
@@ -1773,6 +1991,36 @@ function syncFbarTop(){
   const fh = fb && fb.offsetParent !== null ? fb.offsetHeight : 0;
   if(px > 0) rs.setProperty('--subtab-top', (px + fh) + 'px');
 }
+
+/* ── 탭·서브탭 전환 시 읽기 시작점 맞추기 ──
+   전환은 스크롤 위치를 건드리지 않으므로 이전 화면에서 내려온 만큼 그대로 남아,
+   새 화면이 중간부터 보인다. 헤더·탭·필터바가 sticky로 겹쳐 있어 단순히 요소로
+   스크롤하면 그 아래에 가려지므로, sticky 스택 높이를 빼고 이동한다. */
+function stickyStackPx(){
+  const h = document.querySelector('.header'), t = document.querySelector('.tabs');
+  const fb = document.querySelector('.period-ctl.fbar');
+  let px = (h?.offsetHeight || 0) + (t?.offsetHeight || 0);
+  if(fb && fb.offsetParent !== null) px += fb.offsetHeight;
+  return px;
+}
+
+/* sticky 요소의 offsetTop은 고정 위치가 아니라 원래 배치 위치를 가리키므로
+   문서 좌표를 구하는 데 그대로 쓸 수 있다 (getBoundingClientRect는 고정된 값이라 못 쓴다) */
+function docTop(el){
+  let y = 0;
+  while(el){ y += el.offsetTop; el = el.offsetParent; }
+  return y;
+}
+
+function scrollToReadStart(el){
+  // 레이아웃이 끝난 뒤에 재야 한다 — 패널을 막 보이게 한 직후에는 높이가 확정되지 않는다
+  requestAnimationFrame(()=>{
+    syncFbarTop();
+    const y = el ? Math.max(0, docTop(el) - stickyStackPx() - 8) : 0;
+    // 이미 그 위(위쪽)에 있으면 굳이 아래로 끌어내리지 않는다
+    if(window.scrollY > y) window.scrollTo({top:y, behavior:'auto'});
+  });
+}
 window.addEventListener('resize', syncFbarTop);
 if(document.fonts?.ready) document.fonts.ready.then(syncFbarTop);
 
@@ -1790,6 +2038,8 @@ if(window.ResizeObserver){
 /* 탭마다 적용되는 축이 다르다. 안 먹는 컨트롤을 그냥 두면 '왜 안 바뀌나'가 되고,
    숨기면 '왜 없어졌나'가 된다 → 비활성 + 사유 표기. */
 const TAB_SCOPE = {
+  discover:  {period:true,  seg:false,
+              note:'발굴은 <b>조회 기간</b>만 반영합니다 — 건물·화면을 선택해 범위를 좁히지 않고 전 범위를 점검합니다.'},
   overview:  {period:true,  seg:false, note:''},
   ga:        {period:true,  seg:true,  note:''},
   zendesk:   {period:true,  seg:false, note:''},
@@ -1801,25 +2051,32 @@ const TAB_SCOPE = {
 /* 앱 사용 분석 서브탭 — 서브탭마다 '실제로 먹는' 컨트롤이 다르다.
    ctl에 켤 컨트롤을 적고, 나머지는 비활성 + 사유를 남긴다. */
 const GA_SUBS = [
-  {k:'issue', nm:'&#128269; 문제 발굴', sc:'#E8590C',
-   ctl:{period:1, res:0, bld:0, scr:0},
-   note:'문제 발굴은 <b>조회 기간 전체</b>를 대상으로 점검합니다 — 건물·화면 선택의 영향을 받지 않습니다.'},
   {k:'all', nm:'&#127760; 전체', sc:'#132029',
    ctl:{period:1, res:0, bld:0, scr:0},
+   why:{gaResToggle:'전체 추이는 월 기준', cbxBld:'앱 전 사용자 기준', cbxScreen:'앱 전 사용자 기준'},
    note:'이 화면은 <b>앱 전 사용자</b> 기준입니다 — 건물·화면 선택의 영향을 받지 않습니다.'},
   {k:'bld', nm:'&#127970; 건물별', sc:'#EA27C2',
    ctl:{period:1, res:1, bld:1, scr:0},
+   why:{cbxScreen:'화면별은 화면·서비스별 탭에서'},
    note:''},
   {k:'scr', nm:'&#128241; 화면&middot;서비스별', sc:'#1971C2',
    ctl:{period:1, res:0, bld:1, scr:1},
+   why:{gaResToggle:'화면 축은 월 단위만 계측'},
    note:'화면 축은 <b>월 단위로만</b> 계측되어 해상도(주) 선택이 적용되지 않습니다.'},
 ];
-let _gaSub = 'issue';
+let _gaSub = 'all';
+
+// 발굴 탭 서브탭 — 고칠 것(문제) / 만들 것(기회)
+const DSC_SUBS = [
+  {k:'issue', nm:'&#128269; 문제 발굴', sc:'#E8590C'},
+  {k:'opp',   nm:'&#128161; 기회 발굴', sc:'#0CA678'},
+];
+let _dscSub = 'issue';
 
 function currentSub(){ return GA_SUBS.find(s=>s.k === _gaSub) || GA_SUBS[0]; }
 
 function applyFbarScope(tabId){
-  const sc = TAB_SCOPE[tabId] || TAB_SCOPE.overview;
+  const sc = TAB_SCOPE[tabId] || TAB_SCOPE.discover;
   const rp = document.getElementById('fbRowPeriod');
   const rs = document.getElementById('fbRowSeg');
   const rn = document.getElementById('fbRowNote');
@@ -1831,35 +2088,90 @@ function applyFbarScope(tabId){
 
   rp.classList.toggle('off', !c.period);
   rs.classList.toggle('hide', !isGa);
-  // 개별 컨트롤 단위로 켜고 끈다 (행 단위로만 끄면 '건물은 먹는데 해상도는 안 먹는' 경우를 표현 못 한다)
-  const set = (id, on) => {
+  /* 개별 컨트롤 단위로 켜고 끈다 (행 단위로만 끄면 '건물은 먹는데 해상도는 안 먹는'
+     경우를 표현 못 한다). 끌 때는 이유를 칩으로 남겨 '왜 안 먹나'에 계속 답한다. */
+  const why = (isGa && sub.why) || {};
+  const set = (id, on, dflt) => {
     const el = document.getElementById(id);
-    if(el) el.closest('.fb-ctl')?.classList.toggle('off', !on);
+    const ctl = el && el.closest('.fb-ctl');
+    if(!ctl) return;
+    ctl.classList.toggle('off', !on);
+    if(!on) ctl.dataset.off = why[id] || dflt;
+    else delete ctl.dataset.off;
   };
-  set('gaResToggle', c.res);
-  set('cbxBld', c.bld);
-  set('cbxScreen', c.scr);
+  set('gaResToggle', c.res, '월 기준 고정');
+  set('cbxBld',      c.bld, '이 화면은 전체 기준');
+  set('cbxScreen',   c.scr, '이 화면에는 해당 없음');
 
   const note = isGa ? sub.note : sc.note;
   rn.style.display = note ? 'flex' : 'none';
   document.getElementById('fbOffNote').innerHTML = note ? '&#9888; ' + note : '';
+  syncFbarMini();
   syncFbarTop();
+}
+
+/* 모바일 요약칩 라벨 — 접힌 상태에서도 '지금 무슨 조건인지'는 항상 보여야 한다.
+   안 보이면 접기가 곧 정보 손실이 된다. */
+function syncFbarMini(){
+  const t = document.getElementById('fbMiniTxt');
+  if(!t) return;
+  const parts = [];
+  if(_period) parts.push(_period.from + '~' + _period.to);
+  const tab = activeTabId();
+  if(tab === 'ga'){
+    parts.push(_gaRes === 'week' ? '주' : '월');
+    const names = _detail?.building_index?.names || {};
+    parts.push(_gaBld.length ? (_gaBld.length === 1 ? (names[_gaBld[0]]||_gaBld[0]) : '건물 '+_gaBld.length+'개')
+                             : '전체 건물');
+  }
+  t.textContent = parts.join(' · ') || '조회 조건';
 }
 
 function renderGaSubtabs(){
   const nav = document.getElementById('gaSubtabs');
   if(!nav) return;
-  const nIssue = document.querySelectorAll('#gaIssueList .iss').length;
   nav.innerHTML = GA_SUBS.map(s=>
-    '<button class="subtab'+(s.k===_gaSub?' on':'')+'" data-sub="'+s.k+'" style="--sc:'+s.sc+'">'
-    + s.nm + (s.k==='issue' && nIssue ? '<span class="st-n">'+nIssue+'</span>' : '')
-    + '</button>').join('');
+    '<button class="subtab'+(s.k===_gaSub?' on':'')+'" data-sub="'+s.k+'" style="--sc:'+s.sc+'"'
+    + ' aria-pressed="'+(s.k===_gaSub)+'">' + s.nm + '</button>').join('');
   nav.querySelectorAll('.subtab').forEach(b=>b.addEventListener('click', ()=>{
     _gaSub = b.dataset.sub;
     syncHash();
     showGaSub();
+    scrollToReadStart(nav);       // 선택한 서브탭 줄부터 아래로 읽히게
   }));
   showGaSub();
+}
+
+// ── 발굴 탭 서브탭 ──
+function renderDscSubtabs(){
+  const nav = document.getElementById('dscSubtabs');
+  if(!nav) return;
+  const nIssue = document.querySelectorAll('#gaIssueList .iss').length;
+  const nOpp = document.querySelectorAll('#oppList .iss').length;
+  nav.innerHTML = DSC_SUBS.map(s=>{
+    const n = s.k === 'issue' ? nIssue : nOpp;
+    return '<button class="subtab'+(s.k===_dscSub?' on':'')+'" data-dsub="'+s.k+'" style="--sc:'+s.sc+'"'
+      + ' aria-pressed="'+(s.k===_dscSub)+'">' + s.nm
+      + (n ? '<span class="st-n">'+n+'</span>' : '') + '</button>';
+  }).join('');
+  nav.querySelectorAll('.subtab').forEach(b=>b.addEventListener('click', ()=>{
+    _dscSub = b.dataset.dsub;
+    syncHash();
+    showDscSub();
+    scrollToReadStart(nav);
+  }));
+  showDscSub();
+}
+
+function showDscSub(){
+  document.querySelectorAll('#dscSubtabs .subtab').forEach(b=>{
+    const on = b.dataset.dsub === _dscSub;
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-pressed', String(on));
+  });
+  document.querySelectorAll('.tab-content[data-tab="discover"] .scope[data-dsub]').forEach(p=>{
+    p.hidden = p.dataset.dsub !== _dscSub;
+  });
 }
 
 function showGaSub(){
@@ -1882,8 +2194,9 @@ function syncHash(){
   if(_gaBld.length) p.push('b=' + _gaBld.join(','));
   if(_gaScreen) p.push('s=' + encodeURIComponent(_gaScreen));
   const tab = activeTabId();
-  if(tab !== 'overview') p.push('t=' + tab);
-  if(_gaSub !== 'issue') p.push('v=' + _gaSub);
+  if(tab !== 'discover') p.push('t=' + tab);
+  if(_gaSub !== 'all') p.push('v=' + _gaSub);
+  if(_dscSub !== 'issue') p.push('d=' + _dscSub);
   history.replaceState(null, '', location.pathname + location.search + (p.length ? '#'+p.join('&') : ''));
 }
 
@@ -1913,15 +2226,39 @@ function restoreFromHash(){
   if(o.b) _gaBld = o.b.split(',').filter(Boolean).slice(0, GA_BLD_MAX);
   if(o.s) _gaScreen = /^s[cv]:/.test(o.s) ? o.s : 'sc:' + o.s;   // 구버전 링크 흡수
   if(o.v && GA_SUBS.some(x=>x.k === o.v)) _gaSub = o.v;
-  if(o.t && document.querySelector('.tab[data-tab="'+o.t+'"]')){
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));
-    document.querySelector('.tab[data-tab="'+o.t+'"]').classList.add('active');
-    document.querySelector('.tab-content[data-tab="'+o.t+'"]').classList.add('active');
+  if(o.d && DSC_SUBS.some(x=>x.k === o.d)) _dscSub = o.d;
+  /* 발견 카드 퍼머링크 — 카드는 규칙 실행 후에 생기므로 여기서는 대상만 기억하고
+     렌더 마지막에 스크롤한다. 링크가 발굴 탭을 가리키므로 탭·서브탭도 맞춘다. */
+  if(o.i){
+    _pendingIssue = o.i;
+    if(!o.t) o.t = 'discover';
+    if(!o.d) _dscSub = /^opp-/.test(o.i) ? 'opp' : 'issue';
   }
+  if(o.t && document.querySelector('.tab[data-tab="'+o.t+'"]')) setActiveTab(o.t);
+}
+
+// 탭 활성 상태를 한 곳에서 바꾼다 (aria-selected를 빼먹으면 스크린리더에 이전 탭이 남는다)
+function setActiveTab(tabId){
+  document.querySelectorAll('.tab').forEach(x=>{
+    const on = x.dataset.tab === tabId;
+    x.classList.toggle('active', on);
+    x.setAttribute('aria-selected', String(on));
+  });
+  document.querySelectorAll('.tab-content').forEach(x=>
+    x.classList.toggle('active', x.dataset.tab === tabId));
 }
 
 function bindFbarActions(){
+  const mini = document.getElementById('fbMini');
+  if(mini && !mini.dataset.bound){
+    mini.dataset.bound = '1';
+    mini.addEventListener('click', ()=>{
+      const bar = document.getElementById('periodCtl');
+      const open = bar.classList.toggle('collapsed') === false;
+      mini.setAttribute('aria-expanded', String(open));
+      syncFbarTop();   // 높이가 바뀌면 sticky 오프셋도 다시 재야 한다
+    });
+  }
   const rst = document.getElementById('fbReset');
   const lnk = document.getElementById('fbLink');
   if(rst && !rst.dataset.bound){
@@ -2183,11 +2520,28 @@ function renderGaControls(){
       _gaBld = _gaBld.filter(x=>x!==b.dataset.c); syncHash(); renderGaSegment();
     }));
 
+  /* ── 숫자를 읽는 규칙을 상시 노출 ──
+     미완결 제외·사용자 수 비가산·4구간 평균·귀속률은 전부 '알아두면 좋은 정보'가 아니라
+     이 화면의 숫자를 읽는 방법 자체다. 호버 툴팁에 두면 ⓐ 터치에서 안 보이고
+     ⓑ 스크린샷·인쇄에 안 남고 ⓒ 가장 필요한 사람이 안 누른다.
+     이 대시보드가 존재하는 이유가 '부분 주를 기준점으로 삼은 588.8% 허수'였으므로
+     그 규칙만은 화면에 붙여 둔다. */
   const cov = (_detail?.building_coverage||[]).slice(-1)[0];
   document.getElementById('gaSegNote').innerHTML =
-    '건물 축 유효: ' + (av.building?.from||'-') + ' ~ ' + (av.building?.to||'-')
-    + (cov ? ' · 최근 귀속률 ' + cov.rate + '%' : '')
-    + ' · 화면 축 유효: ' + (av.label?.from||'-') + ' ~ ' + (av.label?.to||'-');
+    '<div class="read-rules"><b>이 숫자를 읽는 규칙</b>'
+    + '<span class="rr"><b>미완결 구간 제외</b>아직 끝나지 않은 ' + unitOf()
+    + '은 증감률·평균·최고/최저 계산에서 뺍니다 (부분 구간을 기준점으로 삼으면 허수 증감률이 나옵니다)</span>'
+    + '<span class="rr"><b>사용자 수는 합산하지 않음</b>같은 사람이 여러 ' + unitOf()
+    + '에 오면 중복이라 <b>' + unitOf() + '평균</b>으로 환산합니다. 세션·조회수만 합계입니다</span>'
+    + '<span class="rr"><b>증감은 ' + unitsOf(BLOCK) + ' 평균 비교</b>최근 완결 ' + unitsOf(BLOCK)
+    + ' 평균 vs 그 이전 ' + unitsOf(BLOCK) + ' 평균. 표본이 ' + unitsOf(BLOCK+1)
+    + ' 미만이면 계산하지 않고 &lsquo;표본 부족&rsquo;으로 둡니다</span>'
+    + (cov ? '<span class="rr"><b>건물 귀속률 ' + cov.rate + '%</b>나머지 '
+        + fmt(cov.unatt||0) + '명은 <code>building_id</code>가 없어 건물별 집계에서 빠집니다 — '
+        + '<b>건물 합계는 전체와 맞지 않습니다</b></span>' : '')
+    + '<span class="rr"><b>계측 유효 구간</b>건물 축 ' + (av.building?.from||'-') + '~' + (av.building?.to||'-')
+    + ' · 화면 축 ' + (av.label?.from||'-') + '~' + (av.label?.to||'-') + '</span>'
+    + '</div>';
   renderScopeBanner();
 
   // 축별 유효 기간을 벗어난 조회인지 경고
@@ -2279,8 +2633,6 @@ function renderGaSegment(){
   safeBlock('C 참여 품질',   drawGaQuadrant, 'gaQuadNote');
   safeBlock('건물 순위표',   drawGaRank,     'gaRankBody');
   safeBlock('화면 퍼널',     renderGaFunnel, 'gaFunnel');
-  safeBlock('문제 발굴',     runIssueDetection, 'gaIssueList');
-  // 서브탭 배지(문제 건수)는 발굴 결과가 나온 뒤에 그린다
   safeBlock('서브탭',        renderGaSubtabs,   'gaSubtabs');
 
   const pt = ser.filter(x=>x.partial);
@@ -2804,13 +3156,54 @@ function drawGaRank(){
 
    각 규칙은 아래 형태를 반환한다 (없으면 null):
      { sev:'high'|'mid'|'low', title, scope, affected,
+       key,                           ← 건 단위 식별자 (기간 이동 비교의 조인 키)
+       mv,                            ← 비교용 스칼라 (클수록 나쁨. 악화/개선 판정)
+       est:true,                      ← affected가 실측이 아니라 추정일 때만
        num, numUnit, numSub,          ← 숫자
        source[],                      ← 근거 (계산식·출처·표본)
        analysis,                      ← 분석 (왜 문제인가)
-       options:[{t,d,tr}] }           ← 대안 (+ 트레이드오프)
+       options:[{t,d,tr}],            ← 대안 (+ 트레이드오프)
+       link }                         ← 근거를 확인할 탭·필터 해시 (선택)
 
    정렬은 '영향 사용자 수' 내림차순 — 늦을수록 비싼 것부터 본다.
    ══════════════════════════════════════════════════════════════ */
+
+/* ── 규칙 실행 컨텍스트 ──
+   규칙은 전역 조회 상태(_period·_gaRes)를 읽는다. 그대로 두면 두 가지 문제가 있다.
+
+   ⓐ 숨은 입력: 해상도 컨트롤은 '문제 발굴' 서브탭에서 비활성인데(GA_SUBS.ctl.res=0)
+      buildingStats → doneSeries → gaSeries 는 _gaRes 로 분기한다. 다른 서브탭에서
+      주로 바꾸고 돌아오면 결과가 조용히 달라졌다 — 화면에 원인이 보이지 않는다.
+      → 점검은 항상 월 기준으로 고정한다. building_weekly 는 상위 80건물만 담아
+        표본이 얇고, 월별(263건물 × 14개월)이 이탈 판정에 더 안전하다.
+
+   ⓑ 시점 비교 불가: '이 문제가 새로 생긴 건가'에 답하려면 같은 규칙을
+      이전 조회 창에 적용해야 한다. 창을 갈아끼우고 되돌린다. */
+const RULE_RES = 'month';
+
+function shiftedPeriod(shift){
+  const all = (_raw?.periods?.months)||[];
+  if(!all.length) return null;
+  const from = _period?.from || all[0], to = _period?.to || all[all.length-1];
+  const i = all.indexOf(from), j = all.indexOf(to);
+  if(i < 0 || j < 0) return null;
+  // 창 길이를 보존해야 평균·증감이 비교 가능하다. 앞으로 밀 여유가 없으면 비교 포기.
+  if(i - shift < 0) return null;
+  return {from: all[i-shift], to: all[j-shift]};
+}
+
+function withRuleCtx(shift, fn){
+  const pRes = _gaRes, pPer = _period;
+  let per = _period;
+  if(shift > 0){
+    per = shiftedPeriod(shift);
+    if(!per) return null;
+  }
+  _gaRes = RULE_RES; _period = per;
+  try { return fn(); }
+  finally { _gaRes = pRes; _period = pPer; }
+}
+
 const SEV = {
   high:{nm:'심각', c:'#F03E3E', bg:'rgba(240,62,62,.07)'},
   mid: {nm:'주의', c:'#E8590C', bg:'rgba(232,89,12,.07)'},
@@ -2863,6 +3256,11 @@ const ISSUE_RULES = [
         const done = steps[steps.length-1].u, first = steps[0].u;
         out.push({
           sev: worst.d >= 30 ? 'high' : 'mid',
+          // 같은 화면의 최대 이탈 구간이 옮겨가도 '같은 문제'로 잇는다 (구간까지 키에
+          // 넣으면 병목이 한 단계 이동한 것을 신규+해소 2건으로 잘못 센다)
+          key: 'funnel-drop:' + sc,
+          mv: worst.d,
+          link: '#t=ga&v=scr&s=' + encodeURIComponent('sc:' + sc),
           title: (fd.title||sc) + ' — ' + steps[worst.i-1].name + ' → ' + steps[worst.i].name + ' 구간에서 이탈 집중',
           scope: '화면 ' + sc,
           affected: lost,
@@ -2906,6 +3304,9 @@ const ISSUE_RULES = [
       const top = rows.slice(0,4);
       return {
         sev: rows.length >= 5 ? 'high' : 'mid',
+        key: 'churn-risk',
+        mv: rows.length,
+        link: '#t=ga&v=bld&b=' + top.map(r=>r.c).slice(0, GA_BLD_MAX).join(','),
         title: '사용자는 느는데 참여도가 떨어지는 건물 ' + rows.length + '개',
         scope: '건물 축',
         affected: aff,
@@ -2954,10 +3355,18 @@ const ISSUE_RULES = [
       const total = mx.length || 0;
       return {
         sev:'mid',
+        key: 'adopted-no-traffic',
+        mv: nt.length,
+        link: '#t=buildings',
         title: '도입은 했지만 사용 흔적이 없는 건물 ' + nt.length + '개',
         scope: '건물 축',
-        // 인원은 0이지만 방치 비용이 있으므로 규모를 건물 수로 환산해 순위에 태운다
+        /* 실제 활성 사용자는 0명이다. 그래도 방치 비용이 있어 정렬에서 빠지면 안 되므로
+           건물당 40명이라는 가정으로 규모를 환산한다. 다만 이 값은 실측이 아니라
+           추정이므로 est 플래그를 세워 카드에 '추정'으로 표기한다 — 실측과 같은
+           서식으로 '영향 N명'이라 적으면 이 대시보드가 잡으려던 허수와 같은 종류가 된다. */
         affected: nt.length * 40,
+        est: true,
+        estNote: '활성 사용자는 0명입니다. 정렬에서 누락되지 않도록 <b>건물당 40명</b>을 가정해 환산한 값이며 실측이 아닙니다.',
         num: nt.length + '개',
         numUnit: '건물' + (total ? ' (도입 ' + total + '개 중 ' + (nt.length/total*100).toFixed(0) + '%)' : ''),
         numSub: '조회 기간 활성 사용자 <b>0명</b>',
@@ -3009,6 +3418,10 @@ const ISSUE_RULES = [
       const aff = hit.reduce((s,r)=>s+r.avgAu, 0);
       return {
         sev:'mid',
+        key: 'engagement-gap',
+        // 하위 25% 컷은 상대 기준이라 건수는 잘 안 변한다. 중앙값 대비 격차를 비교값으로.
+        mv: +((1 - Math.min(...hit.map(r=>r.spu))/med) * 100).toFixed(1),
+        link: '#t=ga&v=bld&b=' + hit.map(r=>r.c).slice(0, GA_BLD_MAX).join(','),
         title: '규모는 큰데 방문 빈도가 하위권인 건물 ' + hit.length + '개',
         scope: '건물 축',
         affected: aff,
@@ -3053,6 +3466,8 @@ const ISSUE_RULES = [
       const miss = last.unatt || 0;
       return {
         sev: last.rate < 80 ? 'high' : 'mid',
+        key: 'attribution',
+        mv: +(100-last.rate).toFixed(1),
         title: '건물이 특정되지 않은 사용자가 ' + (100-last.rate).toFixed(1) + '%',
         scope: '계측 품질',
         affected: miss,
@@ -3085,6 +3500,8 @@ const ISSUE_RULES = [
       if(!sel.length || lab >= BLOCK+1) return null;
       return {
         sev:'low',
+        key: 'axis-window',
+        mv: BLOCK+1-lab,      // 모자란 구간 수 — 계측이 쌓이면 줄어든다
         title: '화면 축 계측이 ' + unitsOf(lab) + '뿐이라 추세 판단 불가',
         scope: '데이터 한계',
         affected: 0,
@@ -3108,68 +3525,685 @@ const ISSUE_RULES = [
   },
 ];
 
+/* 규칙 세트를 한 번 돌린다. shift>0 이면 조회 창을 그만큼 앞으로 민 상태로 평가한다.
+   실패한 규칙은 결과에서 빠지되 어느 규칙이 죽었는지 남긴다 — 조용히 0건이 되면
+   '문제가 없다'와 '점검이 안 됐다'가 구분되지 않는다. */
+function collectFindings(shift){
+  return withRuleCtx(shift, ()=>{
+    const found = [], ran = [];
+    ISSUE_RULES.forEach(rule=>{
+      let r = null, err = null;
+      try { r = rule.run(); }
+      catch(e){ err = e; console.error('[issue:'+rule.id+']', e); }
+      const arr = !r ? [] : (Array.isArray(r) ? r.filter(Boolean) : [r]);
+      ran.push({rule, n:arr.length, err:!!err});
+      arr.forEach(x=>found.push(Object.assign(x, {_rule:rule, key:x.key || rule.id})));
+    });
+    found.sort((a,b)=>(b.affected||0)-(a.affected||0));
+    return {found, ran};
+  });
+}
+
+/* ── 변화 추적 ──
+   이 사이트는 모니터링 도구다. 매번 전체를 다시 읽게 하면 "무엇이 달라졌나"라는
+   유일한 관심사에 답하지 못한다. 과거 스냅샷 파일을 쌓는 대신 같은 규칙을
+   한 구간 이전 조회 창에 다시 적용해 비교한다 — 수집 잡이 돌았는지에 의존하지 않고
+   언제든 같은 결과가 재현된다.
+
+   한계는 명시한다: 이건 '그때 실제로 본 화면'이 아니라 지금 데이터로 재구성한
+   결과다(뒤늦게 들어온 데이터가 포함된다). 대신 데이터 backfill 때문에 없던 변화가
+   생겨 보이는 일은 없다. */
+function diffFindings(cur, prev){
+  if(!prev) return null;
+  const pm = new Map(prev.map(f=>[f.key, f]));
+  const cm = new Map(cur.map(f=>[f.key, f]));
+  const out = {isNew:[], gone:[], worse:[], better:[], same:[]};
+  cur.forEach(f=>{
+    const p = pm.get(f.key);
+    if(!p){ out.isNew.push(f); f._chg = {t:'new'}; return; }
+    const d = (f.mv==null || p.mv==null) ? null : +(f.mv - p.mv).toFixed(1);
+    f._chg = {t: d == null ? 'same' : d > 0 ? 'worse' : d < 0 ? 'better' : 'same', d, prev:p};
+    (f._chg.t === 'worse' ? out.worse : f._chg.t === 'better' ? out.better : out.same).push(f);
+  });
+  prev.forEach(f=>{ if(!cm.has(f.key)) out.gone.push(f); });
+  return out;
+}
+
+const CHG = {
+  new:   {nm:'신규',  ic:'&#128994;', c:'var(--red)'},
+  worse: {nm:'악화',  ic:'&#9650;',   c:'var(--red)'},
+  better:{nm:'개선',  ic:'&#9660;',   c:'var(--green)'},
+  same:  {nm:'유지',  ic:'&#8212;',   c:'var(--ink4)'},
+};
+
+// ── 조언 도구: 발견 하나를 밖으로 내보내는 두 경로 (퍼머링크 · 마크다운) ──
+/* 앵커 id — \w 는 한글을 포함하지 않으므로 [^\w] 로 치환하면
+   'funnel-drop:불편신고v1' 과 'funnel-drop:대여v1' 이 똑같이 'iss-funnel-drop-_v1' 이 되어
+   id가 충돌하고 퍼머링크가 엉뚱한 카드로 스크롤한다. \p{L} 로 문자를 살린다. */
+function issAnchor(key){
+  return 'iss-' + String(key).replace(/:/g, '-').replace(/[^\p{L}\p{N}_-]+/gu, '-');
+}
+
+function issPermalink(key){
+  syncHash();
+  const h = location.hash.replace(/^#/, '');
+  const parts = h ? h.split('&').filter(x=>!/^i=/.test(x)) : [];
+  parts.push('i=' + encodeURIComponent(key));
+  return location.origin + location.pathname + location.search + '#' + parts.join('&');
+}
+
+/* HTML 조각 → 마크다운. 규칙 문구에 <b>·<code>·<br>가 섞여 있어 그대로 붙이면
+   Confluence·Jira에서 태그가 노출된다. */
+function mdText(html){
+  return String(html==null?'':html)
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/?(b|strong)>/gi, '**')
+    .replace(/<\/?code>/gi, '`')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+    .replace(/[ \t]+/g, ' ').trim();
+}
+
+// 대상 표 HTML → 마크다운 표 (근거를 옮길 때 표가 가장 자주 필요하다)
+function mdTable(html){
+  const doc = document.createElement('div');
+  doc.innerHTML = html;
+  const rows = [...doc.querySelectorAll('tr')].map(tr =>
+    [...tr.querySelectorAll('th,td')].map(c=>mdText(c.innerHTML).replace(/\|/g, '\\|')));
+  if(!rows.length) return '';
+  const head = rows[0], body = rows.slice(1);
+  return ['| ' + head.join(' | ') + ' |',
+          '|' + head.map(()=>'---').join('|') + '|',
+          ...body.map(r=>'| ' + r.join(' | ') + ' |')].join('\n');
+}
+
+function issueMd(f){
+  const ms = monthsInRange();
+  const L = [];
+  L.push('## ' + mdText(f.title));
+  L.push('');
+  L.push('- 구분: ' + (f.sevLabel || (SEV[f.sev]||SEV.low).nm) + ' · 범위: ' + mdText(f.scope));
+  L.push('- 조회 기간: ' + (ms.length ? ms[0] + ' ~ ' + ms[ms.length-1] : '-') + ' (월 기준)');
+  if(f.affected) L.push('- 영향 규모: ' + fmt(f.affected) + '명' + (f.est ? ' (추정 — 실측 아님)' : ''));
+  if(f._chg) L.push('- 직전 구간 대비: ' + CHG[f._chg.t].nm
+    + (f._chg.d != null && f._chg.d !== 0 ? ' (' + (f._chg.d>0?'+':'△') + Math.abs(f._chg.d) + ')' : ''));
+  L.push('');
+  L.push('**숫자** — ' + mdText(f.num) + ' ' + mdText(f.numUnit));
+  L.push('');
+  L.push(mdText(f.numSub));
+  L.push('');
+  L.push('**근거**');
+  f.source.forEach(s=>L.push('- ' + mdText(s)));
+  if(f.targets){ L.push(''); L.push('**대상 (' + mdText(f.targets.label) + ')'); L.push(''); L.push(mdTable(f.targets.html)); }
+  L.push('');
+  L.push('**분석**');
+  L.push('');
+  L.push(mdText(f.analysis));
+  L.push('');
+  L.push('**검토 항목 (규칙 ' + f._rule.id + ' 표준 플레이북 — 이 건에 맞춘 판단이 아님)**');
+  f.options.forEach((o,i)=>{
+    L.push((i+1) + '. **' + mdText(o.t) + '** — ' + mdText(o.d));
+    L.push('   - 트레이드오프: ' + mdText(o.tr));
+  });
+  L.push('');
+  L.push('출처: SANDI Customer Insights · 규칙 `' + f._rule.id + '` · ' + issPermalink(f.key));
+  return L.join('\n');
+}
+
+function copyText(text, btn, okLabel){
+  const done = ()=>{
+    const prev = btn.innerHTML;
+    btn.classList.add('ok'); btn.innerHTML = '&#10003; ' + okLabel;
+    setTimeout(()=>{ btn.classList.remove('ok'); btn.innerHTML = prev; }, 1600);
+  };
+  if(navigator.clipboard?.writeText) navigator.clipboard.writeText(text).then(done, ()=>prompt('아래 내용을 복사하세요', text));
+  else prompt('아래 내용을 복사하세요', text);
+}
+
+let _findings = {iss:[], opp:[]};   // 현재 렌더된 발견 (버튼 핸들러가 참조)
+
+/* 발견 카드 — 문제·기회가 같은 서식을 쓴다. 둘을 다르게 그리면 같은 4단 구조
+   (숫자·근거·분석·검토항목)를 두 번 읽는 법을 배워야 한다. */
+function findingCard(f, idx, kind, pal){
+  const P = pal || SEV;
+  const sv = P[f.sev] || P.low || SEV.low;
+  const ch = f._chg ? CHG[f._chg.t] : null;
+  return '<div class="iss" id="'+issAnchor(f.key)+'" style="--sv:'+sv.c+';--sv-bg:'+sv.bg+'">'
+    + '<div class="iss-h">'
+    +   '<span class="iss-sev">'+(f.sevLabel || sv.nm)+'</span>'
+    +   (ch ? '<span class="iss-chg" style="--cc:'+ch.c+'">'+ch.ic+' '+ch.nm
+    +     (f._chg.d != null && f._chg.d !== 0 ? ' ' + (f._chg.d>0?'+':'△') + Math.abs(f._chg.d) : '') + '</span>' : '')
+    +   '<span class="iss-t">'+f.title+'</span>'
+    +   '<span class="iss-scope">'+esc(f.scope)+'</span>'
+    +   (f.affected ? '<span class="iss-imp'+(f.est?' est':'')+'">'
+    +     (f.est ? (f.estLabel||'영향 규모')+' <i>추정</i>' : (f.estLabel||'영향 규모')) + '<br><b>'+fmt(f.affected)+'</b>'+(f.affectedUnit||'명')+'</span>' : '')
+    + '</div>'
+    // 조언 도구 — 상태를 저장하지 않는다. 대신 발견을 밖으로 옮기는 경로만 준다
+    + '<div class="iss-act">'
+    +   '<button class="ia" data-act="md" data-kind="'+kind+'" data-i="'+idx+'" title="숫자·근거·대상표·검토항목을 마크다운으로 복사합니다">&#128203; 근거 복사 (MD)</button>'
+    +   '<button class="ia" data-act="link" data-kind="'+kind+'" data-i="'+idx+'" title="이 건으로 바로 열리는 링크를 복사합니다">&#128279; 이 건 링크</button>'
+    +   (f.link ? '<a class="ia" href="'+f.link+'" title="근거가 되는 원본 지표로 이동합니다">&#128269; 원본 지표 보기</a>' : '')
+    + '</div>'
+    + '<div class="iss-b">'
+    +   '<div class="iss-row"><span class="iss-k">숫자</span><span class="iss-v">'
+    +     '<span class="iss-num">'+f.num+'<small>'+esc(f.numUnit)+'</small></span>'
+    +     '<div style="margin-top:2px">'+f.numSub+'</div>'
+    +     (f.est && f.estNote ? '<div class="iss-est">&#9888; '+f.estNote+'</div>' : '')
+    +     (f.sample ? '<div class="iss-est">&#9888; '+f.sample+'</div>' : '')
+    +     (f._chg && f._chg.prev ? '<div class="iss-prevv">직전 구간 같은 규칙: '
+    +       f._chg.prev.num + ' ' + esc(f._chg.prev.numUnit) + '</div>' : '')
+    +     '</span></div>'
+    +   '<div class="iss-row"><span class="iss-k">근거</span><span class="iss-v"><div class="iss-src">'
+    +     f.source.map(s=>'· '+s).join('<br>') + '</div></span></div>'
+    +   (f.targets ? '<div class="iss-row"><span class="iss-k">대상</span><span class="iss-v">'
+    +     '<details class="iss-tg"><summary>' + esc(f.targets.label)
+    +       '<span class="tg-hint">클릭하면 전체 목록</span></summary>'
+    +     '<div class="tg-body">' + f.targets.html + '</div></details></span></div>' : '')
+    +   '<div class="iss-row"><span class="iss-k">분석</span><span class="iss-v">'+f.analysis+'</span></div>'
+    /* 계산된 것(숫자·근거·대상)과 규칙별 고정 문구(분석·대안)를 구분한다.
+       같은 규칙은 이탈 25%에도 60%에도 같은 말을 하는데, 서식이 같으면 이 건을
+       방금 검토한 결론처럼 읽히고 그대로 보고서에 복사된다. */
+    +   '<div class="iss-row"><span class="iss-k">검토<br>항목</span><span class="iss-v">'
+    +     '<div class="iss-pb">이 규칙의 <b>표준 검토 항목</b>입니다 — 이 건의 데이터를 보고 고른 결론이 아니라, '
+    +     '규칙에 미리 붙여 둔 점검 목록입니다. 실제 원인은 아래를 따라 확인해야 정해집니다.</div>'
+    +     f.options.map((o,i)=>'<div class="iss-opt"><span class="o-n">'+(i+1)+'</span><span class="o-b">'
+    +       '<div class="o-t">'+o.t+'</div><div class="o-d">'+o.d+'</div>'
+    +       '<div class="o-tr">트레이드오프: <b>'+o.tr+'</b></div></span></div>').join('')
+    +   '</span></div>'
+    + '</div></div>';
+}
+
+function bindFindingActions(root){
+  root.querySelectorAll('button.ia').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const f = (_findings[b.dataset.kind]||[])[+b.dataset.i];
+      if(!f) return;
+      if(b.dataset.act === 'md') copyText(issueMd(f), b, '복사됨');
+      else copyText(issPermalink(f.key), b, '복사됨');
+    });
+  });
+}
+
+// 퍼머링크로 들어온 경우 해당 카드로 이동 + 강조 (한 번만)
+function flushPendingIssue(){
+  if(!_pendingIssue) return;
+  const el = document.getElementById(issAnchor(_pendingIssue));
+  if(!el) return;                 // 아직 다른 서브탭이 안 그려졌을 수 있어 보류
+  _pendingIssue = null;
+  el.classList.add('hl');
+  el.scrollIntoView({block:'center'});
+  setTimeout(()=>el.classList.remove('hl'), 2600);
+}
+
 function runIssueDetection(){
   const method = document.getElementById('gaIssueMethod');
   const list = document.getElementById('gaIssueList');
   if(!method || !list) return;
   if(!_detail){ list.innerHTML = ''; return; }
 
-  const found = [], ran = [];
-  ISSUE_RULES.forEach(rule=>{
-    let r = null;
-    try { r = rule.run(); }
-    catch(e){ console.error('[issue:'+rule.id+']', e); }
-    const arr = !r ? [] : (Array.isArray(r) ? r.filter(Boolean) : [r]);
-    ran.push({rule, n:arr.length});
-    arr.forEach(x=>found.push(Object.assign(x, {_rule:rule})));
-  });
-  found.sort((a,b)=>(b.affected||0)-(a.affected||0));
+  const cur = collectFindings(0) || {found:[], ran:[]};
+  const prevRun = collectFindings(1);
+  const found = cur.found, ran = cur.ran;
+  const dif = diffFindings(found, prevRun ? prevRun.found : null);
+  _findings = found;
 
   const ms = monthsInRange();
+  const failed = ran.filter(x=>x.err);
+  const shifted = shiftedPeriod(1);
   method.innerHTML =
     '<b>점검 방법</b> — 아래 ' + ISSUE_RULES.length + '개 규칙을 현재 조회 조건'
-    + (ms.length ? ' (<b>' + ms[0] + ' ~ ' + ms[ms.length-1] + '</b>, 해상도 ' + unitOf() + ')' : '')
+    + (ms.length ? ' (<b>' + ms[0] + ' ~ ' + ms[ms.length-1] + '</b>)' : '')
     + '에 적용했습니다. 임계값과 데이터 출처를 각 건의 <b>근거</b>에 함께 적었으므로 결과를 되짚어 검증할 수 있습니다. '
     + '순서는 <b>영향 사용자 수</b> 내림차순 — 늦을수록 비싼 것부터 봅니다.'
+    // 숨은 입력을 없앤다: 점검은 해상도 토글과 무관하게 항상 월 기준
+    + '<div class="im-note">점검 기준은 <b>월</b>로 고정되어 있어 상단 해상도(주/월) 선택과 무관합니다 — '
+    + '주별 건물 데이터는 상위 80개 건물만 담겨 이탈 판정에는 표본이 얇습니다.</div>'
+    + (failed.length ? '<div class="im-err">&#9888; ' + failed.map(x=>esc(x.rule.nm)).join(', ')
+        + ' 규칙이 오류로 실행되지 않았습니다 — 아래 목록은 불완전합니다 (콘솔 확인).</div>' : '')
     + '<div class="im-rules">'
-    + ran.map(x=>'<span class="im-rule'+(x.n?' hit':'')+'" title="'+esc(x.rule.desc)+'">'
-        + esc(x.rule.nm) + (x.n ? ' ' + x.n + '건' : ' 해당 없음') + '</span>').join('')
+    + ran.map(x=>'<span class="im-rule'+(x.err?' err':x.n?' hit':'')+'" title="'+esc(x.rule.desc)+'">'
+        + esc(x.rule.nm) + (x.err ? ' 오류' : x.n ? ' ' + x.n + '건' : ' 해당 없음') + '</span>').join('')
     + '</div>';
 
+  // ── 변화 요약 (모니터링의 첫 줄) ──
+  let chgHtml = '';
+  if(dif){
+    const c = [];
+    if(dif.isNew.length) c.push('<b style="color:var(--red)">&#128994; 신규 ' + dif.isNew.length + '건</b>');
+    if(dif.gone.length)  c.push('<b style="color:var(--green)">&#10003; 해소 ' + dif.gone.length + '건</b>');
+    const cont = dif.worse.length + dif.better.length + dif.same.length;
+    if(cont) c.push('&#8594; 계속 ' + cont + '건 <span style="color:var(--ink4)">('
+      + [dif.worse.length?'악화 '+dif.worse.length:'', dif.better.length?'개선 '+dif.better.length:'',
+         dif.same.length?'유지 '+dif.same.length:''].filter(Boolean).join(' · ') + ')</span>');
+    chgHtml = '<div class="iss-diff">'
+      + '<div class="id-h"><b>' + shifted.to + ' 기준 대비 변화</b> ' + c.join(' &nbsp;·&nbsp; ') + '</div>'
+      + '<div class="id-n">같은 규칙을 조회 창을 한 달 앞으로 민 조건(<b>' + shifted.from + ' ~ ' + shifted.to
+      + '</b>)에 다시 적용해 비교했습니다. 그때 실제로 본 화면이 아니라 <b>지금 데이터로 재구성</b>한 것이므로, '
+      + '뒤늦게 들어온 데이터가 포함됩니다. 반대로 그 덕분에 데이터 보정 때문에 없던 변화가 생겨 보이는 일은 없습니다.</div>'
+      + (dif.gone.length ? '<div class="id-gone"><b>&#10003; 해소된 문제</b>'
+          + dif.gone.map(g=>'<div class="idg">' + mdText(g.title)
+            + ' <span class="idg-m">지난 창 기준 ' + g.num + ' ' + esc(g.numUnit) + ' → 현재 규칙 미해당</span></div>').join('')
+          + '</div>' : '')
+      + '</div>';
+  } else {
+    chgHtml = '<div class="iss-diff"><div class="id-n">비교할 이전 구간이 없습니다 — 조회 시작을 한 달 앞으로 밀 여유가 없습니다. '
+      + '기간을 짧게(예: 최근 6개월) 잡으면 직전 구간과 비교됩니다.</div></div>';
+  }
+
   if(!found.length){
-    list.innerHTML = '<div class="iss-none">&#9989; 현재 조건에서 규칙에 걸린 문제가 없습니다.'
+    list.innerHTML = chgHtml
+      + '<div class="iss-none">&#9989; 현재 조건에서 규칙에 걸린 문제가 없습니다.'
       + '<br><span style="font-size:14px;color:var(--ink4)">규칙이 못 잡는 문제는 여전히 있을 수 있습니다 — '
       + '위 칩에 마우스를 올리면 각 규칙이 무엇을 보는지 확인할 수 있습니다.</span></div>';
     return;
   }
 
-  list.innerHTML = found.map(f=>{
-    const sv = SEV[f.sev] || SEV.low;
-    return '<div class="iss" style="--sv:'+sv.c+';--sv-bg:'+sv.bg+'">'
-      + '<div class="iss-h">'
-      +   '<span class="iss-sev">'+sv.nm+'</span>'
-      +   '<span class="iss-t">'+f.title+'</span>'
-      +   '<span class="iss-scope">'+esc(f.scope)+'</span>'
-      +   (f.affected ? '<span class="iss-imp">영향 규모<br><b>'+fmt(f.affected)+'</b>명</span>' : '')
-      + '</div>'
-      + '<div class="iss-b">'
-      +   '<div class="iss-row"><span class="iss-k">숫자</span><span class="iss-v">'
-      +     '<span class="iss-num">'+f.num+'<small>'+esc(f.numUnit)+'</small></span>'
-      +     '<div style="margin-top:2px">'+f.numSub+'</div></span></div>'
-      +   '<div class="iss-row"><span class="iss-k">근거</span><span class="iss-v"><div class="iss-src">'
-      +     f.source.map(s=>'· '+s).join('<br>') + '</div></span></div>'
-      +   (f.targets ? '<div class="iss-row"><span class="iss-k">대상</span><span class="iss-v">'
-      +     '<details class="iss-tg"><summary>' + esc(f.targets.label)
-      +       '<span class="tg-hint">클릭하면 전체 목록</span></summary>'
-      +     '<div class="tg-body">' + f.targets.html + '</div></details></span></div>' : '')
-      +   '<div class="iss-row"><span class="iss-k">분석</span><span class="iss-v">'+f.analysis+'</span></div>'
-      +   '<div class="iss-row"><span class="iss-k">대안</span><span class="iss-v">'
-      +     f.options.map((o,i)=>'<div class="iss-opt"><span class="o-n">'+(i+1)+'</span><span class="o-b">'
-      +       '<div class="o-t">'+o.t+'</div><div class="o-d">'+o.d+'</div>'
-      +       '<div class="o-tr">트레이드오프: <b>'+o.tr+'</b></div></span></div>').join('')
-      +   '</span></div>'
-      + '</div></div>';
-  }).join('');
+  _findings.iss = found;
+  list.innerHTML = chgHtml + found.map((f,idx)=>findingCard(f, idx, 'iss')).join('');
+  bindFindingActions(list);
+  flushPendingIssue();
+}
+
+/* ══════════════════════════════════════════════════════════════
+   기회 발굴 — "무엇을 새로 만들까"
+
+   문제 발굴 규칙은 전부 하락·결함 탐지기라 가설의 후반부("근거를 갖고
+   새로운 서비스를 발굴")를 지원하지 못한다. 수요의 흔적을 따로 모은다.
+
+   문제 카드와 같은 반환 형태를 쓰되 두 가지를 더 붙인다:
+     sevLabel  — '심각/주의' 대신 '유력/후보/공백'
+     sample    — 표본 경고. 기회 신호는 표본이 작아 이게 없으면 위험하다
+
+   기회는 결론이 아니라 가설의 씨앗이다. 정렬은 규모 순이지만 그것이
+   우선순위는 아니라는 점을 화면에 적는다.
+   ══════════════════════════════════════════════════════════════ */
+const OPP_SEV = {
+  strong:{nm:'유력', c:'#0CA678', bg:'rgba(12,166,120,.07)'},
+  cand:  {nm:'후보', c:'#1098AD', bg:'rgba(16,152,173,.06)'},
+  gap:   {nm:'공백', c:'#7048E8', bg:'rgba(112,72,232,.06)'},
+};
+
+// 표기 차이를 흡수해 GA 서비스명 ↔ 도입현황 서비스명을 맞춘다 (설계서 2.4 규칙)
+function svcNorm(s){ return String(s||'').replace(/[\s\-_·]/g, ''); }
+
+const OPP_RULES = [
+  {
+    id:'proven-unadopted',
+    nm:'검증된 가치, 낮은 도입',
+    desc:'도입한 건물에서는 많이 쓰이는데 도입률 자체가 낮은 서비스를 찾는다 (도입건물당 사용량 상위, 도입률 50% 미만)',
+    run(){
+      const svcs = _data?.lk?.services || [];
+      const hs = _detail?.home_services || [];
+      const al = _detail?.service_aliases || {};
+      if(!svcs.length || !hs.length) return null;
+      const bySvc = new Map(svcs.map(s=>[svcNorm(s.svc), s]));
+      const rows = [];
+      hs.forEach(h=>{
+        const m = bySvc.get(svcNorm(al[h.svc] || h.svc));
+        if(!m || !m.buildings) return;
+        if(m.rate >= 50) return;                       // 이미 널리 깔린 것은 기회가 아니다
+        rows.push({svc:m.svc, cat:m.cat, rate:m.rate, bld:m.buildings,
+                   u:h.u, c:h.c, cpb:+(h.c/m.buildings).toFixed(1)});
+      });
+      if(rows.length < 2) return null;
+      const med = [...rows].sort((a,b)=>a.cpb-b.cpb)[Math.floor(rows.length/2)].cpb;
+      const hit = rows.filter(r=>r.cpb > med).sort((a,b)=>b.cpb-a.cpb).slice(0, 8);
+      if(hit.length < 2) return null;
+      const thin = hit.filter(r=>r.bld < 10);
+      const top = hit[0];
+      // 미도입 건물 수 × 도입건물당 사용자 = 확산 시 기대 사용자 (거친 추정)
+      const upside = hit.reduce((s,r)=>s + Math.round(r.u/r.bld * (328 - r.bld)), 0);
+      return {
+        sev:'strong', sevLabel:OPP_SEV.strong.nm,
+        key:'opp-proven-unadopted',
+        title: '도입한 곳에서는 잘 쓰는데 도입률이 낮은 서비스 ' + hit.length + '개',
+        scope: '서비스 축',
+        affected: upside, est:true, estLabel:'확산 시 기대',
+        estNote: '미도입 건물 수 × 도입 건물의 1건물당 사용자로 환산한 <b>거친 상한</b>입니다. 건물 규모·업종 차이를 반영하지 않았으므로 실제는 이보다 작습니다.',
+        num: top.cpb.toLocaleString('ko-KR'),
+        numUnit: '건물당 클릭 (' + esc(top.svc) + ', 도입률 ' + top.rate + '%)',
+        numSub: '중앙값 <b>' + med + '</b>건 대비 상위 · 대상 ' + hit.length + '개 서비스',
+        sample: thin.length ? '도입 건물이 10개 미만인 서비스가 ' + thin.length + '개 포함되어 있습니다 ('
+          + thin.map(r=>esc(r.svc)+' '+r.bld+'개').join(', ') + '). 1건물당 값이 크게 흔들리므로 순위로 읽지 마세요.' : null,
+        source: [
+          'GA <code>홈v1_서비스_{이름}_클릭</code> 파싱 결과(<code>home_services</code>)와 도입현황 매트릭스를 서비스명 정규화 후 조인',
+          '조인 성공 ' + rows.length + '개 서비스 · 도입률 50% 미만만 대상',
+          '선정 기준: 1건물당 클릭이 대상군 <b>중앙값(' + med + ')을 초과</b>하는 서비스 상위 8개',
+          '상위: ' + hit.slice(0,4).map(r=>esc(r.svc)+' ('+r.cpb+'건/건물, 도입 '+r.bld+'개)').join(' · '),
+        ],
+        targets: issTargets('대상 서비스 ' + hit.length + '개 · 1건물당 사용량 순', [
+          {t:'서비스', v:r=>esc(r.svc)},
+          {t:'분류', v:r=>esc(r.cat||'-')},
+          {t:'도입 건물', num:1, v:r=>fmt(r.bld)+'개'},
+          {t:'도입률', num:1, v:r=>r.rate+'%'},
+          {t:'건물당 클릭', num:1, v:r=>fmt(r.cpb)},
+          {t:'사용자', num:1, v:r=>fmt(r.u)},
+        ], hit),
+        analysis: '도입률이 낮은 이유가 <b>가치가 없어서가 아닐</b> 가능성을 가리킵니다 — 깔린 곳에서는 평균보다 많이 쓰이고 있습니다. '
+          + '신규 서비스를 만드는 것보다 <b>이미 검증된 것을 확산</b>하는 편이 같은 사용량을 얻는 데 싸게 듭니다. '
+          + '다만 도입률이 낮은 진짜 이유(영업 미접촉 / 건물 설비 부재 / 단가)를 이 데이터로는 구분할 수 없습니다.',
+        options: [
+          {t:'도입률 낮은 이유를 영업·운영에 확인', d:'설비가 없어 못 깔거나 이미 제안했는데 거절된 것이면 확산 대상이 아닙니다. 목록을 그대로 들고 물어보는 것이 가장 빠릅니다.',
+           tr:'사람에게 물어야 해 하루 이틀 걸립니다.'},
+          {t:'상위 3개만 골라 확산 파일럿', d:'1건물당 사용량이 높고 도입 건물이 10개 이상인 것부터 고릅니다 — 표본이 확보된 쪽이 실패 위험이 낮습니다.',
+           tr:'표본 큰 것만 고르면 방문자 초대처럼 폭발적인 후보를 놓칠 수 있습니다.'},
+          {t:'번들 상품으로 묶어 제안', d:'개별 도입 협의 비용이 사용량보다 클 수 있습니다. 도입률 높은 서비스에 끼워 파는 구성을 검토합니다.',
+           tr:'번들은 단가 협상력을 떨어뜨립니다.'},
+        ],
+      };
+    },
+  },
+  {
+    id:'undefined-flow',
+    nm:'흐름 미정의 주요 화면',
+    desc:'사용자가 많은데 퍼널 단계가 정의되지 않아 완주율을 측정할 수 없는 화면을 찾는다',
+    run(){
+      const fk = new Set(Object.keys(_detail?.funnels||{}));
+      /* '정의하지 않기로 판단한' 화면은 공백이 아니다 — 홈·게시판처럼 순서가 없는
+         허브 화면을 계속 공백으로 세면, 이 규칙은 절대 0이 되지 않고 매번 같은
+         10개를 지목한다(= 신호가 아니라 소음이 된다). 판단 기록이 있으면 제외한다. */
+      const nd = new Set(Object.keys(_detail?.funnel_not_defined||{}));
+      /* 사용자 30명 미만 화면은 퍼널을 정의해도 이탈률이 표본 오차에 묻힌다.
+         목록에 넣으면 '해야 할 일'이 27개 늘지만 그중 아무것도 판단 근거가 되지 못한다. */
+      const MIN_U = 30;
+      const sc = (_detail?.screens||[]).filter(s=>!fk.has(s.screen) && !nd.has(s.screen)
+        && s.n_el >= 2 && s.u >= MIN_U).sort((a,b)=>b.u-a.u).slice(0, 10);
+      if(sc.length < 3) return null;
+      const cover = fk.size, total = (_detail?.screens||[]).length;
+      return {
+        sev:'gap', sevLabel:OPP_SEV.gap.nm,
+        key:'opp-undefined-flow',
+        link:'#t=ga&v=scr',
+        title: '주요 화면 ' + sc.length + '개는 단계가 정의되지 않아 완주율을 측정할 수 없음',
+        scope: '측정 공백',
+        affected: sc.reduce((s,x)=>s+x.u, 0), estLabel:'해당 화면 사용자',
+        num: cover + '/' + total,
+        numUnit: '퍼널 정의된 화면 (' + Math.round(cover/total*100) + '%)',
+        numSub: '나머지 화면은 요소별 클릭 순위만 볼 수 있고 <b>어디서 빠지는지</b>는 알 수 없습니다',
+        source: [
+          'GA <code>event_label</code> 파싱 화면 ' + total + '개 중 <code>funnels.json</code>에 단계가 정의된 것은 ' + cover + '개',
+          '요소가 2개 이상인 화면만 대상 (요소 1개는 단계를 만들 수 없음)',
+          '<code>not_defined</code>에 <b>정의 불가로 판단 기록된 ' + nd.size + '개</b>(홈·게시판 등 순서 없는 허브)는 제외 — 공백이 아니라 결론이 난 항목입니다',
+          '사용자 <b>' + MIN_U + '명 미만</b> 화면도 제외 — 정의해도 이탈률이 표본 오차에 묻힙니다',
+          '상위: ' + sc.slice(0,4).map(s=>esc(s.screen)+' ('+fmt(s.u)+'명, 요소 '+s.n_el+'개)').join(' · '),
+        ],
+        targets: issTargets('대상 화면 ' + sc.length + '개 · 사용자 많은 순', [
+          {t:'화면', v:r=>esc(r.screen)},
+          {t:'사용자', num:1, v:r=>fmt(r.u)},
+          {t:'클릭', num:1, v:r=>fmt(r.c)},
+          {t:'요소 수', num:1, v:r=>r.n_el+'개'},
+        ], sc),
+        analysis: '이 대시보드가 불편신고 완주율 63%를 짚어낼 수 있었던 것은 그 화면의 <b>단계 순서가 정의되어 있었기</b> 때문입니다. '
+          + '정의가 없는 화면은 이탈이 있어도 보이지 않습니다 — 즉 <b>문제 발굴의 사각지대</b>입니다. '
+          + '아래 목록은 <b>아직 판단하지 않은</b> 화면입니다(정의 불가로 결론 난 허브 화면은 제외됨). '
+          + '억지로 순서를 씌우면 이탈률이 거짓이 되므로, 기획이 실제 흐름을 확인해 정의하거나 '
+          + '<code>not_defined</code>에 이유를 적어 목록에서 내려야 합니다.',
+        options: [
+          {t:'상위 3개 화면의 단계를 funnels.json에 추가', d:'화면정의서에 이미 흐름이 있는 화면부터 옮기면 됩니다. 추가하는 즉시 건물별 퍼널까지 함께 열립니다.',
+           tr:'순서를 잘못 적으면 이탈률이 거짓으로 나옵니다 — 화면정의서와 대조가 필요합니다.'},
+          {t:'단계가 없는 화면(홈·게시판)은 목표 클릭을 정의', d:'홈처럼 순서가 없는 화면은 퍼널 대신 "이 화면의 성공 = 무엇을 눌렀나"를 정하면 측정이 가능해집니다.',
+           tr:'성공 정의는 합의가 필요해 퍼널 추가보다 오래 걸립니다.'},
+          {t:'퍼널이 될 수 없는 화면은 이유를 기록해 목록에서 내린다', d:'허브·목록·종료 화면은 순서가 없습니다. <code>funnels.json</code>의 <code>not_defined</code>에 이유를 적으면 이 목록에서 빠지고, 다음 담당자가 같은 검토를 반복하지 않습니다.',
+           tr:'측정이 열리는 것은 아니지만, 남은 목록이 진짜 할 일만 남습니다.'},
+        ],
+      };
+    },
+  },
+  {
+    id:'demand-no-dev',
+    nm:'문의는 있는데 개발이 없음',
+    desc:'CS 문의량 상위 주제 중 Jira 작업이 잡히지 않은 영역을 찾는다',
+    run(){
+      const ts = _data?.zd?.topic_stats || [];
+      const th = _data?.jira?.themes || {};
+      if(!ts.length) return null;
+      const rows = ts.filter(t=>t.topic !== '기타' && t.count >= 5)
+        .map(t=>({topic:t.topic, n:t.count, dev:th[t.topic]||0,
+                  neg:t.neg_count||0, res:Math.round((t.resolution_rate||0)*100)}))
+        .filter(r=>r.dev === 0)
+        .sort((a,b)=>b.n-a.n);
+      if(!rows.length) return null;
+      const tot = ts.reduce((s,t)=>s+t.count, 0);
+      const sum = rows.reduce((s,r)=>s+r.n, 0);
+      return {
+        sev:'cand', sevLabel:OPP_SEV.cand.nm,
+        key:'opp-demand-no-dev',
+        link:'#t=zendesk',
+        title: 'CS 문의는 있는데 개발 작업이 없는 주제 ' + rows.length + '개',
+        scope: 'CS × 개발',
+        affected: sum, estLabel:'해당 문의',  affectedUnit:'건',
+        num: sum + '건',
+        numUnit: '전체 문의 ' + tot + '건 중 ' + Math.round(sum/tot*100) + '%',
+        numSub: '상위: ' + rows.slice(0,3).map(r=>esc(r.topic)+' '+r.n+'건').join(' · '),
+        sample: '전체 문의가 ' + tot + '건 규모라 주제별로 쪼개면 각 수십 건입니다. 순위는 참고만 하고 <b>티켓 원문</b>을 함께 읽어야 합니다. '
+          + 'CS 주제 축과 Jira 기능 영역 축은 이름이 겹칠 뿐 같은 분류 체계가 아니므로, "작업 0건"이 실제로는 다른 이름으로 잡혀 있을 수 있습니다.',
+        source: [
+          'Zendesk <code>topic_stats</code>(AI 주제 분류)와 Jira <code>themes</code>(기능 영역)를 <b>주제명 일치</b>로 대조',
+          '문의 5건 이상 + Jira 작업 0건인 주제만. <code>기타</code>는 분류 실패분이라 제외',
+          '대상: ' + rows.map(r=>esc(r.topic)+' ('+r.n+'건, 해결률 '+r.res+'%, 부정 '+r.neg+'건)').join(' · '),
+        ],
+        targets: issTargets('대상 주제 ' + rows.length + '개 · 문의 많은 순', [
+          {t:'주제', v:r=>esc(r.topic)},
+          {t:'문의', num:1, v:r=>r.n+'건'},
+          {t:'Jira 작업', num:1, v:r=>r.dev+'건'},
+          {t:'해결률', num:1, v:r=>r.res+'%'},
+          {t:'부정', num:1, v:r=>r.neg+'건'},
+        ], rows),
+        analysis: '사용자가 반복해서 묻는데 <b>제품에서는 아무 일도 일어나지 않는</b> 영역입니다. '
+          + 'CS가 매번 사람 손으로 답하고 있다는 뜻이므로, 기능이든 안내든 만들면 문의가 줄어듭니다. '
+          + '다만 문의가 많은 것이 곧 기능 부재를 뜻하지는 않습니다 — 안내가 부족한 것일 수도 있어 원문 확인이 먼저입니다.',
+        options: [
+          {t:'해당 주제 티켓 원문 10건 읽기', d:'문의 유형이 "기능이 없다"인지 "찾지 못한다"인지 가릅니다. 전자면 개발, 후자면 IA·문구 문제입니다.',
+           tr:'수작업이지만 이 구분 없이는 나머지 판단이 전부 추측입니다.'},
+          {t:'FAQ·챗봇 답변에 먼저 반영', d:'단순문의 비중이 높으므로 안내만으로 상당 부분이 줄어듭니다. 개발 없이 이번 주에 가능합니다.',
+           tr:'근본 원인이 기능 부재면 문의가 다시 올라옵니다.'},
+          {t:'Jira 분류 축을 CS 주제와 맞춘다', d:'두 축이 어긋나 있어 이 대조 자체가 매번 부정확합니다. 라벨 체계를 합치면 이후 점검이 자동화됩니다.',
+           tr:'기존 티켓 재분류 비용이 듭니다.'},
+        ],
+      };
+    },
+  },
+  {
+    id:'unmanaged-traffic',
+    nm:'도입현황에 없는 사용 건물',
+    desc:'GA에는 트래픽이 있는데 도입현황 매트릭스에 없는 건물을 찾는다',
+    run(){
+      const go = _detail?.building_index?.ga_only || [];
+      const n = _detail?.building_index?.ga_only_n || go.length;
+      if(n < 5) return null;
+      const ms = new Set(monthsInRange()), vol = new Map();
+      (_detail?.building_monthly||[]).forEach(r=>{
+        if(ms.has(r.m) && go.includes(r.b)) vol.set(r.b, Math.max(vol.get(r.b)||0, r.au));
+      });
+      const rows = [...vol.entries()].map(([c,au])=>({c, au})).sort((a,b)=>b.au-a.au);
+      if(rows.length < 3) return null;
+      const sum = rows.reduce((s,r)=>s+r.au, 0);
+      return {
+        sev:'cand', sevLabel:OPP_SEV.cand.nm,
+        key:'opp-unmanaged-traffic',
+        title: '앱은 쓰는데 도입현황에 없는 건물 ' + rows.length + '개',
+        scope: '건물 축',
+        affected: sum, estLabel:'월평균 활성',
+        num: rows.length + '개',
+        numUnit: '건물 (GA 전용 ' + n + '개 중 조회 기간 트래픽 확인분)',
+        numSub: '합산 월평균 활성 사용자 <b>' + fmt(sum) + '명</b> · 최대 ' + fmt(rows[0].au) + '명',
+        source: [
+          'GA <code>building_id</code>에는 있으나 도입현황 매트릭스 <code>code</code>에 없는 건물 (차집합 ' + n + '개)',
+          '그중 조회 기간에 실제 활성 사용자가 있는 건물만 ' + rows.length + '개',
+          '건물명은 매트릭스에 없어 코드로만 표시됩니다',
+        ],
+        targets: issTargets('대상 건물 ' + rows.length + '개 · 활성 사용자 순', [
+          {t:'건물 코드', v:r=>'<code>'+esc(r.c)+'</code>'},
+          {t:'월평균 활성 사용자', num:1, v:r=>fmt(r.au)},
+        ], rows),
+        analysis: '도입현황은 활성 328개만 담아 미사용·종료를 제외합니다. 그러므로 이 목록은 '
+          + '<b>종료했는데 아직 쓰는 건물</b>이거나 <b>매트릭스에 안 올라간 건물</b>입니다. '
+          + '전자면 과금·계약 확인이 필요하고, 후자면 도입 실적이 실제보다 낮게 보고되고 있다는 뜻입니다.',
+        options: [
+          {t:'상위 5개 코드를 도입현황 담당자와 대조', d:'계약 상태를 확인해 종료/미등록을 가릅니다. 어느 쪽이냐에 따라 조치가 반대입니다.',
+           tr:'매트릭스가 xlsx 수작업이라 확인에 사람이 필요합니다.'},
+          {t:'도입현황 매트릭스에 상태 축 추가', d:'활성만 담는 대신 종료·미사용도 남기면 이 차집합이 자동으로 설명됩니다.',
+           tr:'원본 파일 구조 변경이라 협의가 필요합니다.'},
+        ],
+      };
+    },
+  },
+  {
+    id:'search-demand',
+    nm:'검색어 = 미충족 수요',
+    desc:'사용자가 검색한 말을 도입현황 서비스명과 대조해, 찾았는데 서비스가 없는 것을 찾는다',
+    run(){
+      const st = _detail?.search_terms;
+      if(!st || !st.length) return null;      // 미수집이면 아래 search-unmeasured가 대신 뜬다
+      const meta = _detail.search_meta || {};
+      const svcs = _data?.lk?.services || [];
+      const hs = _detail?.home_services || [];
+      // 검색어가 기존 서비스명을 가리키는지 판정 — 정규화 후 부분 일치
+      const known = [...svcs.map(s=>s.svc), ...hs.map(h=>h.svc)].map(svcNorm).filter(Boolean);
+      /* 1글자 검색어는 거의 모든 서비스명에 포함되어 부분 일치가 무의미해진다
+         ('차' → 방문세차·전기차충전…). 양쪽 모두 2글자 이상일 때만 대조한다. */
+      const hit = t => {
+        const n = svcNorm(t);
+        if(!n || n.length < 2) return false;
+        return known.some(k=>k.length >= 2 && (k.includes(n) || n.includes(k)));
+      };
+      const rows = st.map(x=>Object.assign({}, x, {known: hit(x.t)}));
+      const miss = rows.filter(r=>!r.known).sort((a,b)=>b.c-a.c);
+      const hitN = rows.length - miss.length;
+      if(!miss.length) return null;
+      const top = miss.slice(0, 20);
+      return {
+        sev:'strong', sevLabel:OPP_SEV.strong.nm,
+        key:'opp-search-demand',
+        title: '검색했지만 기존 서비스와 매칭되지 않는 검색어 ' + miss.length + '종',
+        scope: '검색어 축',
+        affected: miss.reduce((s,r)=>s+r.u, 0), estLabel:'검색 사용자',
+        num: miss.length + '종',
+        numUnit: '전체 검색어 ' + rows.length + '종 중 (기존 서비스 매칭 ' + hitN + '종)',
+        numSub: '해당 검색 <b>' + fmt(miss.reduce((s,r)=>s+r.c, 0)) + '건</b> · 상위: '
+          + top.slice(0,5).map(r=>'<b>'+esc(r.t)+'</b>('+r.c+')').join(' · '),
+        sample: '전 기간 검색 이벤트가 ' + fmt(meta.total_events||0) + '건 규모입니다. '
+          + '<b>순위 경쟁으로 읽지 말고</b> "어떤 말로 찾는가"를 읽으세요. '
+          + '또한 이 목록은 <b>검색 결과가 있었는지 없었는지를 구분하지 못합니다</b> — '
+          + '결과 0건 이벤트가 계측되면 "없어서 못 찾음"과 "있는데 못 찾음"이 갈립니다.',
+        source: [
+          'GA <code>customEvent:search_term</code> × <code>yearMonth</code> (<code>eventName=search</code> 한정)',
+          '수집 구간: <b>' + ((meta.months||[])[0]||'-') + ' ~ ' + ((meta.months||[]).slice(-1)[0]||'-') + '</b> · 검색어 ' + (meta.n_terms||rows.length) + '종',
+          '매칭 방법: 검색어와 도입현황 서비스명·홈 서비스명을 공백·하이픈 제거 후 <b>부분 일치</b>로 대조. 부분 일치라 실제보다 <b>매칭이 후하게</b> 잡히므로, 미매칭으로 남은 것은 신뢰도가 높습니다',
+          '사용자 수는 월별 최대값(중복 방지), 검색 건수는 합계',
+        ],
+        targets: issTargets('미매칭 검색어 ' + miss.length + '종 · 검색 많은 순', [
+          {t:'검색어', v:r=>esc(r.t)},
+          {t:'검색 건수', num:1, v:r=>fmt(r.c)},
+          {t:'사용자', num:1, v:r=>fmt(r.u)},
+          {t:'검색된 개월', num:1, v:r=>r.nm+'개월'},
+        ], top),
+        analysis: '검색은 사용자가 <b>필요를 직접 문장으로 말한</b> 유일한 지점입니다. '
+          + '기존 서비스명과 매칭되지 않는 검색어는 ⓐ 아직 없는 서비스이거나 ⓑ 있는데 이름이 달라 못 찾는 경우입니다. '
+          + 'ⓐ면 신규 서비스 후보고 ⓑ면 <b>명칭·검색 동의어</b> 문제로 개발 없이 고칠 수 있습니다. '
+          + '여러 달에 걸쳐 반복 검색된 말일수록 일시적 관심이 아니라 지속 수요일 가능성이 큽니다.',
+        options: [
+          {t:'반복 검색어부터 이름 문제인지 확인', d:'검색된 개월 수가 2개월 이상인 것부터 봅니다. 비슷한 서비스가 이미 있으면 검색 동의어를 추가하는 것으로 끝납니다 — 개발 없이 이번 주에 가능합니다.',
+           tr:'동의어 사전 관리 주체가 정해져 있지 않으면 운영 부담이 생깁니다.'},
+          {t:'결과 0건 검색 이벤트를 FE에 요청', d:'지금은 "찾았다"까지만 보이고 "찾았는데 없었다"가 안 보입니다. 이 이벤트가 생기면 이 목록의 절반이 자동으로 걸러집니다.',
+           tr:'릴리스 이후 데이터부터 쌓여 다음 분기에나 쓸 수 있습니다.'},
+          {t:'상위 검색어를 신규 서비스 후보로 올린다', d:'도입현황 88개에 없는 말이 반복해서 나오면 서비스 기획 후보입니다. 건물 규모와 교차해 수요를 추정하세요.',
+           tr:'검색 이벤트 자체가 적어 표본 근거가 약합니다 — 다른 근거(CS 문의·건물 요청)와 함께 제시해야 합니다.'},
+        ],
+      };
+    },
+  },
+  {
+    id:'search-unmeasured',
+    nm:'검색어 미수집 (최우선 공백)',
+    desc:'사용자가 무엇을 찾는지 알려주는 search_term이 계측은 되는데 파이프라인에 수집되지 않는다',
+    run(){
+      // 수집되면 이 규칙은 스스로 사라진다 — 그때가 정상 상태다
+      if(_detail?.search_terms) return null;
+      return {
+        sev:'gap', sevLabel:OPP_SEV.gap.nm,
+        key:'opp-search-unmeasured',
+        title: '검색어 수집 대기 — 코드는 추가됨, 아직 데이터 없음',
+        scope: '수집 공백',
+        affected: 0,
+        num: '0',
+        numUnit: '수집된 검색어 (GA에는 120종 존재)',
+        numSub: '미충족 수요를 <b>가장 직접적으로</b> 보여주는 신호인데 수집 대상에서 빠져 있습니다',
+        source: [
+          'GA 감사 결과: <code>customEvent:search_term</code>은 <code>search</code> 이벤트의 <b>99.5%</b>에 붙고 distinct <b>120종</b> (설계서 2.1)',
+          '<b>수집 코드는 추가되었습니다</b> — <code>ga4_fetch.py</code>의 <code>fetch_search_monthly()</code>, <code>--detail</code> 실행 시 [8/8] 단계',
+          '아직 <code>ga4_search_monthly_*.csv</code>가 없어 데이터가 비어 있습니다. <b>다음 수집 실행 후</b> 이 항목은 사라지고 검색어 분석이 대신 나타납니다',
+          '이벤트 수 자체는 전 기간 666건으로 적어, 순위보다 <b>어떤 말로 찾는가</b>를 읽는 데 씁니다',
+        ],
+        analysis: '검색은 사용자가 <b>필요를 직접 문장으로 말한</b> 유일한 지점이고, '
+          + '찾았는데 결과가 없던 검색어는 곧 신규 서비스 후보 목록입니다. '
+          + '수집 코드는 들어갔으므로 <b>남은 것은 한 번의 실행</b>입니다. '
+          + '실행되면 이 항목은 자동으로 사라지고 검색어 분석 신호가 대신 나타납니다.',
+        options: [
+          {t:'수집을 한 번 실행한다', d:'<code>python ga4_fetch.py --detail</code>를 돌려 <code>ga4_search_monthly_*.csv</code>를 만들고 커밋하면 됩니다. 코드는 이미 들어가 있어 실행만 남았습니다. 배포 워크플로의 야간 실행으로도 채워집니다.',
+           tr:'GA API 호출 1건이 늘고, 자격증명이 있는 환경에서 실행해야 합니다.'},
+          {t:'결과 0건 검색을 별도 계측 요청', d:'FE에 "검색 결과 없음" 이벤트를 요청하면 <b>없어서 못 찾은 것</b>과 <b>있는데 못 찾은 것</b>이 갈립니다 — 전자는 개발, 후자는 IA 문제입니다.',
+           tr:'릴리스 이후 데이터부터 쌓입니다.'},
+          {t:'그 사이 CS 문의로 대체', d:'문의 원문에서 "○○ 없나요" 패턴을 찾습니다.',
+           tr:'문의를 남기는 사용자는 극소수라 검색어보다 편향이 큽니다.'},
+        ],
+      };
+    },
+  },
+];
+
+function runOpportunityDetection(){
+  const method = document.getElementById('oppMethod');
+  const list = document.getElementById('oppList');
+  if(!method || !list) return;
+  if(!_detail){ list.innerHTML = ''; return; }
+
+  const res = withRuleCtx(0, ()=>{
+    const found = [], ran = [];
+    OPP_RULES.forEach(rule=>{
+      let r = null, err = null;
+      try { r = rule.run(); }
+      catch(e){ err = e; console.error('[opp:'+rule.id+']', e); }
+      const arr = !r ? [] : (Array.isArray(r) ? r.filter(Boolean) : [r]);
+      ran.push({rule, n:arr.length, err:!!err});
+      arr.forEach(x=>found.push(Object.assign(x, {_rule:rule, key:x.key || ('opp-'+rule.id)})));
+    });
+    // 규모 순이지만 그것이 우선순위는 아니다 — 화면에 적는다
+    found.sort((a,b)=>(b.affected||0)-(a.affected||0));
+    return {found, ran};
+  }) || {found:[], ran:[]};
+
+  const ms = monthsInRange();
+  const failed = res.ran.filter(x=>x.err);
+  method.innerHTML =
+    '<b>발굴 방법</b> — 아래 ' + OPP_RULES.length + '개 신호를 현재 조회 기간'
+    + (ms.length ? ' (<b>' + ms[0] + ' ~ ' + ms[ms.length-1] + '</b>)' : '') + '에 적용했습니다. '
+    + '문제 발굴과 달리 <b>임계값을 넘었다고 해서 해야 할 일이 아닙니다</b> — 기회는 가설의 씨앗이라 '
+    + '원문·현장 확인을 거쳐야 후보가 됩니다.'
+    + '<div class="im-note">정렬은 규모 순이지만 <b>우선순위가 아닙니다</b>. 기회는 규모보다 '
+    + '"확인에 드는 비용"으로 골라야 합니다 — 표본이 작은 건은 먼저 표본을 키우는 것이 순서입니다. '
+    + '건물·서비스 축은 ' + (_data?.bld?.meta?.date || '-') + ' 스냅샷이라 조회 기간의 영향을 받지 않습니다.</div>'
+    + (failed.length ? '<div class="im-err">&#9888; ' + failed.map(x=>esc(x.rule.nm)).join(', ')
+        + ' 신호가 오류로 실행되지 않았습니다 (콘솔 확인).</div>' : '')
+    + '<div class="im-rules">'
+    + res.ran.map(x=>'<span class="im-rule'+(x.err?' err':x.n?' hit':'')+'" title="'+esc(x.rule.desc)+'">'
+        + esc(x.rule.nm) + (x.err ? ' 오류' : x.n ? ' ' + x.n + '건' : ' 해당 없음') + '</span>').join('')
+    + '</div>';
+
+  if(!res.found.length){
+    list.innerHTML = '<div class="iss-none">현재 조건에서 잡힌 수요 신호가 없습니다.'
+      + '<br><span style="font-size:14px;color:var(--ink4)">신호가 없다는 것은 기회가 없다는 뜻이 아니라 '
+      + '<b>지금 수집된 데이터로는 보이지 않는다</b>는 뜻입니다.</span></div>';
+    _findings.opp = [];
+    return;
+  }
+
+  _findings.opp = res.found;
+  // 기회는 심각도 팔레트가 다르다 — 문제와 같은 빨강을 쓰면 '나쁜 일'로 읽힌다
+  list.innerHTML = res.found.map((f,idx)=>findingCard(f, idx, 'opp', OPP_SEV)).join('');
+  bindFindingActions(list);
+  flushPendingIssue();
 }
 
 // ── 3단 · 화면별 퍼널 / 요소 클릭 / 서비스 ──
@@ -3238,7 +4272,17 @@ function renderGaFunnel(){
     const top = Math.max(1, ...steps.map(s=>s.u));
     const mono = steps.every((s,i)=>i===0 || s.u <= steps[i-1].u);
     html += '<div style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px">'
-      + fdef.title + ' 퍼널</div>';
+      + fdef.title + ' 퍼널'
+      /* 순서 근거를 배지로 밝힌다. 'inferred'는 요소명·단조성으로 추정한 것이라
+         화면정의서 대조 전에는 이탈률을 확정으로 읽으면 안 된다. */
+      + (fdef.basis === 'inferred'
+          ? '<span class="fn-basis warn" title="' + esc(fdef.basis_ref||'') + '">&#9888; 순서 확인 필요 (추정)</span>'
+          : fdef.basis === 'doc'
+            ? '<span class="fn-basis ok" title="' + esc(fdef.basis_ref||'') + '">&#10003; 순서 근거 있음</span>' : '')
+      + '</div>';
+    if(fdef.basis === 'inferred') html += '<div class="fn-basis-note">이 화면의 단계 순서는 '
+      + '<b>요소명과 실측 단조 감소로 추정</b>한 것입니다 — 화면정의서와 대조되지 않았으므로 '
+      + '이탈률을 확정 수치로 쓰지 마세요. 근거: ' + esc(fdef.basis_ref||'-') + '</div>';
     /* funnels.json의 note는 전체 기준 실측값이다. 건물을 선택한 상태에서 그대로 띄우면
        화면에 보이는 수치(건물 기준)와 어긋나 오해를 만든다 → 전체 기준임을 명시한다. */
     if(fdef.note) html += '<div style="font-size:14px;color:var(--ink4);margin-bottom:14px">'
@@ -3299,9 +4343,15 @@ function renderGaFunnel(){
     // 순서를 모르는 화면에 억지 퍼널을 씌우지 않는다
     const list = [...el.values()].sort((a,b)=>b.u-a.u);
     const top = Math.max(1, ...list.map(r=>r.u));
+    const why = (_detail.funnel_not_defined||{})[name];
     html += '<div style="font-size:15px;color:var(--ink4);margin-bottom:12px">'
-      + '이 화면은 단계 순서가 정의되지 않아 퍼널로 그리지 않습니다 (요소별 클릭 내림차순). '
-      + '순서를 알면 <code>funnels.json</code>에 추가하세요.</div>';
+      + '이 화면은 단계 순서가 정의되지 않아 퍼널로 그리지 않습니다 (요소별 클릭 내림차순).'
+      /* 이유가 기록돼 있으면 보여 준다 — 없으면 사용자는 '정의를 빠뜨린 것'과
+         '순서가 없어 정의할 수 없는 화면'을 구분할 수 없다. */
+      + (why ? '<div class="fn-nd">&#128273; <b>정의하지 않은 이유</b> — ' + esc(why)
+             + '<br><span class="fn-nd-s">판단 기록: <code>funnels.json</code> &rsaquo; <code>not_defined</code></span></div>'
+            : ' 순서를 알면 <code>funnels.json</code>에 추가하세요.')
+      + '</div>';
     list.forEach(r=>{
       html += '<div class="el-row"><span class="el-nm" title="'+r.el+'">'+r.el+'</span>'
         + '<span class="el-bar"><i style="width:'+(r.u/top*100)+'%"></i></span>'
@@ -3484,6 +4534,79 @@ function renderGaService(svc, box, meta){
 }
 
 // GA 탭에서 상세가 필요한 영역만 스켈레톤 → 로드 후 렌더 (2단까지는 즉시 표시)
+/* ── 종합 탭 머리 · 지금 봐야 할 3가지 ──
+   발굴 탭과 같은 규칙 세트를 쓴다. 두 화면이 다른 근거로 다른 우선순위를 말하면
+   어느 쪽을 믿어야 할지 알 수 없으므로, 출처를 하나로 묶고 여기서는 요약만 낸다. */
+function renderOverviewTop3(){
+  const box = document.getElementById('ovTop3');
+  if(!box) return;
+  const shell = (inner)=>'<div class="ov-top"><div class="ovt-h">&#128269; 지금 봐야 할 것'
+    + '<a class="ovt-more" href="#t=discover">발굴 탭에서 전체 보기 &#8594;</a></div>' + inner + '</div>';
+
+  if(_raw?.has_detail === false){ box.innerHTML = ''; return; }
+  if(_detailState !== 'ready'){
+    box.innerHTML = shell('<div class="ovt-load"><div class="skel" style="width:70%"></div>'
+      + '<div class="skel" style="width:50%"></div></div>');
+    // 발굴 탭이 먼저 로드하는 것이 보통이지만, 딥링크로 이 탭에 바로 들어올 수 있다
+    loadDetail().then(()=>renderOverviewTop3())
+      .catch(()=>{ box.innerHTML = shell('<div class="ovt-none">상세 데이터를 불러오지 못해 점검 결과를 표시할 수 없습니다 — '
+        + '<b>문제가 없다는 뜻이 아닙니다.</b></div>'); });
+    return;
+  }
+
+  const res = collectFindings(0);
+  const top = ((res && res.found) || []).slice(0, 3);
+  if(!top.length){
+    box.innerHTML = shell('<div class="ovt-none">&#9989; 현재 조회 기간에 규칙에 걸린 문제가 없습니다. '
+      + '규칙이 못 잡는 문제는 여전히 있을 수 있습니다.</div>');
+    return;
+  }
+  box.innerHTML = shell(top.map((f,i)=>{
+    const sv = SEV[f.sev] || SEV.low;
+    return '<a class="ovt-i" href="#t=discover&i=' + encodeURIComponent(f.key) + '" style="--sv:'+sv.c+'">'
+      + '<span class="ovt-n">'+(i+1)+'</span>'
+      + '<span class="ovt-b"><span class="ovt-t">'+f.title+'</span>'
+      + '<span class="ovt-m">'+mdText(f.num)+' '+esc(f.numUnit)
+      + (f.affected ? ' · 영향 '+fmt(f.affected)+(f.affectedUnit||'명')+(f.est?' (추정)':'') : '') + '</span></span>'
+      + '<span class="ovt-sev">'+sv.nm+'</span></a>';
+  }).join(''));
+}
+
+/* ── 발굴 탭 ──
+   규칙 세트는 ga_detail.json(건물·화면 축)에 의존하므로 지연 로드한다.
+   첫 화면이 된 만큼 로딩 실패를 조용히 넘기면 "문제 없음"으로 오해되므로
+   실패 사유를 목록 자리에 그대로 적는다. */
+function renderDiscover(){
+  const skel = '<div class="skel" style="width:55%"></div><div class="skel" style="width:80%"></div>'
+             + '<div class="skel" style="width:68%"></div>';
+  const list = document.getElementById('gaIssueList');
+  const opp = document.getElementById('oppList');
+  renderDscSubtabs();
+  if(_detailState === 'ready'){ renderDiscoverBody(); return; }
+  if(list) list.innerHTML = skel;
+  if(opp) opp.innerHTML = skel;
+  if(_raw?.has_detail === false){
+    const w = '<div class="scope-warn"><span>&#9888;</span><div>이 데이터 버전에는 건물·화면 상세가 없어 자동 점검을 실행할 수 없습니다. '
+      + '수집 스크립트를 <code>--detail</code> 옵션으로 다시 실행해야 합니다.</div></div>';
+    if(list) list.innerHTML = w;
+    if(opp) opp.innerHTML = w;
+    return;
+  }
+  loadDetail().then(()=>{ safeBlock('발굴', renderDiscoverBody, 'gaIssueList'); })
+    .catch(e=>{
+      const w = '<div class="scope-warn"><span>&#9888;</span><div>상세 데이터를 불러오지 못해 자동 점검을 실행하지 못했습니다 ('
+        + esc(e.message) + '). <b>문제가 없다는 뜻이 아닙니다</b> — 새로고침하거나 다른 탭의 기본 지표를 확인하세요.</div></div>';
+      if(list) list.innerHTML = w;
+      if(opp) opp.innerHTML = w;
+    });
+}
+
+function renderDiscoverBody(){
+  runIssueDetection();
+  runOpportunityDetection();
+  renderDscSubtabs();   // 건수 배지는 결과가 나온 뒤에 다시 그린다
+}
+
 function mountGaDetail(){
   const skel = '<div class="skel" style="width:60%"></div><div class="skel" style="width:85%"></div>'
              + '<div class="skel" style="width:70%"></div>';
@@ -3540,6 +4663,67 @@ function clearChartFallback(canvasId){
   if(el) el.style.display = '';
 }
 
+/* ── 차트의 표 대체 ──
+   차트마다 손으로 표를 붙이면 15개를 다 만들어야 하고 빠뜨린 곳이 생긴다.
+   Chart 설정(labels × datasets)에서 기계적으로 뽑아 한 곳에서 처리한다.
+   scatter(사분면)는 {x,y}, treemap은 tree 배열이라 형태별로 갈라 준다. */
+function chartTableHtml(cfg){
+  const d = cfg && cfg.data;
+  if(!d) return '';
+  const ds = d.datasets || [];
+  if(!ds.length) return '';
+  const num = v => v == null ? '—' : (typeof v === 'number' ? fmt(+v.toFixed(2)) : esc(String(v)));
+  const rows = [];
+  let head = [];
+
+  // treemap — 라벨이 tree 안에 있다
+  if(ds[0] && Array.isArray(ds[0].tree)){
+    head = ['항목', '값'];
+    ds[0].tree.forEach(t=>rows.push([esc(t.label ?? ''), num(t.value)]));
+  }
+  // scatter — 점마다 x·y
+  else if(Array.isArray(ds[0].data) && ds[0].data.length && typeof ds[0].data[0] === 'object'
+           && ds[0].data[0] !== null && 'x' in ds[0].data[0]){
+    head = ['계열', '항목', 'X', 'Y'];
+    ds.forEach(s=>(s.data||[]).forEach(pt=>rows.push([
+      esc(s.label||'-'), esc(pt.label || pt.name || ''), num(pt.x), num(pt.y)])));
+  }
+  // 일반 (line/bar/doughnut) — labels × 계열
+  else {
+    const labels = d.labels || [];
+    if(!labels.length) return '';
+    head = ['구분', ...ds.map((s,i)=>esc(s.label || ('계열'+(i+1))))];
+    labels.forEach((lb,i)=>rows.push([esc(String(lb)), ...ds.map(s=>num((s.data||[])[i]))]));
+  }
+  if(!rows.length) return '';
+  return '<details class="ch-tbl"><summary>표로 보기 <span class="ct-h">'+rows.length+'행 · 값 복사 가능</span></summary>'
+    + '<div class="ct-body"><table class="iss-tbl"><thead><tr>'
+    + head.map((c,i)=>'<th'+(i?' class="num"':'')+'>'+c+'</th>').join('')
+    + '</tr></thead><tbody>'
+    + rows.map(r=>'<tr>'+r.map((c,i)=>'<td'+(i?' class="num"':'')+'>'+c+'</td>').join('')+'</tr>').join('')
+    + '</tbody></table></div></details>';
+}
+
+function attachChartTable(canvasId, cfg){
+  const el = document.getElementById(canvasId);
+  if(!el) return;
+  const wrap = el.closest('.chart-wrap') || el.parentElement;
+  if(!wrap || !wrap.parentElement) return;
+  el.setAttribute('role', 'img');
+  const host = wrap.parentElement;
+  let box = host.querySelector(':scope > .ch-tbl-host[data-for="'+canvasId+'"]');
+  if(!box){
+    box = document.createElement('div');
+    box.className = 'ch-tbl-host';
+    box.dataset.for = canvasId;
+    wrap.insertAdjacentElement('afterend', box);
+  }
+  let html = '';
+  try { html = chartTableHtml(cfg); }
+  catch(e){ console.error('[chartTable] '+canvasId, e); }
+  box.innerHTML = html;
+}
+
 function mkChart(canvasId, cfg){
   if(!CHART_OK){
     chartFallback(canvasId,
@@ -3553,7 +4737,13 @@ function mkChart(canvasId, cfg){
   clearChartFallback(canvasId);
   const prev = Chart.getChart(el);
   if(prev) prev.destroy();
-  try { return new Chart(el, cfg); }
+  try {
+    const ch = new Chart(el, cfg);
+    // canvas는 스크린리더에 아무것도 아니다. 값을 얻는 유일한 방법이 '눈으로 보기'가
+    // 되지 않도록 같은 데이터를 표로도 낸다 (겸사겸사 값 복사가 가능해진다)
+    attachChartTable(canvasId, cfg);
+    return ch;
+  }
   catch(e){
     console.error('[chart] '+canvasId, e);
     chartFallback(canvasId, '<div><b style="color:var(--red)">차트를 그리는 중 오류가 발생했습니다</b><br>'
@@ -3584,6 +4774,12 @@ function loadData(){
   document.getElementById('contentArea').style.display = 'none';
   resetRenderState();
   _data = null;
+  /* 발굴 탭이 첫 화면이 되면서 첫 의미 있는 내용이 ga_detail.json(약 470KB)에
+     의존하게 됐다. data.json을 받은 뒤에 순차로 시작하면 두 왕복이 직렬로 쌓이므로
+     지금 함께 띄운다. loadDetail은 상태를 캐시하므로 뒤에서 다시 불러도 재요청은 없다.
+     여기서 실패해도 화면에는 영향이 없다 — renderDiscover가 사유를 표시한다. */
+  loadDetail().catch(()=>{});
+
   fetch('data.json', {cache:'no-store'})
     .then(r=>{ if(!r.ok) throw new Error('data.json not found ('+r.status+')'); return r.json(); })
     .then(data=>{
@@ -3635,7 +4831,7 @@ function renderChrome(D, ga, zd, jira, bld){
     '<div class="freshness-item"><div class="status daily"></div><span class="src">고객 문의 (Zendesk)</span><span class="time">매일 자동 갱신</span></div>'+
     '<div class="freshness-item"><div class="status manual"></div><span class="src">개발 현황 (Jira)</span><span class="time">수동 갱신 (스냅샷)</span></div>'+
     '<div class="freshness-item"><div class="status manual"></div><span class="src">건물 도입현황</span><span class="time">'+bldDate+' 기준</span></div>'+
-    '<div class="freshness-item"><div class="status live"></div><span class="src">AI 분석</span><span class="time">'+genStr+'</span></div>';
+    '<div class="freshness-item"><div class="status live"></div><span class="src">자동 요약</span><span class="time">'+genStr+'</span></div>';
 
   _genStr = genStr;
   renderPeriodBadges();
@@ -3712,6 +4908,8 @@ function renderPeriodBadges(){
     pb('&#127970;','건물', bldDateStr+' 스냅샷 (기간 무관)');
   if(q('gaPeriod')) q('gaPeriod').innerHTML =
     pb('&#128197;','분석 기간', gaStart+' ~ '+gaEnd+' ('+gaMonths+'개월)');
+  if(q('dscPeriod')) q('dscPeriod').innerHTML =
+    pb('&#128197;','점검 기간', gaStart+' ~ '+gaEnd+' ('+gaMonths+'개월, 월 기준)');
   if(q('zdPeriod')) q('zdPeriod').innerHTML =
     pb('&#128197;','문의 수집 기간', zd.total ? pd.from+' ~ '+pd.to+' ('+zdDates.length+'일간 '+zd.total+'건)' : '해당 기간 데이터 없음');
   if(q('jiraPeriod')) q('jiraPeriod').innerHTML =
@@ -3726,32 +4924,51 @@ function renderOverview(ga, gaS, zd, jira, bld, ins){
 
   const mauMonth = gaS.current_month||''; const partialNote = gaS.partial_month ? ' <span style="font-size:14px;color:var(--ink3)">('+gaS.partial_month+' '+gaS.partial_date+'까지 진행중)</span>' : '';
   document.getElementById('heroMetrics').innerHTML =
-    '<div class="metric-card"><div class="metric-label">월간 이용자 수 (MAU) <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">완전한 최근 달('+(mauMonth||'직전 월')+') 기준 MAU입니다. 진행 중인 달은 불완전하므로 MoM 비교에서 제외됩니다.</div></div></div><div class="metric-value" id="metricMau">-</div><div class="metric-sub">'+(mauMonth?mauMonth+' 기준 · ':'')+'전월 대비 <span class="metric-change '+(mauGrowth>=0?'up':'down')+'">'+(mauGrowth>=0?'+':'')+mauGrowth+'%</span>'+partialNote+'</div><div class="metric-explain">'+(mauGrowth>0?'사용자가 늘고 있어 긍정적입니다.':mauGrowth<-5?'사용자가 줄고 있습니다. 이탈 원인 파악이 필요합니다.':'전월과 비슷한 수준입니다.')+'</div></div>'+
-    '<div class="metric-card"><div class="metric-label">서비스 활성화율 <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">앱에 접속한 사용자 중 실제로 서비스(불편신고, 대여 등)를 이용한 비율입니다. 높을수록 앱이 유용하게 사용되고 있다는 뜻입니다.</div></div></div><div class="metric-value" style="color:'+(actRate>40?'var(--green)':actRate>25?'var(--yellow)':'var(--red)')+'">'+actRate+'%</div><div class="metric-sub">접속자 대비 실제 이용 비율</div><div class="metric-explain">'+(actRate>40?'절반 가까이 서비스를 사용하고 있어 양호합니다.':actRate>25?'사용률을 높이기 위한 UX 개선이 필요합니다.':'대부분의 사용자가 서비스를 이용하지 않고 떠납니다.')+'</div></div>'+
-    '<div class="metric-card"><div class="metric-label">재방문율 <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">앱에 접속한 사용자 중 다시 돌아와서 꾸준히 사용하는 비율입니다. 30% 이상이면 양호, 15% 미만이면 심각한 이탈 문제입니다.</div></div></div><div class="metric-value" style="color:'+(retRate>30?'var(--green)':retRate>15?'var(--yellow)':'var(--red)')+'">'+retRate+'%</div><div class="metric-sub">접속자 대비 재사용 비율</div><div class="metric-explain">'+(retRate>30?'사용자 유지가 잘 되고 있습니다.':retRate>15?'개선 여지가 있습니다. 알림과 개인화를 강화하세요.':'100명 중 '+Math.round(retRate)+'명만 다시 옵니다. 온보딩과 핵심 가치 전달 개선이 시급합니다.')+'</div></div>'+
-    '<div class="metric-card"><div class="metric-label">고객 문의 <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">Zendesk로 접수된 고객 문의 건수입니다. 전체 사용자 의견이 아닌 문의를 남긴 고객만 반영하므로 해석에 주의가 필요합니다.</div></div></div><div class="metric-value" id="metricCs">-</div><div class="metric-sub">버그 신고 '+(zd.categories?.['버그']||0)+'건 포함</div><div class="metric-explain">문의 중 '+Math.round((zd.category_ratios?.['단순문의']||0)*100)+'%가 단순 문의입니다. FAQ 자동화로 줄일 수 있습니다.</div></div>'+
-    '<div class="metric-card"><div class="metric-label">서비스 도입 건물 <div class="tooltip-wrap"><span class="tooltip-icon">?</span><div class="tooltip-text">SANDI 서비스를 도입한 건물(사업장) 수입니다. 각 건물은 최대 88개 서비스를 도입할 수 있습니다.</div></div></div><div class="metric-value" id="metricBld">-</div><div class="metric-sub">평균 '+(bld.stats?.mean?.toFixed(0)||'-')+'개 서비스 도입</div><div class="metric-explain">88개 서비스 중 평균 '+(bld.stats?.mean?.toFixed(0)||'-')+'개만 사용 중. 도입 확대 여지가 '+(bld.stats?.mean?Math.round((88-bld.stats.mean)/88*100):'-')+'% 있습니다.</div></div>';
+    '<div class="metric-card"><div class="metric-label">월간 이용자 수 (MAU) <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span><div class="tooltip-text">완전한 최근 달('+(mauMonth||'직전 월')+') 기준 MAU입니다. 진행 중인 달은 불완전하므로 MoM 비교에서 제외됩니다.</div></div></div><div class="metric-value" id="metricMau">-</div><div class="metric-sub">'+(mauMonth?mauMonth+' 기준 · ':'')+'전월 대비 <span class="metric-change '+(mauGrowth>=0?'up':'down')+'">'+(mauGrowth>=0?'+':'△')+Math.abs(mauGrowth)+'%</span>'+partialNote+'</div><div class="metric-explain">'+(mauGrowth>0?'사용자가 늘고 있어 긍정적입니다.':mauGrowth<-5?'사용자가 줄고 있습니다. 이탈 원인 파악이 필요합니다.':'전월과 비슷한 수준입니다.')+'</div></div>'+
+    '<div class="metric-card"><div class="metric-label">서비스 활성화율 <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span><div class="tooltip-text">앱에 접속한 사용자 중 실제로 서비스(불편신고, 대여 등)를 이용한 비율입니다. 높을수록 앱이 유용하게 사용되고 있다는 뜻입니다.</div></div></div><div class="metric-value" style="color:'+(actRate>40?'var(--green)':actRate>25?'var(--yellow)':'var(--red)')+'">'+actRate+'%</div><div class="metric-sub">접속자 대비 실제 이용 비율</div><div class="metric-explain">'+(actRate>40?'절반 가까이 서비스를 사용하고 있어 양호합니다.':actRate>25?'사용률을 높이기 위한 UX 개선이 필요합니다.':'대부분의 사용자가 서비스를 이용하지 않고 떠납니다.')+'</div></div>'+
+    '<div class="metric-card"><div class="metric-label">재방문율 <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span><div class="tooltip-text">앱에 접속한 사용자 중 다시 돌아와서 꾸준히 사용하는 비율입니다. 30% 이상이면 양호, 15% 미만이면 심각한 이탈 문제입니다.</div></div></div><div class="metric-value" style="color:'+(retRate>30?'var(--green)':retRate>15?'var(--yellow)':'var(--red)')+'">'+retRate+'%</div><div class="metric-sub">접속자 대비 재사용 비율</div><div class="metric-explain">'+(retRate>30?'사용자 유지가 잘 되고 있습니다.':retRate>15?'개선 여지가 있습니다. 알림과 개인화를 강화하세요.':'100명 중 '+Math.round(retRate)+'명만 다시 옵니다. 온보딩과 핵심 가치 전달 개선이 시급합니다.')+'</div></div>'+
+    '<div class="metric-card"><div class="metric-label">고객 문의 <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span><div class="tooltip-text">Zendesk로 접수된 고객 문의 건수입니다. 전체 사용자 의견이 아닌 문의를 남긴 고객만 반영하므로 해석에 주의가 필요합니다.</div></div></div><div class="metric-value" id="metricCs">-</div><div class="metric-sub">버그 신고 '+(zd.categories?.['버그']||0)+'건 포함</div><div class="metric-explain">문의 중 '+Math.round((zd.category_ratios?.['단순문의']||0)*100)+'%가 단순 문의입니다. FAQ 자동화로 줄일 수 있습니다.</div></div>'+
+    '<div class="metric-card"><div class="metric-label">서비스 도입 건물 <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span><div class="tooltip-text">SANDI 서비스를 도입한 건물(사업장) 수입니다. 각 건물은 최대 88개 서비스를 도입할 수 있습니다.</div></div></div><div class="metric-value" id="metricBld">-</div><div class="metric-sub">평균 '+(bld.stats?.mean?.toFixed(0)||'-')+'개 서비스 도입</div><div class="metric-explain">88개 서비스 중 평균 '+(bld.stats?.mean?.toFixed(0)||'-')+'개만 사용 중. 도입 확대 여지가 '+(bld.stats?.mean?Math.round((88-bld.stats.mean)/88*100):'-')+'% 있습니다.</div></div>';
 
   animateValue(document.getElementById('metricMau'), gaS.current_mau||0);
   animateValue(document.getElementById('metricCs'), zd.total||0);
   animateValue(document.getElementById('metricBld'), totalBld);
 
   const score = ins.coherence_score||0, sc = scoreColor(score), sl = scoreLabel(score);
-  let aiHtml = '<div class="ai-box-header"><span class="icon">&#9889;</span> AI 종합 분석</div>';
+  /* 이 블록은 AI가 아니라 임계값 분기 + 문장 템플릿이다. AI라고 적어 두면
+     "어떻게 만든 수치냐"는 질문에 답할 수 없고, 규칙 기반인 것을 확인한 순간
+     대시보드 전체의 신뢰가 함께 떨어진다. 규칙 기반임을 밝히는 편이 손해가 없다.
+     — 문제 발굴 섹션은 이미 규칙·임계값·출처를 노출해 감사 가능하게 만들었으므로
+       같은 기준을 여기에도 적용한다. */
+  let aiHtml = '<div class="ai-box-header"><span class="icon">&#128209;</span> 자동 요약 <span class="ai-box-kind">규칙 기반</span></div>';
+  aiHtml += '<p class="ai-box-note">아래 문장은 코드에 고정된 임계값(재방문율 20%, MAU 증감 ±3%, 버그 비중 15% 등)에 '
+    + '따라 조립된 것입니다. 같은 데이터면 항상 같은 문장이 나오고, 판단은 하지 않습니다.</p>';
   aiHtml += '<p>현재 SANDI 서비스 종합 건강도는 <span class="highlight">'+score+'점</span>('+sl+')입니다. ';
   if(retRate < 20){
     aiHtml += '가장 심각한 문제는 <span class="danger">재방문율 '+retRate+'%</span>입니다. 이는 앱에 처음 접속한 100명 중 '+(100-Math.round(retRate))+'명이 다시 돌아오지 않는다는 뜻입니다. ';
-    aiHtml += '주요 원인으로는 <b>로그인 과정의 마찰</b>(GA에서 로그인 페이지가 상위 5위에 진입), <b>첫 사용 경험 부족</b>(서비스 아이콘 클릭 전환율 '+actRate+'%)이 있습니다.</p>';
+    /* 로그인 마찰 근거는 하드코딩하지 않고 실제 top_pages에서 순위를 찾는다.
+       "상위 5위 진입"을 문장에 박아 두면 데이터가 바뀌어도 그 문장만 남는다. */
+    const lr = (ga.top_pages||[]).findIndex(p=>/\/auth\/login/.test(p.path||''));
+    aiHtml += '주요 원인 후보는 <b>첫 사용 경험 부족</b>(서비스 이용 전환율 '+actRate+'%)'
+      + (lr >= 0 ? '과 <b>로그인 과정의 마찰</b>(<code>/auth/login</code>이 조회수 '+(lr+1)+'위)' : '')
+      + '입니다.</p>';
   } else { aiHtml += '사용자 유지가 안정적이며 서비스 활성화도 양호합니다.</p>'; }
   if(mauGrowth > 0){ aiHtml += '<p>긍정 신호: MAU가 전월 대비 <span class="good">'+mauGrowth+'% 증가</span>하고 있어 성장 추세입니다.</p>'; }
-  else if(mauGrowth < -3){ aiHtml += '<p>MAU가 전월 대비 <span class="warn">'+mauGrowth+'% 감소</span> 중입니다. '+(gaS.mau_peak_month||'')+'에 최고점('+fmt(gaS.mau_peak||0)+'명) 대비 현재 하락세가 지속되고 있습니다.</p>'; }
+  else if(mauGrowth < -3){ aiHtml += '<p>MAU가 전월 대비 <span class="warn">△'+Math.abs(mauGrowth)+'%</span> 감소 중입니다. '+(gaS.mau_peak_month||'')+'에 최고점('+fmt(gaS.mau_peak||0)+'명) 대비 현재 하락세가 지속되고 있습니다.</p>'; }
   const bugRatio = Math.round((zd.category_ratios?.['버그']||0)*100);
   if(bugRatio > 15){ aiHtml += '<p>고객 문의 중 버그 신고가 <span class="warn">'+bugRatio+'%</span>를 차지합니다. 앱 안정성 개선이 CS 부담 감소로 이어질 수 있습니다.</p>'; }
   if(totalBld > 0 && bld.stats?.mean){
-    const adoptRate = Math.round(bld.stats.mean/88*100);
-    aiHtml += '<p>'+totalBld+'개 건물이 평균 '+bld.stats.mean.toFixed(0)+'개 서비스를 사용 중입니다 (전체 88개 중 <span class="highlight">'+adoptRate+'%</span>). 도입률이 가장 높은 서비스는 신고센터 관리(98.2%), 가장 낮은 서비스는 총무 관련 서비스(평균 6.1%)입니다.</p>';
+    // 서비스 총수·도입률 최고/최저를 데이터에서 계산한다 (기존에는 88·신고센터·6.1%가 문장에 박혀 있었다)
+    const nSvc = bld.meta?.n_general_svc || 88;
+    const adoptRate = Math.round(bld.stats.mean/nSvc*100);
+    const ss = [...(bld.service_summary||[])].filter(s=>s.rate != null).sort((a,b)=>b.rate-a.rate);
+    aiHtml += '<p>'+totalBld+'개 건물이 평균 '+bld.stats.mean.toFixed(0)+'개 서비스를 사용 중입니다 (전체 '+nSvc+'개 중 <span class="highlight">'+adoptRate+'%</span>).'
+      + (ss.length ? ' 도입률이 가장 높은 서비스는 '+esc(ss[0].svc)+'('+ss[0].rate+'%), 가장 낮은 서비스는 '
+          + esc(ss[ss.length-1].svc)+'('+ss[ss.length-1].rate+'%)입니다.' : '')
+      + '</p>';
   }
   document.getElementById('aiOverviewBox').innerHTML = aiHtml;
+  renderOverviewTop3();
 
   const circ = 2*Math.PI*70, offset = circ*(1-score/100);
   let scoreHtml = '<div class="score-ring-wrap"><div class="score-ring"><svg width="180" height="180" viewBox="0 0 180 180"><circle class="bg" cx="90" cy="90" r="70"/><circle class="fg" cx="90" cy="90" r="70" stroke="'+sc+'" stroke-dasharray="'+circ+'" stroke-dashoffset="'+offset+'"/></svg><div class="val" style="color:'+sc+'">'+score+'<small>/100 '+sl+'</small></div></div></div><div style="flex:1;min-width:200px">';
@@ -3809,7 +5026,7 @@ function renderGA(ga, gaS){
   if(_raw?.has_detail !== false) mountGaDetail();
 
   const mau = ga.mau||[], actRate = gaS.aarrr_activation_rate||0, retRate = gaS.aarrr_retention_rate||0;
-  let aiHtml = '<div class="ai-box-header"><span class="icon">&#128202;</span> 앱 사용 패턴 분석</div>';
+  let aiHtml = '<div class="ai-box-header"><span class="icon">&#128202;</span> 앱 사용 패턴 요약 <span class="ai-box-kind">규칙 기반</span></div>';
   if(mau.length >= 2){
     const latest = mau[mau.length-1], pvPerUser = latest.pageViews/(latest.activeUsers||1);
     aiHtml += '<p>현재 월간 이용자는 <span class="highlight">'+fmt(latest.activeUsers)+'명</span>이고, 1인당 평균 <span class="highlight">'+pvPerUser.toFixed(1)+'개</span> 화면을 봅니다. ';
@@ -3896,7 +5113,7 @@ function renderGA(ga, gaS){
 function renderZendesk(zd){
   const cats = zd.categories||{}, sent = zd.sentiment?.counts||{}, total = zd.total||0;
   const bugCount = cats['버그']||0, unresolvedPct = Math.round((zd.unresolved_rate||0)*100);
-  let aiHtml = '<div class="ai-box-header"><span class="icon">&#128172;</span> 고객 문의 패턴 분석</div>';
+  let aiHtml = '<div class="ai-box-header"><span class="icon">&#128172;</span> 고객 문의 패턴 요약 <span class="ai-box-kind">규칙 기반</span></div>';
   aiHtml += '<p>최근 기간 동안 총 <span class="highlight">'+total+'건</span>의 고객 문의가 접수되었습니다. ';
   const topCat = Object.entries(cats).sort((a,b)=>b[1]-a[1])[0];
   if(topCat) aiHtml += '가장 많은 유형은 <span class="highlight">'+topCat[0]+'</span>('+topCat[1]+'건, '+Math.round(topCat[1]/total*100)+'%)이며, ';
@@ -3970,7 +5187,7 @@ function renderJira(jira){
   const total = jira.total||0;
   const done = (jira.status_counts?.['완료됨']||0)+(jira.status_counts?.['Archive']||0);
   const compRate = jira.completion_rate||0, qaCount = jira.qa_count||0;
-  let aiHtml = '<div class="ai-box-header"><span class="icon">&#128736;</span> 개발 현황 분석</div>';
+  let aiHtml = '<div class="ai-box-header"><span class="icon">&#128736;</span> 개발 현황 요약 <span class="ai-box-kind">규칙 기반</span></div>';
   aiHtml += '<p>현재 <span class="highlight">'+total+'개</span> 개발 작업이 등록되어 있으며, 이 중 <span class="highlight">'+done+'개('+compRate+'%)</span>가 완료되었습니다. ';
   if(qaCount > 20) aiHtml += 'QA(품질 검증) 대기 중인 작업이 <span class="warn">'+qaCount+'개</span>로 다소 많습니다. QA 병목이 발생하면 출시 지연과 품질 저하로 이어질 수 있습니다.</p>';
   else aiHtml += 'QA 대기 '+qaCount+'개로 적정 수준입니다.</p>';
@@ -4315,7 +5532,7 @@ function renderBuildings(bld, ga){
   const totalBld = meta.n_general_active||0, totalSvc = meta.n_general_svc||88;
   const avgSvc = stats.mean||0, medianSvc = stats.median||0, npsScore = nps.score||0;
 
-  let aiHtml = '<div class="ai-box-header"><span class="icon">&#127970;</span> 건물 · 서비스 도입 분석</div>';
+  let aiHtml = '<div class="ai-box-header"><span class="icon">&#127970;</span> 건물 · 서비스 도입 요약 <span class="ai-box-kind">규칙 기반</span></div>';
   aiHtml += '<p>현재 <span class="highlight">'+totalBld+'개 건물</span>에서 SANDI 서비스를 운영 중이며, 제공 가능한 '+totalSvc+'개 서비스 중 건물당 평균 <span class="highlight">'+avgSvc.toFixed(0)+'개('+(avgSvc/totalSvc*100).toFixed(0)+'%)</span>를 도입했습니다.</p>';
   if(catSummary.length){
     const best = catSummary.reduce((a,b)=>a.avg>b.avg?a:b);
