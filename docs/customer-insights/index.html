@@ -526,6 +526,45 @@ table.iss-tbl tbody tr:hover td{background:var(--muted)}
 .aarrr-chain .ac.on{background:var(--brand);color:#fff}
 .aarrr-chain .ac-ar{color:var(--ink4);font-size:13px}
 .el-ratio{font-size:13px;color:var(--yellow);font-weight:700;margin-left:5px}
+/* ── 주간 모니터링 (WAU) ──
+   판정 색은 한 곳에서만 정의한다. 카드·표·차트가 각자 색을 고르면
+   같은 주가 화면마다 다른 상태로 보인다. */
+.lv{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:100px;font-size:13px;font-weight:800;white-space:nowrap;letter-spacing:-.2px}
+.lv-ok{background:var(--green-bg);color:var(--green)}
+.lv-watch{background:var(--yellow-bg);color:var(--yellow)}
+.lv-alert{background:var(--red-bg);color:var(--red)}
+.lv-surge{background:var(--blue-bg);color:var(--blue)}
+.lv-na{background:var(--muted);color:var(--ink4)}
+.mn-hero{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:16px;margin-bottom:20px}
+.mn-h{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--hc,var(--ink4));border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-1)}
+.mn-h .h-l{font-size:14px;color:var(--ink3);font-weight:600;margin-bottom:9px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.mn-h .h-v{font-size:29px;font-weight:800;color:var(--navy);letter-spacing:-1px;font-variant-numeric:tabular-nums;line-height:1.15}
+.mn-h .h-v small{font-size:16px;font-weight:700;color:var(--ink3);margin-left:3px;letter-spacing:0}
+.mn-h .h-s{font-size:13.5px;color:var(--ink3);margin-top:9px;line-height:1.65}
+.mn-h .h-s b{color:var(--navy700);font-weight:700}
+.mn-chk .row{display:grid;grid-template-columns:minmax(150px,1.1fr) minmax(90px,auto) minmax(220px,2.6fr);gap:16px;align-items:start;padding:14px 4px;border-bottom:1px solid var(--line)}
+.mn-chk .row:last-child{border-bottom:none}
+.mn-chk .c-n{font-size:15.5px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.mn-chk .c-v{font-size:18px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums;text-align:right}
+.mn-chk .c-m{font-size:14.5px;color:var(--navy700);line-height:1.65}
+.mn-chk .c-b{font-size:12.5px;color:var(--ink4);margin-top:4px;line-height:1.55}
+.mn-rel{border:1px solid var(--brand);background:linear-gradient(180deg,var(--brand-soft),#fff 72%);border-left:4px solid var(--brand);border-radius:var(--radius);padding:18px 22px;margin-bottom:20px;box-shadow:var(--shadow-1)}
+.mn-rel .r-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:18px;font-weight:800;color:var(--brand);letter-spacing:-.3px;margin-bottom:8px}
+.mn-rel .r-d{font-size:13px;font-weight:800;color:#fff;background:var(--brand);padding:3px 10px;border-radius:100px;letter-spacing:0}
+.mn-rel p{font-size:14.5px;color:var(--navy700);line-height:1.75;margin:0}
+.mn-rel p+p{margin-top:7px}
+.mn-legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink3);margin-top:12px;align-items:center}
+.mn-legend span{display:inline-flex;align-items:center;gap:6px}
+.mn-legend i{display:inline-block;width:16px;height:3px;border-radius:2px;background:currentColor}
+.mn-legend i.band{height:11px;background:rgba(19,32,41,.10);border-radius:3px}
+.mn-legend i.dash{background:repeating-linear-gradient(90deg,currentColor 0 5px,transparent 5px 9px)}
+.mn-note{font-size:13.5px;color:var(--ink4);line-height:1.7;margin-top:12px}
+.mn-pages{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.mn-empty{padding:28px;text-align:center;color:var(--ink4);font-size:15px;line-height:1.7;background:var(--muted);border-radius:10px}
+@media(max-width:820px){
+  .mn-chk .row{grid-template-columns:1fr auto}
+  .mn-chk .c-m{grid-column:1/-1}
+}
 .scope-warn{display:flex;gap:8px;align-items:flex-start;background:var(--yellow-bg);border:1px solid var(--yellow);border-radius:8px;padding:10px 13px;font-size:15px;color:var(--yellow);margin-bottom:16px;line-height:1.6}
 .scope-warn b{color:var(--yellow)}
 
@@ -622,6 +661,7 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
      발굴이 첫 화면이 되고, 소스별 탭은 그 근거를 확인하는 드릴다운으로 내린다. -->
 <div class="tabs" id="tabBar" role="tablist" aria-label="분석 영역">
   <button class="tab active" data-tab="discover" role="tab" aria-selected="true" aria-controls="pane-discover" id="tabbtn-discover">&#128269; 발굴</button>
+  <button class="tab" data-tab="monitor" role="tab" aria-selected="false" aria-controls="pane-monitor" id="tabbtn-monitor">&#128225; 주간 모니터링</button>
   <button class="tab" data-tab="overview" role="tab" aria-selected="false" aria-controls="pane-overview" id="tabbtn-overview">전체 종합</button>
   <button class="tab" data-tab="ga" role="tab" aria-selected="false" aria-controls="pane-ga" id="tabbtn-ga">앱 사용 분석</button>
   <button class="tab" data-tab="zendesk" role="tab" aria-selected="false" aria-controls="pane-zendesk" id="tabbtn-zendesk">고객 문의 (CS)</button>
@@ -729,6 +769,85 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
           <div class="iss-method" id="oppMethod"></div>
           <div id="oppList"></div>
         </div>
+      </div>
+    </div>
+
+    <!-- ══ 주간 모니터링 (WAU) ══
+         왜 별도 탭인가: 다른 탭은 모두 월(月) 축이라 배포 영향이 숫자로 보이기까지
+         한 달이 걸린다. 롤백·핫픽스 판단에는 늦다. 여기만 주(週) 축으로 고정하고,
+         상단 기간 필터를 적용하지 않는다 — 기준 구간이 사용자 선택에 따라 흔들리면
+         같은 주가 볼 때마다 다른 판정을 받는다. -->
+    <div class="tab-content" data-tab="monitor" role="tabpanel" id="pane-monitor" aria-labelledby="tabbtn-monitor">
+      <div class="period-bar" id="mnPeriod"></div>
+      <div id="mnRelBanner"></div>
+      <div class="ai-box" id="aiMnBox"></div>
+      <div class="mn-hero" id="mnHero"></div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-header">
+          <span class="card-title">주간 점검표 <small style="font-weight:500;color:var(--ink4);font-size:14px">· 최근 완결주 기준 자동 판정</small></span>
+          <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
+            <div class="tooltip-text">각 항목을 직전 구간의 <b>중앙값 ± 2σ(MAD)</b> 기대범위와 대조해 자동 판정합니다. 평균·표준편차 대신 중앙값·MAD를 쓰는 이유는 기준선 안에 이상치가 한 번만 섞여도 기준선 자체가 끌려가 바로 다음 이상을 놓치기 때문입니다. 판정 근거를 함께 적어 무엇부터 볼지 정할 수 있게 했습니다.</div>
+          </div>
+        </div>
+        <div class="mn-chk" id="mnChecks"></div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-header">
+          <span class="card-title">주간 활성 사용자(WAU) 추이 · 기대범위 + 배포 시점</span>
+          <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
+            <div class="tooltip-text">회색 띠는 <b>그 주 이전 8주</b>로 만든 기대범위(중앙값±2σ)입니다. 띠를 벗어난 주가 '이전과 달라진' 주입니다. 점선 구간은 아직 끝나지 않은 주라 판정에서 제외합니다. 세로 점선은 배포 시점입니다.</div>
+          </div>
+        </div>
+        <div class="chart-wrap tall"><canvas id="chartMnWau"></canvas></div>
+        <div class="mn-legend" id="mnWauLegend"></div>
+        <div class="mn-note" id="mnWauNote"></div>
+      </div>
+
+      <div class="grid grid-2" style="margin-bottom:16px">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">일별 활성 사용자 · 요일 보정</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
+              <div class="tooltip-text">주간은 배포 후 7일이 지나야 완결되므로 <b>배포 당일</b>에 볼 수 있는 축은 일별뿐입니다. 다만 요일 편차가 커서 전일 대비는 의미가 없어, <b>같은 요일 직전 4주 중앙값</b>(선)과 비교합니다.</div>
+            </div>
+          </div>
+          <div class="chart-wrap"><canvas id="chartMnDaily"></canvas></div>
+          <div class="mn-note" id="mnDailyNote"></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Activation &rarr; Retention 전환율 (주간)</span>
+            <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
+              <div class="tooltip-text">서비스 아이콘을 누른 사용자 중 실제 사용까지 간 비율입니다. 산식은 <code>user_engagement 사용자 &divide; service_icon_click_event 사용자</code> — 앱의 핵심 병목 지표를 주 단위로 추적합니다. data.json의 aarrr_summary는 다른 정의를 쓰므로 섞어 읽지 마세요.</div>
+            </div>
+          </div>
+          <div class="chart-wrap"><canvas id="chartMnAr"></canvas></div>
+          <div class="mn-note" id="mnArNote"></div>
+        </div>
+      </div>
+
+      <div class="card" id="mnRelCard" style="margin-bottom:16px"></div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-header">
+          <span class="card-title">주차별 상세 <small style="font-weight:500;color:var(--ink4);font-size:14px">· 최신 주가 위</small></span>
+          <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
+            <div class="tooltip-text">증감(WoW)은 <b>완결주끼리만</b> 비교합니다. 진행중 주를 완결주와 비교하면 방향이 뒤집힙니다(2026-07 MAU를 진행중 값으로 봐서 △8.9%로 읽었으나 완결 후 +15.4%였던 선례).</div>
+          </div>
+        </div>
+        <div id="mnTable"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">화면별 변화 <small style="font-weight:500;color:var(--ink4);font-size:14px">· 어디가 달라졌나</small></span>
+          <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
+            <div class="tooltip-text">총량만 보면 '떨어졌다'까지고 '어디가'는 나오지 않습니다. 배포 후 특정 화면만 무너지는 경우(경로 변경·오류)는 총량에 묻히므로 화면 축을 따로 봅니다. 표본이 작으면 비율이 노이즈가 되어 기준주 PV 300 미만 화면은 제외합니다.</div>
+          </div>
+        </div>
+        <div id="mnPages"></div>
       </div>
     </div>
 
@@ -1166,13 +1285,13 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
 
 <script>
 const COLORS = ['#132029','#EA27C2','#1971C2','#0CA678','#F59F00','#E8590C','#7048E8','#1098AD','#F03E3E','#FA84DA','#2F9E44','#868E96'];
-let _tabRendered = { discover:false, overview:false, ga:false, zendesk:false, jira:false, buildings:false };
+let _tabRendered = { discover:false, overview:false, monitor:false, ga:false, zendesk:false, jira:false, buildings:false };
 let _data = null;
 let _pendingTab = null;   // 데이터 도착 전에 사용자가 누른 탭
 let _repaintTried = {};   // 탭별 자동 재렌더 1회 제한 (무한 루프 방지)
 
 function resetRenderState(){
-  _tabRendered = { discover:false, overview:false, ga:false, zendesk:false, jira:false, buildings:false };
+  _tabRendered = { discover:false, overview:false, monitor:false, ga:false, zendesk:false, jira:false, buildings:false };
   _repaintTried = {};
 }
 
@@ -1580,6 +1699,7 @@ function lazyRenderTab(tabId){
   try {
     if(tabId === 'discover'){ renderDiscover(); }
     else if(tabId === 'overview'){ renderOverview(ga, gaS, zd, jira, bld, ins); }
+    else if(tabId === 'monitor'){ renderMonitor(_raw.weekly_monitor); }
     else if(tabId === 'ga'){ renderGA(ga, gaS); }
     else if(tabId === 'zendesk'){ renderZendesk(zd); }
     else if(tabId === 'jira'){ renderJira(jira); }
@@ -2041,6 +2161,11 @@ const TAB_SCOPE = {
   discover:  {period:true,  seg:false,
               note:'발굴은 <b>조회 기간</b>만 반영합니다 — 건물·화면을 선택해 범위를 좁히지 않고 전 범위를 점검합니다.'},
   overview:  {period:true,  seg:false, note:''},
+  /* 주간 모니터링만 기간 필터를 받지 않는다. 기준선(직전 8주)과 배포 전 구간(4주)이
+     사용자의 기간 선택에 따라 달라지면 같은 주가 볼 때마다 다른 판정을 받는다.
+     '언제 봐도 같은 답'이 모니터링의 존재 이유다. */
+  monitor:   {period:false, seg:false,
+              note:'주간 모니터링은 <b>상단 기간 필터를 적용하지 않습니다</b> — 기준선(직전 8주)과 배포 전 비교 구간이 기간 선택에 따라 흔들리면 판정 자체가 바뀝니다.'},
   ga:        {period:true,  seg:true,  note:''},
   zendesk:   {period:true,  seg:false, note:''},
   jira:      {period:true,  seg:false, note:''},
@@ -4906,6 +5031,17 @@ function renderPeriodBadges(){
     pb('&#128172;','CS', zd.total ? pd.from+' ~ '+pd.to+' ('+zd.total+'건)' : '해당 기간 데이터 없음')+
     pb('&#128736;','Jira', (jira.total||0)+'건'+(jTrunc?' (⚠ 부분 수집)':''))+
     pb('&#127970;','건물', bldDateStr+' 스냅샷 (기간 무관)');
+  const mn = _raw?.weekly_monitor;
+  if(q('mnPeriod') && mn?.available){
+    const ws = (mn.weeks||[]).filter(w=>!w.trunc);
+    const done = ws.filter(w=>!w.partial);
+    const a = ws[0], last = done[done.length-1];
+    // 끝 날짜로 진행중 주의 '미래 종료일'을 쓰면 아직 오지 않은 날까지 수집된 것처럼 읽힌다.
+    q('mnPeriod').innerHTML =
+      pb('&#128225;','모니터링 구간', (a?a.from:'-')+' ~ '+(mn.csv_date||'-')+' ('+ws.length+'주 · 기간 필터 무관)')+
+      pb('&#9989;','최근 완결주', last ? last.from+' ~ '+last.to : '없음')+
+      pb('&#128260;','수집 기준일', (mn.csv_date||'-')+' · 주 경계는 일요일 시작(GA4)');
+  }
   if(q('gaPeriod')) q('gaPeriod').innerHTML =
     pb('&#128197;','분석 기간', gaStart+' ~ '+gaEnd+' ('+gaMonths+'개월)');
   if(q('dscPeriod')) q('dscPeriod').innerHTML =
@@ -5109,6 +5245,464 @@ function renderGA(ga, gaS){
     }
   }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   주간 모니터링 (WAU) — 배포 전후 변화 감지
+
+   판정(정상/주의/이상)은 여기서 하지 않는다. collect_all.py 의
+   build_weekly_monitor() 가 이미 계산해 data.json 에 실어 준다.
+   UI가 임계값을 다시 구현하면 파이프라인과 화면이 서로 다른 색을 낸다.
+   여기서 하는 일은 '이미 내려진 판정을 읽기 쉽게 배치하는 것'뿐이다.
+   ══════════════════════════════════════════════════════════════ */
+
+const MN_LV = {
+  ok:    {c:'ok',    t:'정상',      k:'#2F9E44'},
+  watch: {c:'watch', t:'주의',      k:'#E8590C'},
+  alert: {c:'alert', t:'이상',      k:'#F03E3E'},
+  surge: {c:'surge', t:'급등',      k:'#1971C2'},
+  na:    {c:'na',    t:'판정 보류', k:'#909AA0'}
+};
+function mnLv(l){ return MN_LV[l] || MN_LV.na; }
+function mnPill(l){ const m = mnLv(l); return '<span class="lv lv-'+m.c+'">'+m.t+'</span>'; }
+function mnSign(v, unit){
+  if(v == null) return '-';
+  return (v >= 0 ? '+' : '') + (Math.round(v*10)/10).toFixed(1) + (unit == null ? '%' : unit);
+}
+// 사람 수는 소수점을 붙이면 안 된다(4주 평균이라 15,509.25 같은 값이 온다).
+// 비율성 지표(세션/인 · PV/인)는 소수 둘째 자리까지가 정보다.
+function mnVal(v, unit){
+  if(v == null) return '-';
+  return unit === '명' ? fmt(Math.round(v)) : (Math.round(v*100)/100).toString();
+}
+function mnCls(v, invert){
+  if(v == null) return '';
+  const good = invert ? v < 0 : v >= 0;
+  return good ? 'color:var(--green)' : 'color:var(--red)';
+}
+// 'MM/DD~MM/DD' — 주차 코드(202635)는 사람이 못 읽는다. 날짜를 항상 같이 준다.
+function mnW(r){
+  if(!r || !r.from) return (r && r.w) || '-';
+  return r.from.slice(5).replace('-','/') + '~' + r.to.slice(5).replace('-','/');
+}
+/* 날짜 산술은 반드시 UTC 로 한다. new Date('2026-09-05T00:00:00') 은 로컬
+   자정으로 해석되는데 toISOString() 은 UTC로 되돌려 KST에서 하루가 밀린다
+   (실제로 '첫 판정 가능일'이 9/12 대신 9/11 로 표시됐다). */
+function mnAddDays(iso, n){
+  const d = new Date(iso + 'T00:00:00Z');
+  d.setUTCDate(d.getUTCDate() + n);
+  return d.toISOString().slice(0,10);
+}
+function mnDayDiff(a, b){
+  return Math.round((new Date(b + 'T00:00:00Z') - new Date(a + 'T00:00:00Z')) / 86400000);
+}
+
+/* 배포 시점 세로 마커. 배포일이 어느 구간인지 차트 위에서 바로 읽히지 않으면
+   '언제부터 달라졌나'를 표와 차트 사이를 오가며 맞춰야 한다. */
+const relMarkPlugin = {
+  id:'relMarks',
+  afterDatasetsDraw(chart){
+    const marks = chart.options?.plugins?.relMarks?.marks;
+    if(!marks || !marks.length || !chart.chartArea) return;
+    const ctx = chart.ctx, area = chart.chartArea, xs = chart.scales.x;
+    marks.forEach(mk=>{
+      const px = xs.getPixelForValue(mk.idx);
+      if(px == null || isNaN(px)) return;
+      ctx.save();
+      ctx.strokeStyle = '#EA27C2'; ctx.lineWidth = 2; ctx.setLineDash([6,4]);
+      ctx.beginPath(); ctx.moveTo(px, area.top); ctx.lineTo(px, area.bottom); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.font = '700 12px Pretendard Variable, Pretendard, sans-serif';
+      const txt = '▼ ' + mk.label;
+      const w = ctx.measureText(txt).width + 10;
+      const right = px + w > area.right;
+      ctx.fillStyle = '#EA27C2';
+      ctx.textAlign = right ? 'right' : 'left';
+      ctx.fillText(txt, px + (right ? -5 : 5), area.top + 11);
+      ctx.restore();
+    });
+  }
+};
+
+function renderMonitor(m){
+  const q = id => document.getElementById(id);
+  if(!m || !m.available){
+    q('aiMnBox').innerHTML = '<div class="ai-box-header"><span class="icon">&#128225;</span> 주간 모니터링</div>'
+      + '<p>주별 데이터가 없습니다. <code>ga4_fetch.py --detail</code> 실행 후 <code>collect_all.py</code>를 다시 돌리면 채워집니다.</p>';
+    ['mnHero','mnChecks','mnTable','mnPages','mnRelCard','mnRelBanner'].forEach(id=>{ if(q(id)) q(id).innerHTML=''; });
+    return;
+  }
+
+  const weeks = (m.weeks||[]).filter(w=>!w.trunc);
+  const L = m.latest, C = m.current, R = m.release, P = m.params||{};
+  const alerts = (m.checks||[]).filter(c=>c.level === 'alert');
+  const watches = (m.checks||[]).filter(c=>c.level === 'watch');
+  const pend = (m.checks||[]).filter(c=>c.level === 'na');
+
+  /* ── 배포 배너 ── */
+  if(R){
+    // 기준일은 브라우저 시계가 아니라 수집 기준일이다. 로컬 시각을 쓰면
+    // 데이터가 멈춰 있어도 D+N만 계속 늘어나 '경과했는데 정상'처럼 읽힌다.
+    const dday = mnDayDiff(R.date, m.csv_date || R.date);
+    const wr = R.week_row;
+    // 배포주가 섞인 주면 그 다음 완결주가 첫 판정 대상이다.
+    const firstClean = wr && wr.to ? mnAddDays(wr.to, 7) : null;
+    let body = '';
+    if(R.status === 'post'){
+      body = '<p>배포 후 완결주 <b>' + R.post_weeks.length + '주</b>가 쌓였습니다. 아래 <b>배포 전후 비교</b>가 판정 기준입니다.</p>';
+    } else {
+      body = '<p>아직 <b>배포 후 완결주가 없습니다</b>. 지금 판정 가능한 축은 <b>일별(요일 보정)</b>과 <b>진행중 주 흐름</b>뿐입니다.'
+           + (firstClean ? ' 주 단위 첫 판정은 <b>' + firstClean + '</b>(첫 완결주 종료) 이후 수집분부터 가능합니다.' : '') + '</p>';
+    }
+    if(R.mixed && wr && wr.from){
+      const pre = mnDayDiff(wr.from, R.date);
+      body += '<p>&#9888; 배포일이 주 중간이라 배포주(' + mnW(wr) + ')는 <b>배포 전 ' + pre
+           + '일 + 배포 후 ' + (7 - pre) + '일</b>이 섞입니다. 섞인 주를 배포 후로 세면 효과가 희석돼 '
+           + '나쁜 배포도 정상으로 보이므로, 이 주는 참고용으로만 두고 판정에 쓰지 않습니다.</p>';
+    }
+    if(R.note) body += '<p style="color:var(--ink3);font-size:13.5px">' + esc(R.note) + '</p>';
+    q('mnRelBanner').innerHTML =
+      '<div class="mn-rel"><div class="r-h"><span>&#128640; ' + esc(R.label) + '</span>'
+      + '<span class="r-d">' + R.date + ' · D' + (dday >= 0 ? '+' + dday : dday) + '</span>'
+      + (R.scope ? '<span style="font-size:13.5px;font-weight:600;color:var(--ink3);letter-spacing:0">' + esc(R.scope) + '</span>' : '')
+      + '</div>' + body + '</div>';
+  } else {
+    q('mnRelBanner').innerHTML = '';
+  }
+
+  /* ── 요약 ── */
+  let ai = '<div class="ai-box-header"><span class="icon">&#128225;</span> 주간 판정 요약 <span class="ai-box-kind">규칙 기반</span></div>';
+  if(L){
+    const b = L.base;
+    ai += '<p>최근 완결주 <b>' + mnW(L) + '</b> WAU <span class="highlight">' + fmt(L.au) + '명</span>'
+        + (b ? ' — 직전 ' + b.n + '주 기준 ' + fmt(Math.round(b.med)) + '명, 기대범위 '
+             + fmt(Math.round(b.lo)) + '~' + fmt(Math.round(b.hi)) + '명 (<span class="'
+             + (L.dev >= 0 ? 'good' : 'warn') + '">' + mnSign(L.dev) + '</span>)' : '')
+        + '. 판정 <b>' + mnLv(L.flag).t + '</b>.</p>';
+  }
+  if(alerts.length){
+    ai += '<p><span class="danger">이상 ' + alerts.length + '건</span>: '
+        + alerts.map(c=>'<b>' + esc(c.label) + '</b> ' + esc(c.msg)).join(' / ') + '</p>';
+  } else if(watches.length){
+    ai += '<p><span class="warn">주의 ' + watches.length + '건</span>: '
+        + watches.map(c=>'<b>' + esc(c.label) + '</b> ' + esc(c.msg)).join(' / ') + '</p>';
+  } else {
+    ai += '<p><span class="good">이상 없음</span> — 점검 ' + (m.checks||[]).length + '항목이 모두 기대범위 안입니다.</p>';
+  }
+  if(pend.length){
+    ai += '<p class="ai-box-note">판정 보류 ' + pend.length + '항목: '
+        + pend.map(c=>esc(c.label)).join(', ') + ' — 근거 데이터가 아직 없거나 수집이 뒤처져 있습니다. '
+        + '보류를 ‘정상’으로 읽지 마세요.</p>';
+  }
+  q('aiMnBox').innerHTML = ai;
+
+  /* ── 상단 카드 ── */
+  const hero = [];
+  if(L){
+    const b = L.base, k = mnLv(L.flag).k;
+    hero.push('<div class="mn-h" style="--hc:' + k + '"><div class="h-l"><span>최근 완결주 WAU</span>' + mnPill(L.flag) + '</div>'
+      + '<div class="h-v">' + fmt(L.au) + '<small>명</small></div>'
+      + '<div class="h-s">' + mnW(L) + (b ? ' · 기준 ' + fmt(Math.round(b.med)) + '명 대비 <b style="' + mnCls(L.dev) + '">' + mnSign(L.dev) + '</b>' : '') + '</div></div>');
+    const w = L.wow;
+    hero.push('<div class="mn-h" style="--hc:#333F48"><div class="h-l"><span>직전 완결주 대비</span></div>'
+      + '<div class="h-v" style="' + mnCls(w && w.au) + '">' + (w ? mnSign(w.au) : '-') + '</div>'
+      + '<div class="h-s">' + (w ? mnW(weeks.find(x=>x.w === w.vs)) + ' → ' + mnW(L) : '비교할 완결주 없음')
+      + '<br>신규 <b style="' + mnCls(w && w.nu) + '">' + (w ? mnSign(w.nu) : '-') + '</b> · 방문빈도 <b style="' + mnCls(w && w.spu) + '">' + (w ? mnSign(w.spu) : '-') + '</b></div></div>');
+    if(b){
+      hero.push('<div class="mn-h" style="--hc:#909AA0"><div class="h-l"><span>기대범위 (직전 ' + b.n + '주)</span></div>'
+        + '<div class="h-v" style="font-size:22px">' + fmt(Math.round(b.lo)) + ' ~ ' + fmt(Math.round(b.hi)) + '</div>'
+        + '<div class="h-s">중앙값 ' + fmt(Math.round(b.med)) + '명 &plusmn; 2&sigma;(MAD)<br>이 범위를 벗어난 주가 ‘이전과 달라진’ 주입니다</div></div>');
+    }
+  }
+  if(C){
+    const pc = C.pace;
+    hero.push('<div class="mn-h" style="--hc:#EA27C2"><div class="h-l"><span>진행중 주 (' + mnW(C) + ')</span><span class="lv lv-na">진행중</span></div>'
+      + '<div class="h-v">' + fmt(C.au) + '<small>명 / ' + C.days + '일치</small></div>'
+      + '<div class="h-s">' + (pc && pc.dev != null
+          ? '같은 경과일(' + pc.days + '일) 기준 직전 ' + pc.n_base + '주 대비 <b style="' + mnCls(pc.dev) + '">' + mnSign(pc.dev) + '</b>'
+          : '완결된 경과일이 부족해 비교 대상 없음')
+      + '<br>완결주와 직접 비교하지 않습니다</div></div>');
+  }
+  q('mnHero').innerHTML = hero.join('');
+
+  /* ── 점검표 ── */
+  q('mnChecks').innerHTML = (m.checks||[]).map(c=>
+    '<div class="row"><div class="c-n">' + mnPill(c.level) + esc(c.label) + '</div>'
+    + '<div class="c-v">' + esc(c.value) + '</div>'
+    + '<div><div class="c-m">' + esc(c.msg) + '</div>'
+    + (c.basis ? '<div class="c-b">근거: ' + esc(c.basis) + '</div>' : '') + '</div></div>').join('');
+
+  renderMnWau(m, weeks);
+  renderMnDaily(m);
+  renderMnAr(m);
+  renderMnRelease(m);
+  renderMnTable(m, weeks);
+  renderMnPages(m);
+}
+
+/* ── WAU 추이 + 기대범위 띠 + 배포 마커 ── */
+function renderMnWau(m, weeks){
+  const view = weeks.slice(-16);
+  const labels = view.map(mnW);
+  const marks = [];
+  (m.releases||[]).forEach(r=>{
+    const i = view.findIndex(w=>w.w === r.w);
+    if(i >= 0) marks.push({idx:i, label:r.label});
+  });
+  const pt = w => mnLv(w.partial ? 'na' : w.flag).k;
+  mkChart('chartMnWau', {
+    type:'line',
+    data:{ labels:labels, datasets:[
+      // 띠는 두 계열의 사이를 채워 만든다 (hi -> lo 로 fill:'-1').
+      { label:'기대범위 상한', data:view.map(w=>w.base ? w.base.hi : null),
+        borderColor:'rgba(19,32,41,0)', pointRadius:0, borderWidth:0, fill:false, spanGaps:true, order:3 },
+      { label:'기대범위', data:view.map(w=>w.base ? w.base.lo : null),
+        borderColor:'rgba(19,32,41,0)', backgroundColor:'rgba(19,32,41,.09)',
+        pointRadius:0, borderWidth:0, fill:'-1', spanGaps:true, order:3 },
+      { label:'중앙값', data:view.map(w=>w.base ? w.base.med : null),
+        borderColor:'rgba(144,154,160,.9)', borderDash:[4,4], borderWidth:1.5,
+        pointRadius:0, fill:false, spanGaps:true, order:2 },
+      { label:'주간 활성 사용자(WAU)', data:view.map(w=>w.au),
+        borderColor:'#132029', borderWidth:2.5, tension:.35, fill:false,
+        pointRadius:5, pointHoverRadius:8,
+        pointBackgroundColor:view.map(w=>w.partial ? '#FFFFFF' : pt(w)),
+        pointBorderColor:view.map(pt), pointBorderWidth:2,
+        segment:{ borderDash:ctx=>view[ctx.p1DataIndex] && view[ctx.p1DataIndex].partial ? [5,5] : [] },
+        order:1 }
+    ] },
+    plugins:[relMarkPlugin],
+    options:{ responsive:true, maintainAspectRatio:false, layout:{padding:{top:26}},
+      plugins:{
+        legend:{display:false},
+        relMarks:{marks:marks},
+        tooltip:{ filter:i=>i.datasetIndex === 3, callbacks:{
+          label:ctx=>{
+            const w = view[ctx.dataIndex];
+            const t = [fmt(w.au) + '명' + (w.partial ? ' (진행중 ' + w.days + '일치 — 판정 제외)' : '')];
+            if(w.base) t.push('기준 ' + fmt(Math.round(w.base.med)) + '명 대비 ' + mnSign(w.dev) + ' (판정: ' + mnLv(w.flag).t + ')');
+            if(w.wow) t.push('직전 완결주 대비 ' + mnSign(w.wow.au));
+            return t;
+          } } }
+      },
+      scales:{ x:{ ticks:{ maxRotation:0, autoSkip:true, font:{size:12} } },
+               y:{ beginAtZero:false, ticks:{ callback:v=>fmt(v) + '명' } } } }
+  });
+  document.getElementById('mnWauLegend').innerHTML =
+    '<span style="color:#132029"><i></i>WAU</span>'
+    + '<span style="color:#909AA0"><i class="band"></i>기대범위(중앙값±2&sigma;)</span>'
+    + '<span style="color:#909AA0"><i class="dash"></i>기준 중앙값</span>'
+    + '<span style="color:#EA27C2"><i class="dash"></i>배포 시점</span>'
+    + Object.keys(MN_LV).filter(k=>k!=='na').map(k=>'<span style="color:' + MN_LV[k].k + '">&#9679; ' + MN_LV[k].t + '</span>').join('')
+    + '<span style="color:#909AA0">&#9711; 진행중(판정 제외)</span>';
+  const last = view[view.length-1];
+  document.getElementById('mnWauNote').innerHTML =
+    '기대범위는 <b>그 주 이전 ' + (m.params.baseline_weeks||8) + '주</b>의 완결주만으로 만듭니다 — 자기 자신을 포함하면 이상이 스스로 기준선을 끌어올려 정상으로 보입니다. '
+    + '평균±표준편차 대신 <b>중앙값±MAD</b>를 쓰는 이유도 같습니다(이상치 한 번이 기준선을 통째로 움직이는 것을 막습니다). '
+    + (last && last.partial ? '마지막 구간(' + mnW(last) + ')은 ' + last.days + '일치 진행중이라 판정 대상이 아닙니다.' : '');
+}
+
+/* ── 일별 (요일 보정) ── */
+function renderMnDaily(m){
+  const all = m.daily||[];
+  const note = document.getElementById('mnDailyNote');
+  if(!all.length){
+    mkChart('chartMnDaily', {type:'bar', data:{labels:[],datasets:[]}});
+    note.innerHTML = '일별 원자료가 없습니다 — <code>ga4_fetch.py --detail</code> 실행 후 채워집니다.';
+    return;
+  }
+  const view = all.slice(-42);
+  const marks = [];
+  (m.releases||[]).forEach(r=>{
+    const i = view.findIndex(d=>d.d === r.date);
+    if(i >= 0) marks.push({idx:i, label:r.label});
+  });
+  const DOW = ['일','월','화','수','목','금','토'];
+  mkChart('chartMnDaily', {
+    type:'bar',
+    data:{ labels:view.map(d=>d.d.slice(5).replace('-','/') + '(' + DOW[d.dow] + ')'), datasets:[
+      { type:'bar', label:'일별 활성 사용자', data:view.map(d=>d.au),
+        backgroundColor:view.map(d=> d.partial ? 'rgba(144,154,160,.45)'
+          : (d.dev != null && d.dev <= -25 ? 'rgba(240,62,62,.85)'
+          : (d.dev != null && d.dev <= -12 ? 'rgba(232,89,12,.85)' : 'rgba(19,32,41,.75)'))),
+        borderRadius:3, order:2 },
+      { type:'line', label:'같은 요일 직전 4주 중앙값', data:view.map(d=>d.base),
+        borderColor:'#EA27C2', borderWidth:2, borderDash:[5,4], pointRadius:0, tension:.3, spanGaps:true, order:1 }
+    ] },
+    plugins:[relMarkPlugin],
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:true, labels:{usePointStyle:true, pointStyle:'circle', color:'#4B4B4B', font:{size:12}}},
+        relMarks:{marks:marks},
+        tooltip:{ callbacks:{ label:ctx=>{
+          const d = view[ctx.dataIndex];
+          if(ctx.datasetIndex === 1) return '요일 기준선: ' + (d.base == null ? '-' : fmt(d.base) + '명');
+          return fmt(d.au) + '명' + (d.partial ? ' (수집 당일 — 비교 제외)'
+            : (d.dev != null ? ' · 요일 기준 대비 ' + mnSign(d.dev) : ''));
+        } } } },
+      scales:{ x:{ ticks:{ maxRotation:0, autoSkip:true, font:{size:11} } },
+               y:{ beginAtZero:true, ticks:{ callback:v=>fmt(v) } } } }
+  });
+  const lastP = view[view.length-1];
+  note.innerHTML = '요일 편차가 3배까지 나므로 전일 대비는 쓰지 않고 <b>같은 요일 직전 4주 중앙값</b>과 비교합니다. '
+    + (lastP && lastP.partial ? '마지막 막대(' + lastP.d + ')는 <b>수집 당일</b>이라 하루치가 다 차지 않았습니다 — 비교에서 제외합니다.' : '');
+}
+
+/* ── Activation → Retention (주간) ── */
+function renderMnAr(m){
+  const ar = m.aarrr||[];
+  const note = document.getElementById('mnArNote');
+  if(!ar.length){
+    mkChart('chartMnAr', {type:'line', data:{labels:[],datasets:[]}});
+    note.innerHTML = '주별 AARRR 원자료가 없습니다 — <code>ga4_fetch.py --detail</code> 실행 후 채워집니다.';
+    return;
+  }
+  const view = ar.slice(-16);
+  const marks = [];
+  (m.releases||[]).forEach(r=>{
+    const i = view.findIndex(w=>w.w === r.w);
+    if(i >= 0) marks.push({idx:i, label:r.label});
+  });
+  mkChart('chartMnAr', {
+    type:'line',
+    data:{ labels:view.map(mnW), datasets:[
+      { label:'전환율', data:view.map(w=>w.rate), borderColor:'#0CA678',
+        backgroundColor:'rgba(12,166,120,.10)', fill:true, tension:.35, borderWidth:2.5,
+        pointRadius:4, pointBackgroundColor:view.map(w=>w.partial ? '#FFFFFF' : '#0CA678'),
+        pointBorderColor:'#0CA678', pointBorderWidth:2,
+        segment:{ borderDash:ctx=>view[ctx.p1DataIndex] && view[ctx.p1DataIndex].partial ? [5,5] : [] } }
+    ] },
+    plugins:[relMarkPlugin],
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, relMarks:{marks:marks},
+        tooltip:{ callbacks:{ label:ctx=>{
+          const w = view[ctx.dataIndex];
+          return [ (w.rate == null ? '-' : w.rate + '%') + (w.partial ? ' (진행중 — 판정 제외)' : ''),
+                   '아이콘 클릭 ' + fmt(w.act) + '명 → 실사용 ' + fmt(w.ret) + '명' ];
+        } } } },
+      scales:{ x:{ ticks:{ maxRotation:0, autoSkip:true, font:{size:11} } },
+               y:{ ticks:{ callback:v=>v + '%' } } } }
+  });
+  const done = view.filter(w=>!w.partial && w.rate != null);
+  const cur = done[done.length-1], prv = done[done.length-2];
+  note.innerHTML = '산식: <code>user_engagement 사용자 &divide; service_icon_click_event 사용자</code>. '
+    + (cur && prv ? '최근 완결주 <b>' + cur.rate + '%</b> (직전 ' + prv.rate + '% 대비 ' + mnSign(cur.rate - prv.rate, '%p') + ')' : '')
+    + ' · data.json의 <code>insights.aarrr_summary</code>는 다른 정의를 쓰므로 섞어 읽지 마세요.';
+}
+
+/* ── 배포 전후 비교 ── */
+function renderMnRelease(m){
+  const box = document.getElementById('mnRelCard');
+  const R = m.release;
+  if(!R){
+    box.innerHTML = '<div class="card-header"><span class="card-title">배포 전후 비교</span></div>'
+      + '<div class="mn-empty">등록된 배포가 없습니다.<br><code>95. customer-insights/releases.json</code> 에 배포일을 추가하면 '
+      + '차트 마커와 전후 비교가 자동으로 생깁니다.</div>';
+    return;
+  }
+  const wr = R.week_row;
+  let head = '<div class="card-header"><span class="card-title">배포 전후 비교 <small style="font-weight:500;color:var(--ink4);font-size:14px">· '
+    + esc(R.label) + ' (' + R.date + ')</small></span>'
+    + '<div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>'
+    + '<div class="tooltip-text">배포 <b>직전 완결 ' + (m.params.pre_weeks||4) + '주</b> 평균과 배포 <b>이후 완결주</b> 평균을 맞댑니다. '
+    + '배포일이 주 중간이면 그 주는 배포 전후가 섞이므로 양쪽 어디에도 넣지 않습니다 — 섞인 주를 배포 후로 세면 효과가 희석돼 나쁜 배포가 정상으로 보입니다.</div></div></div>';
+
+  let body = '';
+  const b = R.band;
+  body += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-bottom:18px">'
+    + '<div style="background:var(--muted);border-radius:10px;padding:14px 16px">'
+    + '<div style="font-size:13px;color:var(--ink3);font-weight:700;margin-bottom:6px">배포 전 기준 구간</div>'
+    + '<div style="font-size:15px;color:var(--navy);font-weight:700">' + (R.pre_weeks.length ? R.pre_weeks.length + '주 (' + R.pre_weeks.join(', ') + ')' : '없음') + '</div>'
+    + (b ? '<div style="font-size:13px;color:var(--ink3);margin-top:6px">WAU 기대범위 ' + fmt(Math.round(b.lo)) + '~' + fmt(Math.round(b.hi)) + '명</div>' : '')
+    + '</div>'
+    + '<div style="background:' + (R.mixed ? 'var(--yellow-bg)' : 'var(--muted)') + ';border-radius:10px;padding:14px 16px">'
+    + '<div style="font-size:13px;color:var(--ink3);font-weight:700;margin-bottom:6px">배포주' + (R.mixed ? ' (혼재 — 판정 제외)' : '') + '</div>'
+    + '<div style="font-size:15px;color:var(--navy);font-weight:700">' + (wr ? mnW(wr) : R.w) + '</div>'
+    + (wr ? '<div style="font-size:13px;color:var(--ink3);margin-top:6px">' + (wr.partial ? '진행중 ' + wr.days + '일치 · ' : '') + 'WAU ' + fmt(wr.au) + '명</div>' : '')
+    + '</div>'
+    + '<div style="background:var(--muted);border-radius:10px;padding:14px 16px">'
+    + '<div style="font-size:13px;color:var(--ink3);font-weight:700;margin-bottom:6px">배포 후 완결주</div>'
+    + '<div style="font-size:15px;color:' + (R.post_weeks.length ? 'var(--navy)' : 'var(--ink4)') + ';font-weight:700">'
+    + (R.post_weeks.length ? R.post_weeks.length + '주 (' + R.post_weeks.join(', ') + ')' : '아직 없음') + '</div>'
+    + (!R.post_weeks.length && wr && wr.to ? '<div style="font-size:13px;color:var(--ink3);margin-top:6px">첫 완결주 종료: ' + mnAddDays(wr.to, 7) + '</div>' : '')
+    + '</div></div>';
+
+  const hasPost = R.post_weeks.length > 0;
+  body += '<table class="data-table"><thead><tr><th>지표</th><th class="num">배포 전 평균</th><th class="num">배포 후 평균</th><th class="num">변화</th><th>판정</th></tr></thead><tbody>'
+    + (R.metrics||[]).map(x=>{
+        let lv = 'na';
+        if(x.dev != null) lv = x.dev <= -10 ? 'alert' : (x.dev <= -4 ? 'watch' : (x.dev >= 4 ? 'surge' : 'ok'));
+        return '<tr><td>' + esc(x.label) + '</td>'
+          + '<td class="num">' + (x.pre == null ? '-' : mnVal(x.pre, x.unit) + x.unit) + '</td>'
+          + '<td class="num">' + (x.post == null ? '<span style="color:var(--ink4)">대기</span>' : mnVal(x.post, x.unit) + x.unit) + '</td>'
+          + '<td class="num" style="' + mnCls(x.dev) + ';font-weight:700">' + (x.dev == null ? '-' : mnSign(x.dev)) + '</td>'
+          + '<td>' + (x.dev == null ? '<span class="lv lv-na">비교 대기</span>' : mnPill(lv)) + '</td></tr>';
+      }).join('') + '</tbody></table>';
+
+  if(!hasPost){
+    body += '<div class="mn-note">&#9888; <b>배포 후 완결주가 없어 아직 판정할 수 없습니다.</b> '
+      + '지금 상태에서 ‘변화 없음’으로 읽으면 안 됩니다 — 비교 대상이 없는 것과 차이가 없는 것은 다릅니다. '
+      + '이 표는 배포 전 기준선을 <b>지금 고정</b>해 두는 역할을 합니다. 다음 완결주부터 자동으로 채워집니다.</div>';
+  }
+  box.innerHTML = head + body;
+}
+
+/* ── 주차별 상세 ── */
+function renderMnTable(m, weeks){
+  const view = weeks.slice(-14).reverse();
+  let h = '<div style="overflow-x:auto"><table class="data-table"><thead><tr>'
+    + '<th>주</th><th>기간</th><th class="num">WAU</th><th class="num">증감(WoW)</th>'
+    + '<th class="num">기대범위</th><th class="num">편차</th><th class="num">신규</th>'
+    + '<th class="num">세션/인</th><th class="num">PV/인</th><th>판정</th></tr></thead><tbody>';
+  view.forEach(w=>{
+    const b = w.base;
+    h += '<tr' + (w.partial ? ' style="background:var(--muted)"' : '') + '>'
+      + '<td style="font-weight:700">' + w.w + '</td>'
+      + '<td>' + mnW(w) + (w.partial ? ' <span class="lv lv-na">진행중 ' + w.days + '일</span>' : '') + '</td>'
+      + '<td class="num" style="font-weight:700">' + fmt(w.au) + '</td>'
+      + '<td class="num" style="' + mnCls(w.wow && w.wow.au) + '">' + (w.wow ? mnSign(w.wow.au) : '-') + '</td>'
+      + '<td class="num" style="color:var(--ink4);font-size:14px">' + (b ? fmt(Math.round(b.lo)) + '~' + fmt(Math.round(b.hi)) : '-') + '</td>'
+      + '<td class="num" style="' + mnCls(w.dev) + ';font-weight:700">' + (w.dev == null ? '-' : mnSign(w.dev)) + '</td>'
+      + '<td class="num">' + fmt(w.nu) + '</td>'
+      + '<td class="num">' + w.spu + '</td>'
+      + '<td class="num">' + w.ppu + '</td>'
+      + '<td>' + mnPill(w.partial ? 'na' : w.flag) + '</td></tr>';
+    if(w.reasons && w.reasons.length && !w.partial && (w.flag === 'alert' || w.flag === 'watch')){
+      h += '<tr><td colspan="10" style="background:' + (w.flag === 'alert' ? 'var(--red-bg)' : 'var(--yellow-bg)')
+        + ';font-size:14px;color:var(--navy700);line-height:1.7;border-left:3px solid '
+        + (w.flag === 'alert' ? 'var(--red)' : 'var(--yellow)') + '">'
+        + w.reasons.map(r=>'· ' + esc(r)).join('<br>') + '</td></tr>';
+    }
+  });
+  h += '</tbody></table></div>';
+  document.getElementById('mnTable').innerHTML = h;
+}
+
+/* ── 화면별 변화 ── */
+function renderMnPages(m){
+  const pd = m.pages_delta || {};
+  const box = document.getElementById('mnPages');
+  if(!pd.available){
+    box.innerHTML = '<div class="mn-empty">화면&times;주 원자료가 아직 없습니다.<br>'
+      + '<code>ga4_fetch.py --detail</code> 실행 후 <code>collect_all.py</code>를 다시 돌리면 채워집니다.</div>';
+    return;
+  }
+  const tbl = (items, kind) => {
+    if(!items.length){
+      return '<div class="mn-empty" style="padding:20px">기준 이상으로 ' + (kind === 'down' ? '떨어진' : '오른') + ' 화면이 없습니다.</div>';
+    }
+    return '<table class="data-table"><thead><tr><th>화면</th><th class="num">기준 PV</th><th class="num">이번 주</th><th class="num">변화</th></tr></thead><tbody>'
+      + items.map(x=>'<tr><td style="font-size:14.5px">' + esc(friendlyName(x.p))
+        + '<div style="font-size:12.5px;color:var(--ink4)">' + esc(x.p) + '</div></td>'
+        + '<td class="num">' + fmt(x.base) + '</td><td class="num">' + fmt(x.pv) + '</td>'
+        + '<td class="num" style="font-weight:700;' + mnCls(x.dev) + '">' + mnSign(x.dev) + '</td></tr>').join('')
+      + '</tbody></table>';
+  };
+  box.innerHTML = '<div class="mn-pages">'
+    + '<div><div style="font-size:15px;font-weight:800;color:var(--red);margin-bottom:10px">&#9660; 급락 ('
+    + (m.params.page_drop_pct||-20) + '% 이하) · ' + pd.down.length + '개</div>' + tbl(pd.down, 'down') + '</div>'
+    + '<div><div style="font-size:15px;font-weight:800;color:var(--blue);margin-bottom:10px">&#9650; 급등 (+20% 이상) · '
+    + pd.up.length + '개</div>' + tbl(pd.up, 'up') + '</div></div>'
+    + '<div class="mn-note">' + esc(pd.basis) + '</div>';
+}
+
 
 function renderZendesk(zd){
   const cats = zd.categories||{}, sent = zd.sentiment?.counts||{}, total = zd.total||0;
