@@ -783,6 +783,22 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
       <div class="ai-box" id="aiMnBox"></div>
       <div class="mn-hero" id="mnHero"></div>
 
+      <!-- 분리 기준일 앵커 — 구 앱과 리뉴얼 앱을 같은 선 위에 올리지 않는다.
+           달력 주 격자만 쓰면 배포가 주 중간에 걸릴 때 판정이 최대 13일 밀린다. -->
+      <div class="card" id="mnSplitCard" style="margin-bottom:16px"></div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-header">
+          <span class="card-title">롤링 7일 WAU · 구 앱 / 리뉴얼 완전 분리</span>
+          <div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>
+            <div class="tooltip-text">매일 끝나는 7일 창의 <b>순이용자(중복 제거)</b>입니다. 일별 값을 더한 것이 아니라 창마다 GA4에 다시 물어본 실측입니다 — 같은 사람이 7일 중 5일 오면 합계는 5로 세지만 WAU는 1입니다.<br><br>분리 기준일을 <b>걸친 창은 아예 그리지 않습니다</b>. 구 앱 트래픽이 섞인 창을 리뉴얼 수치로 내놓으면 분리가 무의미해지기 때문입니다. 그 공백은 아래 ‘누적 N일’ 비교가 메웁니다.</div>
+          </div>
+        </div>
+        <div class="chart-wrap tall"><canvas id="chartMnRolling"></canvas></div>
+        <div class="mn-legend" id="mnRollLegend"></div>
+        <div class="mn-note" id="mnRollNote"></div>
+      </div>
+
       <div class="card" style="margin-bottom:16px">
         <div class="card-header">
           <span class="card-title">주간 점검표 <small style="font-weight:500;color:var(--ink4);font-size:14px">· 최근 완결주 기준 자동 판정</small></span>
@@ -5328,7 +5344,7 @@ function renderMonitor(m){
   if(!m || !m.available){
     q('aiMnBox').innerHTML = '<div class="ai-box-header"><span class="icon">&#128225;</span> 주간 모니터링</div>'
       + '<p>주별 데이터가 없습니다. <code>ga4_fetch.py --detail</code> 실행 후 <code>collect_all.py</code>를 다시 돌리면 채워집니다.</p>';
-    ['mnHero','mnChecks','mnTable','mnPages','mnRelCard','mnRelBanner'].forEach(id=>{ if(q(id)) q(id).innerHTML=''; });
+    ['mnHero','mnChecks','mnTable','mnPages','mnRelCard','mnRelBanner','mnSplitCard'].forEach(id=>{ if(q(id)) q(id).innerHTML=''; });
     return;
   }
 
@@ -5346,18 +5362,33 @@ function renderMonitor(m){
     const wr = R.week_row;
     // 배포주가 섞인 주면 그 다음 완결주가 첫 판정 대상이다.
     const firstClean = wr && wr.to ? mnAddDays(wr.to, 7) : null;
+    /* 판정 일정은 달력 주가 아니라 '분리 기준일'로 안내한다. 달력 주(일~토)로
+       세면 이번 배포는 판정이 9/13까지 밀리는데, 분리 기준일 앵커를 쓰면
+       다음 날부터 누적 비교가 서고 7일째에 7일 WAU가 확정된다. */
+    const S = m.split;
     let body = '';
-    if(R.status === 'post'){
+    if(S && S.status === 'full'){
+      body = '<p>리뉴얼 <b>7일 WAU가 확정</b>됐습니다. 위 <b>' + esc(S.label) + ' 전후 분리</b> 카드가 판정 기준입니다.</p>';
+    } else if(S && S.status === 'partial'){
+      const c = S.cum[S.cum.length-1];
+      body = '<p>리뉴얼 <b>누적 ' + c.k + '일차</b>까지 집계됐습니다 — 구 앱 같은 요일 구간 대비 '
+           + '<b class="' + (c.dev >= 0 ? 'good' : 'warn') + '">' + mnSign(c.dev) + '</b>. '
+           + '7일 WAU 확정은 <b>' + S.full7_date + '</b>입니다.</p>';
+    } else if(S){
+      body = '<p><b>' + S.date + '부터</b> 리뉴얼 앱으로 분리 집계합니다. 첫 판정 <b>' + S.first_judge_date
+           + '</b>, 7일 WAU 확정 <b>' + S.full7_date + '</b>. '
+           + '그 전까지 판정 가능한 축은 <b>일별(요일 보정)</b>뿐입니다.</p>';
+    } else if(R.status === 'post'){
       body = '<p>배포 후 완결주 <b>' + R.post_weeks.length + '주</b>가 쌓였습니다. 아래 <b>배포 전후 비교</b>가 판정 기준입니다.</p>';
     } else {
       body = '<p>아직 <b>배포 후 완결주가 없습니다</b>. 지금 판정 가능한 축은 <b>일별(요일 보정)</b>과 <b>진행중 주 흐름</b>뿐입니다.'
-           + (firstClean ? ' 주 단위 첫 판정은 <b>' + firstClean + '</b>(첫 완결주 종료) 이후 수집분부터 가능합니다.' : '') + '</p>';
+           + (firstClean ? ' 주 단위(달력 주) 첫 판정은 <b>' + firstClean + '</b> 이후 수집분부터입니다.' : '') + '</p>';
     }
     if(R.mixed && wr && wr.from){
       const pre = mnDayDiff(wr.from, R.date);
-      body += '<p>&#9888; 배포일이 주 중간이라 배포주(' + mnW(wr) + ')는 <b>배포 전 ' + pre
-           + '일 + 배포 후 ' + (7 - pre) + '일</b>이 섞입니다. 섞인 주를 배포 후로 세면 효과가 희석돼 '
-           + '나쁜 배포도 정상으로 보이므로, 이 주는 참고용으로만 두고 판정에 쓰지 않습니다.</p>';
+      body += '<p style="color:var(--ink3);font-size:13.5px">참고 · 달력 주(' + mnW(wr) + ')는 배포 전 ' + pre
+           + '일 + 배포 후 ' + (7 - pre) + '일이 섞여 아래 <b>배포 전후 비교</b>(달력 주 기준)에서는 제외됩니다. '
+           + '위 분리 기준일 앵커는 이 문제를 받지 않습니다.</p>';
     }
     if(R.note) body += '<p style="color:var(--ink3);font-size:13.5px">' + esc(R.note) + '</p>';
     q('mnRelBanner').innerHTML =
@@ -5431,12 +5462,178 @@ function renderMonitor(m){
     + '<div><div class="c-m">' + esc(c.msg) + '</div>'
     + (c.basis ? '<div class="c-b">근거: ' + esc(c.basis) + '</div>' : '') + '</div></div>').join('');
 
+  renderMnSplit(m);
+  renderMnRolling(m);
   renderMnWau(m, weeks);
   renderMnDaily(m);
   renderMnAr(m);
   renderMnRelease(m);
   renderMnTable(m, weeks);
   renderMnPages(m);
+}
+
+/* ── 분리 기준일 카드 ──
+   배포 직후 가장 먼저 봐야 하는 줄. 구 앱과 리뉴얼을 나란히 두되
+   '아직 비교 불가'와 '차이 없음'을 절대 같은 모양으로 그리지 않는다. */
+function renderMnSplit(m){
+  const box = document.getElementById('mnSplitCard');
+  const S = m.split;
+  if(!box) return;
+  if(!S){
+    box.innerHTML = '<div class="card-header"><span class="card-title">배포 전후 분리</span></div>'
+      + '<div class="mn-empty">등록된 major 배포가 없습니다. <code>releases.json</code> 에 '
+      + '<code>split_date</code> 를 넣으면 그 날짜를 경계로 지표가 완전히 갈립니다.</div>';
+    return;
+  }
+  const b = S.before, a = S.after, band = b.band;
+  const st = {pending:'집계 대기', partial:'누적 비교 중', full:'7일 WAU 확정'}[S.status] || S.status;
+  const stLv = S.status === 'full' ? 'ok' : 'na';
+
+  let head = '<div class="card-header"><span class="card-title">'
+    + '&#9986; ' + esc(S.label) + ' 전후 분리 <small style="font-weight:500;color:var(--ink4);font-size:14px">· 경계 '
+    + S.date + '</small></span><span class="lv lv-' + stLv + '">' + st + '</span></div>';
+
+  // ── 양쪽 패널 ──
+  const side = (ttl, sub, val, unit, foot, color) =>
+    '<div style="flex:1;min-width:210px;background:var(--card);border:1px solid var(--line);'
+    + 'border-top:3px solid ' + color + ';border-radius:12px;padding:16px 18px">'
+    + '<div style="font-size:13px;font-weight:800;color:' + color + ';letter-spacing:-.2px;margin-bottom:4px">' + ttl + '</div>'
+    + '<div style="font-size:12.5px;color:var(--ink4);margin-bottom:10px">' + sub + '</div>'
+    + '<div style="font-size:26px;font-weight:800;color:var(--navy);letter-spacing:-1px;font-variant-numeric:tabular-nums">'
+    + val + (unit ? '<small style="font-size:15px;font-weight:700;color:var(--ink3);margin-left:3px">' + unit + '</small>' : '') + '</div>'
+    + '<div style="font-size:13px;color:var(--ink3);margin-top:8px;line-height:1.6">' + foot + '</div></div>';
+
+  // 왼쪽 = 구 앱
+  const bw = b.anchor || b.last;
+  // 앵커창(분리 직전 7일)이 아직 안 찼으면 최근 완결창을 대신 보여 준다.
+  // 어느 쪽인지 이름을 안 붙이면 아래 기준선(같은 요일 정렬)과 날짜가 어긋나 보인다.
+  const bwName = b.anchor ? '분리 직전 7일 창' : '최근 완결 7일 창';
+  const leftFoot = band
+    ? '<b>리뉴얼과 비교할 기준선</b> (같은 요일 정렬 ' + band.n + '창)'
+      + '<br>중앙값 <b>' + fmt(Math.round(band.med)) + '명</b> · 기대범위 '
+      + fmt(Math.round(band.lo)) + '~' + fmt(Math.round(band.hi)) + '명'
+    : '기준선을 만들 창이 부족합니다';
+  const left = side('구 앱', bw ? bwName + ' · ' + bw.s + ' ~ ' + bw.e : '완결 창 없음',
+    bw ? fmt(bw.au) : '-', bw ? '명' : '', leftFoot, '#909AA0');
+
+  // 오른쪽 = 리뉴얼 (상태에 따라 내용이 완전히 다르다)
+  let right;
+  if(S.status === 'full'){
+    const w = a.win7, d = S.full7.band_dev;
+    right = side('리뉴얼', w.s + ' ~ ' + w.e + ' (7일)', fmt(w.au), '명',
+      '구 앱 기준 대비 <b style="' + mnCls(d) + '">' + mnSign(d) + '</b>'
+      + (S.full7.dev != null ? '<br>직전 동일 창 대비 <b style="' + mnCls(S.full7.dev) + '">' + mnSign(S.full7.dev) + '</b>' : ''),
+      '#EA27C2');
+  } else if(S.status === 'partial'){
+    const c = S.cum[S.cum.length-1];
+    right = side('리뉴얼', c.from + ' ~ ' + c.to + ' (누적 ' + c.k + '일)', fmt(c.au), '명',
+      '구 앱 같은 요일 ' + c.n_base + '구간 대비 <b style="' + mnCls(c.dev) + '">' + mnSign(c.dev) + '</b>'
+      + '<br>7일 WAU 확정 <b>' + S.full7_date + '</b>', '#EA27C2');
+  } else {
+    right = side('리뉴얼', S.date + ' 부터 집계 시작', '집계 전', '',
+      '첫 판정 <b>' + S.first_judge_date + '</b><br>7일 WAU 확정 <b>' + S.full7_date + '</b>', '#EA27C2');
+  }
+
+  const gap = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;'
+    + 'padding:0 4px;min-width:74px"><div style="font-size:22px">&#9986;</div>'
+    + '<div style="font-size:12px;color:var(--ink4);text-align:center;line-height:1.45;margin-top:2px">'
+    + (S.excluded.length ? '제외<br>' + S.excluded.map(d=>d.slice(5)).join(', ') : '경계') + '</div></div>';
+
+  let body = '<div style="display:flex;gap:12px;flex-wrap:wrap;align-items:stretch;margin-bottom:16px">'
+    + left + gap + right + '</div>';
+
+  // ── 누적 N일 진행표 ──
+  if(S.cum && S.cum.length){
+    body += '<div style="overflow-x:auto"><table class="data-table"><thead><tr>'
+      + '<th>경과</th><th>리뉴얼 구간</th><th class="num">WAU</th>'
+      + '<th class="num">구 앱 같은 구간</th><th class="num">변화</th><th>판정</th></tr></thead><tbody>'
+      + S.cum.map(c=>'<tr><td style="font-weight:700">' + c.k + '일차</td>'
+        + '<td>' + c.from.slice(5) + '~' + c.to.slice(5) + '</td>'
+        + '<td class="num" style="font-weight:700">' + fmt(c.au) + '</td>'
+        + '<td class="num">' + fmt(c.base) + ' <span style="color:var(--ink4);font-size:13px">(' + c.n_base + '구간 중앙값)</span></td>'
+        + '<td class="num" style="font-weight:700;' + mnCls(c.dev) + '">' + mnSign(c.dev) + '</td>'
+        + '<td>' + mnPill(c.level) + '</td></tr>').join('') + '</tbody></table></div>';
+  }
+
+  // ── 왜 이렇게 보는지 / 지금 무엇을 볼 수 있는지 ──
+  let note = '';
+  if(S.status === 'pending'){
+    note = '<b>' + S.date + '부터 리뉴얼 앱으로 분리 집계합니다.</b> 왼쪽 기준선은 <b>지금 고정</b>돼 있고, '
+      + '오른쪽은 ' + S.first_judge_date + '에 1일차부터 채워집니다. '
+      + '지금 오른쪽이 비어 있는 것은 <b>‘변화 없음’이 아니라 ‘아직 없음’</b>입니다.';
+  } else if(S.status === 'partial'){
+    note = '누적 창은 <b>같은 요일 정렬</b>로 비교합니다(리뉴얼 1일차 화요일 ↔ 구 앱 직전 4주의 화요일). '
+      + '요일 편차를 빼고 보기 위한 것이며, 7일이 차면 위 카드가 7일 WAU 실측으로 바뀝니다.';
+  } else {
+    note = '두 수치 모두 <b>7일 순이용자 실측</b>입니다(일별 합계 아님). 요일 구성이 같은 창끼리 비교했습니다.';
+  }
+  if(S.excluded.length){
+    note += ' 배포일 <b>' + S.excluded.join(', ') + '</b>은 배포 시각 전후 트래픽이 섞여 <b>어느 쪽에도 넣지 않았습니다</b>.';
+  }
+  if(S.dropped_windows){
+    note += ' 경계를 걸친 7일 창 ' + S.dropped_windows + '개는 차트에서 제외했습니다.';
+  }
+  box.innerHTML = head + body + '<div class="mn-note">' + note + '</div>';
+}
+
+/* ── 롤링 7일 WAU — 두 계열을 잇지 않는다 ── */
+function renderMnRolling(m){
+  const S = m.split;
+  const note = document.getElementById('mnRollNote');
+  const roll = (S && S.rolling) || [];
+  if(!roll.length){
+    mkChart('chartMnRolling', {type:'line', data:{labels:[],datasets:[]}});
+    if(note) note.innerHTML = '롤링 WAU 원자료가 없습니다 — <code>ga4_fetch.py --detail</code> 실행 후 채워집니다.';
+    document.getElementById('mnRollLegend').innerHTML = '';
+    return;
+  }
+  const view = roll.slice(-56);
+  const labels = view.map(w=>w.e.slice(5).replace('-','/'));
+  // 계열을 둘로 나누고 서로의 구간은 null 로 비운다 → 경계에서 선이 이어지지 않는다
+  const beforeData = view.map(w=>w.ph === 'before' ? w.au : null);
+  const afterData  = view.map(w=>w.ph === 'after'  ? w.au : null);
+  const marks = [];
+  if(S && S.date){
+    let i = view.findIndex(w=>w.ph === 'after');
+    if(i < 0) i = view.length - 1;   // 아직 after 가 없으면 오른쪽 끝에 경계를 세운다
+    marks.push({idx:i, label:S.date + ' 분리'});
+  }
+  const band = S && S.before && S.before.band;
+  mkChart('chartMnRolling', {
+    type:'line',
+    data:{ labels:labels, datasets:[
+      band ? { label:'구 앱 기대범위 상한', data:view.map(()=>band.hi),
+        borderColor:'rgba(19,32,41,0)', pointRadius:0, borderWidth:0, fill:false, order:4 } : null,
+      band ? { label:'구 앱 기대범위', data:view.map(()=>band.lo),
+        borderColor:'rgba(19,32,41,0)', backgroundColor:'rgba(19,32,41,.07)',
+        pointRadius:0, borderWidth:0, fill:'-1', order:4 } : null,
+      { label:'구 앱', data:beforeData, borderColor:'#909AA0', backgroundColor:'rgba(144,154,160,.10)',
+        borderWidth:2.5, tension:.3, fill:false, pointRadius:0, pointHoverRadius:6, spanGaps:false, order:2 },
+      { label:'리뉴얼', data:afterData, borderColor:'#EA27C2', backgroundColor:'rgba(234,39,194,.10)',
+        borderWidth:3, tension:.3, fill:false, pointRadius:3, pointHoverRadius:7, spanGaps:false, order:1 }
+    ].filter(Boolean) },
+    plugins:[relMarkPlugin],
+    options:{ responsive:true, maintainAspectRatio:false, layout:{padding:{top:26}},
+      plugins:{ legend:{display:false}, relMarks:{marks:marks},
+        tooltip:{ filter:i=>i.raw != null, callbacks:{
+          title:items=>{ const w = view[items[0].dataIndex]; return w.s + ' ~ ' + w.e + ' (7일 창)'; },
+          label:ctx=>{ const w = view[ctx.dataIndex];
+            return (w.ph === 'after' ? '리뉴얼' : '구 앱') + ' 7일 WAU ' + fmt(w.au) + '명'; } } } },
+      scales:{ x:{ ticks:{ maxRotation:0, autoSkip:true, font:{size:11} } },
+               y:{ beginAtZero:false, ticks:{ callback:v=>fmt(v) + '명' } } } }
+  });
+  document.getElementById('mnRollLegend').innerHTML =
+    '<span style="color:#909AA0"><i></i>구 앱 7일 WAU</span>'
+    + '<span style="color:#EA27C2"><i></i>리뉴얼 7일 WAU</span>'
+    + (band ? '<span style="color:#909AA0"><i class="band"></i>구 앱 기대범위</span>' : '')
+    + '<span style="color:#EA27C2"><i class="dash"></i>분리 경계</span>';
+  const nAfter = view.filter(w=>w.ph === 'after').length;
+  if(note){
+    note.innerHTML = '창마다 GA4에 다시 물어본 <b>7일 순이용자 실측</b>입니다 — 일별 값을 더한 수치가 아닙니다'
+      + '(중복 제거라 합계는 WAU가 되지 않습니다). '
+      + (nAfter ? '리뉴얼 완결 창 <b>' + nAfter + '개</b>.'
+        : '리뉴얼 쪽 첫 7일 창은 <b>' + (S ? S.full7_date : '-') + '</b>에 채워집니다 — 그 전까지는 위 카드의 <b>누적 N일</b> 비교로 봅니다.');
+  }
 }
 
 /* ── WAU 추이 + 기대범위 띠 + 배포 마커 ── */
@@ -5599,7 +5796,7 @@ function renderMnRelease(m){
   }
   const wr = R.week_row;
   let head = '<div class="card-header"><span class="card-title">배포 전후 비교 <small style="font-weight:500;color:var(--ink4);font-size:14px">· '
-    + esc(R.label) + ' (' + R.date + ')</small></span>'
+    + esc(R.label) + ' · 달력 주(일~토) 기준</small></span>'
     + '<div class="tooltip-wrap"><span class="tooltip-icon" tabindex="0" role="button" aria-label="설명 보기">?</span>'
     + '<div class="tooltip-text">배포 <b>직전 완결 ' + (m.params.pre_weeks||4) + '주</b> 평균과 배포 <b>이후 완결주</b> 평균을 맞댑니다. '
     + '배포일이 주 중간이면 그 주는 배포 전후가 섞이므로 양쪽 어디에도 넣지 않습니다 — 섞인 주를 배포 후로 세면 효과가 희석돼 나쁜 배포가 정상으로 보입니다.</div></div></div>';
@@ -5637,7 +5834,11 @@ function renderMnRelease(m){
       }).join('') + '</tbody></table>';
 
   if(!hasPost){
-    body += '<div class="mn-note">&#9888; <b>배포 후 완결주가 없어 아직 판정할 수 없습니다.</b> '
+    body += '<div class="mn-note">'
+      + (m.split ? '이 표는 <b>달력 주(일~토)</b> 격자라 배포주를 통째로 건너뜁니다 — 그래서 위 '
+          + '<b>분리 기준일 카드(' + m.split.full7_date + ' 확정)</b>보다 늦습니다. 빠른 판정은 위 카드를, '
+          + '기존 주간 추세와의 연속성은 이 표를 보세요.<br>' : '')
+      + '&#9888; <b>배포 후 완결주가 없어 아직 판정할 수 없습니다.</b> '
       + '지금 상태에서 ‘변화 없음’으로 읽으면 안 됩니다 — 비교 대상이 없는 것과 차이가 없는 것은 다릅니다. '
       + '이 표는 배포 전 기준선을 <b>지금 고정</b>해 두는 역할을 합니다. 다음 완결주부터 자동으로 채워집니다.</div>';
   }
