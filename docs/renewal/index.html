@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<meta name="generated-at" content="2026-09-06T22:40:46Z">
+<meta name="generated-at" content="2026-09-06T23:53:12Z">
 </head>
 <body>
 <style>
@@ -739,8 +739,8 @@ tr.total td .track i { background: var(--ink-900); }
     return '<div class="card">' +
       '<div class="okr-head"><div>' +
         '<h2 class="t-section">' + D.okr.base_year + '년 평균 대비, 리뉴얼 이후 이용자 +' + ratioPct + '%</h2>' +
-        '<p class="t-cap">세 축 모두 같은 기준으로 본다. ' + D.okr.base_year +
-        '년 실측 평균을 0%로 놓고, 지금 그 위 몇 퍼센트에 있는지만 잰다.</p>' +
+        '<p class="t-cap">' + D.okr.base_year +
+        '년 실측 평균을 0%로 놓고 세 축을 같은 자로 잰다.</p>' +
       '</div><div class="dues">' + dues + '</div></div>' +
       '<div class="gauge"><div class="gaxis" aria-hidden="true"><div></div>' +
         '<div class="marks"><span style="left:0">' + D.okr.base_year + '년 평균 <b>0%</b></span>' +
@@ -754,12 +754,13 @@ tr.total td .track i { background: var(--ink-900); }
     var ratioPct = Math.round((D.okr.ratio - 1) * 100);
 
     var verdict = '<div class="card">' +
-      '<h2 class="t-section">리뉴얼 후 유일한 실측인 DAU가 ' + D.okr.base_year + '년 평균을 ' +
-      dau.delta_pct.toFixed(1) + '% 넘었다. 목표 +' + ratioPct + '%까지는 아직 절반도 못 왔다.</h2>' +
+      '<h2 class="t-section">리뉴얼 이후 실측이 나온 축은 DAU 하나다. ' + D.okr.base_year +
+      '년 평일 평균보다 ' + dau.delta_pct.toFixed(1) + '% 위에 있다.</h2>' +
       '<p style="margin-top:var(--sp-3); max-width:var(--w-text)">구 앱의 마지막 성적인 MAU ' +
-      sign(mau.delta_pct) + ', WAU ' + sign(wau.delta_pct) + '에서 ' +
+      sign(mau.delta_pct) + ', WAU ' + sign(wau.delta_pct) + '보다 ' +
       (dau.delta_pct - Math.max(mau.delta_pct, wau.delta_pct)).toFixed(1) +
-      '%p 올라선 수준이다. 대규모 개편에서 가장 흔한 초기 이탈은 없었지만, 목표 달성에 필요한 폭에는 크게 못 미친다. ' +
+      '%p 위다. 대규모 개편에서 흔한 초기 이탈은 없었다. 목표 +' + ratioPct + '%까지는 ' +
+      D.evidence.gap_pp.toFixed(1) + '%p 남았다. ' +
       'MAU와 WAU는 리뉴얼만 담긴 완결 구간이 아직 없어 ' + md(mau.due) + '과 ' + md(wau.due) + '에 확정된다.</p></div>';
 
     var steps = [{ d: md(D.as_of), t: '현재 · ' + D.window.days + '일차', x: '평일 DAU만 판정 가능' },
@@ -840,7 +841,7 @@ tr.total td .track i { background: var(--ink-900); }
       caption: D.as_of.slice(0, 4) + '년 완결 ' + D.series.mau.length +
         '개월이 모두 목표선 아래다. 최고치였던 ' + best.label + ' ' + n(best.value) + '명도 목표의 ' +
         (best.value / a.target * 100).toFixed(1) + '%였다. <b>다음 달 MAU가 ' + n(a.target) +
-        '명을 넘어야 OKR이 성립한다.</b> 리뉴얼 첫 완결월이라 이 수치가 실질적인 첫 성적표다.'
+        '명을 넘어야 OKR이 성립한다.</b> 리뉴얼만 담기는 첫 완결월이기도 하다.'
     });
   }
 
@@ -887,8 +888,8 @@ tr.total td .track i { background: var(--ink-900); }
       caption: '주말은 빼고 평일만 그렸다. ' + D.okr.base_year + '년 주말 평균은 ' + n(D.baseline.dau_weekend) +
         '명으로 평일 ' + n(a.baseline) + '명의 ' + Math.round(D.baseline.dau_weekend / a.baseline * 100) +
         '% 수준이라, 섞으면 기준선이 무너진다. <b>리뉴얼 첫날은 목표선을 넘었지만 ' +
-        e.dau_last.label + ' ' + n(e.dau_last.value) + '명까지 내려왔다.</b> 초기 관심 소진으로 추정하며, ' +
-        '2주차가 ' + D.okr.base_year + '년 평일 평균선 위로 복귀하는지가 다음 판정점이다.'
+        e.dau_last.label + ' ' + n(e.dau_last.value) + '명까지 내려왔다.</b> 초기 관심이 빠진 것으로 본다. ' +
+        '2주차가 ' + D.okr.base_year + '년 평일 평균 위로 돌아오는지가 다음 판정점이다.'
     });
   }
 
@@ -949,7 +950,7 @@ tr.total td .track i { background: var(--ink-900); }
       D.compare.cur_year + '년 월별 비교</h3>' +
       '<p class="t-cap">두 해 모두 같은 방식으로 냈다. 월은 월간 순이용자, 주는 완결주 평균, 일은 평일 평균이다. ' +
       D.compare.cur_year + '년은 완결월만 넣었고, 진행중인 달과 아직 오지 않은 달은 ' +
-      '<span class="num">-</span> 로 둔다 — 진행중 구간을 완결값과 비교하면 부호가 뒤집힌다.</p>' +
+      '<span class="num">-</span> 로 둔다. 진행중 구간을 완결값과 비교하면 부호가 뒤집힌다.</p>' +
       '<div class="cmp-grid">' + AX.map(function (a) { return cmpTable(a[0], a[1], a[2]); }).join('') + '</div>' +
       '<p style="max-width:var(--w-text); margin-top:var(--sp-2)">' +
       '<b>같은 달끼리 맞춰 보면</b> 1~' + done.length + '월 평균이 MAU ' + sign(likePct('mau')) +
@@ -958,9 +959,8 @@ tr.total td .track i { background: var(--ink-900); }
       ', WAU ' + sign(sm.wau.pct) + ', DAU ' + sign(sm.dau.pct) + '로 조금 완만하게 나오는데, ' +
       D.compare.base_year + '년 9~12월이 상대적으로 낮아 연평균을 끌어내린 탓이다. ' +
       '<b>실제 하락 폭은 같은 달끼리 맞춘 앞의 수치에 가깝다.</b> ' +
-      '축이 아래로 갈수록 낙폭이 커진다 — 다녀간 사람 수(MAU)보다 얼마나 자주 오는지(DAU)가 더 많이 빠졌다. ' +
-      '연휴가 낀 달은 평일 수 자체가 줄어 양쪽 해 모두 낮게 나온다. ' +
-      '리뉴얼은 이 하락을 뒤집고 목표까지 올려야 하는 출발선에 있다.</p></div>';
+      '축이 아래로 갈수록 낙폭이 커진다. 다녀간 사람 수(MAU)보다 얼마나 자주 오는지(DAU)가 더 많이 빠졌다. ' +
+      '연휴가 낀 달은 평일 수 자체가 줄어 양쪽 해 모두 낮게 나온다.</p></div>';
 
     return t1 + t2;
   }
@@ -970,10 +970,10 @@ tr.total td .track i { background: var(--ink-900); }
     var pvRow = D.cumulative.filter(function (c) { return c.name.indexOf('화면조회 / ') === 0; })[0];
     var good = [
       { f: sign(a.dau.delta_pct), u: 'DAU · ' + y + '년 평균 대비', h: '배포 직후 이탈이 없었다',
-        p: '구 앱의 마지막 성적 ' + sign(a.mau.delta_pct) + ' · ' + sign(a.wau.delta_pct) + '보다 위에서 출발했다. 대규모 리뉴얼에서 가장 흔한 실패인 초기 이탈이 나타나지 않았다.' },
+        p: '구 앱의 마지막 성적 ' + sign(a.mau.delta_pct) + ' · ' + sign(a.wau.delta_pct) + '보다 위에서 출발했다. 대규모 리뉴얼에서 흔한 초기 이탈은 나타나지 않았다.' },
       { f: sign(e.engagement.pct), u: '체류 참여', h: '참여가 두 배 넘게 늘었다',
         p: 'user_engagement ' + n(e.engagement.cur) + '명 대 ' + n(e.engagement.base) + '명. ' +
-           D.window.days + '일 내내 예외 없이 상회해 단발 스파이크가 아니다.' },
+           D.window.days + '일 내내 기준을 웃돌아 하루짜리 급등이 아니다.' },
       { f: sign(e.service.pct), u: '서비스 진입', h: '서비스 탐색이 늘었다',
         p: '서비스 화면 ' + n(e.service.cur) + '명 대 ' + n(e.service.base) + '명. 직전 주 같은 요일 대비다.' },
       { f: sign(pvRow.pct), u: '화면조회 / 1인', h: '1인당 이용 깊이가 늘었다',
@@ -981,14 +981,14 @@ tr.total td .track i { background: var(--ink-900); }
            sign(e.pv_per_user_ex_pct) + '다.', badge: '추정 · 계측 검증 필요' }
     ];
     var bad = [
-      { f: e.gap_pp.toFixed(1) + '%p', u: '목표까지 남은 거리', h: 'OKR 목표와의 거리가 거의 그대로다',
+      { f: e.gap_pp.toFixed(1) + '%p', u: '목표까지 남은 폭', h: '목표까지의 거리가 거의 줄지 않았다',
         p: '구 앱 ' + sign(a.mau.delta_pct) + '에서 리뉴얼 ' + sign(a.dau.delta_pct) + '로 ' +
-           (a.dau.delta_pct - a.mau.delta_pct).toFixed(1) + '%p 좁혔을 뿐이다. 남은 ' + e.gap_pp.toFixed(1) +
-           '%p를 ' + D.window.days + '일치 개선폭으로 메우려면 여러 배가 더 필요하다.' },
-      { f: sign(e.dau_decay_pct), u: '1일차 → 마지막 날', h: '초기 상승분이 며칠 만에 감쇠했다',
+           (a.dau.delta_pct - a.mau.delta_pct).toFixed(1) + '%p 좁힌 게 전부다. 아직 DAU ' +
+           D.window.days + '일 실측만 반영된 값이다.' },
+      { f: sign(e.dau_decay_pct), u: '1일차 → 마지막 날', h: '첫날 상승분이 며칠 만에 사라졌다',
         p: e.dau_first.label + ' ' + n(e.dau_first.value) + '명에서 ' + e.dau_last.label + ' ' +
            n(e.dau_last.value) + '명으로 내려왔다. 직전 주 평일 평균과 견주면 ' + sign(a.dau.prev_pct) +
-           '로 사실상 제자리다. 초기 관심 소진으로 추정한다.', badge: '추정' },
+           '로 사실상 제자리다. 초기 관심이 빠진 것으로 본다.', badge: '추정' },
       { f: e.cert.times + '배', u: '회사인증 화면', h: '재인증과 재로그인 마찰이 생겼다',
         p: '회사인증 화면 ' + n(e.cert.cur) + '명 대 ' + n(e.cert.base) + '명, 로그인 화면 ' +
            sign(e.login.pct) + '. 배포로 기존 세션과 회사인증이 초기화된 것으로 추정한다.', badge: '추정' }
@@ -1056,8 +1056,8 @@ tr.total td .track i { background: var(--ink-900); }
           setConn('wait', '스냅샷');
           if (manual) {
             errBox.hidden = false;
-            errMsg.textContent = '최신 데이터를 받지 못해 ' + D.last_full +
-              ' 기준 스냅샷을 그대로 보여 주고 있습니다. (' + err.message + ')';
+            errMsg.textContent = '최신 데이터를 받지 못했습니다. ' + D.last_full +
+              ' 기준 스냅샷을 그대로 보여 줍니다. (' + err.message + ')';
           }
         } else {
           setConn('rejt', '연결 실패');
