@@ -643,6 +643,227 @@ table.mx .svcname{font-weight:600;color:var(--navy)}
 </style>
 </head>
 <body>
+<style>
+#sandiGate{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;
+  background:#F7F7F8;font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+#sandiGate .g-card{background:#fff;border:1px solid #E5E5E8;border-radius:16px;padding:40px 36px;
+  width:min(400px,calc(100vw - 32px));box-shadow:0 4px 24px rgba(0,0,0,.06);text-align:center}
+#sandiGate .g-logo{margin-bottom:20px}
+#sandiGate .g-title{font-size:19px;font-weight:700;color:#1A1A1E;margin-bottom:8px}
+#sandiGate .g-sub{font-size:14px;color:#6B6B75;line-height:1.55;margin-bottom:26px}
+#sandiGate .g-label{display:block;text-align:left;font-size:13px;font-weight:600;color:#4A4A55;margin-bottom:7px}
+#sandiGate .g-input{width:100%;box-sizing:border-box;padding:12px 14px;font-size:15px;font-family:inherit;
+  border:1px solid #D8D8DE;border-radius:9px;outline:none;transition:border-color .15s}
+#sandiGate .g-input:focus{border-color:#EA27C2}
+#sandiGate .g-btn{width:100%;margin-top:14px;padding:12px;font-size:15px;font-weight:700;font-family:inherit;
+  color:#fff;background:linear-gradient(180deg,#EA27C2,#E100A3);border:0;border-radius:9px;cursor:pointer}
+#sandiGate .g-btn:disabled{opacity:.55;cursor:default}
+#sandiGate .g-err{min-height:20px;margin-top:12px;font-size:13px;color:#D92D20}
+@media (prefers-color-scheme:dark){
+  #sandiGate{background:#131316}
+  #sandiGate .g-card{background:#1C1C21;border-color:#2E2E36}
+  #sandiGate .g-title{color:#F2F2F5}
+  #sandiGate .g-sub{color:#9A9AA5}
+  #sandiGate .g-label{color:#C4C4CE}
+  #sandiGate .g-input{background:#26262C;border-color:#3A3A44;color:#F2F2F5}
+}
+</style>
+<div id="sandiGate">
+  <div class="g-card">
+    <div class="g-logo"><svg xmlns="http://www.w3.org/2000/svg" height="22" viewBox="0 0 143.016 32" fill="none"><defs><linearGradient id="sandiGateLogo" x1="0" y1="0" x2="0" y2="32" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#EA27C2"/><stop offset="99%" stop-color="#E100A3"/></linearGradient></defs><path d="M 22.792 13.561 C 27.08 15.313 29.944 18.456 29.944 22.048 C 29.944 27.544 23.24 32 14.972 32 C 6.704 32 0 27.544 0 22.048 C 0 21.908 0.004 21.768 0.016 21.632 L 7.152 21.632 L 7.152 23.816 L 22.792 23.816 L 22.792 13.561 Z M 119.096 1.66 C 127.016 1.66 132.104 8.084 132.104 16.004 C 132.104 23.924 127.016 30.344 119.096 30.344 L 109.98 30.332 L 102.16 30.332 L 102.16 1.66 L 119.096 1.66 Z M 62.984 30.332 L 55.164 30.332 L 47.652 2.78 L 47.04 2.78 L 39.524 30.332 L 31.704 30.332 L 39.524 1.66 L 55.164 1.66 L 62.984 30.332 Z M 89.348 29.216 L 89.652 29.216 L 89.652 1.66 L 97.472 1.66 L 97.472 30.332 L 81.832 30.332 L 74.32 2.78 L 74.012 2.78 L 74.012 30.332 L 66.192 30.332 L 66.192 1.66 L 81.832 1.66 L 89.348 29.216 Z M 143.016 30.332 L 135.196 30.332 L 135.196 1.66 L 143.016 1.66 L 143.016 30.332 Z M 109.98 23.815 L 117.8 23.815 C 122.12 23.815 124.288 20.316 124.288 15.996 C 124.288 11.676 122.12 8.176 117.8 8.176 L 109.98 8.176 L 109.98 23.815 Z M 14.972 0 C 23.24 0 29.944 4.456 29.944 9.952 C 29.944 10.092 29.94 10.232 29.932 10.368 L 22.792 10.368 L 22.792 8.184 L 7.152 8.184 L 7.152 18.44 C 2.864 16.688 0 13.544 0 9.952 C 0 4.456 6.704 0 14.972 0 Z" fill="url(#sandiGateLogo)" fill-rule="nonzero"/></svg></div>
+    <div class="g-title">Customer Insights</div>
+    <div class="g-sub">앱 사용·고객 문의·개발 현황을<br>한 화면에서 확인합니다.</div>
+    <label class="g-label" for="sandiGatePw">비밀번호</label>
+    <input type="password" class="g-input" id="sandiGatePw" placeholder="비밀번호를 입력하세요" autocomplete="current-password">
+    <button class="g-btn" id="sandiGateBtn">열기</button>
+    <div class="g-err" id="sandiGateErr"></div>
+  </div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var PW_KEY = 'sandi_gate_pw', EXP_KEY = 'sandi_gate_exp';
+  var SESSION_MS = 8*60*60*1000;          // 8시간 — CS 대시보드와 동일
+  var CHECK_TEXT = 'SANDI-GATE-OK';
+  // 이 이름으로 오는 fetch 는 암호화본으로 돌린다.
+  var GUARDED = ['data.json', 'ga_detail.json', 'renewal.json'];
+
+  var _key = null;                        // 유도된 AES 키 (메모리에만)
+  var _unlocked = false;
+  var _waiters = [];                      // 잠금 해제를 기다리는 resolve 들
+  var _fail = 0, _lockUntil = 0;
+
+  // 가로채기 전 원본을 잡아둔다. 게이트 자신의 요청은 항상 이걸로 보낸다 —
+  // 샴을 거치면 재진입 위험이 생기고, 다른 스크립트가 fetch 를 또 감쌌을 때
+  // 순서에 따라 동작이 달라진다.
+  var _nativeFetch = window.fetch.bind(window);
+
+  function b64(s){ return Uint8Array.from(atob(s), function(c){ return c.charCodeAt(0); }); }
+
+  function getGate(){
+    if(getGate._p) return getGate._p;
+    getGate._p = _nativeFetch('gate.json', {cache:'no-store'}).then(function(r){
+      if(!r.ok) throw new Error('gate.json ' + r.status);
+      return r.json();
+    });
+    return getGate._p;
+  }
+
+  function derive(pw, g){
+    return crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey'])
+      .then(function(mat){
+        return crypto.subtle.deriveKey(
+          {name:'PBKDF2', salt:b64(g.salt), iterations:g.iter, hash:'SHA-256'},
+          mat, {name:'AES-GCM', length:256}, false, ['decrypt']);
+      });
+  }
+
+  /* 복호화 → (필요시) gzip 해제 → 문자열.
+     암호문은 압축이 안 되므로 파이썬 쪽에서 '압축한 뒤 암호화' 한다.
+     그래서 푸는 순서도 '복호화 뒤 압축해제' 로 반대다. */
+  function decrypt(key, blob){
+    return crypto.subtle.decrypt({name:'AES-GCM', iv:b64(blob.iv)}, key, b64(blob.ct))
+      .then(function(pt){
+        if(blob.z !== 'gzip') return new TextDecoder().decode(pt);
+        if(typeof DecompressionStream === 'undefined'){
+          throw new Error('이 브라우저는 압축 해제를 지원하지 않습니다. 최신 버전으로 업데이트해주세요.');
+        }
+        var ds = new DecompressionStream('gzip');
+        var w = ds.writable.getWriter();
+        w.write(new Uint8Array(pt)); w.close();
+        return new Response(ds.readable).text();
+      });
+  }
+
+  /* 비밀번호 검증 = check 블록 복호화. 서버가 없으므로 '맞는 키인가' 와
+     '풀리는가' 는 같은 연산이다. 큰 파일을 받기 전에 판정한다. */
+  function unlock(pw){
+    return getGate().then(function(g){
+      return derive(pw, g).then(function(key){
+        return decrypt(key, g.check).then(function(txt){
+          if(txt !== CHECK_TEXT) throw new Error('check mismatch');
+          _key = key;
+        });
+      });
+    });
+  }
+
+  function whenUnlocked(){
+    if(_unlocked) return Promise.resolve();
+    return new Promise(function(res){ _waiters.push(res); });
+  }
+
+  /* 암호화본을 받아 복호화한 뒤, 호출부가 기대하는 Response 모양으로 돌려준다.
+     r.ok / r.status / r.json() / r.text() 만 쓰이므로 그만큼만 흉내낸다. */
+  function guardedFetch(name){
+    return whenUnlocked().then(function(){
+      return _nativeFetch(name + '.enc.json', {cache:'no-store'});
+    }).then(function(r){
+      if(!r.ok) throw new Error(name + '.enc.json ' + r.status);
+      return r.json();
+    }).then(function(blob){
+      return decrypt(_key, blob);
+    }).then(function(txt){
+      return {
+        ok: true, status: 200, statusText: 'OK',
+        json: function(){ return Promise.resolve(JSON.parse(txt)); },
+        text: function(){ return Promise.resolve(txt); }
+      };
+    });
+  }
+
+  /* 요청 URL 이 보호 대상인지 판별. 'renewal.json?t=169…' 처럼 캐시 무효화
+     쿼리가 붙거나 './renewal.json' 처럼 상대경로여도 잡아야 한다. */
+  function guardedName(url){
+    var path = String(url).split('?')[0].split('#')[0];
+    for(var i=0; i<GUARDED.length; i++){
+      var n = GUARDED[i];
+      if(path === n || path.endsWith('/' + n)) return n.replace(/\.json$/, '');
+    }
+    return null;
+  }
+
+  window.fetch = function(input, init){
+    var url = (typeof input === 'string') ? input : (input && input.url);
+    var name = url ? guardedName(url) : null;
+    if(name) return guardedFetch(name);
+    return _nativeFetch(input, init);
+  };
+
+  function reveal(){
+    _unlocked = true;
+    var el = document.getElementById('sandiGate');
+    if(el) el.remove();
+    var w = _waiters; _waiters = [];
+    w.forEach(function(res){ res(); });
+  }
+
+  function submit(){
+    var now = Date.now();
+    var err = document.getElementById('sandiGateErr');
+    var btn = document.getElementById('sandiGateBtn');
+    var inp = document.getElementById('sandiGatePw');
+    if(now < _lockUntil){
+      err.textContent = Math.ceil((_lockUntil-now)/1000) + '초 후에 다시 시도해주세요.';
+      return;
+    }
+    var pw = inp.value;
+    if(!pw){ err.textContent = '비밀번호를 입력해주세요.'; return; }
+    btn.disabled = true;
+    err.textContent = '확인 중...';
+    unlock(pw).then(function(){
+      try{
+        sessionStorage.setItem(PW_KEY, pw);
+        sessionStorage.setItem(EXP_KEY, String(Date.now()+SESSION_MS));
+      }catch(e){ /* 시크릿 모드 등 — 세션 유지만 포기하고 진행 */ }
+      _fail = 0; inp.value = ''; err.textContent = '';
+      reveal();
+    }).catch(function(e){
+      /* 무차별 대입 완화: 5회부터 지수 지연, 10회에서 5분 잠금.
+         오프라인 대입은 못 막지만 브라우저 경유 시도는 걸러진다. */
+      _fail++;
+      inp.value = '';
+      if(_fail >= 10){
+        _lockUntil = Date.now() + 300000;
+        err.textContent = '10회 실패. 5분 후 다시 시도해주세요.';
+      }else{
+        if(_fail >= 5) _lockUntil = Date.now() + Math.min(30, Math.pow(2,_fail-5))*1000;
+        err.textContent = '비밀번호가 올바르지 않습니다.';
+      }
+    }).finally(function(){
+      btn.disabled = false;
+      inp.focus();
+    });
+  }
+
+  window.SANDI_GATE = {whenUnlocked:whenUnlocked, isUnlocked:function(){ return _unlocked; }};
+
+  document.addEventListener('DOMContentLoaded', function(){
+    var btn = document.getElementById('sandiGateBtn');
+    var inp = document.getElementById('sandiGatePw');
+    if(btn) btn.addEventListener('click', submit);
+    if(inp) inp.addEventListener('keydown', function(e){ if(e.key === 'Enter') submit(); });
+
+    /* 세션 복구: 비밀번호는 탭 세션에만 둔다(탭을 닫으면 사라짐).
+       실제 복호화가 성공해야 통과시키므로, 비번을 바꿔 재배포하면
+       저장된 값은 자동으로 무효가 되어 재로그인된다. */
+    var saved, exp;
+    try{
+      saved = sessionStorage.getItem(PW_KEY);
+      exp = parseInt(sessionStorage.getItem(EXP_KEY) || '0', 10);
+    }catch(e){ saved = null; }
+    if(saved && exp > Date.now()){
+      unlock(saved).then(reveal).catch(function(){
+        try{ sessionStorage.removeItem(PW_KEY); sessionStorage.removeItem(EXP_KEY); }catch(e){}
+        if(inp) inp.focus();
+      });
+    }else{
+      if(inp) inp.focus();
+    }
+  });
+})();
+</script>
+
 
 <div class="header">
   <h1><span class="brand-mark">SANDI</span><span class="brand-div"></span><span class="sub">Customer Insights</span></h1>
