@@ -1,0 +1,408 @@
+{
+ "generated_at": "2026-09-06T06:55:10Z",
+ "as_of": "2026-09-06",
+ "last_full": "2026-09-05",
+ "release": {
+  "date": "2026-08-31",
+  "split_date": "2026-09-01",
+  "label": "샌디앱 리뉴얼"
+ },
+ "window": {
+  "start": "2026-09-01",
+  "end": "2026-09-05",
+  "days": 5
+ },
+ "okr": {
+  "ratio": 1.2,
+  "base_year": 2025
+ },
+ "axes": {
+  "mau": {
+   "baseline": 28136,
+   "target": 33763,
+   "current": 29603,
+   "delta_pct": 5.2,
+   "gap_pct": 14.1,
+   "label": "8월 완결",
+   "phase": "old",
+   "due": "2026-10-01"
+  },
+  "wau": {
+   "baseline": 15553,
+   "target": 18664,
+   "current": 16398,
+   "delta_pct": 5.4,
+   "gap_pct": 13.8,
+   "label": "8/23 주",
+   "phase": "old",
+   "due": "2026-09-08"
+  },
+  "dau": {
+   "baseline": 6667,
+   "target": 8000,
+   "current": 7167,
+   "delta_pct": 7.5,
+   "gap_pct": 11.6,
+   "label": "9/1~9/4 평일",
+   "phase": "new",
+   "due": null,
+   "prev_pct": -0.4
+  }
+ },
+ "series": {
+  "mau": [
+   {
+    "label": "1월",
+    "value": 25816,
+    "key": "202601"
+   },
+   {
+    "label": "2월",
+    "value": 22871,
+    "key": "202602"
+   },
+   {
+    "label": "3월",
+    "value": 27199,
+    "key": "202603"
+   },
+   {
+    "label": "4월",
+    "value": 28552,
+    "key": "202604"
+   },
+   {
+    "label": "5월",
+    "value": 28819,
+    "key": "202605"
+   },
+   {
+    "label": "6월",
+    "value": 26242,
+    "key": "202606"
+   },
+   {
+    "label": "7월",
+    "value": 30280,
+    "key": "202607"
+   },
+   {
+    "label": "8월",
+    "value": 29603,
+    "key": "202608"
+   }
+  ],
+  "wau": [
+   {
+    "label": "7/5",
+    "value": 17577,
+    "kind": "old",
+    "start": "2026-07-05",
+    "end": "2026-07-11",
+    "latest": false
+   },
+   {
+    "label": "7/12",
+    "value": 15562,
+    "kind": "old",
+    "start": "2026-07-12",
+    "end": "2026-07-18",
+    "latest": false
+   },
+   {
+    "label": "7/19",
+    "value": 17213,
+    "kind": "old",
+    "start": "2026-07-19",
+    "end": "2026-07-25",
+    "latest": false
+   },
+   {
+    "label": "7/26",
+    "value": 14765,
+    "kind": "old",
+    "start": "2026-07-26",
+    "end": "2026-08-01",
+    "latest": false
+   },
+   {
+    "label": "8/2",
+    "value": 15308,
+    "kind": "old",
+    "start": "2026-08-02",
+    "end": "2026-08-08",
+    "latest": false
+   },
+   {
+    "label": "8/9",
+    "value": 14659,
+    "kind": "old",
+    "start": "2026-08-09",
+    "end": "2026-08-15",
+    "latest": false
+   },
+   {
+    "label": "8/16",
+    "value": 15672,
+    "kind": "old",
+    "start": "2026-08-16",
+    "end": "2026-08-22",
+    "latest": false
+   },
+   {
+    "label": "8/23",
+    "value": 16398,
+    "kind": "old",
+    "start": "2026-08-23",
+    "end": "2026-08-29",
+    "latest": true
+   },
+   {
+    "label": "8/30",
+    "value": 17591,
+    "kind": "mixed",
+    "start": "2026-08-30",
+    "end": "2026-09-05",
+    "latest": false
+   }
+  ],
+  "dau": [
+   {
+    "label": "8/24",
+    "value": 7699,
+    "kind": "old",
+    "date": "2026-08-24",
+    "latest": false
+   },
+   {
+    "label": "8/25",
+    "value": 7374,
+    "kind": "old",
+    "date": "2026-08-25",
+    "latest": false
+   },
+   {
+    "label": "8/26",
+    "value": 7249,
+    "kind": "old",
+    "date": "2026-08-26",
+    "latest": false
+   },
+   {
+    "label": "8/27",
+    "value": 6903,
+    "kind": "old",
+    "date": "2026-08-27",
+    "latest": false
+   },
+   {
+    "label": "8/28",
+    "value": 6740,
+    "kind": "old",
+    "date": "2026-08-28",
+    "latest": false
+   },
+   {
+    "label": "8/31",
+    "value": 8743,
+    "kind": "deploy",
+    "date": "2026-08-31",
+    "latest": false
+   },
+   {
+    "label": "9/1",
+    "value": 9329,
+    "kind": "new",
+    "date": "2026-09-01",
+    "latest": true
+   },
+   {
+    "label": "9/2",
+    "value": 7201,
+    "kind": "new",
+    "date": "2026-09-02",
+    "latest": false
+   },
+   {
+    "label": "9/3",
+    "value": 6568,
+    "kind": "new",
+    "date": "2026-09-03",
+    "latest": false
+   },
+   {
+    "label": "9/4",
+    "value": 5568,
+    "kind": "new",
+    "date": "2026-09-04",
+    "latest": false
+   }
+  ]
+ },
+ "cumulative": [
+  {
+   "name": "순이용자",
+   "sub": "중복 제거 activeUsers",
+   "value": 15255,
+   "base": 14107,
+   "pct": 8.1
+  },
+  {
+   "name": "세션",
+   "sub": "",
+   "value": 50489,
+   "base": 48959,
+   "pct": 3.1
+  },
+  {
+   "name": "화면조회",
+   "sub": "",
+   "value": 426384,
+   "base": 303264,
+   "pct": 40.6
+  },
+  {
+   "name": "화면조회 / 1인",
+   "sub": "",
+   "digits": 2,
+   "value": 27.95,
+   "base": 21.5,
+   "pct": 30.0
+  },
+  {
+   "name": "세션 / 1인",
+   "sub": "",
+   "digits": 2,
+   "value": 3.31,
+   "base": 3.47,
+   "pct": -4.6
+  }
+ ],
+ "baseline": {
+  "months": [
+   {
+    "month": 1,
+    "mau": 23832,
+    "wau": 11875,
+    "dau": 5019
+   },
+   {
+    "month": 2,
+    "mau": 27232,
+    "wau": 16330,
+    "dau": 7364
+   },
+   {
+    "month": 3,
+    "mau": 27259,
+    "wau": 15811,
+    "dau": 6890
+   },
+   {
+    "month": 4,
+    "mau": 28118,
+    "wau": 15438,
+    "dau": 7020
+   },
+   {
+    "month": 5,
+    "mau": 30227,
+    "wau": 16783,
+    "dau": 6516
+   },
+   {
+    "month": 6,
+    "mau": 29738,
+    "wau": 16988,
+    "dau": 7165
+   },
+   {
+    "month": 7,
+    "mau": 31866,
+    "wau": 17514,
+    "dau": 8026
+   },
+   {
+    "month": 8,
+    "mau": 28624,
+    "wau": 16341,
+    "dau": 7076
+   },
+   {
+    "month": 9,
+    "mau": 31990,
+    "wau": 17532,
+    "dau": 7659
+   },
+   {
+    "month": 10,
+    "mau": 27914,
+    "wau": 12929,
+    "dau": 5339
+   },
+   {
+    "month": 11,
+    "mau": 24090,
+    "wau": 14160,
+    "dau": 6314
+   },
+   {
+    "month": 12,
+    "mau": 26743,
+    "wau": 14372,
+    "dau": 5807
+   }
+  ],
+  "mau_sum": 337633,
+  "mau_n": 12,
+  "wau_n": 51,
+  "wau_part": 2,
+  "dau_n": 261,
+  "dau_weekend": 915,
+  "dau_weekend_n": 104,
+  "dau_all": 5028,
+  "cur_year_avg": 27423,
+  "cur_year_n": 8
+ },
+ "evidence": {
+  "engagement": {
+   "cur": 5485,
+   "base": 2405,
+   "pct": 128.1
+  },
+  "service": {
+   "cur": 3814,
+   "base": 1584,
+   "pct": 140.8
+  },
+  "cert": {
+   "cur": 3297,
+   "base": 193,
+   "times": 17.1
+  },
+  "login": {
+   "cur": 1051,
+   "base": 838,
+   "pct": 25.4
+  },
+  "pv_per_user_ex_coachmark": 26.24,
+  "pv_per_user_ex_pct": 22.0,
+  "coachmark_pv": 26139,
+  "dau_decay_pct": -40.3,
+  "dau_first": {
+   "label": "9/1",
+   "value": 9329,
+   "kind": "new",
+   "date": "2026-09-01",
+   "latest": true
+  },
+  "dau_last": {
+   "label": "9/4",
+   "value": 5568,
+   "kind": "new",
+   "date": "2026-09-04",
+   "latest": false
+  },
+  "gap_pp": 12.5
+ }
+}
