@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-06T06:55:10Z",
+ "generated_at": "2026-09-06T07:10:12Z",
  "as_of": "2026-09-06",
  "last_full": "2026-09-05",
  "release": {
@@ -278,6 +278,249 @@
    "pct": -4.6
   }
  ],
+ "compare": {
+  "base_year": 2025,
+  "cur_year": 2026,
+  "months": [
+   {
+    "month": 1,
+    "mau": {
+     "base": 23832,
+     "cur": 25816,
+     "pct": 8.3
+    },
+    "wau": {
+     "base": 11875,
+     "cur": 14694,
+     "pct": 23.7
+    },
+    "dau": {
+     "base": 5019,
+     "cur": 6347,
+     "pct": 26.5
+    }
+   },
+   {
+    "month": 2,
+    "mau": {
+     "base": 27232,
+     "cur": 22871,
+     "pct": -16.0
+    },
+    "wau": {
+     "base": 16330,
+     "cur": 12362,
+     "pct": -24.3
+    },
+    "dau": {
+     "base": 7364,
+     "cur": 5245,
+     "pct": -28.8
+    }
+   },
+   {
+    "month": 3,
+    "mau": {
+     "base": 27259,
+     "cur": 27199,
+     "pct": -0.2
+    },
+    "wau": {
+     "base": 15811,
+     "cur": 14636,
+     "pct": -7.4
+    },
+    "dau": {
+     "base": 6890,
+     "cur": 6389,
+     "pct": -7.3
+    }
+   },
+   {
+    "month": 4,
+    "mau": {
+     "base": 28118,
+     "cur": 28552,
+     "pct": 1.5
+    },
+    "wau": {
+     "base": 15438,
+     "cur": 15066,
+     "pct": -2.4
+    },
+    "dau": {
+     "base": 7020,
+     "cur": 6560,
+     "pct": -6.6
+    }
+   },
+   {
+    "month": 5,
+    "mau": {
+     "base": 30227,
+     "cur": 28819,
+     "pct": -4.7
+    },
+    "wau": {
+     "base": 16783,
+     "cur": 15054,
+     "pct": -10.3
+    },
+    "dau": {
+     "base": 6516,
+     "cur": 5939,
+     "pct": -8.9
+    }
+   },
+   {
+    "month": 6,
+    "mau": {
+     "base": 29738,
+     "cur": 26242,
+     "pct": -11.8
+    },
+    "wau": {
+     "base": 16988,
+     "cur": 15112,
+     "pct": -11.0
+    },
+    "dau": {
+     "base": 7165,
+     "cur": 6330,
+     "pct": -11.7
+    }
+   },
+   {
+    "month": 7,
+    "mau": {
+     "base": 31866,
+     "cur": 30280,
+     "pct": -5.0
+    },
+    "wau": {
+     "base": 17514,
+     "cur": 16279,
+     "pct": -7.1
+    },
+    "dau": {
+     "base": 8026,
+     "cur": 6969,
+     "pct": -13.2
+    }
+   },
+   {
+    "month": 8,
+    "mau": {
+     "base": 28624,
+     "cur": 29603,
+     "pct": 3.4
+    },
+    "wau": {
+     "base": 16341,
+     "cur": 15926,
+     "pct": -2.5
+    },
+    "dau": {
+     "base": 7076,
+     "cur": 6733,
+     "pct": -4.8
+    }
+   },
+   {
+    "month": 9,
+    "mau": {
+     "base": 31990,
+     "cur": null,
+     "pct": null
+    },
+    "wau": {
+     "base": 17532,
+     "cur": null,
+     "pct": null
+    },
+    "dau": {
+     "base": 7659,
+     "cur": null,
+     "pct": null
+    }
+   },
+   {
+    "month": 10,
+    "mau": {
+     "base": 27914,
+     "cur": null,
+     "pct": null
+    },
+    "wau": {
+     "base": 12929,
+     "cur": null,
+     "pct": null
+    },
+    "dau": {
+     "base": 5339,
+     "cur": null,
+     "pct": null
+    }
+   },
+   {
+    "month": 11,
+    "mau": {
+     "base": 24090,
+     "cur": null,
+     "pct": null
+    },
+    "wau": {
+     "base": 14160,
+     "cur": null,
+     "pct": null
+    },
+    "dau": {
+     "base": 6314,
+     "cur": null,
+     "pct": null
+    }
+   },
+   {
+    "month": 12,
+    "mau": {
+     "base": 26743,
+     "cur": null,
+     "pct": null
+    },
+    "wau": {
+     "base": 14372,
+     "cur": null,
+     "pct": null
+    },
+    "dau": {
+     "base": 5807,
+     "cur": null,
+     "pct": null
+    }
+   }
+  ],
+  "summary": {
+   "mau": {
+    "base": 28136,
+    "cur": 27423,
+    "pct": -2.5,
+    "n": 8
+   },
+   "wau": {
+    "base": 15553,
+    "cur": 14918,
+    "pct": -4.1,
+    "n": 35
+   },
+   "dau": {
+    "base": 6667,
+    "cur": 6330,
+    "pct": -5.1,
+    "n": 173
+   }
+  },
+  "done_months": 8
+ },
  "baseline": {
   "months": [
    {
