@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<meta name="generated-at" content="2026-09-06T23:53:12Z">
+<meta name="generated-at" content="2026-09-07T09:28:27Z">
 </head>
 <body>
 <style>
@@ -260,6 +260,14 @@
   --danger:  #C4342B;  --danger-bg:  #FBECEB;
   --info:    #2A5E9E;  --info-bg:    #ECF1F8;
 
+  /* ── 데이터 차트 ── 막대·게이지 채움 전용. 글자에는 쓰지 않는다.
+     OKLab ΔE: ctx↔key 36.5 / ctx↔focus 57.1 / key↔focus 24.7
+     (protan·deutan·tritan 모두 23 이상) */
+  --data-ctx:   #B9B9C4;  /* 비교·과거 구간. 값을 직접 적으므로 옅어도 읽힌다 */
+  --data-key:   #2A5E9E;  /* 판정 대상 구간 */
+  --data-focus: #101014;  /* 강조 1개 */
+  --data-wash:  #F2F6FB;  /* 판정 구간 배경 띠 */
+
   /* ── 간격 ── */
   --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
   --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px; --sp-24: 96px;
@@ -370,19 +378,20 @@ main { min-width: 0; display: flex; flex-direction: column; }
 .due { display: flex; flex-direction: column; }
 .due .d { font-size: 22px; font-weight: 600; line-height: 1.4; letter-spacing: -.02em;
           color: var(--ink-900); font-variant-numeric: tabular-nums; }
-.gauge { display: flex; flex-direction: column; gap: var(--sp-2); }
+.gauge { display: flex; flex-direction: column; gap: var(--sp-4); }
 .gaxis, .grow { display: grid; grid-template-columns: 56px minmax(0, 1fr) 72px 216px;
-                gap: var(--sp-4); align-items: center; }
+                gap: var(--sp-6); align-items: center; }
 .gaxis .marks { position: relative; height: 20px; }
 .gaxis .marks span { position: absolute; top: 0; font-size: 13px; font-weight: 500;
                      color: var(--ink-500); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .gaxis .marks b { color: var(--ink-700); font-weight: 600; }
 .grow .ax { font-size: 15px; font-weight: 600; color: var(--ink-900); }
-.gtrack { position: relative; height: 32px; background: var(--sunken); border-radius: var(--r-md); }
-.gtrack i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: var(--r-md); background: var(--ink-300); }
-.gtrack i.now { background: var(--ink-900); }
-.gtrack .tk { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--line-strong); }
-.gtrack .tk.goal { width: 2px; background: var(--ink-900); margin-left: -2px; }
+.gtrack { position: relative; height: 10px; background: var(--sunken); border-radius: var(--r-full); }
+.gtrack i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: var(--r-full);
+            background: var(--data-ctx); min-width: 10px; }
+.gtrack i.now { background: var(--data-focus); }
+.gtrack .tk { position: absolute; top: -4px; bottom: -4px; width: 1px; background: var(--line-strong); }
+.gtrack .tk.goal { background: var(--ink-900); }
 .gpct { font-size: 15px; font-weight: 600; color: var(--ink-900); font-variant-numeric: tabular-nums; text-align: right; }
 .gpct.key { font-size: 22px; font-weight: 700; letter-spacing: -.02em; color: var(--brand); }
 .grow .note { font-size: 13px; font-weight: 500; color: var(--ink-500); text-align: right; white-space: nowrap; }
@@ -404,27 +413,37 @@ main { min-width: 0; display: flex; flex-direction: column; }
 
 /* ── 차트 ── */
 .scroll-x { overflow-x: auto; }
-svg.chart { display: block; width: 100%; min-width: 640px; height: auto; }
+svg.chart { display: block; width: 100%; min-width: 620px; height: auto; }
+/* 격자·축은 1px 실선. 데이터가 가장 진해야 한다 */
 .gl-l { stroke: var(--line); stroke-width: 1; }
 .gl-z { stroke: var(--line-strong); stroke-width: 1; }
-.ref-goal { stroke: var(--ink-900); stroke-width: 2; stroke-dasharray: 8 4; }
-.ref-avg { stroke: var(--ink-500); stroke-width: 2; stroke-dasharray: 2 4; }
-.ref-split { stroke: var(--ink-300); stroke-width: 1; stroke-dasharray: 4 4; }
-.s-tick { fill: var(--ink-500); font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; }
-.s-goal { fill: var(--ink-900); font-size: 13px; font-weight: 600; }
-.s-avg  { fill: var(--ink-500); font-size: 13px; font-weight: 500; }
-.s-cat  { fill: var(--ink-700); font-size: 13px; font-weight: 600; }
+/* 기준선은 격자와 뜻이 달라 형태로 구분한다 — 굵기로 구분하지 않는다 */
+.ref-goal  { stroke: var(--ink-900); stroke-width: 1; stroke-dasharray: 5 4; }
+.ref-avg   { stroke: var(--ink-300); stroke-width: 1; stroke-dasharray: 2 4; }
+.ref-split { stroke: var(--ink-300); stroke-width: 1; stroke-dasharray: 3 4; }
+/* 값 라벨은 기준선·격자를 지나간다. 흰 사각형을 깔지 않고 글자에 흰 테두리를
+   둘러 선을 비껴 준다 — 지운 자리가 보이지 않는다 */
+.chart text { paint-order: stroke fill; stroke: var(--base); stroke-width: 5px;
+              stroke-linejoin: round; }
+.s-tick { fill: var(--ink-500); font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.s-goal { fill: var(--ink-900); font-size: 12px; font-weight: 600; }
+.s-avg  { fill: var(--ink-500); font-size: 12px; font-weight: 500; }
+.s-cat  { fill: var(--ink-500); font-size: 13px; font-weight: 500; }
+.s-cat.hi { fill: var(--ink-900); font-weight: 600; }
 .s-val  { fill: var(--ink-500); font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; }
 .s-hi   { fill: var(--ink-900); font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.s-note { fill: var(--ink-500); font-size: 13px; font-weight: 500; }
+.s-note { fill: var(--ink-500); font-size: 11px; font-weight: 500; }
 .bar rect.hit { fill: transparent; }
-.bar:hover rect.mark { opacity: .8; }
+.bar path.mark { transition: opacity .15s ease; }
+.bar:hover path.mark { opacity: .78; }
 .legend { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-6); font-size: 13px;
           font-weight: 500; color: var(--ink-500); }
-.legend i { display: inline-block; width: 12px; height: 12px; border-radius: var(--r-sm);
-            margin-right: var(--sp-2); vertical-align: -1px; }
-.legend i.ln { width: 16px; height: 0; border-top: 2px dashed var(--ink-900); border-radius: 0; vertical-align: 4px; }
-.legend i.ln.avg { border-top-style: dotted; border-top-color: var(--ink-500); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px;
+            margin-right: var(--sp-2); vertical-align: 0; }
+.legend i.ln { width: 18px; height: 0; border-top: 1px dashed var(--ink-900);
+               border-radius: 0; vertical-align: 4px; }
+.legend i.ln.avg { border-top-style: dotted; border-top-color: var(--ink-300); }
+.legend i.hx { background: repeating-linear-gradient(135deg, var(--data-ctx) 0 2px, var(--sunken) 2px 6px); }
 figcaption { font-size: 15px; line-height: 1.65; color: var(--ink-700); max-width: var(--w-text); }
 figcaption b { font-weight: 600; }
 .tip { position: fixed; z-index: 20; pointer-events: none; opacity: 0; transition: opacity .12s ease;
@@ -444,9 +463,9 @@ tbody td.r { font-variant-numeric: tabular-nums; }
 tbody tr:last-child td { border-bottom: 0; }
 tbody tr.total td { background: var(--surface); font-weight: 600; color: var(--ink-900); }
 td .sub { display: block; font-size: 13px; font-weight: 500; color: var(--ink-500); white-space: normal; }
-td .track { display: block; height: 4px; margin-top: var(--sp-1); background: var(--sunken); border-radius: var(--r-sm); }
-td .track i { display: block; height: 4px; background: var(--ink-300); border-radius: var(--r-sm); }
-tr.total td .track i { background: var(--ink-900); }
+td .track { display: block; height: 4px; margin-top: var(--sp-1); background: var(--sunken); border-radius: var(--r-full); }
+td .track i { display: block; height: 4px; background: var(--data-ctx); border-radius: var(--r-full); }
+tr.total td .track i { background: var(--data-focus); }
 .cmp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(316px, 1fr)); gap: var(--sp-6); }
 .cmp-head { padding: var(--sp-4) var(--sp-6); border-bottom: 1px solid var(--line);
             display: flex; align-items: baseline; gap: var(--sp-2); }
@@ -468,9 +487,9 @@ tr.total td .track i { background: var(--ink-900); }
 .dname .sub { display: block; font-size: 13px; font-weight: 500; color: var(--ink-500); line-height: 1.5; }
 .drow .val { font-size: 15px; text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-900); }
 .drow .val.base { color: var(--ink-500); }
-.dbar { position: relative; height: 16px; background: var(--sunken); border-radius: var(--r-sm); }
-.dbar span.zero { position: absolute; top: -4px; bottom: -4px; width: 1px; background: var(--line-strong); }
-.dbar i { position: absolute; top: 0; bottom: 0; border-radius: var(--r-sm); }
+.dbar { position: relative; height: 8px; background: var(--sunken); border-radius: var(--r-full); }
+.dbar span.zero { position: absolute; top: -5px; bottom: -5px; width: 1px; background: var(--line-strong); }
+.dbar i { position: absolute; top: 0; bottom: 0; border-radius: var(--r-full); min-width: 3px; }
 .dchip { font-size: 15px; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
 
 /* ── 일정 ── */
@@ -631,75 +650,130 @@ tr.total td .track i { background: var(--ink-900); }
   }
 
   /* ── 막대 차트 ──────────────────────────────────────────────
-     한 스케일이 막대·눈금·라벨을 모두 배치한다. 라벨은 차트가 실제로
-     닿는 값만 가리킨다. */
-  var FILL = { old: 'var(--ink-300)', new: 'var(--info)', mixed: 'url(#hatch)',
-               deploy: 'url(#hatch)', latest: 'var(--ink-900)' };
+     규격은 sandi-frontend-design 스킬 10장(데이터 차트)을 따른다.
+       · 막대 22px 이하 · 위쪽만 4px 라운드 · 격자·기준선 1px
+       · 값은 막대 머리 위 하나, 카테고리는 축 아래 하나 (2단으로 쌓지 않는다)
+       · 기준선 라벨은 플롯 밖 오른쪽 여백에 둔다 — 막대와 절대 겹치지 않는다
+     계열이 1개인 차트는 --data-ctx 하나로 그리고 강조 1개만 --data-focus 로
+     띄운다. --data-key(파랑)는 계열이 둘일 때(구 앱 vs 리뉴얼)만 쓴다. */
+  var FILL = { old: 'var(--data-ctx)', new: 'var(--data-key)', mixed: 'url(#hatch)',
+               deploy: 'url(#hatch)', latest: 'var(--data-focus)' };
+
+  // SVG 안에서는 글자 폭을 물어볼 수 없어 근사한다. 한글은 폰트 크기만큼,
+  // 숫자·영문은 그 55% 로 본다. 라벨 자리를 잡는 데만 쓴다.
+  function tw(text, size) {
+    var w = 0;
+    for (var i = 0; i < text.length; i++) w += text.charCodeAt(i) > 0x1100 ? size : size * 0.55;
+    return w;
+  }
+
+  // 슬롯 폭에 맞춰 어절 단위로 접는다. 최대 두 줄.
+  function wrap(text, limit, size) {
+    var words = text.split(' '), out = [''];
+    words.forEach(function (w) {
+      var cand = out[out.length - 1] ? out[out.length - 1] + ' ' + w : w;
+      if (tw(cand, size) <= limit || !out[out.length - 1]) out[out.length - 1] = cand;
+      else out.push(w);
+    });
+    return out.slice(0, 2);
+  }
+
+  // 위쪽 두 모서리만 둥근 막대. 바닥은 각져서 기준선에 붙어 있어야 한다.
+  function barPath(x, top, w, hh, r) {
+    r = Math.min(r, w / 2, hh);
+    var b = top + hh;
+    return 'M' + x.toFixed(1) + ' ' + b.toFixed(1) +
+      'V' + (top + r).toFixed(1) + 'a' + r + ' ' + r + ' 0 0 1 ' + r + ' -' + r +
+      'h' + (w - 2 * r).toFixed(1) + 'a' + r + ' ' + r + ' 0 0 1 ' + r + ' ' + r +
+      'V' + b.toFixed(1) + 'Z';
+  }
 
   function chart(series, opts) {
-    var W = 760, PADL = 64, PADR = 16, TOP = 30, BASE = 240;
-    var innerW = W - PADL - PADR, h = BASE - TOP;
+    var PADL = 52, TOP = 44, BASE = 264, CAT = 288, NOTE = 305, H = 324;
+    var REF = 12;  // 기준선 라벨 글자 크기
+    // 기준선 라벨은 플롯 밖 오른쪽 여백(gutter)에 놓는다. 막대 위에 흰 사각형을
+    // 깔고 얹으면 지운 자리가 보인다 — 자리를 아예 비워 두는 편이 깨끗하다.
+    var gutter = Math.ceil(Math.max(tw(opts.goalLabel, REF), tw(opts.avgLabel, REF))) + 12;
+    var W = 620 + gutter;
+    var innerW = W - PADL - gutter, h = BASE - TOP;
     var max = opts.max;
     var y = function (v) { return BASE - (v / max) * h; };
     var col = innerW / series.length;
-    var bw = Math.min(56, col * 0.6);
+    var bw = Math.min(22, col * 0.46);
     var cx = function (i) { return PADL + col * (i + 0.5); };
+    var right = PADL + innerW;
     var p = [];
 
-    p.push('<svg class="chart" viewBox="0 0 ' + W + ' 308" role="img" aria-label="' + esc(opts.alt) + '">');
+    p.push('<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(opts.alt) + '">');
     p.push('<defs><pattern id="hatch" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">' +
            '<rect width="8" height="8" fill="var(--sunken)"/>' +
-           '<line x1="0" y1="0" x2="0" y2="8" stroke="var(--ink-300)" stroke-width="4"/></pattern></defs>');
+           '<line x1="0" y1="0" x2="0" y2="8" stroke="var(--data-ctx)" stroke-width="2"/></pattern></defs>');
+
+    // 판정 구간 배경 띠 — 구간을 색으로 칠하지 않고 뒤를 옅게 깐다
+    var hasSplit = opts.split !== undefined && opts.split > 0 && opts.split < series.length;
+    var sx = hasSplit ? PADL + col * opts.split : 0;
+    if (hasSplit) {
+      p.push('<rect x="' + sx.toFixed(1) + '" y="' + TOP + '" width="' + (right - sx).toFixed(1) +
+             '" height="' + h + '" fill="var(--data-wash)"/>');
+    }
 
     opts.ticks.forEach(function (t) {
-      p.push('<line class="gl-l" x1="' + PADL + '" y1="' + y(t).toFixed(1) + '" x2="' + (W - PADR) + '" y2="' + y(t).toFixed(1) + '"/>');
-      p.push('<text class="s-tick" x="' + (PADL - 8) + '" y="' + (y(t) + 4).toFixed(1) + '" text-anchor="end">' + n(t) + '</text>');
+      p.push('<line class="gl-l" x1="' + PADL + '" y1="' + y(t).toFixed(1) + '" x2="' + right + '" y2="' + y(t).toFixed(1) + '"/>');
+      p.push('<text class="s-tick" x="' + (PADL - 10) + '" y="' + (y(t) + 4).toFixed(1) + '" text-anchor="end">' + n(t) + '</text>');
     });
 
+    // 기준선 — 격자와 굵기는 같고 형태로만 구분한다
+    function ref(cls2, txt, val, txtCls) {
+      var yy = y(val);
+      return '<line class="' + cls2 + '" x1="' + PADL + '" y1="' + yy.toFixed(1) + '" x2="' + right +
+        '" y2="' + yy.toFixed(1) + '"/><text class="' + txtCls + '" x="' + (right + 8) +
+        '" y="' + (yy + 4).toFixed(1) + '">' + esc(txt) + '</text>';
+    }
+    var refYs = [y(opts.avg), y(opts.goal)];
+    p.push(ref('ref-avg', opts.avgLabel, opts.avg, 's-avg'));
+    p.push(ref('ref-goal', opts.goalLabel, opts.goal, 's-goal'));
+    p.push('<line class="gl-z" x1="' + PADL + '" y1="' + BASE + '" x2="' + right + '" y2="' + BASE + '"/>');
+
+    if (hasSplit) {
+      p.push('<line class="ref-split" x1="' + sx.toFixed(1) + '" y1="' + TOP + '" x2="' + sx.toFixed(1) + '" y2="' + BASE + '"/>');
+      p.push('<text class="s-note" x="' + (sx + 6).toFixed(1) + '" y="' + (TOP - 12) + '">' + esc(opts.splitLabel) + '</text>');
+    }
+
     series.forEach(function (d, i) {
-      var bh = Math.max(2, (d.value / max) * h);
+      var bh = Math.max(3, (d.value / max) * h), top = BASE - bh;
       var fill = d.latest ? FILL.latest : (FILL[d.kind] || FILL.new);
       p.push('<g class="bar" data-tip="' + esc(d.tip) + '">' +
-        '<rect class="mark" x="' + (cx(i) - bw / 2).toFixed(1) + '" y="' + (BASE - bh).toFixed(1) +
-        '" width="' + bw.toFixed(1) + '" height="' + bh.toFixed(1) + '" rx="4" fill="' + fill + '"/>' +
+        '<path class="mark" d="' + barPath(cx(i) - bw / 2, top, bw, bh, 4) + '" fill="' + fill + '"/>' +
         '<rect class="hit" x="' + (cx(i) - col / 2).toFixed(1) + '" y="' + TOP + '" width="' + col.toFixed(1) +
-        '" height="' + h + '"/></g>');
-    });
-
-    if (opts.split !== undefined && opts.split > 0 && opts.split < series.length) {
-      var sx = PADL + col * opts.split;
-      p.push('<line class="ref-split" x1="' + sx.toFixed(1) + '" y1="' + TOP + '" x2="' + sx.toFixed(1) + '" y2="252"/>');
-      p.push('<text class="s-note" x="' + (sx + 6).toFixed(1) + '" y="' + (TOP + 10) + '">' + esc(opts.splitLabel) + '</text>');
-    }
-    // 기준선 라벨은 막대 위를 지난다. 뒤에 배경을 깔지 않으면 겹쳐서 못 읽는다.
-    function refLabel(text, yy, anchor, cls2) {
-      var w = 0;
-      for (var i = 0; i < text.length; i++) w += text.charCodeAt(i) > 0x1100 ? 13.5 : 7.2;
-      var x = anchor === 'end' ? (W - PADR) : (PADL + 2);
-      var rx = anchor === 'end' ? x - w - 8 : x - 4;
-      return '<rect x="' + rx.toFixed(1) + '" y="' + (yy - 16).toFixed(1) + '" width="' + (w + 12).toFixed(1) +
-        '" height="20" fill="var(--base)"/><text class="' + cls2 + '" x="' + x + '" y="' + yy.toFixed(1) +
-        '" text-anchor="' + anchor + '">' + esc(text) + '</text>';
-    }
-    p.push('<line class="ref-avg" x1="' + PADL + '" y1="' + y(opts.avg).toFixed(1) + '" x2="' + (W - PADR) + '" y2="' + y(opts.avg).toFixed(1) + '"/>');
-    p.push(refLabel(opts.avgLabel, y(opts.avg) - 6, 'start', 's-avg'));
-    p.push('<line class="ref-goal" x1="' + PADL + '" y1="' + y(opts.goal).toFixed(1) + '" x2="' + (W - PADR) + '" y2="' + y(opts.goal).toFixed(1) + '"/>');
-    p.push(refLabel(opts.goalLabel, y(opts.goal) - 6, 'end', 's-goal'));
-    p.push('<line class="gl-z" x1="' + PADL + '" y1="' + BASE + '" x2="' + (W - PADR) + '" y2="' + BASE + '"/>');
-
-    series.forEach(function (d, i) {
-      p.push('<text class="s-cat" x="' + cx(i).toFixed(1) + '" y="262" text-anchor="middle">' + esc(d.label) + '</text>');
-      p.push('<text class="' + (d.latest ? 's-hi' : 's-val') + '" x="' + cx(i).toFixed(1) + '" y="280" text-anchor="middle">' + n(d.value) + '</text>');
-      if (d.note) p.push('<text class="s-note" x="' + cx(i).toFixed(1) + '" y="298" text-anchor="middle">' + esc(d.note) + '</text>');
+        '" height="' + (BASE - TOP) + '"/></g>');
+      // 값은 막대 머리 위 하나. 강조 막대만 진하게.
+      // 기준선이 글자 한가운데를 지나면 후광으로도 못 가린다(글자 속 빈 공간으로
+      // 점선이 비친다). 그럴 때는 라벨을 선 위로 올린다.
+      var vy = top - 9;
+      refYs.forEach(function (ry) {
+        if (ry > vy - 11 && ry < vy + 3) vy = (ry - 17 >= TOP - 6) ? ry - 6 : ry + 16;
+      });
+      p.push('<text class="' + (d.latest ? 's-hi' : 's-val') + '" x="' + cx(i).toFixed(1) +
+        '" y="' + vy.toFixed(1) + '" text-anchor="middle">' + n(d.value) + '</text>');
+      p.push('<text class="s-cat' + (d.latest ? ' hi' : '') + '" x="' + cx(i).toFixed(1) +
+        '" y="' + CAT + '" text-anchor="middle">' + esc(d.label) + '</text>');
+      if (d.note) {
+        wrap(d.note, col, 11).forEach(function (ln, k) {
+          p.push('<text class="s-note" x="' + cx(i).toFixed(1) + '" y="' + (NOTE + k * 14) +
+            '" text-anchor="middle">' + esc(ln) + '</text>');
+        });
+      }
     });
     p.push('</svg>');
     return '<div class="scroll-x">' + p.join('') + '</div>';
   }
 
+  /* 축 최대값. 눈금 간격과 따로 정한다 — 눈금 간격에 맞춰 올려 버리면
+     (35,789 → 40,000) 프레임 위쪽 1/3이 빈 채로 남는다. */
   function niceMax(vals, goal) {
-    var m = Math.max.apply(null, vals.concat([goal])) * 1.08;
-    var step = Math.pow(10, Math.floor(Math.log10(m))) / 2;
-    return Math.ceil(m / step) * step;
+    var m = Math.max.apply(null, vals.concat([goal])) * 1.06;
+    var unit = Math.pow(10, Math.floor(Math.log10(m))) / 10;
+    return Math.ceil(m / unit) * unit;
   }
   function ticksFor(max, count) {
     var step = max / count, mag = Math.pow(10, Math.floor(Math.log10(step)));
@@ -815,7 +889,7 @@ tr.total td .track i { background: var(--ink-900); }
           (s.c || '') + '">' + s.v + '</span></div>'; }).join('') + '</div></div>' +
       '<div class="dbody">' +
       chart(series, {
-        max: max, ticks: ticksFor(max, 4), goal: a.target,
+        max: max, ticks: ticksFor(max, 5), goal: a.target,
         goalLabel: 'OKR 목표 ' + n(a.target),
         avg: a.baseline, avgLabel: D.okr.base_year + '년 ' + unitLabel + ' ' + n(a.baseline),
         split: opts.split, splitLabel: opts.splitLabel, alt: opts.alt
@@ -826,7 +900,7 @@ tr.total td .track i { background: var(--ink-900); }
 
   function viewMau() {
     var s = D.series.mau.map(function (m, i, arr) {
-      return { label: m.label, value: m.value, kind: 'new',
+      return { label: m.label, value: m.value, kind: 'old',
         latest: i === arr.length - 1, note: i === arr.length - 1 ? '최근 완결월' : '',
         tip: m.label + '\nMAU ' + n(m.value) + '명\n' + D.okr.base_year + '년 평균 대비 ' +
              sign(Math.round((m.value / D.axes.mau.baseline - 1) * 1000) / 10) };
@@ -834,8 +908,8 @@ tr.total td .track i { background: var(--ink-900); }
     var a = D.axes.mau, best = D.series.mau.reduce(function (x, y) { return y.value > x.value ? y : x; });
     return metricView('mau', 'MAU · 최근 완결월 ' + a.label + ' · 구 앱', '평균', s, {
       alt: D.as_of.slice(0, 4) + '년 완결월 MAU 막대그래프. 모든 달이 OKR 목표선 아래에 있다.',
-      legend: '<span><i style="background:var(--info)"></i>월별 MAU</span>' +
-        '<span><i style="background:var(--ink-900)"></i>' + a.label + '</span>' +
+      legend: '<span><i style="background:var(--data-ctx)"></i>월별 MAU</span>' +
+        '<span><i style="background:var(--data-focus)"></i>' + a.label + '</span>' +
         '<span><i class="ln"></i>OKR 목표 ' + n(a.target) + '명</span>' +
         '<span><i class="ln avg"></i>' + D.okr.base_year + '년 평균 ' + n(a.baseline) + '명</span>',
       caption: D.as_of.slice(0, 4) + '년 완결 ' + D.series.mau.length +
@@ -858,9 +932,9 @@ tr.total td .track i { background: var(--ink-900); }
     });
     return metricView('wau', 'WAU · 마지막 완결주 ' + a.label + ' · 구 앱', '주 평균', s, {
       alt: '주간 순이용자 막대그래프. 목표선을 넘은 주는 없다.',
-      legend: '<span><i style="background:var(--info)"></i>주간 WAU</span>' +
-        '<span><i style="background:var(--ink-900)"></i>구 앱 마지막 완결주</span>' +
-        '<span><i style="background:var(--sunken)"></i>구 앱·리뉴얼 혼재 주</span>' +
+      legend: '<span><i style="background:var(--data-ctx)"></i>주간 WAU</span>' +
+        '<span><i style="background:var(--data-focus)"></i>구 앱 마지막 완결주</span>' +
+        '<span><i class="hx"></i>구 앱·리뉴얼 혼재 주</span>' +
         '<span><i class="ln"></i>OKR 목표 ' + n(a.target) + '명</span>',
       caption: '7일 순이용자는 매주 GA4에 다시 물어본 실측이다. 일별 값을 더하면 중복 제거가 풀려 순이용자가 되지 않는다. ' +
         '<b>분리 기준일을 걸친 주는 구 앱과 리뉴얼이 섞여 판정에 쓰지 않는다.</b> 리뉴얼만 담긴 첫 7일 창은 ' +
@@ -880,10 +954,10 @@ tr.total td .track i { background: var(--ink-900); }
     return metricView('dau', 'DAU · 리뉴얼 ' + a.label + ' 평균', '평일 평균', s, {
       split: splitIdx, splitLabel: '리뉴얼 시작',
       alt: '평일 일별 순이용자 막대그래프. 리뉴얼 첫날 이후 내려간다.',
-      legend: '<span><i style="background:var(--ink-300)"></i>구 앱</span>' +
-        '<span><i style="background:var(--sunken)"></i>배포일 · 혼재</span>' +
-        '<span><i style="background:var(--info)"></i>리뉴얼</span>' +
-        '<span><i style="background:var(--ink-900)"></i>리뉴얼 1일차</span>' +
+      legend: '<span><i style="background:var(--data-ctx)"></i>구 앱</span>' +
+        '<span><i class="hx"></i>배포일 · 혼재</span>' +
+        '<span><i style="background:var(--data-key)"></i>리뉴얼</span>' +
+        '<span><i style="background:var(--data-focus)"></i>리뉴얼 1일차</span>' +
         '<span><i class="ln"></i>OKR 목표 ' + n(a.target) + '명</span>',
       caption: '주말은 빼고 평일만 그렸다. ' + D.okr.base_year + '년 주말 평균은 ' + n(D.baseline.dau_weekend) +
         '명으로 평일 ' + n(a.baseline) + '명의 ' + Math.round(D.baseline.dau_weekend / a.baseline * 100) +
