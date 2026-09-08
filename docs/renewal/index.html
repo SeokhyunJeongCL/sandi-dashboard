@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<meta name="generated-at" content="2026-09-08T02:19:28Z">
+<meta name="generated-at" content="2026-09-08T04:00:34Z">
 </head>
 <body>
 <style>
@@ -762,7 +762,10 @@ tr.total td .track i { background: var(--data-focus); }
       p.push('<text class="s-cat' + (d.latest ? ' hi' : '') + '" x="' + cx(i).toFixed(1) +
         '" y="' + CAT + '" text-anchor="middle">' + esc(d.label) + '</text>');
       if (d.note) {
-        wrap(d.note, col, 11).forEach(function (ln, k) {
+        // 줄바꿈이 들어 있으면 그대로 쓴다. 어절 접기(wrap)는 좁은 칸에서
+        // '구 앱 마지막' 같은 말을 세 줄로 밀어내 뒷말을 잘라 먹는다.
+        var nlines = d.note.indexOf('\n') >= 0 ? d.note.split('\n').slice(0, 2) : wrap(d.note, col, 11);
+        nlines.forEach(function (ln, k) {
           p.push('<text class="s-note" x="' + cx(i).toFixed(1) + '" y="' + (NOTE + k * 14) +
             '" text-anchor="middle">' + esc(ln) + '</text>');
         });
@@ -935,17 +938,71 @@ tr.total td .track i { background: var(--data-focus); }
     });
   }
 
+  /* 주차 표기. 배포 후를 1주차부터 세고, 배포 전은 '2주 전'처럼 거슬러 센다.
+     데이터가 옛 형식이면(week_label 없음) 날짜 라벨로 물러선다. */
+  function wlabel(w) { return w.week_label || w.label; }
+
+  /* 리뉴얼 주차 표. 분리 기준일부터 7일씩 끊은 주가 한 행씩 쌓인다.
+     맨 위에 구 앱 마지막 완결주를 기준 행으로 둔다 — 기준이 표 안에 없으면
+     늘었는지 줄었는지를 다른 화면에서 찾아와야 한다. */
+  function weekTable() {
+    var W = D.weeks;
+    if (!W || !W.rows || !W.rows.length) return '';
+    var rows = (W.ref ? [W.ref] : []).concat(W.rows);
+    var lastFull = null;
+    W.rows.forEach(function (r) { if (!r.partial) lastFull = r; });
+    function pcell(v, extra) {
+      var has = v !== null && v !== undefined;
+      return '<td class="r ' + (has ? cls(v) : '') + '">' + (has ? sign(v) : '-') +
+        (extra ? '<span class="sub">' + esc(extra) + '</span>' : '') + '</td>';
+    }
+    var body = rows.map(function (r) {
+      return '<tr' + (r === lastFull ? ' class="total"' : '') + '><td>' + esc(r.label) +
+        '<span class="sub">' + esc(r.range) + (r.partial ? ' · 진행중 ' + r.days + '일' : '') +
+        '</span></td>' +
+        '<td class="r">' + n(r.wau) + '</td><td class="r">' + n(r.new_users) + '</td>' +
+        '<td class="r">' + Number(r.sessions_per).toFixed(2) + '</td>' +
+        '<td class="r">' + Number(r.pv_per).toFixed(2) + '</td>' +
+        pcell(r.vs_base) +
+        pcell(r.partial ? r.vs_prev_same : r.vs_prev,
+              r.partial ? '같은 ' + r.days + '일 창' : (r.vs_prev_note || '')) +
+        '</tr>';
+    }).join('');
+    var last = W.rows[W.rows.length - 1];
+    var partial = last.partial ? last : null;
+    return '<div class="block"><h3 class="t-section">리뉴얼 주차별 진행</h3>' +
+      '<p class="t-cap">분리 기준일 ' + md(W.split) + '(' + esc(W.anchor) + ')부터 7일씩 끊은 주차다. ' +
+      '달력 주가 아니라 ' + esc(W.anchor) + '~' + esc(WD_PREV[W.anchor]) + ' 격자여서 1주차가 ' +
+      md(W.split) + '에 바로 시작한다. 주가 지날수록 행이 하나씩 늘어난다.</p>' +
+      '<div class="card card-flush"><div class="tbl-wrap"><table>' +
+      '<thead><tr><th>주차</th><th class="r">순이용자</th><th class="r">신규</th>' +
+      '<th class="r">세션/인</th><th class="r">화면조회/인</th><th class="r">' +
+      D.okr.base_year + '년 대비</th><th class="r">직전 주 대비</th></tr></thead>' +
+      '<tbody>' + body + '</tbody></table></div></div>' +
+      '<p class="t-cap" style="margin-top:var(--sp-2); max-width:var(--w-text)">' +
+      '순이용자는 주마다 GA4에 다시 물어본 7일 실측이다 — 일별 값을 더하면 중복 제거가 풀려 ' +
+      '순이용자가 되지 않는다. ' +
+      (partial ? '진행중인 ' + esc(partial.label) + '는 완결주와 견주지 않고 직전 주의 같은 ' +
+                 partial.days + '일 창' +
+                 (partial.prev_same ? '(' + n(partial.prev_same) + '명)' : '') + '하고만 비교했다. ' : '') +
+      (W.ref ? '기준 행은 구 앱 마지막 완결주다. 배포일이 든 혼재주는 뺐다.' : '') + '</p></div>';
+  }
+
   function viewWau() {
     var a = D.axes.wau, isNew = a.phase === 'new';
     var splitIdx = D.series.wau.findIndex(function (w) { return w.kind !== 'old'; });
     var s = D.series.wau.map(function (w) {
-      return { label: w.label, value: w.value, kind: w.kind, latest: w.latest,
-        note: w.kind === 'mixed' ? '배포일 포함 · 판정 제외' : (w.latest ? (w.kind === 'new' ? '리뉴얼' : '구 앱 마지막') : ''),
-        tip: w.range + '\nWAU ' + n(w.value) + '명\n' +
+      // 축에는 주차, 그 아래 한 줄에 실제 기간. 둘을 같이 봐야 '1주차'가
+      // 언제인지 되묻지 않는다. wrap() 이 공백에서 접어 두 줄로 만든다.
+      var extra = w.kind === 'mixed' ? '판정 제외' : (w.latest && w.kind === 'old' ? '구 앱 마지막' : '');
+      return { label: wlabel(w), value: w.value, kind: w.kind, latest: w.latest,
+        note: w.range + (extra ? '\n' + extra : ''),
+        tip: wlabel(w) + ' · ' + w.range + '\nWAU ' + n(w.value) + '명\n' +
              (w.kind === 'mixed' ? '배포일이 들어 전후가 섞여 판정에 쓰지 않는다'
                                  : D.okr.base_year + '년 평균 대비 ' + sign(Math.round((w.value / a.baseline - 1) * 1000) / 10)) };
     });
-    return metricView('wau', 'WAU · ' + (isNew ? '리뉴얼 ' : '마지막 완결주 ') + a.label +
+    return metricView('wau', 'WAU · ' + (isNew ? '리뉴얼 ' : '마지막 완결주 ') +
+        (a.week_label ? a.week_label + ' · ' : '') + a.label +
         (isNew ? '' : ' · 구 앱'), '주 평균', s, {
       split: isNew ? splitIdx : -1, splitLabel: '리뉴얼 시작',
       alt: '주간 순이용자 막대그래프. ' + (isNew ? '리뉴얼 주도 목표선 아래다.' : '목표선을 넘은 주는 없다.'),
@@ -965,7 +1022,7 @@ tr.total td .track i { background: var(--data-focus); }
         '7일 순이용자는 주마다 GA4에 다시 물어본 실측이다 — 일별 값을 더하면 중복 제거가 풀려 순이용자가 되지 않는다. ' +
         '배포일이 든 주는 배포 시각 전후가 섞여 판정에서 뺀다.' +
         (isNew ? '' : ' 리뉴얼만 담긴 첫 7일 창은 ' + md(a.due) + '에 확정된다.')
-    });
+    }) + weekTable();
   }
 
   function viewDau() {
