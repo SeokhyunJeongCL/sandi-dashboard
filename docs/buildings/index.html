@@ -1,0 +1,1627 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="generated-at" content="2026-09-08T11:19:28+09:00">
+</head>
+<body>
+<style>
+#sandiGate{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;
+  background:#F7F7F8;font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+#sandiGate .g-card{background:#fff;border:1px solid #E5E5E8;border-radius:16px;padding:40px 36px;
+  width:min(400px,calc(100vw - 32px));box-shadow:0 4px 24px rgba(0,0,0,.06);text-align:center}
+#sandiGate .g-logo{margin-bottom:20px}
+#sandiGate .g-title{font-size:19px;font-weight:700;color:#1A1A1E;margin-bottom:8px}
+#sandiGate .g-sub{font-size:14px;color:#6B6B75;line-height:1.55;margin-bottom:26px}
+#sandiGate .g-label{display:block;text-align:left;font-size:13px;font-weight:600;color:#4A4A55;margin-bottom:7px}
+#sandiGate .g-input{width:100%;box-sizing:border-box;padding:12px 14px;font-size:15px;font-family:inherit;
+  border:1px solid #D8D8DE;border-radius:9px;outline:none;transition:border-color .15s}
+#sandiGate .g-input:focus{border-color:#EA27C2}
+#sandiGate .g-btn{width:100%;margin-top:14px;padding:12px;font-size:15px;font-weight:700;font-family:inherit;
+  color:#fff;background:linear-gradient(180deg,#EA27C2,#E100A3);border:0;border-radius:9px;cursor:pointer}
+#sandiGate .g-btn:disabled{opacity:.55;cursor:default}
+#sandiGate .g-err{min-height:20px;margin-top:12px;font-size:13px;color:#D92D20}
+@media (prefers-color-scheme:dark){
+  #sandiGate{background:#131316}
+  #sandiGate .g-card{background:#1C1C21;border-color:#2E2E36}
+  #sandiGate .g-title{color:#F2F2F5}
+  #sandiGate .g-sub{color:#9A9AA5}
+  #sandiGate .g-label{color:#C4C4CE}
+  #sandiGate .g-input{background:#26262C;border-color:#3A3A44;color:#F2F2F5}
+}
+</style>
+<div id="sandiGate">
+  <div class="g-card">
+    <div class="g-logo"><svg xmlns="http://www.w3.org/2000/svg" height="22" viewBox="0 0 143.016 32" fill="none"><defs><linearGradient id="sandiGateLogo" x1="0" y1="0" x2="0" y2="32" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#EA27C2"/><stop offset="99%" stop-color="#E100A3"/></linearGradient></defs><path d="M 22.792 13.561 C 27.08 15.313 29.944 18.456 29.944 22.048 C 29.944 27.544 23.24 32 14.972 32 C 6.704 32 0 27.544 0 22.048 C 0 21.908 0.004 21.768 0.016 21.632 L 7.152 21.632 L 7.152 23.816 L 22.792 23.816 L 22.792 13.561 Z M 119.096 1.66 C 127.016 1.66 132.104 8.084 132.104 16.004 C 132.104 23.924 127.016 30.344 119.096 30.344 L 109.98 30.332 L 102.16 30.332 L 102.16 1.66 L 119.096 1.66 Z M 62.984 30.332 L 55.164 30.332 L 47.652 2.78 L 47.04 2.78 L 39.524 30.332 L 31.704 30.332 L 39.524 1.66 L 55.164 1.66 L 62.984 30.332 Z M 89.348 29.216 L 89.652 29.216 L 89.652 1.66 L 97.472 1.66 L 97.472 30.332 L 81.832 30.332 L 74.32 2.78 L 74.012 2.78 L 74.012 30.332 L 66.192 30.332 L 66.192 1.66 L 81.832 1.66 L 89.348 29.216 Z M 143.016 30.332 L 135.196 30.332 L 135.196 1.66 L 143.016 1.66 L 143.016 30.332 Z M 109.98 23.815 L 117.8 23.815 C 122.12 23.815 124.288 20.316 124.288 15.996 C 124.288 11.676 122.12 8.176 117.8 8.176 L 109.98 8.176 L 109.98 23.815 Z M 14.972 0 C 23.24 0 29.944 4.456 29.944 9.952 C 29.944 10.092 29.94 10.232 29.932 10.368 L 22.792 10.368 L 22.792 8.184 L 7.152 8.184 L 7.152 18.44 C 2.864 16.688 0 13.544 0 9.952 C 0 4.456 6.704 0 14.972 0 Z" fill="url(#sandiGateLogo)" fill-rule="nonzero"/></svg></div>
+    <div class="g-title">건물별 이용현황</div>
+    <div class="g-sub">건물 단위 이용자·서비스 이용율 변동을<br>같은 기준으로 비교합니다.</div>
+    <label class="g-label" for="sandiGatePw">비밀번호</label>
+    <input type="password" class="g-input" id="sandiGatePw" placeholder="비밀번호를 입력하세요" autocomplete="current-password">
+    <button class="g-btn" id="sandiGateBtn">열기</button>
+    <div class="g-err" id="sandiGateErr"></div>
+  </div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var PW_KEY = 'sandi_gate_pw', EXP_KEY = 'sandi_gate_exp';
+  var SESSION_MS = 8*60*60*1000;          // 8시간 — CS 대시보드와 동일
+  var CHECK_TEXT = 'SANDI-GATE-OK';
+  // 이 이름으로 오는 fetch 는 암호화본으로 돌린다.
+  var GUARDED = ['data.json', 'ga_detail.json', 'renewal.json', 'buildings.json'];
+
+  var _key = null;                        // 유도된 AES 키 (메모리에만)
+  var _unlocked = false;
+  var _waiters = [];                      // 잠금 해제를 기다리는 resolve 들
+  var _fail = 0, _lockUntil = 0;
+
+  // 가로채기 전 원본을 잡아둔다. 게이트 자신의 요청은 항상 이걸로 보낸다 —
+  // 샴을 거치면 재진입 위험이 생기고, 다른 스크립트가 fetch 를 또 감쌌을 때
+  // 순서에 따라 동작이 달라진다.
+  var _nativeFetch = window.fetch.bind(window);
+
+  function b64(s){ return Uint8Array.from(atob(s), function(c){ return c.charCodeAt(0); }); }
+
+  function getGate(){
+    if(getGate._p) return getGate._p;
+    getGate._p = _nativeFetch('gate.json', {cache:'no-store'}).then(function(r){
+      if(!r.ok) throw new Error('gate.json ' + r.status);
+      return r.json();
+    });
+    return getGate._p;
+  }
+
+  function derive(pw, g){
+    return crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey'])
+      .then(function(mat){
+        return crypto.subtle.deriveKey(
+          {name:'PBKDF2', salt:b64(g.salt), iterations:g.iter, hash:'SHA-256'},
+          mat, {name:'AES-GCM', length:256}, false, ['decrypt']);
+      });
+  }
+
+  /* 복호화 → (필요시) gzip 해제 → 문자열.
+     암호문은 압축이 안 되므로 파이썬 쪽에서 '압축한 뒤 암호화' 한다.
+     그래서 푸는 순서도 '복호화 뒤 압축해제' 로 반대다. */
+  function decrypt(key, blob){
+    return crypto.subtle.decrypt({name:'AES-GCM', iv:b64(blob.iv)}, key, b64(blob.ct))
+      .then(function(pt){
+        if(blob.z !== 'gzip') return new TextDecoder().decode(pt);
+        if(typeof DecompressionStream === 'undefined'){
+          throw new Error('이 브라우저는 압축 해제를 지원하지 않습니다. 최신 버전으로 업데이트해주세요.');
+        }
+        var ds = new DecompressionStream('gzip');
+        var w = ds.writable.getWriter();
+        w.write(new Uint8Array(pt)); w.close();
+        return new Response(ds.readable).text();
+      });
+  }
+
+  /* 비밀번호 검증 = check 블록 복호화. 서버가 없으므로 '맞는 키인가' 와
+     '풀리는가' 는 같은 연산이다. 큰 파일을 받기 전에 판정한다. */
+  function unlock(pw){
+    return getGate().then(function(g){
+      return derive(pw, g).then(function(key){
+        return decrypt(key, g.check).then(function(txt){
+          if(txt !== CHECK_TEXT) throw new Error('check mismatch');
+          _key = key;
+        });
+      });
+    });
+  }
+
+  function whenUnlocked(){
+    if(_unlocked) return Promise.resolve();
+    return new Promise(function(res){ _waiters.push(res); });
+  }
+
+  /* 암호화본을 받아 복호화한 뒤, 호출부가 기대하는 Response 모양으로 돌려준다.
+     r.ok / r.status / r.json() / r.text() 만 쓰이므로 그만큼만 흉내낸다. */
+  function guardedFetch(name){
+    return whenUnlocked().then(function(){
+      return _nativeFetch(name + '.enc.json', {cache:'no-store'});
+    }).then(function(r){
+      if(!r.ok) throw new Error(name + '.enc.json ' + r.status);
+      return r.json();
+    }).then(function(blob){
+      return decrypt(_key, blob);
+    }).then(function(txt){
+      return {
+        ok: true, status: 200, statusText: 'OK',
+        json: function(){ return Promise.resolve(JSON.parse(txt)); },
+        text: function(){ return Promise.resolve(txt); }
+      };
+    });
+  }
+
+  /* 요청 URL 이 보호 대상인지 판별. 'renewal.json?t=169…' 처럼 캐시 무효화
+     쿼리가 붙거나 './renewal.json' 처럼 상대경로여도 잡아야 한다. */
+  function guardedName(url){
+    var path = String(url).split('?')[0].split('#')[0];
+    for(var i=0; i<GUARDED.length; i++){
+      var n = GUARDED[i];
+      if(path === n || path.endsWith('/' + n)) return n.replace(/\.json$/, '');
+    }
+    return null;
+  }
+
+  window.fetch = function(input, init){
+    var url = (typeof input === 'string') ? input : (input && input.url);
+    var name = url ? guardedName(url) : null;
+    if(name) return guardedFetch(name);
+    return _nativeFetch(input, init);
+  };
+
+  function reveal(){
+    _unlocked = true;
+    var el = document.getElementById('sandiGate');
+    if(el) el.remove();
+    var w = _waiters; _waiters = [];
+    w.forEach(function(res){ res(); });
+  }
+
+  function submit(){
+    var now = Date.now();
+    var err = document.getElementById('sandiGateErr');
+    var btn = document.getElementById('sandiGateBtn');
+    var inp = document.getElementById('sandiGatePw');
+    if(now < _lockUntil){
+      err.textContent = Math.ceil((_lockUntil-now)/1000) + '초 후에 다시 시도해주세요.';
+      return;
+    }
+    var pw = inp.value;
+    if(!pw){ err.textContent = '비밀번호를 입력해주세요.'; return; }
+    btn.disabled = true;
+    err.textContent = '확인 중...';
+    unlock(pw).then(function(){
+      try{
+        sessionStorage.setItem(PW_KEY, pw);
+        sessionStorage.setItem(EXP_KEY, String(Date.now()+SESSION_MS));
+      }catch(e){ /* 시크릿 모드 등 — 세션 유지만 포기하고 진행 */ }
+      _fail = 0; inp.value = ''; err.textContent = '';
+      reveal();
+    }).catch(function(e){
+      /* 무차별 대입 완화: 5회부터 지수 지연, 10회에서 5분 잠금.
+         오프라인 대입은 못 막지만 브라우저 경유 시도는 걸러진다. */
+      _fail++;
+      inp.value = '';
+      if(_fail >= 10){
+        _lockUntil = Date.now() + 300000;
+        err.textContent = '10회 실패. 5분 후 다시 시도해주세요.';
+      }else{
+        if(_fail >= 5) _lockUntil = Date.now() + Math.min(30, Math.pow(2,_fail-5))*1000;
+        err.textContent = '비밀번호가 올바르지 않습니다.';
+      }
+    }).finally(function(){
+      btn.disabled = false;
+      inp.focus();
+    });
+  }
+
+  window.SANDI_GATE = {whenUnlocked:whenUnlocked, isUnlocked:function(){ return _unlocked; }};
+
+  document.addEventListener('DOMContentLoaded', function(){
+    var btn = document.getElementById('sandiGateBtn');
+    var inp = document.getElementById('sandiGatePw');
+    if(btn) btn.addEventListener('click', submit);
+    if(inp) inp.addEventListener('keydown', function(e){ if(e.key === 'Enter') submit(); });
+
+    /* 세션 복구: 비밀번호는 탭 세션에만 둔다(탭을 닫으면 사라짐).
+       실제 복호화가 성공해야 통과시키므로, 비번을 바꿔 재배포하면
+       저장된 값은 자동으로 무효가 되어 재로그인된다. */
+    var saved, exp;
+    try{
+      saved = sessionStorage.getItem(PW_KEY);
+      exp = parseInt(sessionStorage.getItem(EXP_KEY) || '0', 10);
+    }catch(e){ saved = null; }
+    if(saved && exp > Date.now()){
+      unlock(saved).then(reveal).catch(function(){
+        try{ sessionStorage.removeItem(PW_KEY); sessionStorage.removeItem(EXP_KEY); }catch(e){}
+        if(inp) inp.focus();
+      });
+    }else{
+      if(inp) inp.focus();
+    }
+  });
+})();
+</script>
+
+<!--
+  건물별 이용현황 리포트 (/buildings/)
+
+  숫자를 이 파일 안에 박지 않는다. 렌더는 전부 buildings.json 한 곳을 본다 —
+  데이터가 갱신돼도 문구만 남아 오정보가 되는 사고를 막는다.
+  빌더: 96. GA Data/report/build_buildings.py
+-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root {
+  --brand: #EA27C2; --brand-strong: #C41DA2; --brand-press: #A6178A;
+  --brand-050: #FDF1FA; --brand-100: #F9D9F1;
+  --ink-900: #101014; --ink-700: #232328; --ink-500: #4A4A52; --ink-300: #86868E;
+  --base: #FFFFFF; --surface: #F5F5F8; --sunken: #EDEDF1;
+  --line: #E4E4E9; --line-strong: #CFCFD6;
+  --success: #12795A; --success-bg: #E9F5F0;
+  --warning: #9A6209; --warning-bg: #FBF2E4;
+  --danger: #C4342B; --danger-bg: #FBECEB;
+  --info: #2A5E9E; --info-bg: #ECF1F8;
+  --data-ctx: #B9B9C4; --data-key: #2A5E9E; --data-focus: #101014; --data-wash: #F2F6FB;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px; --sp-24: 96px;
+  --r-sm: 4px; --r-md: 8px; --r-lg: 12px; --r-xl: 20px; --r-full: 999px;
+  --shadow-pop: 0 1px 2px rgba(16,16,20,.05), 0 8px 24px rgba(16,16,20,.08);
+  --w-content: 1280px; --w-sidebar: 240px; --h-topbar: 60px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+[hidden] { display: none !important; }
+body {
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, system-ui, sans-serif;
+  background: var(--base); color: var(--ink-700);
+  font-size: 15px; line-height: 1.65;
+  word-break: keep-all; overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--brand-strong); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+.t-title   { font-size: 32px; line-height: 1.25; font-weight: 700; letter-spacing: -.02em; color: var(--ink-900); }
+.t-display { font-size: 48px; line-height: 1.1;  font-weight: 700; letter-spacing: -.03em; color: var(--ink-900); }
+.t-section { font-size: 22px; line-height: 1.4;  font-weight: 600; letter-spacing: -.02em; color: var(--ink-900); }
+.t-cap     { font-size: 13px; line-height: 1.55; font-weight: 500; color: var(--ink-500); }
+.num { font-variant-numeric: tabular-nums; }
+.pos { color: var(--success); }
+.neg { color: var(--danger); }
+.zero { color: var(--ink-500); }
+
+.btn { display:inline-flex; align-items:center; justify-content:center; gap: var(--sp-2);
+       height: 44px; padding: 0 20px; border: 0; border-radius: var(--r-md);
+       font: 600 15px/1 inherit; cursor: pointer; transition: background .15s ease; }
+.btn-primary { background: var(--brand-strong); color: #fff; }
+.btn-primary:hover { background: var(--brand-press); }
+.btn-secondary { background: var(--base); color: var(--ink-900); box-shadow: inset 0 0 0 1px var(--line-strong); }
+.btn-secondary:hover { background: var(--surface); }
+.btn-sm { height: 36px; padding: 0 14px; font-size: 14px; }
+
+.badge { display:inline-flex; align-items:center; height:24px; padding:0 10px;
+         border-radius: var(--r-sm); font-size:12px; font-weight:600; white-space: nowrap; }
+.badge-wait { background: var(--warning-bg); color: var(--warning); }
+.badge-prog { background: var(--info-bg);    color: var(--info); }
+.badge-done { background: var(--success-bg); color: var(--success); }
+.badge-rejt { background: var(--danger-bg);  color: var(--danger); }
+
+.card { background: var(--base); border: 1px solid var(--line); border-radius: var(--r-lg); padding: var(--sp-6); }
+
+/* ── 셸 ── */
+.shell { display: grid; grid-template-columns: var(--w-sidebar) minmax(0, 1fr); min-height: 100vh; }
+aside { background: var(--surface); position: sticky; top: 0; align-self: start;
+        max-height: 100vh; overflow-y: auto; padding: var(--sp-6) 0 var(--sp-8);
+        display: flex; flex-direction: column; gap: var(--sp-8); }
+.brand { padding: 0 var(--sp-6); display: flex; flex-direction: column; }
+.brand .nm { font-size: 17px; font-weight: 600; color: var(--ink-900); letter-spacing: -.01em; }
+nav { display: flex; flex-direction: column; gap: var(--sp-6); }
+.grp { display: flex; flex-direction: column; }
+.grp > .gl { padding: 0 var(--sp-6) var(--sp-2); font-size: 13px; font-weight: 600; color: var(--ink-500); }
+.nbtn { appearance: none; border: 0; background: transparent; cursor: pointer; width: 100%;
+        min-height: 44px; padding: var(--sp-2) var(--sp-6); text-align: left;
+        display: flex; align-items: center; gap: var(--sp-2);
+        font: 400 15px/1.65 inherit; color: var(--ink-700);
+        border-left: 3px solid transparent; transition: background .15s ease, color .15s ease; }
+.nbtn:hover { background: var(--sunken); }
+.nbtn .v { margin-left: auto; font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--ink-500); }
+.nbtn[aria-selected="true"] { background: var(--brand-050); color: var(--brand-strong);
+                              font-weight: 600; border-left-color: var(--brand); }
+.nbtn[aria-selected="true"] .v { color: var(--brand-strong); }
+.sidefoot { margin-top: auto; padding: var(--sp-4) var(--sp-6) 0; font-size: 13px;
+            line-height: 1.55; color: var(--ink-500); }
+
+main { min-width: 0; display: flex; flex-direction: column; }
+.topbar { height: var(--h-topbar); flex: none; border-bottom: 1px solid var(--line);
+          padding: 0 var(--sp-8); display: flex; align-items: center; justify-content: space-between;
+          gap: var(--sp-6); background: var(--base); position: sticky; top: 0; z-index: 8; }
+.tb-left { display: flex; align-items: center; gap: var(--sp-3); min-width: 0; }
+.tb-right { display: flex; align-items: center; gap: var(--sp-4); }
+.stamp { font-size: 13px; font-weight: 500; color: var(--ink-500); white-space: nowrap; }
+.stamp b { color: var(--ink-700); font-weight: 600; font-variant-numeric: tabular-nums; }
+.page { padding: var(--sp-8) var(--sp-8) var(--sp-24); max-width: calc(var(--w-content) + var(--sp-16)); width: 100%; }
+.page > .t-title { margin-bottom: var(--sp-6); }
+.view { display: flex; flex-direction: column; gap: var(--sp-16); }
+.block { display: flex; flex-direction: column; gap: var(--sp-3); }
+.block > .t-section + .t-cap { margin-top: calc(var(--sp-2) - var(--sp-3)); }
+.meta { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4); font-size: 13px;
+        font-weight: 500; color: var(--ink-500); }
+.meta b { color: var(--ink-700); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* ── 세그먼트 컨트롤 (축 토글) ── */
+.seg { display: inline-flex; background: var(--sunken); border-radius: var(--r-md); padding: var(--sp-1); gap: var(--sp-1); }
+.seg button { appearance: none; border: 0; background: transparent; cursor: pointer;
+              height: 36px; padding: 0 var(--sp-4); border-radius: var(--r-sm);
+              font: 500 14px/1 inherit; color: var(--ink-500); white-space: nowrap; }
+.seg button:hover:not(:disabled) { color: var(--ink-900); }
+.seg button[aria-selected="true"] { background: var(--base); color: var(--ink-900); font-weight: 600;
+                                    box-shadow: 0 1px 2px rgba(16,16,20,.06); }
+.seg button:disabled { color: var(--ink-300); cursor: not-allowed; }
+
+/* ── 필터 바 ── */
+.filters { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-4) var(--sp-6);
+           padding: var(--sp-4) var(--sp-6); background: var(--surface); border-radius: var(--r-lg); }
+.fgroup { display: flex; align-items: center; gap: var(--sp-3); }
+.flabel { font-size: 13px; font-weight: 600; color: var(--ink-500); white-space: nowrap; }
+.inp { height: 40px; padding: 0 var(--sp-3); font: 400 15px/1 inherit; color: var(--ink-900);
+       background: var(--base); border: 1px solid var(--line-strong); border-radius: var(--r-md); outline: none; }
+.inp:focus { border-color: var(--brand); }
+.sel { position: relative; display: inline-flex; align-items: center; }
+.sel select { appearance: none; height: 40px; padding: 0 40px 0 var(--sp-3);
+              font: 400 15px/1 inherit; color: var(--ink-900); background: var(--base);
+              border: 1px solid var(--line-strong); border-radius: var(--r-md); outline: none; cursor: pointer; }
+.sel select:focus { border-color: var(--brand); }
+.sel .chev { position: absolute; right: 12px; pointer-events: none; display: block; }
+.search { position: relative; display: inline-flex; align-items: center; flex: 1 1 280px; max-width: 420px; }
+.search .inp { width: 100%; padding-left: 40px; }
+.search svg { position: absolute; left: 12px; pointer-events: none; }
+
+/* ── 테이블 ── */
+.tw { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-lg); }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+thead th { height: 44px; padding: 0 var(--sp-4); background: var(--surface);
+           font-size: 13px; font-weight: 600; color: var(--ink-500); text-align: left; white-space: nowrap;
+           border-bottom: 1px solid var(--line); }
+tbody td { height: 52px; padding: 0 var(--sp-4); border-bottom: 1px solid var(--line);
+           color: var(--ink-700); white-space: nowrap; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr.clickable { cursor: pointer; }
+tbody tr.clickable:hover td { background: var(--surface); }
+tbody tr[aria-selected="true"] td { background: var(--brand-050); }
+th.r, td.r { text-align: right; font-variant-numeric: tabular-nums; }
+td.nm { max-width: 260px; overflow: hidden; text-overflow: ellipsis; font-weight: 600; color: var(--ink-900); }
+td.rk { width: 44px; color: var(--ink-500); font-variant-numeric: tabular-nums; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: var(--sp-8); }
+
+/* ── 대표 숫자 카드 ── */
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--sp-6); }
+.kpi { display: flex; flex-direction: column; gap: var(--sp-1); }
+.kpi .kl { font-size: 13px; font-weight: 600; color: var(--ink-500); }
+.kpi .kv { font-size: 32px; line-height: 1.25; font-weight: 700; letter-spacing: -.02em;
+           color: var(--ink-900); font-variant-numeric: tabular-nums; }
+.kpi .ks { font-size: 13px; font-weight: 500; color: var(--ink-500); font-variant-numeric: tabular-nums; }
+
+/* ── 빈 상태 ── */
+.empty { padding: var(--sp-12) var(--sp-6); text-align: center; color: var(--ink-500);
+         background: var(--surface); border-radius: var(--r-lg); }
+.empty .et { font-size: 17px; font-weight: 600; color: var(--ink-900); margin-bottom: var(--sp-2); }
+
+.notes { display: flex; flex-direction: column; gap: var(--sp-3); }
+.note { display: flex; gap: var(--sp-3); padding: var(--sp-4) var(--sp-6);
+        border-radius: var(--r-md); font-size: 14px; line-height: 1.6; }
+.note-warn { background: var(--warning-bg); color: var(--warning); }
+.note-info { background: var(--info-bg); color: var(--info); }
+.note b { font-weight: 700; }
+
+.chart { width: 100%; }
+.legend { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-6); font-size: 13px;
+          font-weight: 500; color: var(--ink-500); }
+.legend span { display: inline-flex; align-items: center; gap: var(--sp-2); }
+.legend i { width: 12px; height: 12px; border-radius: 2px; display: block; }
+
+.det { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-12); }
+.pill { display:inline-flex; align-items:center; height:24px; padding:0 10px; border-radius: var(--r-full);
+        background: var(--sunken); color: var(--ink-500); font-size: 12px; font-weight: 600; }
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; }
+  aside { position: static; max-height: none; flex-direction: row; flex-wrap: wrap; gap: var(--sp-4);
+          padding: var(--sp-4) 0; }
+  nav { flex-direction: row; flex-wrap: wrap; width: 100%; }
+  .grp { flex-direction: row; flex-wrap: wrap; }
+  .grp > .gl { display: none; }
+  .nbtn { width: auto; border-left: 0; border-bottom: 3px solid transparent; }
+  .nbtn[aria-selected="true"] { border-left: 0; border-bottom-color: var(--brand); }
+  .sidefoot { display: none; }
+  .page { padding: var(--sp-6) var(--sp-4) var(--sp-16); }
+  .view { gap: var(--sp-12); }
+}
+</style>
+
+<div class="shell">
+  <aside>
+    <div class="brand">
+      <span class="nm">건물별 이용현황</span>
+      <span class="t-cap" id="brandSub">불러오는 중</span>
+    </div>
+    <nav role="tablist" aria-label="화면 선택">
+      <div class="grp">
+        <span class="gl">변동</span>
+        <button class="nbtn" role="tab" data-view="rank" aria-selected="true">
+          이용자 변동 순위<span class="v" id="navRank">-</span></button>
+        <button class="nbtn" role="tab" data-view="svc" aria-selected="false">
+          서비스 이용율 변동<span class="v" id="navSvc">-</span></button>
+      </div>
+      <div class="grp">
+        <span class="gl">조회</span>
+        <button class="nbtn" role="tab" data-view="browse" aria-selected="false">
+          건물 조회<span class="v" id="navBrowse">-</span></button>
+        <button class="nbtn" role="tab" data-view="trust" aria-selected="false">
+          데이터 신뢰도<span class="v" id="navTrust">-</span></button>
+      </div>
+    </nav>
+    <div class="sidefoot" id="sideFoot"></div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <div class="tb-left">
+        <div class="seg" id="axisSeg" role="tablist" aria-label="집계 축"></div>
+      </div>
+      <div class="tb-right">
+        <span class="stamp" id="stamp"></span>
+      </div>
+    </div>
+
+    <div class="page">
+      <!-- ① 이용자 변동 순위 -->
+      <section class="view" id="viewRank">
+        <h1 class="t-title">이용자 변동 순위</h1>
+        <div class="block">
+          <div class="filters">
+            <div class="fgroup">
+              <span class="flabel">비교 구간</span>
+              <span class="sel">
+                <select id="rankCur" aria-label="기준 구간"></select>
+                <svg class="chev" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M3.5 5.5L7 9l3.5-3.5" stroke="#4A4A52" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="flabel">vs</span>
+              <span class="sel">
+                <select id="rankPrev" aria-label="비교 구간"></select>
+                <svg class="chev" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M3.5 5.5L7 9l3.5-3.5" stroke="#4A4A52" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+            <div class="fgroup">
+              <span class="flabel">최소 표본</span>
+              <div class="seg" id="floorSeg" role="group" aria-label="최소 표본 하한"></div>
+            </div>
+          </div>
+          <p class="meta" id="rankMeta"></p>
+        </div>
+
+        <div class="two">
+          <div class="block">
+            <h2 class="t-section">상승 TOP 10</h2>
+            <p class="t-cap" id="capUp"></p>
+            <div class="tw" id="tblUp"></div>
+          </div>
+          <div class="block">
+            <h2 class="t-section">하락 BOTTOM 10</h2>
+            <p class="t-cap" id="capDown"></p>
+            <div class="tw" id="tblDown"></div>
+          </div>
+        </div>
+
+        <div class="two">
+          <div class="block">
+            <h2 class="t-section">이용 중단</h2>
+            <p class="t-cap">비교 구간에 하한 이상 쓰였는데 기준 구간 이용자가 0인 건물. 변동률로는 −100%라 순위에 섞이면 실제 하락 건물이 밀려난다.</p>
+            <div class="tw" id="tblStop"></div>
+          </div>
+          <div class="block">
+            <h2 class="t-section">신규 진입</h2>
+            <p class="t-cap">비교 구간 이용자가 0이었고 기준 구간에 하한 이상 쓴 건물. 신규 도입 또는 계측 시작 시점일 수 있다.</p>
+            <div class="tw" id="tblNew"></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <h2 class="t-section">도입했으나 트래픽 0</h2>
+          <p class="t-cap">도입현황에는 서비스가 켜져 있는데 GA에 이용 기록이 한 번도 없는 건물. 제품 문제가 아니라 온보딩 문제로 읽어야 하는 집단이다.</p>
+          <div class="tw" id="tblNoTraffic"></div>
+        </div>
+      </section>
+
+      <!-- ② 서비스 이용율 변동 -->
+      <section class="view" id="viewSvc" hidden>
+        <h1 class="t-title">서비스 이용율 변동</h1>
+        <div class="block">
+          <div class="filters">
+            <div class="fgroup">
+              <span class="flabel">서비스</span>
+              <span class="sel">
+                <select id="svcPick" aria-label="서비스 선택"></select>
+                <svg class="chev" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M3.5 5.5L7 9l3.5-3.5" stroke="#4A4A52" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+            <div class="fgroup">
+              <span class="flabel">비교 구간</span>
+              <span class="sel">
+                <select id="svcCur" aria-label="기준 월"></select>
+                <svg class="chev" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M3.5 5.5L7 9l3.5-3.5" stroke="#4A4A52" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="flabel">vs</span>
+              <span class="sel">
+                <select id="svcPrev" aria-label="비교 월"></select>
+                <svg class="chev" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M3.5 5.5L7 9l3.5-3.5" stroke="#4A4A52" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+          </div>
+          <div class="notes"><div class="note note-info" id="svcNote"></div></div>
+          <p class="meta" id="svcMeta"></p>
+        </div>
+        <div class="two">
+          <div class="block">
+            <h2 class="t-section">이용율 상승 TOP 10</h2>
+            <p class="t-cap">이용율 = 그 달 이 서비스를 쓴 사람 ÷ 그 건물 앱 이용자(MAU). 상주인원 기준 침투율이 아니다.</p>
+            <div class="tw" id="tblSvcUp"></div>
+          </div>
+          <div class="block">
+            <h2 class="t-section">이용율 하락 BOTTOM 10</h2>
+            <p class="t-cap">이용율 변동은 %p(퍼센트포인트)로 읽는다. 이용자수 변동과 방향이 다를 수 있다 — 이용자가 줄면 분모도 줄기 때문이다.</p>
+            <div class="tw" id="tblSvcDown"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ③ 건물 조회 -->
+      <section class="view" id="viewBrowse" hidden>
+        <h1 class="t-title">건물 조회</h1>
+        <div class="block">
+          <div class="filters">
+            <label class="search">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <circle cx="7" cy="7" r="4.5" stroke="#4A4A52" stroke-width="1.5"/>
+                <path d="M10.5 10.5L14 14" stroke="#4A4A52" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <input class="inp" id="q" type="search" placeholder="건물명 또는 건물ID 검색" aria-label="건물 검색">
+            </label>
+            <div class="fgroup">
+              <span class="flabel">정렬</span>
+              <span class="sel">
+                <select id="sortBy" aria-label="정렬 기준">
+                  <option value="cur">기준 구간 이용자 많은 순</option>
+                  <option value="pct">변동률 높은 순</option>
+                  <option value="pctAsc">변동률 낮은 순</option>
+                  <option value="svc">도입 서비스 많은 순</option>
+                  <option value="name">건물명</option>
+                </select>
+                <svg class="chev" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M3.5 5.5L7 9l3.5-3.5" stroke="#4A4A52" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+          </div>
+          <p class="meta" id="browseMeta"></p>
+        </div>
+        <div class="block">
+          <div class="tw" id="tblBrowse"></div>
+        </div>
+        <div id="detail"></div>
+      </section>
+
+      <!-- ④ 데이터 신뢰도 -->
+      <section class="view" id="viewTrust" hidden>
+        <h1 class="t-title">데이터 신뢰도</h1>
+        <div class="block">
+          <h2 class="t-section">이 화면을 읽기 전에</h2>
+          <div class="notes" id="trustNotes"></div>
+        </div>
+        <div class="block">
+          <h2 class="t-section">건물 귀속률</h2>
+          <p class="t-cap" id="covCap"></p>
+          <div class="card"><div class="chart" id="covChart"></div></div>
+        </div>
+        <div class="block">
+          <h2 class="t-section">축별 유효 범위</h2>
+          <p class="t-cap">축마다 계측 시작 시점과 대상 건물 집합이 다르다. 축을 바꾸면 비교 대상 건물 수도 바뀐다.</p>
+          <div class="tw" id="tblAxes"></div>
+        </div>
+        <div class="block">
+          <h2 class="t-section">도입현황 조인</h2>
+          <p class="t-cap" id="joinCap"></p>
+          <div class="tw" id="tblJoin"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<script id="snapshot" type="application/json">{}</script>
+<script>
+(function () {
+  'use strict';
+
+  // ── 상태 ────────────────────────────────────────────────────────
+  var D = null;                  // buildings.json
+  var BY = {};                   // code -> building
+  var S = { view: 'rank', axis: 'mau', floor: 30, cur: '', prev: '',
+            svc: '', svcCur: '', svcPrev: '', q: '', sort: 'cur', pick: null };
+
+  var AXES = ['mau', 'wau', 'dau'];
+  var UNIT = { mau: '월', wau: '주', dau: '일' };
+
+  // ── 유틸 ────────────────────────────────────────────────────────
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, txt) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (txt != null) n.textContent = txt;
+    return n;
+  }
+  function nf(n) { return (n == null) ? '-' : Number(n).toLocaleString('ko-KR'); }
+  function pct(cur, prev) {
+    if (!prev) return null;                 // 0 나눗셈은 변동률이 정의되지 않는다
+    return (cur - prev) / prev * 100;
+  }
+  function fmtPct(v, digits) {
+    if (v == null) return '-';
+    var d = (digits == null) ? 1 : digits;
+    // 삼각형 대신 부호. 음수는 하이픈이 아니라 마이너스 기호를 쓴다.
+    return (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(d) + '%';
+  }
+  function fmtPp(v) {
+    if (v == null) return '-';
+    return (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(1) + '%p';
+  }
+  function signCls(v) { return v == null ? 'zero' : v > 0 ? 'pos' : v < 0 ? 'neg' : 'zero'; }
+  function esc(s) { return String(s == null ? '' : s); }
+
+  // 축 값 꺼내기. [au, s, pv] 형태로 저장돼 있다.
+  function val(b, axis, period, i) {
+    var row = (b[axis] || {})[period];
+    return row ? row[i || 0] : 0;
+  }
+  function has(b, axis, period) { return !!(b[axis] || {})[period]; }
+
+  function label(axis, period) {
+    if (!period) return '-';
+    if (axis === 'mau') return period;                       // 2026-08
+    if (axis === 'dau') return period.slice(5).replace('-', '/');  // 08/23
+    var wd = ((D.meta.week_dates || {})[period]) || {};      // 주 -> 날짜 범위
+    if (wd.from) {
+      var f = wd.from.slice(5).replace('-', '/');
+      var t = (wd.to || '').slice(5).replace('-', '/');
+      return f + '~' + t;
+    }
+    return period;
+  }
+  function name(b) { return b.n || ('미분류 ' + b.c); }
+
+  // ── 데이터 적재 ─────────────────────────────────────────────────
+  function boot(data) {
+    D = data;
+    BY = {};
+    (D.buildings || []).forEach(function (b) { BY[b.c] = b; });
+
+    // 기본 축은 완결 구간이 2개 이상 있는 첫 축. DAU 만 있고 MAU 가 비는
+    // 경우는 없지만, 수집이 부분적으로 실패한 상태에서도 화면이 떠야 한다.
+    S.axis = AXES.filter(function (a) { return complete(a).length >= 2; })[0] || 'mau';
+    S.floor = D.meta.floor_default || 30;
+    resetPeriods();
+
+    var sm = (D.meta.svc_axis || {}).complete || [];
+    S.svcCur = sm[sm.length - 1] || '';
+    S.svcPrev = sm[sm.length - 2] || '';
+    S.svc = (D.meta.svc_axis || {}).screens_default
+         || ((D.meta.svc_axis || {}).screens || [])[0] || '';
+
+    renderShell();
+    renderAll();
+  }
+
+  function complete(axis) { return ((D.meta.axes || {})[axis] || {}).complete || []; }
+
+  // 기본 비교 상대를 정한다.
+  //
+  // DAU 는 직전 '하루'와 비교하면 안 된다. 일요일 → 월요일이 되는 순간 전 건물이
+  // +400~1200% 로 뜨고, 요일 편차가 실제 변동을 통째로 삼킨다(실측으로 확인).
+  // 그래서 일 축의 기본 상대는 7일 전 = 같은 요일이다. 롤링 WAU 가 존재하는
+  // 이유와 같은 이유다 — 창의 요일 구성을 맞춰야 비교가 성립한다.
+  // 월·주 축은 구간 자체가 요일을 포함하므로 직전 구간이 맞다.
+  var LAG = { mau: 1, wau: 1, dau: 7 };
+
+  function resetPeriods() {
+    var c = complete(S.axis);
+    S.cur = c[c.length - 1] || '';
+    var lag = LAG[S.axis] || 1;
+    S.prev = c[c.length - 1 - lag] || c[c.length - 2] || '';
+  }
+
+  // ── 순위 계산 ───────────────────────────────────────────────────
+  // 여기서 하한을 적용하는 대상은 '직전 구간' 값이다. 기준 구간에 걸면
+  // 급감한 건물이 표본 부족으로 탈락해 하락 순위가 비어 버린다.
+  function ranked() {
+    var axis = S.axis, cur = S.cur, prev = S.prev, floor = S.floor;
+    var moved = [], stopped = [], entered = [];
+    (D.buildings || []).forEach(function (b) {
+      if (!has(b, axis, cur) && !has(b, axis, prev)) return;   // 이 축의 대상 집합 밖
+      var c = val(b, axis, cur), p = val(b, axis, prev);
+      if (p >= floor && c === 0) { stopped.push({ b: b, c: c, p: p }); return; }
+      if (p === 0 && c >= floor) { entered.push({ b: b, c: c, p: p }); return; }
+      if (p < floor) return;
+      moved.push({ b: b, c: c, p: p, pct: pct(c, p),
+                   pvc: c ? val(b, axis, cur, 2) / c : 0,
+                   pvp: p ? val(b, axis, prev, 2) / p : 0 });
+    });
+    moved.sort(function (x, y) { return y.pct - x.pct; });
+    stopped.sort(function (x, y) { return y.p - x.p; });
+    entered.sort(function (x, y) { return y.c - x.c; });
+    return { moved: moved, stopped: stopped, entered: entered };
+  }
+
+  // 서비스 이용율. 분모는 그 건물의 그 달 MAU — 상주인원이 아니다.
+  function svcRanked() {
+    var sc = S.svc, cur = S.svcCur, prev = S.svcPrev, floor = S.floor;
+    var out = [];
+    (D.buildings || []).forEach(function (b) {
+      var mc = val(b, 'mau', cur), mp = val(b, 'mau', prev);
+      if (mp < floor || mc < floor) return;   // 분모가 작으면 비율이 튄다 — 양쪽에 하한
+      var u = b.svc_use || {};
+      var uc = ((u[sc] || {})[cur]) || 0, up = ((u[sc] || {})[prev]) || 0;
+      if (!uc && !up) return;                 // 이 건물은 이 서비스를 안 쓴다
+      var rc = uc / mc * 100, rp = up / mp * 100;
+      out.push({ b: b, uc: uc, up: up, mc: mc, mp: mp, rc: rc, rp: rp, dp: rc - rp });
+    });
+    out.sort(function (x, y) { return y.dp - x.dp; });
+    return out;
+  }
+
+  // ── 셸 렌더 ─────────────────────────────────────────────────────
+  function renderShell() {
+    // 축 토글. 완결 구간이 2개 미만인 축은 비교가 불가능하므로 비활성.
+    var seg = $('axisSeg');
+    seg.textContent = '';
+    AXES.forEach(function (a) {
+      var ax = (D.meta.axes || {})[a] || {};
+      var ok = complete(a).length >= 2;
+      var btn = el('button', null, ax.label || a.toUpperCase());
+      btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-selected', String(a === S.axis));
+      if (!ok) { btn.disabled = true; btn.title = '완결 구간이 2개 미만 — 수집 대기'; }
+      btn.onclick = function () {
+        if (!ok) return;
+        S.axis = a; resetPeriods(); S.pick = null;
+        renderShell(); renderAll();
+      };
+      seg.appendChild(btn);
+    });
+
+    var fseg = $('floorSeg');
+    fseg.textContent = '';
+    (D.meta.floor_options || [30]).forEach(function (f) {
+      var btn = el('button', null, nf(f) + '명+');
+      btn.setAttribute('aria-selected', String(f === S.floor));
+      btn.onclick = function () { S.floor = f; renderShell(); renderAll(); };
+      fseg.appendChild(btn);
+    });
+
+    document.querySelectorAll('.nbtn').forEach(function (n) {
+      n.setAttribute('aria-selected', String(n.dataset.view === S.view));
+      n.onclick = function () { S.view = n.dataset.view; renderShell(); renderAll(); };
+    });
+    ['rank', 'svc', 'browse', 'trust'].forEach(function (v) {
+      $('view' + v[0].toUpperCase() + v.slice(1)).hidden = (v !== S.view);
+    });
+
+    $('stamp').innerHTML = '기준 <b>' + esc(D.meta.csv_date || '-') + '</b> 수집 · 갱신 <b>'
+      + esc((D.generated_at || '').slice(0, 16).replace('T', ' ')) + '</b>';
+    $('brandSub').textContent = 'GA4 building_id 기준';
+
+    var j = D.meta.join || {};
+    $('sideFoot').innerHTML = '도입현황 스냅샷 ' + esc(D.meta.snapshot_date || '-')
+      + '<br>건물명 조인 ' + nf(j.joined) + '곳 (' + esc(j.join_rate) + '%)';
+  }
+
+  function renderAll() {
+    if (S.view === 'rank') renderRank();
+    if (S.view === 'svc') renderSvc();
+    if (S.view === 'browse') renderBrowse();
+    if (S.view === 'trust') renderTrust();
+    renderNav();
+  }
+
+  function renderNav() {
+    var r = ranked();
+    $('navRank').textContent = nf(r.moved.length) + '곳';
+    $('navSvc').textContent = ((D.meta.svc_axis || {}).screens || []).length + '종';
+    $('navBrowse').textContent = nf((D.buildings || []).length) + '곳';
+    var cov = (D.meta.coverage || {});
+    $('navTrust').textContent = (cov.rate != null ? cov.rate + '%' : '-');
+  }
+
+  // ── 구간 선택 ───────────────────────────────────────────────────
+  function fillPeriods(selEl, axis, value, onChange) {
+    selEl.textContent = '';
+    complete(axis).slice().reverse().forEach(function (p) {
+      var o = el('option', null, label(axis, p));
+      o.value = p;
+      if (p === value) o.selected = true;
+      selEl.appendChild(o);
+    });
+    selEl.onchange = function () { onChange(selEl.value); };
+  }
+
+  // ── ① 이용자 변동 순위 ──────────────────────────────────────────
+  function renderRank() {
+    fillPeriods($('rankCur'), S.axis, S.cur, function (v) { S.cur = v; renderAll(); });
+    fillPeriods($('rankPrev'), S.axis, S.prev, function (v) { S.prev = v; renderAll(); });
+
+    var r = ranked();
+    var ax = (D.meta.axes || {})[S.axis] || {};
+    var pool = (D.buildings || []).filter(function (b) {
+      return has(b, S.axis, S.cur) || has(b, S.axis, S.prev);
+    }).length;
+
+    $('rankMeta').innerHTML =
+      '기준 <b>' + esc(label(S.axis, S.cur)) + '</b> vs <b>' + esc(label(S.axis, S.prev)) + '</b>'
+      + ' · 이 축 대상 건물 <b>' + nf(pool) + '</b>곳'
+      + ' · 하한 통과 <b>' + nf(r.moved.length) + '</b>곳'
+      + ' · 이용 중단 <b>' + nf(r.stopped.length) + '</b>곳'
+      + ' · 신규 진입 <b>' + nf(r.entered.length) + '</b>곳'
+      + (ax.partial ? ' · 진행중 <b>' + esc(label(S.axis, ax.partial)) + '</b> 는 판정에서 제외' : '');
+
+    var u = UNIT[S.axis];
+    var dow = S.axis === 'dau'
+      ? ' 일 축은 기본값을 7일 전(같은 요일)으로 둔다 — 직전 하루와 비교하면 주말·평일 차이가 실제 변동을 삼킨다.'
+      : '';
+    $('capUp').textContent = '비교 ' + u + ' 이용자 ' + nf(S.floor)
+      + '명 이상인 건물만. 하한이 없으면 1명→3명 건물이 +200%로 1위에 온다.' + dow;
+    $('capDown').textContent = '같은 하한. 이용자수가 줄어도 남은 사람이 더 많이 쓰면 PV/인은 오를 수 있어 함께 본다.';
+
+    moveTable($('tblUp'), r.moved.slice(0, 10), 'up');
+    moveTable($('tblDown'), r.moved.slice().reverse().slice(0, 10), 'down');
+    stopTable($('tblStop'), r.stopped.slice(0, 10), 'p');
+    stopTable($('tblNew'), r.entered.slice(0, 10), 'c');
+    noTrafficTable();
+  }
+
+  function tableEl(head) {
+    var t = el('table'), thead = el('thead'), tr = el('tr');
+    head.forEach(function (h) {
+      var th = el('th', h.r ? 'r' : null, h.t);
+      if (h.w) th.style.width = h.w;
+      tr.appendChild(th);
+    });
+    thead.appendChild(tr); t.appendChild(thead);
+    t.appendChild(el('tbody'));
+    return t;
+  }
+  function emptyBox(title, body) {
+    var d = el('div', 'empty');
+    d.appendChild(el('div', 'et', title));
+    d.appendChild(el('div', null, body));
+    return d;
+  }
+
+  function moveTable(host, rows, dir) {
+    host.textContent = '';
+    if (!rows.length) {
+      host.appendChild(emptyBox('해당 건물이 없습니다',
+        '최소 표본 하한을 ' + nf(S.floor) + '명보다 낮추면 대상이 늘어납니다.'));
+      return;
+    }
+    var u = UNIT[S.axis];
+    var t = tableEl([{ t: '', w: '44px' }, { t: '건물' }, { t: '도입', r: 1 },
+                     { t: '비교 ' + u, r: 1 }, { t: '기준 ' + u, r: 1 },
+                     { t: '변동', r: 1 }, { t: '변동률', r: 1 }, { t: 'PV/인', r: 1 }]);
+    var tb = t.querySelector('tbody');
+    rows.forEach(function (r, i) {
+      var tr = el('tr', 'clickable');
+      tr.onclick = function () { S.view = 'browse'; S.pick = r.b.c; renderShell(); renderAll(); };
+      tr.appendChild(el('td', 'rk', String(i + 1)));
+      var nd = el('td', 'nm', name(r.b)); nd.title = name(r.b) + ' (' + r.b.c + ')';
+      tr.appendChild(nd);
+      tr.appendChild(el('td', 'r', r.b.svc ? nf(r.b.svc) : '-'));
+      tr.appendChild(el('td', 'r', nf(r.p)));
+      tr.appendChild(el('td', 'r', nf(r.c)));
+      var dv = r.c - r.p;
+      var dd = el('td', 'r ' + signCls(dv), (dv > 0 ? '+' : dv < 0 ? '−' : '') + nf(Math.abs(dv)));
+      tr.appendChild(dd);
+      var pd = el('td', 'r ' + signCls(r.pct), fmtPct(r.pct));
+      pd.style.fontWeight = '600';
+      tr.appendChild(pd);
+      tr.appendChild(el('td', 'r', r.pvp.toFixed(1) + ' → ' + r.pvc.toFixed(1)));
+      tb.appendChild(tr);
+    });
+    host.appendChild(t);
+  }
+
+  function stopTable(host, rows, key) {
+    host.textContent = '';
+    if (!rows.length) {
+      host.appendChild(emptyBox('해당 건물이 없습니다',
+        '기준 구간과 직전 구간 모두 이용 기록이 있는 건물만 있습니다.'));
+      return;
+    }
+    var u = UNIT[S.axis];
+    var t = tableEl([{ t: '건물' }, { t: '도입', r: 1 },
+                     { t: '비교 ' + u, r: 1 }, { t: '기준 ' + u, r: 1 }]);
+    var tb = t.querySelector('tbody');
+    rows.forEach(function (r) {
+      var tr = el('tr', 'clickable');
+      tr.onclick = function () { S.view = 'browse'; S.pick = r.b.c; renderShell(); renderAll(); };
+      var nd = el('td', 'nm', name(r.b)); nd.title = name(r.b) + ' (' + r.b.c + ')';
+      tr.appendChild(nd);
+      tr.appendChild(el('td', 'r', r.b.svc ? nf(r.b.svc) : '-'));
+      tr.appendChild(el('td', 'r' + (key === 'p' ? ' neg' : ''), nf(r.p)));
+      tr.appendChild(el('td', 'r' + (key === 'c' ? ' pos' : ''), nf(r.c)));
+      tb.appendChild(tr);
+    });
+    host.appendChild(t);
+  }
+
+  function noTrafficTable() {
+    var host = $('tblNoTraffic');
+    host.textContent = '';
+    var j = D.meta.join || {};
+    var list = j.no_traffic || [];
+    if (!list.length) {
+      host.appendChild(emptyBox('해당 건물이 없습니다', '도입현황의 모든 건물에 이용 기록이 있습니다.'));
+      return;
+    }
+    var t = tableEl([{ t: '건물ID' }, { t: '상태' }]);
+    var tb = t.querySelector('tbody');
+    list.slice(0, 100).forEach(function (c) {
+      var tr = el('tr');
+      tr.appendChild(el('td', 'nm', c));
+      var td = el('td');
+      var badge = el('span', 'badge badge-wait', '이용 기록 없음');
+      td.appendChild(badge);
+      tr.appendChild(td);
+      tb.appendChild(tr);
+    });
+    host.appendChild(t);
+    var cap = el('p', 't-cap', '총 ' + nf(j.no_traffic_n) + '곳'
+      + (list.length > 100 ? ' 중 100곳 표시' : '')
+      + '. 건물명은 도입현황 스냅샷에만 있어 GA 조인 대상이 아니다.');
+    cap.style.padding = '12px 16px';
+    host.appendChild(cap);
+  }
+
+  // ── ② 서비스 이용율 변동 ────────────────────────────────────────
+  function renderSvc() {
+    var sa = D.meta.svc_axis || {};
+    var screens = sa.screens || [];
+    var months = sa.complete || [];
+
+    var sp = $('svcPick');
+    sp.textContent = '';
+    screens.forEach(function (s) {
+      var o = el('option', null, s); o.value = s;
+      if (s === S.svc) o.selected = true;
+      sp.appendChild(o);
+    });
+    sp.onchange = function () { S.svc = sp.value; renderAll(); };
+
+    function fillM(selEl, v, set) {
+      selEl.textContent = '';
+      months.slice().reverse().forEach(function (m) {
+        var o = el('option', null, m); o.value = m;
+        if (m === v) o.selected = true;
+        selEl.appendChild(o);
+      });
+      selEl.onchange = function () { set(selEl.value); renderAll(); };
+    }
+    fillM($('svcCur'), S.svcCur, function (v) { S.svcCur = v; });
+    fillM($('svcPrev'), S.svcPrev, function (v) { S.svcPrev = v; });
+
+    $('svcNote').innerHTML = '<span><b>월 축만 있습니다.</b> 화면×건물 교차는 상위 40개 건물 · 월 단위로만 '
+      + '수집됩니다(' + esc(months[0] || '-') + '~' + esc(months[months.length - 1] || '-')
+      + '). 주·일 축으로 서비스를 보려면 <code>ga4_screen_building_weekly</code> 수집을 먼저 추가해야 합니다.</span>';
+
+    if (!screens.length || months.length < 2) {
+      $('svcMeta').textContent = '';
+      $('tblSvcUp').textContent = ''; $('tblSvcDown').textContent = '';
+      $('tblSvcUp').appendChild(emptyBox('수집 대기',
+        '화면×건물 교차 데이터가 2개월 이상 모이면 변동을 판정할 수 있습니다.'));
+      return;
+    }
+
+    var rows = svcRanked();
+    $('svcMeta').innerHTML = '서비스 <b>' + esc(S.svc) + '</b> · 기준 <b>' + esc(S.svcCur)
+      + '</b> vs <b>' + esc(S.svcPrev) + '</b> · 양쪽 월 MAU ' + nf(S.floor)
+      + '명 이상 건물 <b>' + nf(rows.length) + '</b>곳';
+
+    svcTable($('tblSvcUp'), rows.slice(0, 10));
+    svcTable($('tblSvcDown'), rows.slice().reverse().slice(0, 10));
+  }
+
+  function svcTable(host, rows) {
+    host.textContent = '';
+    if (!rows.length) {
+      host.appendChild(emptyBox('해당 건물이 없습니다',
+        '이 서비스를 두 달 중 한 번이라도 쓴 건물이 없거나, 하한 ' + nf(S.floor) + '명을 넘는 건물이 없습니다.'));
+      return;
+    }
+    var t = tableEl([{ t: '', w: '44px' }, { t: '건물' },
+                     { t: S.svcPrev + ' 이용율', r: 1 }, { t: S.svcCur + ' 이용율', r: 1 },
+                     { t: '변동', r: 1 }, { t: '이용자', r: 1 }, { t: '건물 MAU', r: 1 }]);
+    var tb = t.querySelector('tbody');
+    rows.forEach(function (r, i) {
+      var tr = el('tr', 'clickable');
+      tr.onclick = function () { S.view = 'browse'; S.pick = r.b.c; renderShell(); renderAll(); };
+      tr.appendChild(el('td', 'rk', String(i + 1)));
+      var nd = el('td', 'nm', name(r.b)); nd.title = name(r.b) + ' (' + r.b.c + ')';
+      tr.appendChild(nd);
+      tr.appendChild(el('td', 'r', r.rp.toFixed(1) + '%'));
+      tr.appendChild(el('td', 'r', r.rc.toFixed(1) + '%'));
+      var dd = el('td', 'r ' + signCls(r.dp), fmtPp(r.dp));
+      dd.style.fontWeight = '600';
+      tr.appendChild(dd);
+      tr.appendChild(el('td', 'r', nf(r.up) + ' → ' + nf(r.uc)));
+      tr.appendChild(el('td', 'r', nf(r.mp) + ' → ' + nf(r.mc)));
+      tb.appendChild(tr);
+    });
+    host.appendChild(t);
+  }
+
+  // ── ③ 건물 조회 ────────────────────────────────────────────────
+  function renderBrowse() {
+    var qi = $('q');
+    if (qi.value !== S.q) qi.value = S.q;
+    qi.oninput = function () { S.q = qi.value; renderBrowse(); };
+    var sb = $('sortBy');
+    sb.value = S.sort;
+    sb.onchange = function () { S.sort = sb.value; renderBrowse(); };
+
+    var q = S.q.trim().toLowerCase();
+    var list = (D.buildings || []).filter(function (b) {
+      if (!q) return true;
+      return name(b).toLowerCase().indexOf(q) >= 0 || b.c.toLowerCase().indexOf(q) >= 0;
+    }).map(function (b) {
+      var c = val(b, S.axis, S.cur), p = val(b, S.axis, S.prev);
+      return { b: b, c: c, p: p, pct: pct(c, p) };
+    });
+
+    var cmp = {
+      cur: function (x, y) { return y.c - x.c; },
+      pct: function (x, y) { return (y.pct == null ? -1e9 : y.pct) - (x.pct == null ? -1e9 : x.pct); },
+      pctAsc: function (x, y) { return (x.pct == null ? 1e9 : x.pct) - (y.pct == null ? 1e9 : y.pct); },
+      svc: function (x, y) { return y.b.svc - x.b.svc; },
+      name: function (x, y) { return name(x.b).localeCompare(name(y.b), 'ko'); }
+    }[S.sort];
+    list.sort(cmp);
+
+    $('browseMeta').innerHTML = '검색 결과 <b>' + nf(list.length) + '</b>곳 · 축 <b>'
+      + esc(((D.meta.axes || {})[S.axis] || {}).label || S.axis) + '</b> · 기준 <b>'
+      + esc(label(S.axis, S.cur)) + '</b> vs <b>' + esc(label(S.axis, S.prev)) + '</b>'
+      + ' · 행을 누르면 상세가 열립니다';
+
+    var host = $('tblBrowse');
+    host.textContent = '';
+    if (!list.length) {
+      host.appendChild(emptyBox('검색 결과가 없습니다', '건물명 일부 또는 건물ID(TG_·BD_)로 다시 검색해 보세요.'));
+      $('detail').textContent = '';
+      return;
+    }
+    var u = UNIT[S.axis];
+    var t = tableEl([{ t: '건물' }, { t: '건물ID' }, { t: '도입 서비스', r: 1 },
+                     { t: '비교 ' + u, r: 1 }, { t: '기준 ' + u, r: 1 },
+                     { t: '변동률', r: 1 }, { t: 'PV/인', r: 1 }]);
+    var tb = t.querySelector('tbody');
+    list.slice(0, 200).forEach(function (r) {
+      var tr = el('tr', 'clickable');
+      tr.setAttribute('aria-selected', String(S.pick === r.b.c));
+      tr.onclick = function () { S.pick = (S.pick === r.b.c) ? null : r.b.c; renderBrowse(); };
+      var nd = el('td', 'nm', name(r.b)); nd.title = name(r.b);
+      tr.appendChild(nd);
+      tr.appendChild(el('td', null, r.b.c));
+      tr.appendChild(el('td', 'r', r.b.svc ? nf(r.b.svc) : '-'));
+      tr.appendChild(el('td', 'r', r.p ? nf(r.p) : '-'));
+      tr.appendChild(el('td', 'r', r.c ? nf(r.c) : '-'));
+      tr.appendChild(el('td', 'r ' + signCls(r.pct), fmtPct(r.pct)));
+      tr.appendChild(el('td', 'r', r.c ? (val(r.b, S.axis, S.cur, 2) / r.c).toFixed(1) : '-'));
+      tb.appendChild(tr);
+    });
+    host.appendChild(t);
+    if (list.length > 200) {
+      var cap = el('p', 't-cap', '상위 200곳 표시. 검색으로 좁혀 보세요.');
+      cap.style.padding = '12px 16px';
+      host.appendChild(cap);
+    }
+    renderDetail();
+  }
+
+  function renderDetail() {
+    var host = $('detail');
+    host.textContent = '';
+    if (!S.pick || !BY[S.pick]) return;
+    var b = BY[S.pick];
+    var wrap = el('div', 'det');
+
+    // 제목
+    var head = el('div', 'block');
+    var h = el('h2', 't-section', name(b));
+    head.appendChild(h);
+    var pills = el('div', 'meta');
+    pills.innerHTML = '건물ID <b>' + esc(b.c) + '</b> · 도입 일반서비스 <b>' + nf(b.svc)
+      + '</b>/' + nf(D.meta.n_gsvc) + '개'
+      + (b.n ? '' : ' · <b>도입현황 미조인</b> (스냅샷 이후 신규이거나 코드 불일치)');
+    head.appendChild(pills);
+    wrap.appendChild(head);
+
+    // 대표 숫자
+    var kb = el('div', 'block');
+    var card = el('div', 'card');
+    var kpis = el('div', 'kpis');
+    var c = val(b, S.axis, S.cur), p = val(b, S.axis, S.prev);
+    var pv = val(b, S.axis, S.cur, 2), se = val(b, S.axis, S.cur, 1);
+    kpis.appendChild(kpi(((D.meta.axes || {})[S.axis] || {}).label || S.axis,
+                         nf(c) + '명', label(S.axis, S.cur)));
+    var d = pct(c, p);
+    kpis.appendChild(kpi(label(S.axis, S.prev) + ' 대비', fmtPct(d),
+                         nf(p) + '명 → ' + nf(c) + '명', signCls(d)));
+    kpis.appendChild(kpi('PV/인', c ? (pv / c).toFixed(1) : '-', nf(pv) + ' PV'));
+    kpis.appendChild(kpi('세션/인', c ? (se / c).toFixed(2) : '-', nf(se) + ' 세션'));
+    card.appendChild(kpis);
+    kb.appendChild(card);
+    wrap.appendChild(kb);
+
+    // 시계열
+    var tb2 = el('div', 'block');
+    tb2.appendChild(el('h2', 't-section', '이용자 추이'));
+    var ax = (D.meta.axes || {})[S.axis] || {};
+    var caps = '완결 구간만 그린다.'
+      + (ax.partial ? ' 진행중 ' + label(S.axis, ax.partial) + ' 는 해치로 표시하고 판정에서 제외한다.' : '');
+    tb2.appendChild(el('p', 't-cap', caps));
+    var cc = el('div', 'card');
+    var ch = el('div', 'chart');
+    cc.appendChild(ch);
+    tb2.appendChild(cc);
+    wrap.appendChild(tb2);
+
+    // 불편신고 퍼널
+    var voc = b.voc || {};
+    var vm = Object.keys(voc).sort();
+    var vb = el('div', 'block');
+    vb.appendChild(el('h2', 't-section', '불편신고 처리'));
+    vb.appendChild(el('p', 't-cap',
+      '앱 내재화율 = 매니저 처리완료 ÷ 앱 접수. 1.0에 가까울수록 접수가 앱으로 들어온 것이고, '
+      + '크면 전화·현장·BO로 접수된 건을 앱에서 처리만 한 것이다. 값은 클릭 이벤트 수이므로 '
+      + '실제 신고 건수가 아니다 — 건물 간 비교에만 쓴다.'));
+    if (!vm.length) {
+      vb.appendChild(emptyBox('불편신고 퍼널 데이터가 없습니다',
+        '퍼널 교차는 상위 40개 건물만 수집합니다. 이 건물은 대상 밖입니다.'));
+    } else {
+      var vt = tableEl([{ t: '월' }, { t: '앱 접수', r: 1 }, { t: '접수확인', r: 1 },
+                        { t: '처리완료', r: 1 }, { t: '회신', r: 1 },
+                        { t: '회신율', r: 1 }, { t: '앱 내재화율', r: 1 }, { t: '만족도평가', r: 1 }]);
+      var vtb = vt.querySelector('tbody');
+      var svcPartial = (D.meta.svc_axis || {}).partial;
+      vm.forEach(function (m) {
+        var v = voc[m] || {};
+        var rc = v.receipt || 0, dn = v.done || 0, rp = v.reply || 0;
+        var tr = el('tr');
+        var md = el('td', null, m);
+        if (m === svcPartial) {
+          md.textContent = '';
+          md.appendChild(document.createTextNode(m + ' '));
+          md.appendChild(el('span', 'badge badge-wait', '진행중'));
+        }
+        tr.appendChild(md);
+        tr.appendChild(el('td', 'r', nf(rc)));
+        tr.appendChild(el('td', 'r', nf(v.ack || 0)));
+        tr.appendChild(el('td', 'r', nf(dn)));
+        tr.appendChild(el('td', 'r', nf(rp)));
+        tr.appendChild(el('td', 'r', rc ? (rp / rc * 100).toFixed(1) + '%' : '-'));
+        var it = el('td', 'r', rc ? (dn / rc).toFixed(2) : '-');
+        it.style.fontWeight = '600';
+        tr.appendChild(it);
+        tr.appendChild(el('td', 'r', nf(v.csat || 0)));
+        vtb.appendChild(tr);
+      });
+      var vw = el('div', 'tw'); vw.appendChild(vt);
+      vb.appendChild(vw);
+    }
+    wrap.appendChild(vb);
+
+    // 서비스 이용율
+    var su = b.svc_use || {};
+    var sks = Object.keys(su);
+    var sm = (D.meta.svc_axis || {}).complete || [];
+    var sb2 = el('div', 'block');
+    sb2.appendChild(el('h2', 't-section', '서비스 이용율'));
+    sb2.appendChild(el('p', 't-cap',
+      '분모는 그 달 이 건물의 앱 이용자(MAU)다. 상주인원 기준 침투율이 아니다 — '
+      + '건물마스터에 상주인원수가 채워지면 침투율로 바꿀 수 있다.'));
+    if (!sks.length || !sm.length) {
+      sb2.appendChild(emptyBox('서비스 교차 데이터가 없습니다',
+        '화면×건물 교차는 상위 40개 건물만 수집합니다. 이 건물은 대상 밖입니다.'));
+    } else {
+      var last = sm[sm.length - 1], prevM = sm[sm.length - 2];
+      var mc = val(b, 'mau', last), mp = val(b, 'mau', prevM);
+      var srows = sks.map(function (k) {
+        var uc = (su[k][last]) || 0, up = (su[k][prevM]) || 0;
+        return { k: k, uc: uc, up: up,
+                 rc: mc ? uc / mc * 100 : null, rp: mp ? up / mp * 100 : null };
+      }).filter(function (r) { return r.uc || r.up; });
+      srows.sort(function (x, y) { return y.uc - x.uc; });
+      var st = tableEl([{ t: '서비스(화면)' },
+                        { t: prevM + ' 이용율', r: 1 }, { t: last + ' 이용율', r: 1 },
+                        { t: '변동', r: 1 }, { t: '이용자', r: 1 }]);
+      var stb = st.querySelector('tbody');
+      srows.forEach(function (r) {
+        var tr = el('tr');
+        tr.appendChild(el('td', 'nm', r.k));
+        tr.appendChild(el('td', 'r', r.rp == null ? '-' : r.rp.toFixed(1) + '%'));
+        tr.appendChild(el('td', 'r', r.rc == null ? '-' : r.rc.toFixed(1) + '%'));
+        var dp = (r.rc == null || r.rp == null) ? null : r.rc - r.rp;
+        tr.appendChild(el('td', 'r ' + signCls(dp), fmtPp(dp)));
+        tr.appendChild(el('td', 'r', nf(r.up) + ' → ' + nf(r.uc)));
+        stb.appendChild(tr);
+      });
+      var sw = el('div', 'tw'); sw.appendChild(st);
+      sb2.appendChild(sw);
+      var mcap = el('p', 't-cap', '분모 건물 MAU: ' + prevM + ' ' + nf(mp) + '명 → '
+        + last + ' ' + nf(mc) + '명');
+      mcap.style.padding = '12px 16px';
+      sw.appendChild(mcap);
+    }
+    wrap.appendChild(sb2);
+
+    // 도입 카테고리 + 서비스 목록
+    var cats = b.cats || {};
+    var ck = Object.keys(cats);
+    var cch = null;
+    if (ck.length) {
+      var cb = el('div', 'block');
+      cb.appendChild(el('h2', 't-section', '도입 서비스 구성'));
+      cb.appendChild(el('p', 't-cap', '도입현황 스냅샷 ' + esc(D.meta.snapshot_date)
+        + ' 기준. 도입일 필드가 없어 기간 필터의 영향을 받지 않는다.'));
+      var cw = el('div', 'card');
+      cch = el('div', 'chart');
+      cw.appendChild(cch);
+      cb.appendChild(cw);
+
+      // 비트벡터를 이름으로 되돌린다. meta.gsvc 의 순서가 곧 인덱스다.
+      var gs = D.meta.gsvc || [], sc2 = D.meta.svc_cat || {};
+      var byCat = {};
+      (b.v || '').split('').forEach(function (ch, i) {
+        if (ch !== '1' || i >= gs.length) return;
+        var cat = sc2[gs[i]] || '기타';
+        (byCat[cat] = byCat[cat] || []).push(gs[i]);
+      });
+      var lw = el('div', 'tw');
+      var lt = tableEl([{ t: '카테고리', w: '180px' }, { t: '도입', r: 1, w: '72px' }, { t: '서비스' }]);
+      var ltb = lt.querySelector('tbody');
+      Object.keys(byCat).sort(function (x, y) { return byCat[y].length - byCat[x].length; })
+        .forEach(function (cat) {
+          var tr = el('tr');
+          tr.appendChild(el('td', 'nm', cat));
+          tr.appendChild(el('td', 'r', nf(byCat[cat].length)));
+          var td = el('td');
+          td.style.whiteSpace = 'normal';
+          td.style.lineHeight = '1.6';
+          td.textContent = byCat[cat].join(' · ');
+          tr.appendChild(td);
+          ltb.appendChild(tr);
+        });
+      lw.appendChild(lt);
+      cb.appendChild(lw);
+      wrap.appendChild(cb);
+    }
+    host.appendChild(wrap);
+    if (cch) {
+      barChart(cch, ck.map(function (k) { return { label: k, value: cats[k] }; }), { unit: '개' });
+    }
+
+    // 차트는 DOM 삽입 후에 그린다 (폭 측정 필요)
+    series(ch, b);
+  }
+
+  function kpi(l, v, s, cls) {
+    var d = el('div', 'kpi');
+    d.appendChild(el('span', 'kl', l));
+    var vv = el('span', 'kv' + (cls && cls !== 'zero' ? ' ' + cls : ''), v);
+    d.appendChild(vv);
+    d.appendChild(el('span', 'ks', s));
+    return d;
+  }
+
+  // ── 차트 ────────────────────────────────────────────────────────
+  // 규격: 막대 22px 이하 / 위쪽만 4px 라운드 / 격자 1px 실선 / 계열 1개면 색 1개
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  function svg(tag, attrs) {
+    var n = document.createElementNS(SVGNS, tag);
+    for (var k in attrs) if (attrs[k] != null) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+
+  function series(host, b) {
+    var ax = (D.meta.axes || {})[S.axis] || {};
+    var periods = (ax.periods || []).slice();
+    // 표본이 많은 축은 뒤쪽만 본다 — 61일 전체를 한 화면에 그리면 라벨이 겹친다.
+    var cap = { mau: 14, wau: 16, dau: 30 }[S.axis] || 14;
+    if (periods.length > cap) periods = periods.slice(-cap);
+    var pts = periods.map(function (p) {
+      return { label: label(S.axis, p), value: val(b, S.axis, p),
+               partial: p === ax.partial, key: p === S.cur };
+    });
+    if (!pts.length) {
+      host.appendChild(emptyBox('이 축에는 데이터가 없습니다',
+        '이 건물은 ' + (ax.label || S.axis) + ' 축의 대상 건물 집합에 없습니다.'));
+      return;
+    }
+    // 시점 12개 이하면 막대, 넘으면 선 (형태 규칙)
+    if (pts.length <= 12) barChart(host, pts, { unit: '명' });
+    else lineChart(host, pts, { unit: '명' });
+  }
+
+  function chartFrame(host, w, h) {
+    host.textContent = '';
+    var s = svg('svg', { viewBox: '0 0 ' + w + ' ' + h, width: '100%',
+                         height: h, role: 'img', preserveAspectRatio: 'xMidYMid meet' });
+    var defs = svg('defs');
+    var pat = svg('pattern', { id: 'hatch', width: 8, height: 8,
+                               patternTransform: 'rotate(45)', patternUnits: 'userSpaceOnUse' });
+    pat.appendChild(svg('rect', { width: 8, height: 8, fill: 'var(--sunken)' }));
+    pat.appendChild(svg('line', { x1: 0, y1: 0, x2: 0, y2: 8,
+                                  stroke: 'var(--data-ctx)', 'stroke-width': 2 }));
+    defs.appendChild(pat);
+    s.appendChild(defs);
+    host.appendChild(s);
+    return s;
+  }
+
+  function ticks(max) {
+    if (max <= 0) return [0];
+    var step = Math.pow(10, Math.floor(Math.log10(max)));
+    if (max / step < 2) step /= 5; else if (max / step < 5) step /= 2;
+    var out = [];
+    for (var v = step; v < max * 0.98; v += step) out.push(v);
+    return out.slice(-3);   // 눈금 3개. 0과 최대값은 적지 않는다
+  }
+
+  function barChart(host, pts, opt) {
+    var W = 1000, H = 280, L = 56, R = 16, T = 28, B = 44;
+    var iw = W - L - R, ih = H - T - B;
+    var s = chartFrame(host, W, H);
+    var max = Math.max.apply(null, pts.map(function (p) { return p.value; })) || 1;
+    var slot = iw / pts.length;
+    var bw = Math.min(22, slot * 0.5);
+    var y = function (v) { return T + ih - (v / max) * ih; };
+
+    ticks(max).forEach(function (t) {
+      s.appendChild(svg('line', { x1: L, y1: y(t), x2: W - R, y2: y(t),
+                                  stroke: 'var(--line)', 'stroke-width': 1 }));
+      var tx = svg('text', { x: L - 8, y: y(t) + 4, 'text-anchor': 'end',
+                             fill: 'var(--ink-500)', 'font-size': 12,
+                             'font-weight': 500, 'font-variant-numeric': 'tabular-nums' });
+      tx.textContent = nf(Math.round(t));
+      s.appendChild(tx);
+    });
+    s.appendChild(svg('line', { x1: L, y1: T + ih, x2: W - R, y2: T + ih,
+                                stroke: 'var(--line-strong)', 'stroke-width': 1 }));
+
+    var showVals = pts.length <= 10;
+    pts.forEach(function (p, i) {
+      var cx = L + slot * i + slot / 2;
+      var bh = Math.max(p.value > 0 ? 2 : 0, (p.value / max) * ih);
+      if (bh > 0) {
+        // 위쪽만 라운드. 바닥은 각지게 — 기준선에 붙어 있어야 한다.
+        var r = Math.min(4, bw / 2), x0 = cx - bw / 2, y0 = y(p.value), y1 = T + ih;
+        var d = 'M' + x0 + ' ' + y1 + 'V' + (y0 + r)
+              + 'a' + r + ' ' + r + ' 0 0 1 ' + r + ' ' + (-r)
+              + 'h' + (bw - 2 * r)
+              + 'a' + r + ' ' + r + ' 0 0 1 ' + r + ' ' + r
+              + 'V' + y1 + 'Z';
+        s.appendChild(svg('path', {
+          d: d,
+          fill: p.partial ? 'url(#hatch)' : (p.key ? 'var(--data-focus)' : 'var(--data-ctx)')
+        }));
+      }
+      if (showVals) {
+        var vt = svg('text', { x: cx, y: y(p.value) - 8, 'text-anchor': 'middle',
+                               fill: p.key ? 'var(--ink-900)' : 'var(--ink-500)',
+                               'font-size': 12, 'font-weight': p.key ? 600 : 500,
+                               'font-variant-numeric': 'tabular-nums' });
+        vt.textContent = nf(p.value);
+        s.appendChild(vt);
+      }
+      var lt = svg('text', { x: cx, y: H - 24, 'text-anchor': 'middle',
+                             fill: 'var(--ink-500)', 'font-size': 12, 'font-weight': 500 });
+      lt.textContent = p.label;
+      s.appendChild(lt);
+    });
+
+    legend(host, pts, opt);
+  }
+
+  function lineChart(host, pts, opt) {
+    var W = 1000, H = 280, L = 56, R = 16, T = 28, B = 44;
+    var iw = W - L - R, ih = H - T - B;
+    var s = chartFrame(host, W, H);
+    var max = Math.max.apply(null, pts.map(function (p) { return p.value; })) || 1;
+    var x = function (i) { return L + (pts.length === 1 ? iw / 2 : iw * i / (pts.length - 1)); };
+    var y = function (v) { return T + ih - (v / max) * ih; };
+
+    ticks(max).forEach(function (t) {
+      s.appendChild(svg('line', { x1: L, y1: y(t), x2: W - R, y2: y(t),
+                                  stroke: 'var(--line)', 'stroke-width': 1 }));
+      var tx = svg('text', { x: L - 8, y: y(t) + 4, 'text-anchor': 'end',
+                             fill: 'var(--ink-500)', 'font-size': 12,
+                             'font-weight': 500, 'font-variant-numeric': 'tabular-nums' });
+      tx.textContent = nf(Math.round(t));
+      s.appendChild(tx);
+    });
+    s.appendChild(svg('line', { x1: L, y1: T + ih, x2: W - R, y2: T + ih,
+                                stroke: 'var(--line-strong)', 'stroke-width': 1 }));
+
+    // 진행중 구간은 색이 아니라 해치 띠로 표시한다
+    var pi = pts.findIndex(function (p) { return p.partial; });
+    if (pi >= 0) {
+      var x0 = pi === 0 ? L : (x(pi) + x(pi - 1)) / 2;
+      s.appendChild(svg('rect', { x: x0, y: T, width: Math.max(0, W - R - x0), height: ih,
+                                  fill: 'url(#hatch)', opacity: .6 }));
+    }
+
+    var solid = pts.filter(function (p) { return !p.partial; });
+    var dd = solid.map(function (p, i) { return (i ? 'L' : 'M') + x(pts.indexOf(p)) + ' ' + y(p.value); }).join('');
+    s.appendChild(svg('path', { d: dd, fill: 'none', stroke: 'var(--data-key)',
+                                'stroke-width': 2, 'stroke-linejoin': 'round',
+                                'stroke-linecap': 'round' }));
+
+    // 끝점과 기준 구간만 점을 찍는다 — 전부 찍으면 선이 안 보인다
+    pts.forEach(function (p, i) {
+      if (!p.key && i !== pts.length - 1) return;
+      s.appendChild(svg('circle', { cx: x(i), cy: y(p.value), r: 4.5,
+                                    fill: p.key ? 'var(--data-focus)' : 'var(--data-key)',
+                                    stroke: 'var(--base)', 'stroke-width': 2 }));
+      var vt = svg('text', { x: x(i), y: y(p.value) - 12, 'text-anchor': 'middle',
+                             fill: 'var(--ink-900)', 'font-size': 12, 'font-weight': 600,
+                             'font-variant-numeric': 'tabular-nums' });
+      vt.textContent = nf(p.value);
+      s.appendChild(vt);
+    });
+
+    var every = Math.ceil(pts.length / 10);
+    pts.forEach(function (p, i) {
+      if (i % every !== 0 && i !== pts.length - 1) return;
+      var lt = svg('text', { x: x(i), y: H - 24, 'text-anchor': 'middle',
+                             fill: 'var(--ink-500)', 'font-size': 12, 'font-weight': 500 });
+      lt.textContent = p.label;
+      s.appendChild(lt);
+    });
+
+    legend(host, pts, opt);
+  }
+
+  function legend(host, pts, opt) {
+    var hasPartial = pts.some(function (p) { return p.partial; });
+    var hasKey = pts.some(function (p) { return p.key; });
+    if (!hasPartial && !hasKey) return;
+    var lg = el('div', 'legend');
+    lg.style.marginTop = '12px';
+    if (hasKey) {
+      lg.innerHTML += '<span><i style="background:var(--data-focus)"></i>기준 구간</span>';
+    }
+    if (hasPartial) {
+      lg.innerHTML += '<span><i style="background:var(--sunken);box-shadow:inset 0 0 0 1px var(--data-ctx)"></i>진행중 — 판정 제외</span>';
+    }
+    host.appendChild(lg);
+  }
+
+  // ── ④ 데이터 신뢰도 ────────────────────────────────────────────
+  function renderTrust() {
+    var cov = D.meta.coverage || {};
+    var j = D.meta.join || {};
+    var notes = $('trustNotes');
+    notes.textContent = '';
+
+    function note(cls, html) {
+      var n = el('div', 'note ' + cls);
+      var sp = el('span'); sp.innerHTML = html;
+      n.appendChild(sp);
+      notes.appendChild(n);
+    }
+    note('note-warn', '<b>건물 합계는 전체와 일치하지 않는다.</b> 최근 주('
+      + esc(cov.week) + ') 귀속률 ' + esc(cov.rate) + '% — 미귀속 '
+      + nf(cov.unattributed) + '명은 어느 건물에도 들어가지 않는다.');
+    note('note-warn', '<b>진행중 구간을 완결 구간과 비교하지 않는다.</b> 방향이 뒤집힌다. '
+      + '7일·30일 환산도 하지 않는다 — activeUsers는 중복 제거 지표라 일수에 비례하지 않는다.');
+    note('note-info', '<b>일별 값을 더해 WAU·MAU를 만들 수 없다.</b> 축마다 GA4에 다시 물어본 '
+      + '실측만 쓴다. 이 화면의 세 축은 각각 별도 조회 결과다.');
+    note('note-info', '<b>이용율의 분모는 앱 이용자다.</b> 상주인원수가 없어 침투율은 계산할 수 없다. '
+      + '건물마스터의 상주인원수가 채워지면 침투율 축을 추가할 수 있다.');
+    note('note-info', '<b>도입일이 없다.</b> 도입현황은 ' + esc(D.meta.snapshot_date)
+      + ' 스냅샷이고 도입일 필드가 없어, ‘도입 후 N개월’ 코호트 분석은 아직 불가능하다.');
+
+    $('covCap').textContent = '주별 building_id 귀속률. 2026-02부터 실질 계측이 시작됐고 최근 80% 안팎이다.';
+    var series2 = (cov.series || []).map(function (r) {
+      return { label: String(r.w).slice(4), value: r.rate, key: r.w === cov.week };
+    });
+    var covHost = $('covChart');
+    covHost.textContent = '';
+    if (series2.length > 12) lineChart(covHost, series2, { unit: '%' });
+    else if (series2.length) barChart(covHost, series2, { unit: '%' });
+    else covHost.appendChild(emptyBox('귀속률 데이터가 없습니다', 'ga4_building_coverage 수집을 확인하세요.'));
+
+    // 축별 유효 범위
+    var host = $('tblAxes');
+    host.textContent = '';
+    var t = tableEl([{ t: '축' }, { t: '범위' }, { t: '구간 수', r: 1 },
+                     { t: '진행중' }, { t: '비고' }]);
+    var tb = t.querySelector('tbody');
+    AXES.forEach(function (a) {
+      var ax = (D.meta.axes || {})[a] || {};
+      var ps = ax.periods || [];
+      var tr = el('tr');
+      tr.appendChild(el('td', 'nm', ax.label || a));
+      tr.appendChild(el('td', null, ps.length ? (label(a, ps[0]) + ' ~ ' + label(a, ps[ps.length - 1])) : '-'));
+      tr.appendChild(el('td', 'r', ps.length ? nf(ps.length) : '-'));
+      var pt = el('td');
+      if (ax.partial) pt.appendChild(el('span', 'badge badge-wait', label(a, ax.partial)));
+      else pt.textContent = '-';
+      tr.appendChild(pt);
+      var nd = el('td'); nd.style.whiteSpace = 'normal';
+      nd.textContent = ax.note || '-';
+      tr.appendChild(nd);
+      tb.appendChild(tr);
+    });
+    var sa = D.meta.svc_axis || {};
+    var tr2 = el('tr');
+    tr2.appendChild(el('td', 'nm', '서비스×건물 (월)'));
+    var sp2 = sa.periods || [];
+    tr2.appendChild(el('td', null, sp2.length ? (sp2[0] + ' ~ ' + sp2[sp2.length - 1]) : '-'));
+    tr2.appendChild(el('td', 'r', sp2.length ? nf(sp2.length) : '-'));
+    var pt2 = el('td');
+    if (sa.partial) pt2.appendChild(el('span', 'badge badge-wait', sa.partial));
+    else pt2.textContent = '-';
+    tr2.appendChild(pt2);
+    var nd2 = el('td'); nd2.style.whiteSpace = 'normal';
+    nd2.textContent = sa.note || '-';
+    tr2.appendChild(nd2);
+    tb.appendChild(tr2);
+    host.appendChild(t);
+
+    // 조인
+    $('joinCap').textContent = 'GA의 building_id 와 도입현황 스냅샷의 건물코드를 맞춘 결과. '
+      + '조인이 안 된 쪽을 숨기면 합계가 안 맞는 이유를 알 수 없어 그대로 노출한다.';
+    var jh = $('tblJoin');
+    jh.textContent = '';
+    var jt = tableEl([{ t: '구분' }, { t: '건물 수', r: 1 }, { t: '뜻' }]);
+    var jtb = jt.querySelector('tbody');
+    [['조인 성공', j.joined, '건물명과 도입 서비스를 함께 볼 수 있다'],
+     ['GA에만 있음', j.ga_only_n, '이용 기록은 있으나 스냅샷에 없다 — 스냅샷 이후 신규 도입이거나 코드 불일치'],
+     ['도입현황에만 있음', j.no_traffic_n, '서비스는 켜져 있으나 이용 기록이 없다 — 온보딩 대상']
+    ].forEach(function (r) {
+      var tr = el('tr');
+      tr.appendChild(el('td', 'nm', r[0]));
+      tr.appendChild(el('td', 'r', nf(r[1])));
+      var td = el('td'); td.style.whiteSpace = 'normal'; td.textContent = r[2];
+      tr.appendChild(td);
+      jtb.appendChild(tr);
+    });
+    jh.appendChild(jt);
+  }
+
+  // ── 부팅 ────────────────────────────────────────────────────────
+  function fail(msg) {
+    document.querySelector('.page').innerHTML =
+      '<div class="empty"><div class="et">데이터를 불러오지 못했습니다</div><div>'
+      + esc(msg) + '</div></div>';
+  }
+
+  function start() {
+    // 스냅샷 폴백: 외부 요청이 막힌 환경(로컬 파일·아티팩트)에서도 그린다.
+    var snap = {};
+    try { snap = JSON.parse($('snapshot').textContent || '{}'); } catch (e) { snap = {}; }
+
+    fetch('buildings.json', { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error('buildings.json ' + r.status); return r.json(); })
+      .then(function (d) { boot(d); })
+      .catch(function (e) {
+        if (snap && snap.buildings) { boot(snap); return; }
+        fail(String(e.message || e));
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
+  }
+})();
+</script>
+
+</body>
+</html>
