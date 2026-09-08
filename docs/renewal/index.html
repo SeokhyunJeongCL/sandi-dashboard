@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<meta name="generated-at" content="2026-09-07T23:17:55Z">
+<meta name="generated-at" content="2026-09-08T00:26:52Z">
 </head>
 <body>
 <style>
@@ -635,10 +635,14 @@ tr.total td .track i { background: var(--data-focus); }
                 't-base': ['기준 · 근거', '2025년 측정 기준 및 비교'], 't-diff': ['분석', '진보 · 퇴보'] };
   var VIEW = { 't-sum': 'v-sum', 't-mau': 'v-mau', 't-wau': 'v-wau',
                't-dau': 'v-dau', 't-base': 'v-base', 't-diff': 'v-diff' };
+  // 주 격자 앵커 요일 → 그 주의 마지막 요일. '화~월 7일' 처럼 구간을 적는 데 쓴다.
+  var WD_PREV = { '월': '일', '화': '월', '수': '화', '목': '수', '금': '목', '토': '금', '일': '토' };
 
   /* ── 포맷 ── */
   function n(v) { return (v === null || v === undefined) ? '-' : Number(v).toLocaleString('ko-KR'); }
   function sign(p) { return (p > 0 ? '+' : '') + p.toFixed(1) + '%'; }
+  // 두 증감률의 차. 부호는 방향을 말하는 낱말로 옮긴다 — '-0.7%p 아래'처럼 겹쳐 적지 않는다.
+  function gap(a, b) { return Math.abs(a - b).toFixed(1) + '%p ' + (a >= b ? '위' : '아래'); }
   function cls(p) { return p > 0 ? 'pos' : (p < 0 ? 'neg' : ''); }
   function md(iso) { var d = iso.split('-'); return Number(d[1]) + '/' + Number(d[2]); }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) {
@@ -827,19 +831,31 @@ tr.total td .track i { background: var(--data-focus); }
     var dau = D.axes.dau, mau = D.axes.mau, wau = D.axes.wau;
     var ratioPct = Math.round((D.okr.ratio - 1) * 100);
 
-    var verdict = '<div class="card">' +
-      '<h2 class="t-section">리뉴얼 이후 실측이 나온 축은 DAU 하나다. ' + D.okr.base_year +
-      '년 평일 평균보다 ' + dau.delta_pct.toFixed(1) + '% 위에 있다.</h2>' +
-      '<p style="margin-top:var(--sp-3); max-width:var(--w-text)">구 앱의 마지막 성적인 MAU ' +
-      sign(mau.delta_pct) + ', WAU ' + sign(wau.delta_pct) + '보다 ' +
-      (dau.delta_pct - Math.max(mau.delta_pct, wau.delta_pct)).toFixed(1) +
-      '%p 위다. 대규모 개편에서 흔한 초기 이탈은 없었다. 목표 +' + ratioPct + '%까지는 ' +
-      D.evidence.gap_pp.toFixed(1) + '%p 남았다. ' +
-      'MAU와 WAU는 리뉴얼만 담긴 완결 구간이 아직 없어 ' + md(mau.due) + '과 ' + md(wau.due) + '에 확정된다.</p></div>';
+    var newAxes = [['DAU', dau], ['WAU', wau], ['MAU', mau]].filter(function (o) { return o[1].phase === 'new'; });
+    // 확정 예정인 축만, 빠른 날짜부터. 완결된 축은 due 가 사라진다.
+    var waiting = [['MAU', mau], ['WAU', wau]].filter(function (o) { return o[1].due; })
+      .sort(function (x, y) { return x[1].due < y[1].due ? -1 : 1; });
+    var oldRef = wau.old_ref;
 
-    var steps = [{ d: md(D.as_of), t: '현재 · ' + D.window.days + '일차', x: '평일 DAU만 판정 가능' },
-                 { d: md(wau.due), t: '리뉴얼 WAU 확정', x: D.window.start.slice(5).replace('-', '/') + '부터 순수 7일 창' },
-                 { d: md(mau.due), t: '리뉴얼 MAU 확정', x: 'OKR 첫 성적표' }];
+    var verdict = '<div class="card">' +
+      '<h2 class="t-section">리뉴얼 이후 실측이 나온 축은 ' +
+      newAxes.map(function (o) { return o[0] + ' ' + sign(o[1].delta_pct); }).join(', ') +
+      '다. ' + D.okr.base_year + '년 같은 자로 잰 평균 위에 있다.</h2>' +
+      '<p style="margin-top:var(--sp-3); max-width:var(--w-text)">구 앱의 마지막 성적은 MAU ' +
+      sign(mau.delta_pct) + (oldRef ? ', WAU ' + sign(oldRef.delta_pct) + '(' + esc(oldRef.label) + ')' : '') +
+      '이었다. 리뉴얼 첫 ' + D.window.days + '일은 DAU가 ' + gap(dau.delta_pct, mau.delta_pct) +
+      (oldRef ? ', WAU가 ' + gap(wau.delta_pct, oldRef.delta_pct) : '') +
+      '다. 대규모 개편에서 흔한 초기 이탈은 없었다. 목표 +' + ratioPct + '%까지는 ' +
+      D.evidence.gap_pp.toFixed(1) + '%p 남았다. ' +
+      waiting.map(function (o) { return o[0] + '는 ' + md(o[1].due); }).join(', ') +
+      '에 리뉴얼만 담긴 구간이 완결된다.</p></div>';
+
+    var steps = [{ d: md(D.as_of), t: '현재 · ' + D.window.days + '일차',
+                   x: newAxes.map(function (o) { return o[0]; }).join('·') + ' 판정 가능' }]
+      .concat(waiting.map(function (o) {
+        return { d: md(o[1].due), t: '리뉴얼 ' + o[0] + ' 확정',
+                 x: o[0] === 'WAU' ? md(D.window.start) + '부터 순수 7일 창' : 'OKR 첫 성적표' };
+      }));
     var plan = '<div class="block"><h3 class="t-section">판정 일정</h3>' +
       '<p class="t-cap">완결 구간이 채워지는 순서다.</p><div class="card plan">' +
       steps.map(function (s) {
@@ -920,25 +936,35 @@ tr.total td .track i { background: var(--data-focus); }
   }
 
   function viewWau() {
-    var a = D.axes.wau;
-    var splitIdx = -1;
-    var s = D.series.wau.map(function (w, i) {
-      if (w.kind === 'mixed' && splitIdx < 0) splitIdx = i;
+    var a = D.axes.wau, isNew = a.phase === 'new';
+    var splitIdx = D.series.wau.findIndex(function (w) { return w.kind !== 'old'; });
+    var s = D.series.wau.map(function (w) {
       return { label: w.label, value: w.value, kind: w.kind, latest: w.latest,
-        note: w.latest ? '구 앱 마지막' : (w.kind === 'mixed' ? '혼재 · 판정 제외' : ''),
-        tip: w.label + ' 주\nWAU ' + n(w.value) + '명\n' +
-             (w.kind === 'mixed' ? '구 앱과 리뉴얼이 섞여 판정에 쓰지 않는다'
+        note: w.kind === 'mixed' ? '배포일 포함 · 판정 제외' : (w.latest ? (w.kind === 'new' ? '리뉴얼' : '구 앱 마지막') : ''),
+        tip: w.range + '\nWAU ' + n(w.value) + '명\n' +
+             (w.kind === 'mixed' ? '배포일이 들어 전후가 섞여 판정에 쓰지 않는다'
                                  : D.okr.base_year + '년 평균 대비 ' + sign(Math.round((w.value / a.baseline - 1) * 1000) / 10)) };
     });
-    return metricView('wau', 'WAU · 마지막 완결주 ' + a.label + ' · 구 앱', '주 평균', s, {
-      alt: '주간 순이용자 막대그래프. 목표선을 넘은 주는 없다.',
-      legend: '<span><i style="background:var(--data-ctx)"></i>주간 WAU</span>' +
-        '<span><i style="background:var(--data-focus)"></i>구 앱 마지막 완결주</span>' +
-        '<span><i class="hx"></i>구 앱·리뉴얼 혼재 주</span>' +
+    return metricView('wau', 'WAU · ' + (isNew ? '리뉴얼 ' : '마지막 완결주 ') + a.label +
+        (isNew ? '' : ' · 구 앱'), '주 평균', s, {
+      split: isNew ? splitIdx : -1, splitLabel: '리뉴얼 시작',
+      alt: '주간 순이용자 막대그래프. ' + (isNew ? '리뉴얼 주도 목표선 아래다.' : '목표선을 넘은 주는 없다.'),
+      legend: '<span><i style="background:var(--data-ctx)"></i>구 앱</span>' +
+        '<span><i class="hx"></i>배포일 포함 주 · 혼재</span>' +
+        // 리뉴얼 주가 둘 이상 쌓인 뒤에야 --data-key 로 그려지는 막대가 생긴다.
+        (s.some(function (w) { return w.kind === 'new' && !w.latest; })
+          ? '<span><i style="background:var(--data-key)"></i>리뉴얼</span>' : '') +
+        '<span><i style="background:var(--data-focus)"></i>' +
+        (isNew ? '리뉴얼 최신 완결주' : '구 앱 마지막 완결주') + '</span>' +
         '<span><i class="ln"></i>OKR 목표 ' + n(a.target) + '명</span>',
-      caption: '7일 순이용자는 매주 GA4에 다시 물어본 실측이다. 일별 값을 더하면 중복 제거가 풀려 순이용자가 되지 않는다. ' +
-        '<b>분리 기준일을 걸친 주는 구 앱과 리뉴얼이 섞여 판정에 쓰지 않는다.</b> 리뉴얼만 담긴 첫 7일 창은 ' +
-        md(a.due) + '에 확정된다.'
+      caption: '<b>주는 달력 주(일~토)가 아니라 분리 기준일 요일에 앵커를 건 ' + esc(a.anchor) +
+        '~' + esc(WD_PREV[a.anchor]) + ' 7일이다.</b> 리뉴얼은 ' + md(D.release.split_date) + '(' + esc(a.anchor) +
+        ')에 갈렸다. 달력 주 격자에서는 그 주가 구 앱과 섞여 통째로 못 쓰이고 다음 주 끝까지 기다려야 하는데, ' +
+        '앵커를 옮기면 ' + md(D.window.start) + '부터 7일이 그대로 한 주가 되고 ' +
+        '비교 대상 직전 주들도 같은 요일 구성이라 요일 편차가 상쇄된다. ' +
+        '7일 순이용자는 주마다 GA4에 다시 물어본 실측이다 — 일별 값을 더하면 중복 제거가 풀려 순이용자가 되지 않는다. ' +
+        '배포일이 든 주는 배포 시각 전후가 섞여 판정에서 뺀다.' +
+        (isNew ? '' : ' 리뉴얼만 담긴 첫 7일 창은 ' + md(a.due) + '에 확정된다.')
     });
   }
 
@@ -972,7 +998,8 @@ tr.total td .track i { background: var(--data-focus); }
     var how = [
       ['MAU', D.axes.mau, y + '년 월간 순이용자 ' + b.mau_n + '개 값의 평균', '합계 ' + n(b.mau_sum) + ' ÷ ' + b.mau_n],
       ['WAU', D.axes.wau, y + '년 완결주 ' + b.wau_n + '주 평균',
-       '연초·연말에 걸친 부분주 ' + b.wau_part + '주는 7일이 안 차 제외'],
+       '주는 분리 기준일 요일 앵커 ' + esc(D.axes.wau.anchor) + '~' + esc(WD_PREV[D.axes.wau.anchor]) +
+       ' 7일. 연초·연말에 걸친 부분주 ' + b.wau_part + '주는 7일이 안 차 제외'],
       ['DAU', D.axes.dau, y + '년 평일 ' + b.dau_n + '일 평균',
        '주말 ' + b.dau_weekend_n + '일 평균은 ' + n(b.dau_weekend) + '명. 함께 넣으면 ' +
        n(b.dau_all) + '명까지 눌려 기준이 왜곡된다']
@@ -1022,7 +1049,8 @@ tr.total td .track i { background: var(--data-focus); }
     }
     var t2 = '<div class="block"><h3 class="t-section">' + D.compare.base_year + '년 대비 ' +
       D.compare.cur_year + '년 월별 비교</h3>' +
-      '<p class="t-cap">두 해 모두 같은 방식으로 냈다. 월은 월간 순이용자, 주는 완결주 평균, 일은 평일 평균이다. ' +
+      '<p class="t-cap">두 해 모두 같은 방식으로 냈다. 월은 월간 순이용자, 주는 완결주 평균(분리 기준일 요일 앵커 ' +
+      esc(D.axes.wau.anchor) + '~' + esc(WD_PREV[D.axes.wau.anchor]) + '), 일은 평일 평균이다. ' +
       D.compare.cur_year + '년은 완결월만 넣었고, 진행중인 달과 아직 오지 않은 달은 ' +
       '<span class="num">-</span> 로 둔다. 진행중 구간을 완결값과 비교하면 부호가 뒤집힌다.</p>' +
       '<div class="cmp-grid">' + AX.map(function (a) { return cmpTable(a[0], a[1], a[2]); }).join('') + '</div>' +
@@ -1044,7 +1072,9 @@ tr.total td .track i { background: var(--data-focus); }
     var pvRow = D.cumulative.filter(function (c) { return c.name.indexOf('화면조회 / ') === 0; })[0];
     var good = [
       { f: sign(a.dau.delta_pct), u: 'DAU · ' + y + '년 평균 대비', h: '배포 직후 이탈이 없었다',
-        p: '구 앱의 마지막 성적 ' + sign(a.mau.delta_pct) + ' · ' + sign(a.wau.delta_pct) + '보다 위에서 출발했다. 대규모 리뉴얼에서 흔한 초기 이탈은 나타나지 않았다.' },
+        p: '구 앱의 마지막 성적 MAU ' + sign(a.mau.delta_pct) +
+           (a.wau.old_ref ? ' · WAU ' + sign(a.wau.old_ref.delta_pct) : '') +
+           '보다 위에서 출발했다. 대규모 리뉴얼에서 흔한 초기 이탈은 나타나지 않았다.' },
       { f: sign(e.engagement.pct), u: '체류 참여', h: '참여가 두 배 넘게 늘었다',
         p: 'user_engagement ' + n(e.engagement.cur) + '명 대 ' + n(e.engagement.base) + '명. ' +
            D.window.days + '일 내내 기준을 웃돌아 하루짜리 급등이 아니다.' },
@@ -1057,8 +1087,9 @@ tr.total td .track i { background: var(--data-focus); }
     var bad = [
       { f: e.gap_pp.toFixed(1) + '%p', u: '목표까지 남은 폭', h: '목표까지의 거리가 거의 줄지 않았다',
         p: '구 앱 ' + sign(a.mau.delta_pct) + '에서 리뉴얼 ' + sign(a.dau.delta_pct) + '로 ' +
-           (a.dau.delta_pct - a.mau.delta_pct).toFixed(1) + '%p 좁힌 게 전부다. 아직 DAU ' +
-           D.window.days + '일 실측만 반영된 값이다.' },
+           (a.dau.delta_pct - a.mau.delta_pct).toFixed(1) + '%p 좁힌 게 전부다. 아직 리뉴얼 ' +
+           D.window.days + '일 구간의 ' + (a.wau.phase === 'new' ? 'WAU·DAU' : 'DAU') +
+           ' 실측만 반영된 값이다.' },
       { f: sign(e.dau_decay_pct), u: '1일차 → 마지막 날', h: '첫날 상승분이 며칠 만에 사라졌다',
         p: e.dau_first.label + ' ' + n(e.dau_first.value) + '명에서 ' + e.dau_last.label + ' ' +
            n(e.dau_last.value) + '명으로 내려왔다. 직전 주 평일 평균과 견주면 ' + sign(a.dau.prev_pct) +
