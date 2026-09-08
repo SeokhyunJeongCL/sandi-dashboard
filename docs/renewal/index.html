@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<meta name="generated-at" content="2026-09-08T04:00:34Z">
+<meta name="generated-at" content="2026-09-08T04:14:10Z">
 </head>
 <body>
 <style>
@@ -660,8 +660,9 @@ tr.total td .track i { background: var(--data-focus); }
        · 기준선 라벨은 플롯 밖 오른쪽 여백에 둔다 — 막대와 절대 겹치지 않는다
      계열이 1개인 차트는 --data-ctx 하나로 그리고 강조 1개만 --data-focus 로
      띄운다. --data-key(파랑)는 계열이 둘일 때(구 앱 vs 리뉴얼)만 쓴다. */
-  var FILL = { old: 'var(--data-ctx)', new: 'var(--data-key)', mixed: 'url(#hatch)',
-               deploy: 'url(#hatch)', latest: 'var(--data-focus)' };
+  // 배포일·배포주도 구 앱 색으로 그린다. 심야 배포라 그날 트래픽이 사실상
+  // 전부 구 앱이어서 '혼재'로 뺄 구간이 없다 — 해칭 패턴도 같이 걷었다.
+  var FILL = { old: 'var(--data-ctx)', new: 'var(--data-key)', latest: 'var(--data-focus)' };
 
   // SVG 안에서는 글자 폭을 물어볼 수 없어 근사한다. 한글은 폰트 크기만큼,
   // 숫자·영문은 그 55% 로 본다. 라벨 자리를 잡는 데만 쓴다.
@@ -709,9 +710,6 @@ tr.total td .track i { background: var(--data-focus); }
     var p = [];
 
     p.push('<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(opts.alt) + '">');
-    p.push('<defs><pattern id="hatch" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">' +
-           '<rect width="8" height="8" fill="var(--sunken)"/>' +
-           '<line x1="0" y1="0" x2="0" y2="8" stroke="var(--data-ctx)" stroke-width="2"/></pattern></defs>');
 
     // 판정 구간 배경 띠 — 구간을 색으로 칠하지 않고 뒤를 옅게 깐다
     var hasSplit = opts.split !== undefined && opts.split > 0 && opts.split < series.length;
@@ -848,7 +846,7 @@ tr.total td .track i { background: var(--data-focus); }
       sign(mau.delta_pct) + (oldRef ? ', WAU ' + sign(oldRef.delta_pct) + '(' + esc(oldRef.label) + ')' : '') +
       '이었다. 리뉴얼 첫 ' + D.window.days + '일은 DAU가 ' + gap(dau.delta_pct, mau.delta_pct) +
       (oldRef ? ', WAU가 ' + gap(wau.delta_pct, oldRef.delta_pct) : '') +
-      '다. 대규모 개편에서 흔한 초기 이탈은 없었다. 목표 +' + ratioPct + '%까지는 ' +
+      '다. 배포 직전 평일 평균과 견주면 DAU는 ' + sign(dau.prev_pct) + '다. 목표 +' + ratioPct + '%까지는 ' +
       D.evidence.gap_pp.toFixed(1) + '%p 남았다. ' +
       waiting.map(function (o) { return o[0] + '는 ' + md(o[1].due); }).join(', ') +
       '에 리뉴얼만 담긴 구간이 완결된다.</p></div>';
@@ -896,7 +894,7 @@ tr.total td .track i { background: var(--data-focus); }
     var max = niceMax(vals, a.target);
     var stats = [{ k: 'OKR 목표', v: n(a.target) }, { k: '남은 폭', v: sign(a.gap_pct) }];
     if (a.due) stats.push({ k: '리뉴얼 확정', v: md(a.due) });
-    if (a.prev_pct !== undefined) stats.push({ k: '직전 주 대비', v: sign(a.prev_pct), c: cls(a.prev_pct) });
+    if (a.prev_pct !== undefined) stats.push({ k: '배포 직전 평일 대비', v: sign(a.prev_pct), c: cls(a.prev_pct) });
 
     return '<div class="card card-flush"><div class="dhead"><div class="dmain">' +
       '<span class="t-cap">' + esc(label) + '</span>' +
@@ -942,6 +940,17 @@ tr.total td .track i { background: var(--data-focus); }
      데이터가 옛 형식이면(week_label 없음) 날짜 라벨로 물러선다. */
   function wlabel(w) { return w.week_label || w.label; }
 
+  /* '배포일을 구 앱으로 센다'는 판단의 근거를 데이터에서 만든다. 시각·이용자
+     수를 문장에 박아 두면 다음 배포에서 조용히 거짓이 된다. */
+  function deployNote() {
+    var r = D.release, dd = r.deploy_day;
+    var when = md(r.date) + (r.time ? ' ' + r.time : '');
+    if (!dd) return '배포일(' + when + ')은 구 앱으로 센다.';
+    return '배포는 ' + when + '에 끝났다. ' + dd.hour + '시 전체 이용자가 ' + n(dd.after_users) +
+      '명(그날 ' + n(dd.day_users) + '명의 ' + dd.after_share_pct + '%)이고 그중 리뉴얼에 닿은 것은 ' +
+      r.time + ' 이후뿐이라, <b>배포일은 구 앱으로 센다.</b> ' + md(r.split_date) + '부터가 리뉴얼이다.';
+  }
+
   /* 리뉴얼 주차 표. 분리 기준일부터 7일씩 끊은 주가 한 행씩 쌓인다.
      맨 위에 구 앱 마지막 완결주를 기준 행으로 둔다 — 기준이 표 안에 없으면
      늘었는지 줄었는지를 다른 화면에서 찾아와야 한다. */
@@ -959,7 +968,7 @@ tr.total td .track i { background: var(--data-focus); }
     var body = rows.map(function (r) {
       return '<tr' + (r === lastFull ? ' class="total"' : '') + '><td>' + esc(r.label) +
         '<span class="sub">' + esc(r.range) + (r.partial ? ' · 진행중 ' + r.days + '일' : '') +
-        '</span></td>' +
+        (r.deploy_note ? ' · 배포주' : '') + '</span></td>' +
         '<td class="r">' + n(r.wau) + '</td><td class="r">' + n(r.new_users) + '</td>' +
         '<td class="r">' + Number(r.sessions_per).toFixed(2) + '</td>' +
         '<td class="r">' + Number(r.pv_per).toFixed(2) + '</td>' +
@@ -985,21 +994,26 @@ tr.total td .track i { background: var(--data-focus); }
       (partial ? '진행중인 ' + esc(partial.label) + '는 완결주와 견주지 않고 직전 주의 같은 ' +
                  partial.days + '일 창' +
                  (partial.prev_same ? '(' + n(partial.prev_same) + '명)' : '') + '하고만 비교했다. ' : '') +
-      (W.ref ? '기준 행은 구 앱 마지막 완결주다. 배포일이 든 혼재주는 뺐다.' : '') + '</p></div>';
+      (W.ref ? '기준 행은 구 앱 마지막 완결주다. ' + (W.ref.deploy_note ? deployNote() : '') : '') +
+      '</p></div>';
   }
 
   function viewWau() {
     var a = D.axes.wau, isNew = a.phase === 'new';
-    var splitIdx = D.series.wau.findIndex(function (w) { return w.kind !== 'old'; });
+    // '리뉴얼 시작' 선은 1주차 앞에 선다. 배포주는 구 앱 쪽이므로 선 왼쪽이다.
+    var splitIdx = D.series.wau.findIndex(function (w) { return w.kind === 'new'; });
+    var dep = D.release.time ? md(D.release.date) + ' ' + D.release.time : md(D.release.date);
     var s = D.series.wau.map(function (w) {
       // 축에는 주차, 그 아래 한 줄에 실제 기간. 둘을 같이 봐야 '1주차'가
       // 언제인지 되묻지 않는다. wrap() 이 공백에서 접어 두 줄로 만든다.
-      var extra = w.kind === 'mixed' ? '판정 제외' : (w.latest && w.kind === 'old' ? '구 앱 마지막' : '');
+      // 축 아래 한 줄은 좁다(칸 폭 ~63px). 날짜는 위의 기간이 이미 말해 주므로
+      // 시각만 적는다 — '배포 8/31 23:30' 은 옆 칸까지 밀고 들어간다.
+      var extra = w.deploy_week ? '배포 ' + (D.release.time || '') : (w.latest && w.kind === 'old' ? '구 앱 마지막' : '');
       return { label: wlabel(w), value: w.value, kind: w.kind, latest: w.latest,
         note: w.range + (extra ? '\n' + extra : ''),
         tip: wlabel(w) + ' · ' + w.range + '\nWAU ' + n(w.value) + '명\n' +
-             (w.kind === 'mixed' ? '배포일이 들어 전후가 섞여 판정에 쓰지 않는다'
-                                 : D.okr.base_year + '년 평균 대비 ' + sign(Math.round((w.value / a.baseline - 1) * 1000) / 10)) };
+             D.okr.base_year + '년 평균 대비 ' + sign(Math.round((w.value / a.baseline - 1) * 1000) / 10) +
+             (w.deploy_week ? '\n배포 ' + dep + ' 완료 — 그날은 구 앱으로 센다' : '') };
     });
     return metricView('wau', 'WAU · ' + (isNew ? '리뉴얼 ' : '마지막 완결주 ') +
         (a.week_label ? a.week_label + ' · ' : '') + a.label +
@@ -1007,7 +1021,6 @@ tr.total td .track i { background: var(--data-focus); }
       split: isNew ? splitIdx : -1, splitLabel: '리뉴얼 시작',
       alt: '주간 순이용자 막대그래프. ' + (isNew ? '리뉴얼 주도 목표선 아래다.' : '목표선을 넘은 주는 없다.'),
       legend: '<span><i style="background:var(--data-ctx)"></i>구 앱</span>' +
-        '<span><i class="hx"></i>배포일 포함 주 · 혼재</span>' +
         // 리뉴얼 주가 둘 이상 쌓인 뒤에야 --data-key 로 그려지는 막대가 생긴다.
         (s.some(function (w) { return w.kind === 'new' && !w.latest; })
           ? '<span><i style="background:var(--data-key)"></i>리뉴얼</span>' : '') +
@@ -1020,7 +1033,7 @@ tr.total td .track i { background: var(--data-focus); }
         '앵커를 옮기면 ' + md(D.window.start) + '부터 7일이 그대로 한 주가 되고 ' +
         '비교 대상 직전 주들도 같은 요일 구성이라 요일 편차가 상쇄된다. ' +
         '7일 순이용자는 주마다 GA4에 다시 물어본 실측이다 — 일별 값을 더하면 중복 제거가 풀려 순이용자가 되지 않는다. ' +
-        '배포일이 든 주는 배포 시각 전후가 섞여 판정에서 뺀다.' +
+        deployNote() +
         (isNew ? '' : ' 리뉴얼만 담긴 첫 7일 창은 ' + md(a.due) + '에 확정된다.')
     }) + weekTable();
   }
@@ -1028,17 +1041,17 @@ tr.total td .track i { background: var(--data-focus); }
   function viewDau() {
     var a = D.axes.dau, e = D.evidence;
     var splitIdx = D.series.dau.findIndex(function (d) { return d.kind === 'new'; });
+    var dtime = D.release.time || '';
     var s = D.series.dau.map(function (d) {
       return { label: d.label, value: d.value, kind: d.kind, latest: d.latest,
-        note: d.kind === 'deploy' ? '배포일' : '',
-        tip: d.label + ' · ' + (d.kind === 'old' ? '구 앱' : d.kind === 'deploy' ? '배포일' : '리뉴얼') +
-             '\n' + n(d.value) + '명' + (d.kind === 'deploy' ? '\n배포 전후가 섞여 어느 쪽에도 넣지 않는다' : '') };
+        note: d.deploy ? '배포 ' + dtime : '',
+        tip: d.label + ' · ' + (d.kind === 'old' ? '구 앱' : '리뉴얼') + '\n' + n(d.value) + '명' +
+             (d.deploy ? '\n배포 ' + dtime + ' 완료 — 그날은 구 앱으로 센다' : '') };
     });
     return metricView('dau', 'DAU · 리뉴얼 ' + a.label + ' 평균', '평일 평균', s, {
       split: splitIdx, splitLabel: '리뉴얼 시작',
       alt: '평일 일별 순이용자 막대그래프. 리뉴얼 첫날 이후 내려간다.',
       legend: '<span><i style="background:var(--data-ctx)"></i>구 앱</span>' +
-        '<span><i class="hx"></i>배포일 · 혼재</span>' +
         '<span><i style="background:var(--data-key)"></i>리뉴얼</span>' +
         '<span><i style="background:var(--data-focus)"></i>리뉴얼 1일차</span>' +
         '<span><i class="ln"></i>OKR 목표 ' + n(a.target) + '명</span>',
@@ -1128,10 +1141,12 @@ tr.total td .track i { background: var(--data-focus); }
     var e = D.evidence, a = D.axes, y = D.okr.base_year;
     var pvRow = D.cumulative.filter(function (c) { return c.name.indexOf('화면조회 / ') === 0; })[0];
     var good = [
-      { f: sign(a.dau.delta_pct), u: 'DAU · ' + y + '년 평균 대비', h: '배포 직후 이탈이 없었다',
-        p: '구 앱의 마지막 성적 MAU ' + sign(a.mau.delta_pct) +
-           (a.wau.old_ref ? ' · WAU ' + sign(a.wau.old_ref.delta_pct) : '') +
-           '보다 위에서 출발했다. 대규모 리뉴얼에서 흔한 초기 이탈은 나타나지 않았다.' },
+      { f: sign(a.dau.delta_pct), u: 'DAU · ' + y + '년 평균 대비', h: y + '년 평일 평균 위에서 출발했다',
+        p: '리뉴얼 ' + D.window.days + '일 평일 평균 ' + n(a.dau.current) + '명으로 ' + y +
+           '년 평일 평균 ' + n(a.dau.baseline) + '명보다 ' + sign(a.dau.delta_pct) + '다.' +
+           (a.wau.old_ref ? ' 구 앱 마지막 완결주(' + esc(a.wau.old_ref.label) + ') WAU ' +
+             sign(a.wau.old_ref.delta_pct) + '와 견주면 1주차 WAU는 ' + sign(a.wau.delta_pct) +
+             '로 ' + gap(a.wau.delta_pct, a.wau.old_ref.delta_pct) + '다.' : '') },
       { f: sign(e.engagement.pct), u: '체류 참여', h: '참여가 두 배 넘게 늘었다',
         p: 'user_engagement ' + n(e.engagement.cur) + '명 대 ' + n(e.engagement.base) + '명. ' +
            D.window.days + '일 내내 기준을 웃돌아 하루짜리 급등이 아니다.' },
@@ -1149,8 +1164,8 @@ tr.total td .track i { background: var(--data-focus); }
            ' 실측만 반영된 값이다.' },
       { f: sign(e.dau_decay_pct), u: '1일차 → 마지막 날', h: '첫날 상승분이 며칠 만에 사라졌다',
         p: e.dau_first.label + ' ' + n(e.dau_first.value) + '명에서 ' + e.dau_last.label + ' ' +
-           n(e.dau_last.value) + '명으로 내려왔다. 직전 주 평일 평균과 견주면 ' + sign(a.dau.prev_pct) +
-           '로 사실상 제자리다. 초기 관심이 빠진 것으로 본다.', badge: '추정' },
+           n(e.dau_last.value) + '명으로 내려왔다. 배포 직전 평일 평균과 견주면 ' + sign(a.dau.prev_pct) +
+           '다. 초기 관심이 빠진 것으로 본다.', badge: '추정' },
       { f: e.cert.times + '배', u: '회사인증 화면', h: '재인증과 재로그인 마찰이 생겼다',
         p: '회사인증 화면 ' + n(e.cert.cur) + '명 대 ' + n(e.cert.base) + '명, 로그인 화면 ' +
            sign(e.login.pct) + '. 배포로 기존 세션과 회사인증이 초기화된 것으로 추정한다.', badge: '추정' }
